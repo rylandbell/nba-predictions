@@ -10,6 +10,7 @@ import * as Redux from 'redux';
 
 import Reducers from './reducers.jsx';
 import GameList from './components/game-list.jsx';
+import ActionCreator from './action-creators.jsx';
 
 const store = Redux.createStore(Reducers.gameList, Redux.applyMiddleware(thunk));
 store.subscribe(render);
@@ -17,7 +18,19 @@ render();
 
 function render() {
   ReactDOM.render(
-    <GameList reduxState={store.getState()} />,
+    <GameList
+      reduxState={store.getState()} 
+      addPrediction={
+        (gameId, homeVsRoad)=>{
+          store.dispatch(ActionCreator.addPrediction(gameId, homeVsRoad));
+        }
+      }
+      removePrediction = {
+        (gameId)=>{
+          store.dispatch(ActionCreator.removePrediction(gameId));
+        }
+      }
+    />,
     document.getElementById('app-root')
   );
 }

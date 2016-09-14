@@ -1,5 +1,6 @@
 const fudge = [
   {
+    gameId: 1,
     roadTeam: {
       teamName: 'POR',
       isEligible: true,
@@ -23,6 +24,7 @@ const fudge = [
     }
   },
   {
+    gameId: 2,
     roadTeam: {
       teamName: 'LAC',
       isEligible: false,
@@ -46,6 +48,7 @@ const fudge = [
     }
   },
   {
+    gameId: 3,
     roadTeam: {
       teamName: 'HOU',
       isEligible: true,
@@ -69,6 +72,7 @@ const fudge = [
     }
   },
   {
+    gameId: 4,
     roadTeam: {
       teamName: 'DEN',
       isEligible: true,
@@ -92,6 +96,7 @@ const fudge = [
     }
   },
   {
+    gameId: 5,
     roadTeam: {
       teamName: 'CHI',
       isEligible: true,
@@ -115,6 +120,7 @@ const fudge = [
     }
   },
   {
+    gameId: 6,
     roadTeam: {
       teamName: 'BKN',
       isEligible: true,
@@ -138,6 +144,7 @@ const fudge = [
     }
   },
   {
+    gameId: 7,
     roadTeam: {
       teamName: 'NYK',
       isEligible: true,
@@ -161,6 +168,7 @@ const fudge = [
     }
   },
   {
+    gameId: 8,
     roadTeam: {
       teamName: 'MIL',
       isEligible: true,

@@ -28,6 +28,30 @@ exports['default'] = thunk;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+var api = {
+  addPrediction: function addPrediction(gameId, winner) {
+    return {
+      type: 'ADD_PREDICTION',
+      gameId: gameId,
+      winner: winner
+    };
+  },
+  removePrediction: function removePrediction(gameId) {
+    return {
+      type: 'REMOVE_PREDICTION',
+      gameId: gameId
+    };
+  }
+};
+
+exports.default = api;
+
+},{}],3:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
 var _react = require('react');
 
@@ -41,18 +65,20 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var api = function api(_ref) {
   var reduxState = _ref.reduxState;
+  var addPrediction = _ref.addPrediction;
+  var removePrediction = _ref.removePrediction;
   return _react2.default.createElement(
     'div',
     { className: 'row' },
     reduxState.map(function (gameData, index) {
-      return _react2.default.createElement(_singleGame2.default, { gameData: gameData, key: index });
+      return _react2.default.createElement(_singleGame2.default, { gameData: gameData, addPrediction: addPrediction, removePrediction: removePrediction, key: index });
     })
   );
 };
 
 exports.default = api;
 
-},{"./single-game.jsx":5,"react":"react"}],3:[function(require,module,exports){
+},{"./single-game.jsx":6,"react":"react"}],4:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -105,7 +131,7 @@ var api = function api(_ref) {
 
 exports.default = api;
 
-},{"react":"react"}],4:[function(require,module,exports){
+},{"react":"react"}],5:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -122,23 +148,42 @@ var _teamMessage2 = _interopRequireDefault(_teamMessage);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var api = function api(_ref) {
-  var teamData = _ref.teamData;
-  return _react2.default.createElement(
-    'div',
-    { className: "game-item game-team " + (teamData.isEligible ? "eligible-team" : "ineligible-team") },
-    _react2.default.createElement(
-      'h4',
-      null,
-      teamData.teamName
-    ),
-    teamData.isChosen ? _react2.default.createElement(_teamMessage2.default, { teamData: teamData }) : ''
-  );
-};
+var api = _react2.default.createClass({
+  displayName: 'api',
+
+  handleClick: function handleClick() {
+    var homeVsRoad = this.props.homeVsRoad;
+    var teamData = this.props.gameData[homeVsRoad];
+    if (teamData.isEligible && !this.props.gameData.gameStatus.hasStarted) {
+      if (teamData.isChosen) {
+        this.props.removePrediction(this.props.gameData.gameId, this.props.homeVsRoad);
+      } else {
+        this.props.addPrediction(this.props.gameData.gameId, this.props.homeVsRoad);
+      }
+    }
+  },
+  render: function render() {
+    var homeVsRoad = this.props.homeVsRoad;
+    var teamData = this.props.gameData[homeVsRoad];
+    return _react2.default.createElement(
+      'div',
+      {
+        className: "game-item game-team " + (teamData.isEligible ? "eligible-team" : "ineligible-team"),
+        onClick: this.handleClick
+      },
+      _react2.default.createElement(
+        'h4',
+        null,
+        teamData.teamName
+      ),
+      teamData.isChosen ? _react2.default.createElement(_teamMessage2.default, { teamData: teamData }) : ''
+    );
+  }
+});
 
 exports.default = api;
 
-},{"./team-message.jsx":6,"react":"react"}],5:[function(require,module,exports){
+},{"./team-message.jsx":7,"react":"react"}],6:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -161,6 +206,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var api = function api(_ref) {
   var gameData = _ref.gameData;
+  var addPrediction = _ref.addPrediction;
+  var removePrediction = _ref.removePrediction;
 
   var panelType = 'panel-default';
   if (gameData.roadTeam.isChosen || gameData.homeTeam.isChosen) {
@@ -185,9 +232,9 @@ var api = function api(_ref) {
         _react2.default.createElement(
           'div',
           { className: "game-container " + (gameData.gameStatus.hasStarted ? "" : "game-not-started") },
-          _react2.default.createElement(_gameTeam2.default, { teamData: gameData.roadTeam }),
+          _react2.default.createElement(_gameTeam2.default, { gameData: gameData, homeVsRoad: 'roadTeam', addPrediction: addPrediction, removePrediction: removePrediction }),
           _react2.default.createElement(_gameStatus2.default, { statusData: gameData.gameStatus }),
-          _react2.default.createElement(_gameTeam2.default, { teamData: gameData.homeTeam })
+          _react2.default.createElement(_gameTeam2.default, { gameData: gameData, homeVsRoad: 'homeTeam', addPrediction: addPrediction, removePrediction: removePrediction })
         )
       )
     )
@@ -196,7 +243,7 @@ var api = function api(_ref) {
 
 exports.default = api;
 
-},{"./game-status.jsx":3,"./game-team.jsx":4,"react":"react"}],6:[function(require,module,exports){
+},{"./game-status.jsx":4,"./game-team.jsx":5,"react":"react"}],7:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -235,10 +282,11 @@ var api = function api(_ref) {
 
 exports.default = api;
 
-},{"react":"react"}],7:[function(require,module,exports){
+},{"react":"react"}],8:[function(require,module,exports){
 'use strict';
 
 var fudge = [{
+  gameId: 1,
   roadTeam: {
     teamName: 'POR',
     isEligible: true,
@@ -261,6 +309,7 @@ var fudge = [{
     isFinal: false
   }
 }, {
+  gameId: 2,
   roadTeam: {
     teamName: 'LAC',
     isEligible: false,
@@ -283,6 +332,7 @@ var fudge = [{
     isFinal: false
   }
 }, {
+  gameId: 3,
   roadTeam: {
     teamName: 'HOU',
     isEligible: true,
@@ -305,6 +355,7 @@ var fudge = [{
     isFinal: false
   }
 }, {
+  gameId: 4,
   roadTeam: {
     teamName: 'DEN',
     isEligible: true,
@@ -327,6 +378,7 @@ var fudge = [{
     isFinal: false
   }
 }, {
+  gameId: 5,
   roadTeam: {
     teamName: 'CHI',
     isEligible: true,
@@ -349,6 +401,7 @@ var fudge = [{
     isFinal: false
   }
 }, {
+  gameId: 6,
   roadTeam: {
     teamName: 'BKN',
     isEligible: true,
@@ -371,6 +424,7 @@ var fudge = [{
     isFinal: true
   }
 }, {
+  gameId: 7,
   roadTeam: {
     teamName: 'NYK',
     isEligible: true,
@@ -393,6 +447,7 @@ var fudge = [{
     isFinal: true
   }
 }, {
+  gameId: 8,
   roadTeam: {
     teamName: 'MIL',
     isEligible: true,
@@ -418,7 +473,7 @@ var fudge = [{
 
 module.exports = fudge;
 
-},{}],8:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 'use strict';
 
 //babel-polyfill will polyfill ES6 features, specifically Promises for fetch
@@ -451,6 +506,10 @@ var _gameList = require('./components/game-list.jsx');
 
 var _gameList2 = _interopRequireDefault(_gameList);
 
+var _actionCreators = require('./action-creators.jsx');
+
+var _actionCreators2 = _interopRequireDefault(_actionCreators);
+
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -460,7 +519,15 @@ store.subscribe(render);
 render();
 
 function render() {
-  _reactDom2.default.render(_react2.default.createElement(_gameList2.default, { reduxState: store.getState() }), document.getElementById('app-root'));
+  _reactDom2.default.render(_react2.default.createElement(_gameList2.default, {
+    reduxState: store.getState(),
+    addPrediction: function addPrediction(gameId, homeVsRoad) {
+      store.dispatch(_actionCreators2.default.addPrediction(gameId, homeVsRoad));
+    },
+    removePrediction: function removePrediction(gameId) {
+      store.dispatch(_actionCreators2.default.removePrediction(gameId));
+    }
+  }), document.getElementById('app-root'));
 }
 
 render();
@@ -473,49 +540,107 @@ render();
 //     GameTeam (home team)
 //       TeamMessage
 
-},{"./components/game-list.jsx":2,"./reducers.jsx":9,"babel-polyfill":"babel-polyfill","react":"react","react-dom":"react-dom","react-redux":"react-redux","redux":"redux","redux-thunk":1}],9:[function(require,module,exports){
+},{"./action-creators.jsx":2,"./components/game-list.jsx":3,"./reducers.jsx":10,"babel-polyfill":"babel-polyfill","react":"react","react-dom":"react-dom","react-redux":"react-redux","redux":"redux","redux-thunk":1}],10:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var Redux = require('redux');
 var ReduxThunk = require('redux-thunk').default;
 
 var fudge = require('./fudge.js');
 
-var homeTeam = function homeTeam(state, action) {
+var gameId = function gameId() {
+  var state = arguments.length <= 0 || arguments[0] === undefined ? null : arguments[0];
+  var action = arguments[1];
+
   switch (action.type) {
     default:
       return state;
   }
 };
 
-var roadTeam = function roadTeam(state, action) {
+var homeTeam = function homeTeam() {
+  var state = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+  var action = arguments[1];
+
+  switch (action.type) {
+    case 'ADD_PREDICTION':
+      if (action.winner === 'homeTeam') {
+        return _extends({}, state, { isChosen: true });
+      } else {
+        return _extends({}, state, { isChosen: false });
+      }
+    case 'REMOVE_PREDICTION':
+      return _extends({}, state, { isChosen: false });
+    default:
+      return state;
+  }
+};
+
+var roadTeam = function roadTeam() {
+  var state = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+  var action = arguments[1];
+
+  switch (action.type) {
+    case 'ADD_PREDICTION':
+      if (action.winner === 'roadTeam') {
+        return _extends({}, state, { isChosen: true });
+      } else {
+        return _extends({}, state, { isChosen: false });
+      }
+    case 'REMOVE_PREDICTION':
+      return _extends({}, state, { isChosen: false });
+    default:
+      return state;
+  }
+};
+
+var gameStatus = function gameStatus() {
+  var state = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+  var action = arguments[1];
+
   switch (action.type) {
     default:
       return state;
   }
 };
 
-var gameStatus = function gameStatus(state, action) {
-  switch (action.type) {
-    default:
-      return state;
+var singleGame = function singleGame() {
+  var state = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+  var action = arguments[1];
+
+
+  //check which game the action belongs to, and only call subreducers in the case of a match:
+  if (action.gameId === state.gameId) {
+    return {
+      gameId: gameId(state.gameId, action),
+      homeTeam: homeTeam(state.homeTeam, action),
+      roadTeam: roadTeam(state.roadTeam, action),
+      gameStatus: gameStatus(state.gameStatus, action)
+    };
+  } else {
+    return state;
   }
 };
-
-var singleGame = Redux.combineReducers({
-  homeTeam: homeTeam,
-  roadTeam: roadTeam,
-  gameStatus: gameStatus
-});
 
 var gameList = function gameList() {
   var state = arguments.length <= 0 || arguments[0] === undefined ? fudge : arguments[0];
   var action = arguments[1];
 
   switch (action.type) {
+    case 'ADD_PREDICTION':
+      return state.map(function (game) {
+        return singleGame(game, action);
+      });
+    case 'REMOVE_PREDICTION':
+      return state.map(function (game) {
+        return singleGame(game, action);
+      });
     default:
       return state;
   }
@@ -527,4 +652,4 @@ var api = {
 
 exports.default = api;
 
-},{"./fudge.js":7,"redux":"redux","redux-thunk":1}]},{},[8]);
+},{"./fudge.js":8,"redux":"redux","redux-thunk":1}]},{},[9]);

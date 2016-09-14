@@ -5,7 +5,7 @@ import React from 'react';
 import GameTeam from './game-team.jsx';
 import GameStatus from './game-status.jsx';
 
-const api = ({gameData}) => {
+const api = ({gameData, addPrediction, removePrediction}) => {
   var panelType = 'panel-default';
   if (gameData.roadTeam.isChosen || gameData.homeTeam.isChosen) {
     panelType = 'panel-primary';
@@ -22,9 +22,9 @@ const api = ({gameData}) => {
       <div className={"panel " + panelType}>
         <div className="panel-body">
           <div className={"game-container " + (gameData.gameStatus.hasStarted ? "":"game-not-started")}>
-            <GameTeam teamData={gameData.roadTeam}/>
+            <GameTeam gameData={gameData} homeVsRoad={'roadTeam'} addPrediction={addPrediction} removePrediction={removePrediction}/>
             <GameStatus statusData={gameData.gameStatus}/>
-            <GameTeam teamData={gameData.homeTeam}/>
+            <GameTeam gameData={gameData} homeVsRoad={'homeTeam'} addPrediction={addPrediction} removePrediction={removePrediction}/>
           </div>
         </div>
       </div>

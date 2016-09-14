@@ -5,35 +5,71 @@ var ReduxThunk = require('redux-thunk').default;
 
 var fudge = require('./fudge.js');
 
-const homeTeam = (state, action) => {
+const gameId = (state = null, action) => {
   switch(action.type){
     default:
       return state;
   }
 }
 
-const roadTeam = (state, action) => {
+const homeTeam = (state = {}, action) => {
+  switch(action.type){
+    case 'ADD_PREDICTION':
+      if(action.winner==='homeTeam'){
+        return Object.assign({}, state, {isChosen:true});
+      } else {
+        return Object.assign({}, state, {isChosen:false});
+      }
+    case 'REMOVE_PREDICTION':
+      return Object.assign({}, state, {isChosen:false});
+    default:
+      return state;
+  }
+}
+
+const roadTeam = (state = {}, action) => {
+  switch(action.type){
+    case 'ADD_PREDICTION':  
+      if(action.winner==='roadTeam'){
+        return Object.assign({}, state, {isChosen:true});
+      } else {
+        return Object.assign({}, state, {isChosen:false});
+      }
+    case 'REMOVE_PREDICTION':
+      return Object.assign({}, state, {isChosen:false});
+    default:
+      return state;
+  }
+}
+
+const gameStatus = (state = {}, action) => {
   switch(action.type){
     default:
       return state;
   }
 }
 
-const gameStatus = (state, action) => {
-  switch(action.type){
-    default:
-      return state;
+const singleGame = (state = {}, action) => {
+
+  //check which game the action belongs to, and only call subreducers in the case of a match:
+  if (action.gameId===state.gameId){
+    return {
+      gameId: gameId(state.gameId, action),
+      homeTeam: homeTeam(state.homeTeam, action),
+      roadTeam: roadTeam(state.roadTeam, action),
+      gameStatus: gameStatus(state.gameStatus, action)
+    }
+  } else {
+    return state;
   }
 }
-
-const singleGame = Redux.combineReducers({
-  homeTeam: homeTeam,
-  roadTeam: roadTeam,
-  gameStatus: gameStatus
-});
 
 const gameList = (state = fudge, action) => {
   switch(action.type){
+    case 'ADD_PREDICTION':
+      return state.map(game => singleGame(game,action));
+    case 'REMOVE_PREDICTION':
+      return state.map(game => singleGame(game,action));
     default:
       return state;
   }
