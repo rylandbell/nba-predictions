@@ -8,15 +8,26 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import * as Redux from 'redux';
 
-// import Reducers from './reducers.jsx';
+import Reducers from './reducers.jsx';
 import SingleGame from './components/single-game.jsx';
-var fudge = require('./fudge.js');
+
+const store = Redux.createStore(Reducers.singleGame, Redux.applyMiddleware(thunk));
+store.subscribe(render);
+render();
 
 function render() {
   ReactDOM.render(
-    <SingleGame gameData={fudge} />,
+    <SingleGame gameData={store.getState()} />,
     document.getElementById('app-root')
   );
 }
 
 render();
+
+// GameList
+//   SingleGame
+//     GameTeam (road team)
+//       TeamMessage
+//     GameStatus
+//     GameTeam (home team)
+//       TeamMessage

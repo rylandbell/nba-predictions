@@ -1,10 +1,3 @@
-// SingleGame
-//   GameTeam (road team)
-//     TeamMessage
-//   GameStatus
-//   GameTeam (home team)
-//     TeamMessage
-
 'use strict';
 
 import React from 'react';

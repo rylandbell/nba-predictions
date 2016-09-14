@@ -109,13 +109,6 @@ var api = function api(_ref) {
 exports.default = api;
 
 },{"./team-message.jsx":5,"react":"react"}],4:[function(require,module,exports){
-// SingleGame
-//   GameTeam (road team)
-//     TeamMessage
-//   GameStatus
-//   GameTeam (home team)
-//     TeamMessage
-
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -213,18 +206,18 @@ var api = function api(_ref) {
 exports.default = api;
 
 },{"react":"react"}],6:[function(require,module,exports){
-"use strict";
+'use strict';
 
 var fudge = {
   roadTeam: {
-    teamName: "PHX",
+    teamName: 'PHX',
     isEligible: true,
     isChosen: true,
     isWinner: false,
     isLoser: false
   },
   homeTeam: {
-    teamName: "CHI",
+    teamName: 'CHI',
     isEligible: false,
     isChosen: false,
     isWinner: false,
@@ -266,6 +259,10 @@ var _redux = require('redux');
 
 var Redux = _interopRequireWildcard(_redux);
 
+var _reducers = require('./reducers.jsx');
+
+var _reducers2 = _interopRequireDefault(_reducers);
+
 var _singleGame = require('./components/single-game.jsx');
 
 var _singleGame2 = _interopRequireDefault(_singleGame);
@@ -274,15 +271,73 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var fudge = require('./fudge.js');
-
-// import Reducers from './reducers.jsx';
-
+var store = Redux.createStore(_reducers2.default.singleGame, Redux.applyMiddleware(_reduxThunk2.default));
+store.subscribe(render);
+render();
 
 function render() {
-  _reactDom2.default.render(_react2.default.createElement(_singleGame2.default, { gameData: fudge }), document.getElementById('app-root'));
+  _reactDom2.default.render(_react2.default.createElement(_singleGame2.default, { gameData: store.getState() }), document.getElementById('app-root'));
 }
 
 render();
 
-},{"./components/single-game.jsx":4,"./fudge.js":6,"babel-polyfill":"babel-polyfill","react":"react","react-dom":"react-dom","react-redux":"react-redux","redux":"redux","redux-thunk":1}]},{},[7]);
+// GameList
+//   SingleGame
+//     GameTeam (road team)
+//       TeamMessage
+//     GameStatus
+//     GameTeam (home team)
+//       TeamMessage
+
+},{"./components/single-game.jsx":4,"./reducers.jsx":8,"babel-polyfill":"babel-polyfill","react":"react","react-dom":"react-dom","react-redux":"react-redux","redux":"redux","redux-thunk":1}],8:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var Redux = require('redux');
+var ReduxThunk = require('redux-thunk').default;
+
+var fudge = require('./fudge.js');
+
+var homeTeam = function homeTeam() {
+  var state = arguments.length <= 0 || arguments[0] === undefined ? fudge.homeTeam : arguments[0];
+  var action = arguments[1];
+
+  switch (action.type) {
+    default:
+      return state;
+  }
+};
+
+var roadTeam = function roadTeam() {
+  var state = arguments.length <= 0 || arguments[0] === undefined ? fudge.roadTeam : arguments[0];
+  var action = arguments[1];
+
+  switch (action.type) {
+    default:
+      return state;
+  }
+};
+
+var gameStatus = function gameStatus() {
+  var state = arguments.length <= 0 || arguments[0] === undefined ? fudge.gameStatus : arguments[0];
+  var action = arguments[1];
+
+  switch (action.type) {
+    default:
+      return state;
+  }
+};
+
+var api = {
+  singleGame: Redux.combineReducers({
+    homeTeam: homeTeam,
+    roadTeam: roadTeam,
+    gameStatus: gameStatus
+  })
+};
+
+exports.default = api;
+
+},{"./fudge.js":6,"redux":"redux","redux-thunk":1}]},{},[7]);

@@ -1,13 +1,13 @@
 const fudge = {
   roadTeam: {
-    teamName: "PHX",
+    teamName: 'PHX',
     isEligible: true,
     isChosen: true,
     isWinner: false,
     isLoser: false
   },
   homeTeam: {
-    teamName: "CHI",
+    teamName: 'CHI',
     isEligible: false,
     isChosen: false,
     isWinner: false,
