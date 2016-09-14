@@ -1,0 +1,42 @@
+/*game flexbox */
+.game-container {
+  min-height: 66px;
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+}
+
+.game-item {
+  text-align: center;
+}
+
+.game-team {
+  flex: 1;
+  border-radius: 5px;
+}
+
+.game-status {
+  flex: 2;
+}
+
+.game-status-score {
+  margin-bottom: 0;
+}
+
+.ineligible-team {
+  cursor: not-allowed;
+}
+
+.ineligible-team * {
+  color: #555;
+  text-decoration: line-through;
+}
+
+.game-container.game-not-started .game-team.eligible-team:hover {
+  background-color: #2A9FD6;
+  cursor: pointer;
+}
+
+.game-container.game-not-started .game-team.eligible-team:hover :nth-child(2) { 
+  display: none; 
+}

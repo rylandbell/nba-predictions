@@ -1,0 +1,31 @@
+@import 'single-game.css';
+
+/*layout*/
+html, body, .full-height {
+	height: 100%;
+}
+
+.body-block {
+	padding-top: 10px;
+}
+
+.container-body, .container-navbar {
+	width: 100%;
+	max-width: 1300px;
+}
+
+.container-body {
+	min-height: 79vh;
+}
+
+.logo {
+	width: 70px;
+}
+
+.panel {
+	border-width: 2px;
+}
+
+.panel-body {
+	padding: 10px;
+}

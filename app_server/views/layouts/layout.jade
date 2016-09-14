@@ -1,0 +1,29 @@
+doctype html
+html(lang="en")
+  head
+    title= title
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    link(rel='stylesheet', href='/vendor/bootstrap/css/cyborg.bootstrap.min.css')
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    link(href='//fonts.googleapis.com/css?family=Droid+Serif', rel='stylesheet', type='text/css')
+    link(href='//fonts.googleapis.com/css?family=Droid+Sans', rel='stylesheet', type='text/css')
+    if (showTests)
+      link(rel='stylesheet', href='/vendor/qa/mocha.css')
+    block stylesheets
+
+  body
+    .container.container-body
+      .row
+        .col-xs-12
+            block content
+
+    script(src='/vendor/js/jquery-1.11.1.min.js')
+    script(src='/vendor/js/jquery.mask.min.js')
+    script(src='/vendor/bootstrap/js/bootstrap.min.js')
+    script(src='/vendor/js/jquery.dataTables.min.js')
+    script(src='/vendor/js/moment.min.js')
+    script(src='/vendor/js/fullcalendar.min.js')
+    script(src='/vendor/js/jquery-ui.min.js')
+    script(src='/vendor/js/jquery.ui.touch-punch.min.js')
+    script(src='/vendor/js/jquery.mobile.swipe.min.js')
+    block scripts

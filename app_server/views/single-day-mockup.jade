@@ -1,0 +1,77 @@
+extends ./layouts/layout.jade
+
+block content
+  h3.text-center Tuesday, November 5
+  .row
+    .col-xs-12.col-sm-6.col-md-4
+      p Upcoming game, no selections made:
+      .panel.panel-default
+        .panel-body
+          .game-container.game-not-started
+            .game-item.game-team.eligible-team
+              h4 POR
+            .game-item.game-status
+              h5 10:00 pm ET
+            .game-item.game-team.eligible-team
+              h4 UTA
+    .col-xs-12.col-sm-6.col-md-4
+      p Upcoming game, no selections made, Portland ineligible:
+      .panel.panel-default
+        .panel-body
+          .game-container.game-not-started
+            .game-item.game-team.ineligible-team
+              h4 POR
+            .game-item.game-status
+              h5 10:00 pm ET
+            .game-item.game-team.eligible-team
+              h4 UTA
+    .col-xs-12.col-sm-6.col-md-4
+      p Upcoming game, user has chosen Portland:
+      .panel.panel-primary
+        .panel-body
+          .game-container.game-not-started
+            .game-item.game-team.eligible-team
+              h4 POR
+              .text-primary Selected
+            .game-item.game-status
+              h5 10:00 pm ET
+            .game-item.game-team.eligible-team
+              h4 UTA
+  .row
+    .col-xs-12.col-sm-6.col-md-4
+      p Finished game, no selections made:
+      .panel.panel-default
+        .panel-body
+          .game-container
+            .game-item.game-team
+              h4 POR
+            .game-item.game-status
+              h5 97-90
+            .game-item.game-team
+              h4 UTA
+    .col-xs-12.col-sm-6.col-md-4
+      p Finished game, user correctly chose Portland:
+      .panel.panel-success
+        .panel-body
+          .game-container
+            .game-item.game-team
+              h4 POR
+              .text-success Win!
+            .game-item.game-status
+              h5 97-90
+            .game-item.game-team
+              h4 UTA
+    .col-xs-12.col-sm-6.col-md-4
+      p Finished game, user incorrectly chose Portland:
+      .panel.panel-danger
+        .panel-body
+          .game-container
+            .game-item.game-team
+              h4 POR
+              .text-danger Loss!
+            .game-item.game-status
+              h5 97-90
+            .game-item.game-team
+              h4 UTA
+
+
