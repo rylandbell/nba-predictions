@@ -9,15 +9,15 @@ import ReactDOM from 'react-dom';
 import * as Redux from 'redux';
 
 import Reducers from './reducers.jsx';
-import SingleGame from './components/single-game.jsx';
+import GameList from './components/game-list.jsx';
 
-const store = Redux.createStore(Reducers.singleGame, Redux.applyMiddleware(thunk));
+const store = Redux.createStore(Reducers.gameList, Redux.applyMiddleware(thunk));
 store.subscribe(render);
 render();
 
 function render() {
   ReactDOM.render(
-    <SingleGame gameData={store.getState()} />,
+    <GameList reduxState={store.getState()} />,
     document.getElementById('app-root')
   );
 }

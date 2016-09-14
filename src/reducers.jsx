@@ -5,21 +5,34 @@ var ReduxThunk = require('redux-thunk').default;
 
 var fudge = require('./fudge.js');
 
-const homeTeam = (state = fudge.homeTeam, action) => {
+const homeTeam = (state, action) => {
   switch(action.type){
     default:
       return state;
   }
 }
 
-const roadTeam = (state = fudge.roadTeam, action) => {
+const roadTeam = (state, action) => {
   switch(action.type){
     default:
       return state;
   }
 }
 
-const gameStatus = (state = fudge.gameStatus, action) => {
+const gameStatus = (state, action) => {
+  switch(action.type){
+    default:
+      return state;
+  }
+}
+
+const singleGame = Redux.combineReducers({
+  homeTeam: homeTeam,
+  roadTeam: roadTeam,
+  gameStatus: gameStatus
+});
+
+const gameList = (state = fudge, action) => {
   switch(action.type){
     default:
       return state;
@@ -27,11 +40,7 @@ const gameStatus = (state = fudge.gameStatus, action) => {
 }
 
 const api = {
-  singleGame: Redux.combineReducers({
-    homeTeam: homeTeam,
-    roadTeam: roadTeam,
-    gameStatus: gameStatus
-  })
+  gameList: gameList
 }
 
 export default api;

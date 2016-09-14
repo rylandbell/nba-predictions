@@ -33,6 +33,36 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _singleGame = require('./single-game.jsx');
+
+var _singleGame2 = _interopRequireDefault(_singleGame);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var api = function api(_ref) {
+  var reduxState = _ref.reduxState;
+  return _react2.default.createElement(
+    'div',
+    { className: 'row' },
+    reduxState.map(function (gameData, index) {
+      return _react2.default.createElement(_singleGame2.default, { gameData: gameData, key: index });
+    })
+  );
+};
+
+exports.default = api;
+
+},{"./single-game.jsx":5,"react":"react"}],3:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var api = function api(_ref) {
@@ -75,7 +105,7 @@ var api = function api(_ref) {
 
 exports.default = api;
 
-},{"react":"react"}],3:[function(require,module,exports){
+},{"react":"react"}],4:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -108,7 +138,7 @@ var api = function api(_ref) {
 
 exports.default = api;
 
-},{"./team-message.jsx":5,"react":"react"}],4:[function(require,module,exports){
+},{"./team-message.jsx":6,"react":"react"}],5:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -166,7 +196,7 @@ var api = function api(_ref) {
 
 exports.default = api;
 
-},{"./game-status.jsx":2,"./game-team.jsx":3,"react":"react"}],5:[function(require,module,exports){
+},{"./game-status.jsx":3,"./game-team.jsx":4,"react":"react"}],6:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -205,36 +235,190 @@ var api = function api(_ref) {
 
 exports.default = api;
 
-},{"react":"react"}],6:[function(require,module,exports){
+},{"react":"react"}],7:[function(require,module,exports){
 'use strict';
 
-var fudge = {
+var fudge = [{
   roadTeam: {
-    teamName: 'PHX',
+    teamName: 'POR',
+    isEligible: true,
+    isChosen: false,
+    isWinner: false,
+    isLoser: false
+  },
+  homeTeam: {
+    teamName: 'UTA',
+    isEligible: true,
+    isChosen: false,
+    isWinner: false,
+    isLoser: false
+  },
+  gameStatus: {
+    startTime: '10:00 pm ET',
+    hasStarted: false,
+    homeScore: null,
+    roadScore: null,
+    isFinal: false
+  }
+}, {
+  roadTeam: {
+    teamName: 'LAC',
+    isEligible: false,
+    isChosen: false,
+    isWinner: false,
+    isLoser: false
+  },
+  homeTeam: {
+    teamName: 'DAL',
+    isEligible: true,
+    isChosen: false,
+    isWinner: false,
+    isLoser: false
+  },
+  gameStatus: {
+    startTime: '10:00 pm ET',
+    hasStarted: false,
+    homeScore: null,
+    roadScore: null,
+    isFinal: false
+  }
+}, {
+  roadTeam: {
+    teamName: 'HOU',
     isEligible: true,
     isChosen: true,
     isWinner: false,
     isLoser: false
   },
   homeTeam: {
-    teamName: 'CHI',
-    isEligible: false,
+    teamName: 'LAL',
+    isEligible: true,
     isChosen: false,
     isWinner: false,
     isLoser: false
   },
   gameStatus: {
-    startTime: '7:30 pm ET',
+    startTime: '10:00 pm ET',
+    hasStarted: false,
+    homeScore: null,
+    roadScore: null,
+    isFinal: false
+  }
+}, {
+  roadTeam: {
+    teamName: 'DEN',
+    isEligible: true,
+    isChosen: false,
+    isWinner: false,
+    isLoser: false
+  },
+  homeTeam: {
+    teamName: 'SAN',
+    isEligible: true,
+    isChosen: false,
+    isWinner: false,
+    isLoser: false
+  },
+  gameStatus: {
+    startTime: '10:00 pm ET',
     hasStarted: true,
-    homeScore: 14,
-    roadScore: 9,
+    homeScore: 9,
+    roadScore: 22,
+    isFinal: false
+  }
+}, {
+  roadTeam: {
+    teamName: 'CHI',
+    isEligible: true,
+    isChosen: false,
+    isWinner: false,
+    isLoser: false
+  },
+  homeTeam: {
+    teamName: 'MI',
+    isEligible: true,
+    isChosen: true,
+    isWinner: false,
+    isLoser: false
+  },
+  gameStatus: {
+    startTime: '10:00 pm ET',
+    hasStarted: true,
+    homeScore: 60,
+    roadScore: 47,
+    isFinal: false
+  }
+}, {
+  roadTeam: {
+    teamName: 'BKN',
+    isEligible: true,
+    isChosen: false,
+    isWinner: false,
+    isLoser: false
+  },
+  homeTeam: {
+    teamName: 'BOS',
+    isEligible: true,
+    isChosen: false,
+    isWinner: false,
+    isLoser: false
+  },
+  gameStatus: {
+    startTime: '10:00 pm ET',
+    hasStarted: true,
+    homeScore: 90,
+    roadScore: 97,
     isFinal: true
   }
-};
+}, {
+  roadTeam: {
+    teamName: 'NYK',
+    isEligible: true,
+    isChosen: true,
+    isWinner: true,
+    isLoser: false
+  },
+  homeTeam: {
+    teamName: 'MIN',
+    isEligible: true,
+    isChosen: false,
+    isWinner: false,
+    isLoser: false
+  },
+  gameStatus: {
+    startTime: '10:00 pm ET',
+    hasStarted: true,
+    homeScore: 90,
+    roadScore: 97,
+    isFinal: true
+  }
+}, {
+  roadTeam: {
+    teamName: 'MIL',
+    isEligible: true,
+    isChosen: true,
+    isWinner: false,
+    isLoser: true
+  },
+  homeTeam: {
+    teamName: 'DET',
+    isEligible: true,
+    isChosen: false,
+    isWinner: false,
+    isLoser: false
+  },
+  gameStatus: {
+    startTime: '10:00 pm ET',
+    hasStarted: true,
+    homeScore: 84,
+    roadScore: 79,
+    isFinal: true
+  }
+}];
 
 module.exports = fudge;
 
-},{}],7:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 'use strict';
 
 //babel-polyfill will polyfill ES6 features, specifically Promises for fetch
@@ -263,20 +447,20 @@ var _reducers = require('./reducers.jsx');
 
 var _reducers2 = _interopRequireDefault(_reducers);
 
-var _singleGame = require('./components/single-game.jsx');
+var _gameList = require('./components/game-list.jsx');
 
-var _singleGame2 = _interopRequireDefault(_singleGame);
+var _gameList2 = _interopRequireDefault(_gameList);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var store = Redux.createStore(_reducers2.default.singleGame, Redux.applyMiddleware(_reduxThunk2.default));
+var store = Redux.createStore(_reducers2.default.gameList, Redux.applyMiddleware(_reduxThunk2.default));
 store.subscribe(render);
 render();
 
 function render() {
-  _reactDom2.default.render(_react2.default.createElement(_singleGame2.default, { gameData: store.getState() }), document.getElementById('app-root'));
+  _reactDom2.default.render(_react2.default.createElement(_gameList2.default, { reduxState: store.getState() }), document.getElementById('app-root'));
 }
 
 render();
@@ -289,7 +473,7 @@ render();
 //     GameTeam (home team)
 //       TeamMessage
 
-},{"./components/single-game.jsx":4,"./reducers.jsx":8,"babel-polyfill":"babel-polyfill","react":"react","react-dom":"react-dom","react-redux":"react-redux","redux":"redux","redux-thunk":1}],8:[function(require,module,exports){
+},{"./components/game-list.jsx":2,"./reducers.jsx":9,"babel-polyfill":"babel-polyfill","react":"react","react-dom":"react-dom","react-redux":"react-redux","redux":"redux","redux-thunk":1}],9:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -300,28 +484,35 @@ var ReduxThunk = require('redux-thunk').default;
 
 var fudge = require('./fudge.js');
 
-var homeTeam = function homeTeam() {
-  var state = arguments.length <= 0 || arguments[0] === undefined ? fudge.homeTeam : arguments[0];
-  var action = arguments[1];
-
+var homeTeam = function homeTeam(state, action) {
   switch (action.type) {
     default:
       return state;
   }
 };
 
-var roadTeam = function roadTeam() {
-  var state = arguments.length <= 0 || arguments[0] === undefined ? fudge.roadTeam : arguments[0];
-  var action = arguments[1];
-
+var roadTeam = function roadTeam(state, action) {
   switch (action.type) {
     default:
       return state;
   }
 };
 
-var gameStatus = function gameStatus() {
-  var state = arguments.length <= 0 || arguments[0] === undefined ? fudge.gameStatus : arguments[0];
+var gameStatus = function gameStatus(state, action) {
+  switch (action.type) {
+    default:
+      return state;
+  }
+};
+
+var singleGame = Redux.combineReducers({
+  homeTeam: homeTeam,
+  roadTeam: roadTeam,
+  gameStatus: gameStatus
+});
+
+var gameList = function gameList() {
+  var state = arguments.length <= 0 || arguments[0] === undefined ? fudge : arguments[0];
   var action = arguments[1];
 
   switch (action.type) {
@@ -331,13 +522,9 @@ var gameStatus = function gameStatus() {
 };
 
 var api = {
-  singleGame: Redux.combineReducers({
-    homeTeam: homeTeam,
-    roadTeam: roadTeam,
-    gameStatus: gameStatus
-  })
+  gameList: gameList
 };
 
 exports.default = api;
 
-},{"./fudge.js":6,"redux":"redux","redux-thunk":1}]},{},[7]);
+},{"./fudge.js":7,"redux":"redux","redux-thunk":1}]},{},[8]);
