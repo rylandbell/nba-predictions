@@ -13,6 +13,16 @@ const api = {
       type: 'REMOVE_PREDICTION',
       gameId: gameId
     }
+  ),
+  dayForward: () => (
+    {
+      type: 'DAY_FORWARD'
+    }
+  ),
+  dayBack: () => (
+    {
+      type: 'DAY_BACK'
+    }
   )
 }
 

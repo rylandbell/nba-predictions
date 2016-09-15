@@ -9,16 +9,16 @@ import ReactDOM from 'react-dom';
 import * as Redux from 'redux';
 
 import Reducers from './reducers.jsx';
-import GameList from './components/game-list.jsx';
+import GamesViewer from './components/games-viewer.jsx';
 import ActionCreator from './action-creators.jsx';
 
-const store = Redux.createStore(Reducers.gameList, Redux.applyMiddleware(thunk));
+const store = Redux.createStore(Reducers.app, Redux.applyMiddleware(thunk));
 store.subscribe(render);
 render();
 
 function render() {
   ReactDOM.render(
-    <GameList
+    <GamesViewer
       reduxState={store.getState()} 
       addPrediction={
         (gameId, homeVsRoad)=>{
@@ -30,6 +30,16 @@ function render() {
           store.dispatch(ActionCreator.removePrediction(gameId));
         }
       }
+      dayForward = {
+        () => {
+          store.dispatch(ActionCreator.dayForward());
+        }
+      }
+      dayBack = {
+        () => {
+          store.dispatch(ActionCreator.dayBack());
+        }
+      }
     />,
     document.getElementById('app-root')
   );
@@ -37,10 +47,12 @@ function render() {
 
 render();
 
-// GameList
-//   SingleGame
-//     GameTeam (road team)
-//       TeamMessage
-//     GameStatus
-//     GameTeam (home team)
-//       TeamMessage
+// GamesViewer
+//   DayPicker
+//   SingleDayGameList
+//     SingleGame
+//       GameTeam (road team)
+//         TeamMessage
+//       GameStatus
+//       GameTeam (home team)
+//         TeamMessage

@@ -6,12 +6,12 @@ import SingleGame from './single-game.jsx';
 
 const api = ({reduxState, addPrediction, removePrediction}) => (
   <div className="row">
-    {reduxState.map(
+    {reduxState.gameList.map(
       (gameData, index) =>
         <SingleGame gameData={gameData} addPrediction={addPrediction} removePrediction={removePrediction} key={index} />
       )
     }
-</div>
+  </div>
 );
 
 export default api;

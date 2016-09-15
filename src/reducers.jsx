@@ -3,10 +3,21 @@
 var Redux = require('redux');
 var ReduxThunk = require('redux-thunk').default;
 
-var fudge = require('./fudge.js');
-import oldData from './12-09-2015.js';
-import futureData from './12-09-2016.js';
+var fudge = require('./data/fudge.js');
+import oldData from './data/2015-12-09.js';
+import futureData from './data/2016-12-09.js';
 import processGames from './process-games.jsx';
+
+const selectedDate = (state = '2015-12-09', action) => {
+  switch(action.type){
+    case 'DAY_FORWARD':
+      return moment(state).add(1, 'days').format('YYYY-MM-DD');
+    case 'DAY_BACK':
+      return moment(state).subtract(1, 'days').format('YYYY-MM-DD');
+    default:
+      return state;
+  }
+}
 
 const gameId = (state = null, action) => {
   switch(action.type){
@@ -79,7 +90,10 @@ const gameList = (state = processGames(futureData), action) => {
 }
 
 const api = {
-  gameList: gameList
+  app: Redux.combineReducers({
+    gameList,
+    selectedDate
+  })
 }
 
 export default api;

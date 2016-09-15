@@ -1,3 +1,26 @@
+
+//determine eligibility by:
+//  check team's hasBeenChosen property
+//  check if ANY team has dayOfMonth with value of the current day (lodash??)
+
+const playerChoices = {
+  month: 'Nov',
+  ATL: {
+    gameId: 3291432943,
+    opponent: 'CHA',
+    dayOfMonth: 19,
+    hasBeenChosen: true,
+    
+    // wasSuccesful: false ?????
+  },
+  BOS: {
+    gameId: null,
+    opponent: null,
+    dayOfMonth: null,
+    hasBeenChosen: false
+  }
+};
+
 const fudge = [
   {
     gameId: 1,
