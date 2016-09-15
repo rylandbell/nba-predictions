@@ -47,10 +47,17 @@ const gameId = (state = null, action) => {
   }
 }
 
+const gameDate = (state = null, action) => {
+  switch(action.type){
+    default:
+      return state;
+  }
+}
+
 const homeTeam = (state = {}, action) => {
   switch(action.type){
     case 'ADD_PREDICTION':
-      if(action.winner==='homeTeam'){
+      if(action.predictedWinner===state.teamName){
         return Object.assign({}, state, {isChosen:true});
       } else {
         return Object.assign({}, state, {isChosen:false});
@@ -65,7 +72,7 @@ const homeTeam = (state = {}, action) => {
 const roadTeam = (state = {}, action) => {
   switch(action.type){
     case 'ADD_PREDICTION':  
-      if(action.winner==='roadTeam'){
+      if(action.predictedWinner===state.teamName){
         return Object.assign({}, state, {isChosen:true});
       } else {
         return Object.assign({}, state, {isChosen:false});
@@ -87,16 +94,17 @@ const gameStatus = (state = {}, action) => {
 const singleGame = (state = {}, action) => {
 
   //check which game the action belongs to, and only call subreducers in the case of a match:
-  if (action.gameId===state.gameId){
+  // if (action.gameId===state.gameId){
     return {
+      gameDate: gameDate(state.gameDate, action),
       gameId: gameId(state.gameId, action),
       homeTeam: homeTeam(state.homeTeam, action),
       roadTeam: roadTeam(state.roadTeam, action),
       gameStatus: gameStatus(state.gameStatus, action)
     }
-  } else {
-    return state;
-  }
+  // } else {
+  //   return state;
+  // }
 }
 
 const singleDayGameList = (state = {}, action) => {
@@ -117,7 +125,13 @@ const gamesByDay = (state = [
 ], action) => {
   switch(action.type) {
     case 'ADD_PREDICTION':
-      return state.map(day => singleDayGameList(day, action));
+      return state.map(day => {
+        if(action.gameDate === day[0].gameDate){
+          return singleDayGameList(day, action);
+        } else {
+          return day;
+        }
+      });
     case 'REMOVE_PREDICTION':
       return state.map(day => singleDayGameList(day, action));
     default:

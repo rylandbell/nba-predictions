@@ -21,8 +21,8 @@ function render() {
     <GamesViewer
       reduxState={store.getState()} 
       addPrediction={
-        (gameId, homeVsRoad)=>{
-          store.dispatch(ActionCreator.addPrediction(gameId, homeVsRoad));
+        (gameId, predictedWinner, gameDate)=>{
+          store.dispatch(ActionCreator.addPrediction(gameId, predictedWinner, gameDate));
         }
       }
       removePrediction = {

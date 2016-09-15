@@ -4,6 +4,7 @@ const processSingleGame = (data, index) => {
   var gameSummary = {};
 
   gameSummary.gameId = data.resultSets[1].rowSet[2*index][2];
+  gameSummary.gameDate = data.resultSets[0].rowSet[index][0].substring(0,10);
 
   gameSummary.gameStatus = {
     startTime: data.resultSets[0].rowSet[index][4],

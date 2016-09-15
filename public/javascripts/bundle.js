@@ -29,11 +29,12 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 var api = {
-  addPrediction: function addPrediction(gameId, winner) {
+  addPrediction: function addPrediction(gameId, predictedWinner, gameDate) {
     return {
       type: 'ADD_PREDICTION',
       gameId: gameId,
-      winner: winner
+      predictedWinner: predictedWinner,
+      gameDate: gameDate
     };
   },
   removePrediction: function removePrediction(gameId) {
@@ -176,7 +177,7 @@ var api = _react2.default.createClass({
       if (teamData.isChosen) {
         this.props.removePrediction(this.props.gameData.gameId, this.props.homeVsRoad);
       } else {
-        this.props.addPrediction(this.props.gameData.gameId, this.props.homeVsRoad);
+        this.props.addPrediction(this.props.gameData.gameId, this.props.gameData[homeVsRoad].teamName, this.props.gameData.gameDate);
       }
     }
   },
@@ -486,8 +487,8 @@ render();
 function render() {
   _reactDom2.default.render(_react2.default.createElement(_gamesViewer2.default, {
     reduxState: store.getState(),
-    addPrediction: function addPrediction(gameId, homeVsRoad) {
-      store.dispatch(_actionCreators2.default.addPrediction(gameId, homeVsRoad));
+    addPrediction: function addPrediction(gameId, predictedWinner, gameDate) {
+      store.dispatch(_actionCreators2.default.addPrediction(gameId, predictedWinner, gameDate));
     },
     removePrediction: function removePrediction(gameId) {
       store.dispatch(_actionCreators2.default.removePrediction(gameId));
@@ -523,6 +524,7 @@ var processSingleGame = function processSingleGame(data, index) {
   var gameSummary = {};
 
   gameSummary.gameId = data.resultSets[1].rowSet[2 * index][2];
+  gameSummary.gameDate = data.resultSets[0].rowSet[index][0].substring(0, 10);
 
   gameSummary.gameStatus = {
     startTime: data.resultSets[0].rowSet[index][4],
@@ -648,13 +650,23 @@ var gameId = function gameId() {
   }
 };
 
+var gameDate = function gameDate() {
+  var state = arguments.length <= 0 || arguments[0] === undefined ? null : arguments[0];
+  var action = arguments[1];
+
+  switch (action.type) {
+    default:
+      return state;
+  }
+};
+
 var homeTeam = function homeTeam() {
   var state = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
   var action = arguments[1];
 
   switch (action.type) {
     case 'ADD_PREDICTION':
-      if (action.winner === 'homeTeam') {
+      if (action.predictedWinner === state.teamName) {
         return _extends({}, state, { isChosen: true });
       } else {
         return _extends({}, state, { isChosen: false });
@@ -672,7 +684,7 @@ var roadTeam = function roadTeam() {
 
   switch (action.type) {
     case 'ADD_PREDICTION':
-      if (action.winner === 'roadTeam') {
+      if (action.predictedWinner === state.teamName) {
         return _extends({}, state, { isChosen: true });
       } else {
         return _extends({}, state, { isChosen: false });
@@ -700,16 +712,17 @@ var singleGame = function singleGame() {
 
 
   //check which game the action belongs to, and only call subreducers in the case of a match:
-  if (action.gameId === state.gameId) {
-    return {
-      gameId: gameId(state.gameId, action),
-      homeTeam: homeTeam(state.homeTeam, action),
-      roadTeam: roadTeam(state.roadTeam, action),
-      gameStatus: gameStatus(state.gameStatus, action)
-    };
-  } else {
-    return state;
-  }
+  // if (action.gameId===state.gameId){
+  return {
+    gameDate: gameDate(state.gameDate, action),
+    gameId: gameId(state.gameId, action),
+    homeTeam: homeTeam(state.homeTeam, action),
+    roadTeam: roadTeam(state.roadTeam, action),
+    gameStatus: gameStatus(state.gameStatus, action)
+  };
+  // } else {
+  //   return state;
+  // }
 };
 
 var singleDayGameList = function singleDayGameList() {
@@ -737,7 +750,11 @@ var gamesByDay = function gamesByDay() {
   switch (action.type) {
     case 'ADD_PREDICTION':
       return state.map(function (day) {
-        return singleDayGameList(day, action);
+        if (action.gameDate === day[0].gameDate) {
+          return singleDayGameList(day, action);
+        } else {
+          return day;
+        }
       });
     case 'REMOVE_PREDICTION':
       return state.map(function (day) {

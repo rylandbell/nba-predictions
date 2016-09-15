@@ -12,7 +12,7 @@ const api = React.createClass({
       if(teamData.isChosen) {
         this.props.removePrediction(this.props.gameData.gameId, this.props.homeVsRoad);
       } else {
-        this.props.addPrediction(this.props.gameData.gameId, this.props.homeVsRoad);
+        this.props.addPrediction(this.props.gameData.gameId, this.props.gameData[homeVsRoad].teamName, this.props.gameData.gameDate);
       }
     }
   },

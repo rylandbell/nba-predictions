@@ -1,11 +1,12 @@
 'use strict';
 
 const api = {
-  addPrediction: (gameId, winner) => (
+  addPrediction: (gameId, predictedWinner, gameDate) => (
     {
       type: 'ADD_PREDICTION',
       gameId: gameId,
-      winner: winner
+      predictedWinner: predictedWinner,
+      gameDate: gameDate
     }    
   ),
   removePrediction: (gameId) => (
