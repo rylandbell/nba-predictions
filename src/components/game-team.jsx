@@ -20,12 +20,13 @@ const api = React.createClass({
     const homeVsRoad = this.props.homeVsRoad;
     const teamData = this.props.gameData[homeVsRoad];
     return (
-      <div 
-        className={"game-item game-team " + (teamData.isEligible?"eligible-team":"ineligible-team")}
-        onClick={this.handleClick}
-      >
-        <h4>{teamData.teamName}</h4>
-        {(teamData.isChosen ? <TeamMessage teamData={teamData}/> : '')}
+      <div className="game-item game-team" onClick={this.handleClick}>
+        <div className="team-container">
+          <div className={"team-item team-name " + (teamData.isEligible?"eligible-team":"ineligible-team")} >
+            <h4>{teamData.teamName}</h4>
+          </div>
+          {(teamData.isChosen ? <TeamMessage teamData={teamData}/> : '')}
+        </div>
       </div>
     );
   }

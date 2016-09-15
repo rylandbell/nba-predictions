@@ -4,6 +4,9 @@ var Redux = require('redux');
 var ReduxThunk = require('redux-thunk').default;
 
 var fudge = require('./fudge.js');
+import oldData from './12-09-2015.js';
+import futureData from './12-09-2016.js';
+import processGames from './process-games.jsx';
 
 const gameId = (state = null, action) => {
   switch(action.type){
@@ -64,7 +67,7 @@ const singleGame = (state = {}, action) => {
   }
 }
 
-const gameList = (state = fudge, action) => {
+const gameList = (state = processGames(futureData), action) => {
   switch(action.type){
     case 'ADD_PREDICTION':
       return state.map(game => singleGame(game,action));

@@ -12,11 +12,23 @@
 
 .game-team {
   flex: 1;
-  border-radius: 5px;
 }
 
 .game-status {
   flex: 2;
+}
+
+.team-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.team-item {
+  flex: 1;
+}
+
+.team-name {
+  border-radius: 5px;
 }
 
 .game-status-score {
@@ -32,11 +44,12 @@
   text-decoration: line-through;
 }
 
-.game-container.game-not-started .game-team.eligible-team:hover {
+.game-container.game-not-started .team-name.eligible-team:hover {
   background-color: #2A9FD6;
   cursor: pointer;
 }
 
-.game-container.game-not-started .game-team.eligible-team:hover :nth-child(2) { 
-  display: none; 
+.game-panel {
+  border-width: 3px;
+  border-radius: 10px;
 }

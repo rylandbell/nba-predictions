@@ -18,7 +18,7 @@ if(teamData.isWinner){
 }
 
 return (
-  <div className={statusClass}>
+  <div className={'team-item '+statusClass}>
     {message}
   </div>
 )};

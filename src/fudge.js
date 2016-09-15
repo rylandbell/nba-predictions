@@ -64,7 +64,7 @@ const fudge = [
       isLoser: false
     },
     gameStatus: {
-      startTime: '10:00 pm ET',
+      startTime: '10:30 pm ET',
       hasStarted: false,
       homeScore: null,
       roadScore: null,
@@ -105,7 +105,7 @@ const fudge = [
       isLoser: false
     },
     homeTeam: {
-      teamName: 'MI',
+      teamName: 'MIA',
       isEligible: true,
       isChosen: true,
       isWinner: false,
@@ -122,14 +122,14 @@ const fudge = [
   {
     gameId: 6,
     roadTeam: {
-      teamName: 'BKN',
+      teamName: 'OKC',
       isEligible: true,
       isChosen: false,
       isWinner: false,
       isLoser: false
     },
     homeTeam: {
-      teamName: 'BOS',
+      teamName: 'GSW',
       isEligible: true,
       isChosen: false,
       isWinner: false,
@@ -138,26 +138,26 @@ const fudge = [
     gameStatus: {
       startTime: '10:00 pm ET',
       hasStarted: true,
-      homeScore: 90,
-      roadScore: 97,
-      isFinal: true
+      homeScore: 108,
+      roadScore: 47,
+      isFinal: false
     }
   },
   {
     gameId: 7,
     roadTeam: {
-      teamName: 'NYK',
+      teamName: 'BKN',
       isEligible: true,
-      isChosen: true,
+      isChosen: false,
       isWinner: true,
       isLoser: false
     },
     homeTeam: {
-      teamName: 'MIN',
+      teamName: 'BOS',
       isEligible: true,
       isChosen: false,
       isWinner: false,
-      isLoser: false
+      isLoser: true
     },
     gameStatus: {
       startTime: '10:00 pm ET',
@@ -170,6 +170,30 @@ const fudge = [
   {
     gameId: 8,
     roadTeam: {
+      teamName: 'NYK',
+      isEligible: true,
+      isChosen: true,
+      isWinner: true,
+      isLoser: false
+    },
+    homeTeam: {
+      teamName: 'MIN',
+      isEligible: true,
+      isChosen: false,
+      isWinner: false,
+      isLoser: true
+    },
+    gameStatus: {
+      startTime: '10:00 pm ET',
+      hasStarted: true,
+      homeScore: 90,
+      roadScore: 97,
+      isFinal: true
+    }
+  },
+  {
+    gameId: 9,
+    roadTeam: {
       teamName: 'MIL',
       isEligible: true,
       isChosen: true,
@@ -180,7 +204,7 @@ const fudge = [
       teamName: 'DET',
       isEligible: true,
       isChosen: false,
-      isWinner: false,
+      isWinner: true,
       isLoser: false
     },
     gameStatus: {
