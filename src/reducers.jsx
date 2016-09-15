@@ -1,14 +1,35 @@
+// State shape:
+
+// {
+//   selectedDate: string
+//   gamesByDay: [
+//     singleDayGameList: [
+//       singleGame: {
+//         gameId: string,
+//         homeTeam: {...},
+//         roadTeam: {...},
+//         gameStatus: {...}
+//       }
+//     ]
+//   ]  
+// }
+
 'use strict';
 
 var Redux = require('redux');
 var ReduxThunk = require('redux-thunk').default;
 
-var fudge = require('./data/fudge.js');
-import oldData from './data/2015-12-09.js';
-import futureData from './data/2016-12-09.js';
 import processGames from './process-games.jsx';
 
-const selectedDate = (state = '2015-12-09', action) => {
+//Import dummy data:
+import oldData_9 from './data/2015-12-09.js';
+import oldData_10 from './data/2015-12-10.js';
+import oldData_11 from './data/2015-12-11.js';
+import freshData_1 from './data/2016-11-01.js';
+import freshData_2 from './data/2016-11-02.js';
+import freshData_3 from './data/2016-11-03.js';
+
+const selectedDate = (state = '2016-11-01', action) => {
   switch(action.type){
     case 'DAY_FORWARD':
       return moment(state).add(1, 'days').format('YYYY-MM-DD');
@@ -78,7 +99,7 @@ const singleGame = (state = {}, action) => {
   }
 }
 
-const gameList = (state = processGames(futureData), action) => {
+const singleDayGameList = (state = {}, action) => {
   switch(action.type){
     case 'ADD_PREDICTION':
       return state.map(game => singleGame(game,action));
@@ -89,10 +110,25 @@ const gameList = (state = processGames(futureData), action) => {
   }
 }
 
+const gamesByDay = (state = [
+  processGames(freshData_1),
+  processGames(freshData_2),
+  processGames(freshData_3)
+], action) => {
+  switch(action.type) {
+    case 'ADD_PREDICTION':
+      return state.map(day => singleDayGameList(day, action));
+    case 'REMOVE_PREDICTION':
+      return state.map(day => singleDayGameList(day, action));
+    default:
+      return state;
+  }
+}
+
 const api = {
   app: Redux.combineReducers({
-    gameList,
-    selectedDate
+    selectedDate,
+    gamesByDay
   })
 }
 

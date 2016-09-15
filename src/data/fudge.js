@@ -10,7 +10,7 @@ const playerChoices = {
     opponent: 'CHA',
     dayOfMonth: 19,
     hasBeenChosen: true,
-    
+
     // wasSuccesful: false ?????
   },
   BOS: {
