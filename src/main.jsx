@@ -26,8 +26,8 @@ function render() {
         }
       }
       removePrediction = {
-        (gameId)=>{
-          store.dispatch(ActionCreator.removePrediction(gameId));
+        (gameId, gameDate)=>{
+          store.dispatch(ActionCreator.removePrediction(gameId, gameDate));
         }
       }
       dayForward = {

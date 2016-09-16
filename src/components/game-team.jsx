@@ -8,9 +8,9 @@ const api = React.createClass({
   handleClick: function () {
     const homeVsRoad = this.props.homeVsRoad;
     const teamData = this.props.gameData[homeVsRoad];
-    if(teamData.isEligible && !this.props.gameData.gameStatus.hasStarted){
+    if((teamData.isEligible || teamData.isChosen) && !this.props.gameData.gameStatus.hasStarted){
       if(teamData.isChosen) {
-        this.props.removePrediction(this.props.gameData.gameId, this.props.homeVsRoad);
+        this.props.removePrediction(this.props.gameData.gameId, this.props.gameData.gameDate);
       } else {
         this.props.addPrediction(this.props.gameData.gameId, this.props.gameData[homeVsRoad].teamName, this.props.gameData.gameDate);
       }
@@ -19,10 +19,11 @@ const api = React.createClass({
   render: function () {
     const homeVsRoad = this.props.homeVsRoad;
     const teamData = this.props.gameData[homeVsRoad];
+    const clickable = teamData.isEligible || teamData.isChosen;
     return (
       <div className="game-item game-team" onClick={this.handleClick}>
         <div className="team-container">
-          <div className={"team-item team-name " + (teamData.isEligible?"eligible-team":"ineligible-team")} >
+          <div className={"team-item team-name " + (clickable ? "eligible-team" : "ineligible-team")} >
             <h4>{teamData.teamName}</h4>
           </div>
           {(teamData.isChosen ? <TeamMessage teamData={teamData}/> : '')}

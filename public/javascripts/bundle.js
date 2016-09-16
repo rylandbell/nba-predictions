@@ -37,12 +37,27 @@ var api = {
       gameDate: gameDate
     };
   },
-  removePrediction: function removePrediction(gameId) {
+  removePrediction: function removePrediction(gameId, gameDate) {
     return {
       type: 'REMOVE_PREDICTION',
-      gameId: gameId
+      gameId: gameId,
+      gameDate: gameDate
     };
   },
+  // markIneligible: (teamName, gameDate) => (
+  //   {
+  //     type: 'MARK_INELIGIBLE',
+  //     teamName: teamName,
+  //     gameDate: gameDate
+  //   }
+  // ),
+  // markEligible: (teamName, gameDate) => (
+  //   {
+  //     type: 'MARK_ELIGIBLE',
+  //     teamName: teamName,
+  //     gameDate: gameDate
+  //   }
+  // ),
   dayForward: function dayForward() {
     return {
       type: 'DAY_FORWARD'
@@ -173,9 +188,9 @@ var api = _react2.default.createClass({
   handleClick: function handleClick() {
     var homeVsRoad = this.props.homeVsRoad;
     var teamData = this.props.gameData[homeVsRoad];
-    if (teamData.isEligible && !this.props.gameData.gameStatus.hasStarted) {
+    if ((teamData.isEligible || teamData.isChosen) && !this.props.gameData.gameStatus.hasStarted) {
       if (teamData.isChosen) {
-        this.props.removePrediction(this.props.gameData.gameId, this.props.homeVsRoad);
+        this.props.removePrediction(this.props.gameData.gameId, this.props.gameData.gameDate);
       } else {
         this.props.addPrediction(this.props.gameData.gameId, this.props.gameData[homeVsRoad].teamName, this.props.gameData.gameDate);
       }
@@ -184,6 +199,7 @@ var api = _react2.default.createClass({
   render: function render() {
     var homeVsRoad = this.props.homeVsRoad;
     var teamData = this.props.gameData[homeVsRoad];
+    var clickable = teamData.isEligible || teamData.isChosen;
     return _react2.default.createElement(
       'div',
       { className: 'game-item game-team', onClick: this.handleClick },
@@ -192,7 +208,7 @@ var api = _react2.default.createClass({
         { className: 'team-container' },
         _react2.default.createElement(
           'div',
-          { className: "team-item team-name " + (teamData.isEligible ? "eligible-team" : "ineligible-team") },
+          { className: "team-item team-name " + (clickable ? "eligible-team" : "ineligible-team") },
           _react2.default.createElement(
             'h4',
             null,
@@ -490,8 +506,8 @@ function render() {
     addPrediction: function addPrediction(gameId, predictedWinner, gameDate) {
       store.dispatch(_actionCreators2.default.addPrediction(gameId, predictedWinner, gameDate));
     },
-    removePrediction: function removePrediction(gameId) {
-      store.dispatch(_actionCreators2.default.removePrediction(gameId));
+    removePrediction: function removePrediction(gameId, gameDate) {
+      store.dispatch(_actionCreators2.default.removePrediction(gameId, gameDate));
     },
     dayForward: function dayForward() {
       store.dispatch(_actionCreators2.default.dayForward());
@@ -516,6 +532,10 @@ render();
 
 },{"./action-creators.jsx":2,"./components/games-viewer.jsx":6,"./reducers.jsx":18,"babel-polyfill":"babel-polyfill","react":"react","react-dom":"react-dom","react-redux":"react-redux","redux":"redux","redux-thunk":1}],17:[function(require,module,exports){
 'use strict';
+
+//translates nba.com JSON into format that I need. eventually, this should be done once on the backend, saved, and then served to the browser in pre-digested form
+
+//NBA game object shape => My game object shape
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -553,6 +573,7 @@ var processSingleGame = function processSingleGame(data, index) {
   return gameSummary;
 };
 
+//NBA full-day of JSON => array of game objects in my format
 var api = function api(dataString) {
   var data = JSON.parse(dataString);
   var gamesArray = [];
@@ -573,6 +594,7 @@ exports.default = api;
 //   gamesByDay: [
 //     singleDayGameList: [
 //       singleGame: {
+//         gameDate: string
 //         gameId: string,
 //         homeTeam: {...},
 //         roadTeam: {...},
@@ -626,6 +648,7 @@ var ReduxThunk = require('redux-thunk').default;
 //Import dummy data:
 
 
+//user-selected date:
 var selectedDate = function selectedDate() {
   var state = arguments.length <= 0 || arguments[0] === undefined ? '2016-11-01' : arguments[0];
   var action = arguments[1];
@@ -640,6 +663,7 @@ var selectedDate = function selectedDate() {
   }
 };
 
+//~~~~~~~~~~~BEGIN single-game data~~~~~~~~~~~
 var gameId = function gameId() {
   var state = arguments.length <= 0 || arguments[0] === undefined ? null : arguments[0];
   var action = arguments[1];
@@ -706,24 +730,15 @@ var gameStatus = function gameStatus() {
   }
 };
 
-var singleGame = function singleGame() {
-  var state = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
-  var action = arguments[1];
+var singleGame = Redux.combineReducers({
+  gameDate: gameDate,
+  gameId: gameId,
+  homeTeam: homeTeam,
+  roadTeam: roadTeam,
+  gameStatus: gameStatus
+});
 
-
-  //check which game the action belongs to, and only call subreducers in the case of a match:
-  // if (action.gameId===state.gameId){
-  return {
-    gameDate: gameDate(state.gameDate, action),
-    gameId: gameId(state.gameId, action),
-    homeTeam: homeTeam(state.homeTeam, action),
-    roadTeam: roadTeam(state.roadTeam, action),
-    gameStatus: gameStatus(state.gameStatus, action)
-  };
-  // } else {
-  //   return state;
-  // }
-};
+//~~~~~~~~~~~~~~END single-game data~~~~~~~~~~~~~~~~
 
 var singleDayGameList = function singleDayGameList() {
   var state = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
@@ -748,6 +763,8 @@ var gamesByDay = function gamesByDay() {
   var action = arguments[1];
 
   switch (action.type) {
+
+    //*_PREDICTION actions are only passed along to the day of the prediction
     case 'ADD_PREDICTION':
       return state.map(function (day) {
         if (action.gameDate === day[0].gameDate) {
@@ -758,7 +775,11 @@ var gamesByDay = function gamesByDay() {
       });
     case 'REMOVE_PREDICTION':
       return state.map(function (day) {
-        return singleDayGameList(day, action);
+        if (action.gameDate === day[0].gameDate) {
+          return singleDayGameList(day, action);
+        } else {
+          return day;
+        }
       });
     default:
       return state;

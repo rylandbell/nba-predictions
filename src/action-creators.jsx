@@ -9,12 +9,27 @@ const api = {
       gameDate: gameDate
     }    
   ),
-  removePrediction: (gameId) => (
+  removePrediction: (gameId, gameDate) => (
     {
       type: 'REMOVE_PREDICTION',
-      gameId: gameId
+      gameId: gameId,
+      gameDate: gameDate
     }
   ),
+  // markIneligible: (teamName, gameDate) => (
+  //   {
+  //     type: 'MARK_INELIGIBLE',
+  //     teamName: teamName,
+  //     gameDate: gameDate
+  //   }
+  // ),
+  // markEligible: (teamName, gameDate) => (
+  //   {
+  //     type: 'MARK_ELIGIBLE',
+  //     teamName: teamName,
+  //     gameDate: gameDate
+  //   }
+  // ),
   dayForward: () => (
     {
       type: 'DAY_FORWARD',

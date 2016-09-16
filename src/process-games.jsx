@@ -1,5 +1,8 @@
 'use strict';
 
+//translates nba.com JSON into format that I need. eventually, this should be done once on the backend, saved, and then served to the browser in pre-digested form
+
+//NBA game object shape => My game object shape
 const processSingleGame = (data, index) => {
   var gameSummary = {};
 
@@ -33,6 +36,7 @@ const processSingleGame = (data, index) => {
   return gameSummary;
 }
 
+//NBA full-day of JSON => array of game objects in my format
 const api = (dataString) => {
   const data = JSON.parse(dataString);
   const gamesArray = [];

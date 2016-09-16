@@ -5,6 +5,7 @@
 //   gamesByDay: [
 //     singleDayGameList: [
 //       singleGame: {
+//         gameDate: string
 //         gameId: string,
 //         homeTeam: {...},
 //         roadTeam: {...},
@@ -29,6 +30,7 @@ import freshData_1 from './data/2016-11-01.js';
 import freshData_2 from './data/2016-11-02.js';
 import freshData_3 from './data/2016-11-03.js';
 
+//user-selected date:
 const selectedDate = (state = '2016-11-01', action) => {
   switch(action.type){
     case 'DAY_FORWARD':
@@ -40,6 +42,7 @@ const selectedDate = (state = '2016-11-01', action) => {
   }
 }
 
+//~~~~~~~~~~~BEGIN single-game data~~~~~~~~~~~
 const gameId = (state = null, action) => {
   switch(action.type){
     default:
@@ -91,21 +94,15 @@ const gameStatus = (state = {}, action) => {
   }
 }
 
-const singleGame = (state = {}, action) => {
+const singleGame = Redux.combineReducers({
+  gameDate,
+  gameId,
+  homeTeam,
+  roadTeam,
+  gameStatus
+});
 
-  //check which game the action belongs to, and only call subreducers in the case of a match:
-  // if (action.gameId===state.gameId){
-    return {
-      gameDate: gameDate(state.gameDate, action),
-      gameId: gameId(state.gameId, action),
-      homeTeam: homeTeam(state.homeTeam, action),
-      roadTeam: roadTeam(state.roadTeam, action),
-      gameStatus: gameStatus(state.gameStatus, action)
-    }
-  // } else {
-  //   return state;
-  // }
-}
+//~~~~~~~~~~~~~~END single-game data~~~~~~~~~~~~~~~~
 
 const singleDayGameList = (state = {}, action) => {
   switch(action.type){
@@ -124,6 +121,8 @@ const gamesByDay = (state = [
   processGames(freshData_3)
 ], action) => {
   switch(action.type) {
+
+    //*_PREDICTION actions are only passed along to the day of the prediction
     case 'ADD_PREDICTION':
       return state.map(day => {
         if(action.gameDate === day[0].gameDate){
@@ -133,7 +132,13 @@ const gamesByDay = (state = [
         }
       });
     case 'REMOVE_PREDICTION':
-      return state.map(day => singleDayGameList(day, action));
+      return state.map(day => {
+        if(action.gameDate === day[0].gameDate){
+          return singleDayGameList(day, action);
+        } else {
+          return day;
+        }
+      });
     default:
       return state;
   }
