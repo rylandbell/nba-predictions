@@ -12,7 +12,7 @@ const api = ({reduxState, addPrediction, removePrediction}) => {
     <div className="row">
       {reduxState.gamesByDay[dayKey].map(
         (gameData, index) =>
-          <SingleGame gameData={gameData} addPrediction={addPrediction} removePrediction={removePrediction} key={index} />
+          <SingleGame gameData={gameData} eligibleTeams = {reduxState.eligibleTeams} addPrediction={addPrediction} removePrediction={removePrediction} key={index} />
         )
       }
     </div>

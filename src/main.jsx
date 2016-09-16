@@ -23,11 +23,13 @@ function render() {
       addPrediction={
         (gameId, predictedWinner, gameDate)=>{
           store.dispatch(ActionCreator.addPrediction(gameId, predictedWinner, gameDate));
+          store.dispatch(ActionCreator.markIneligible(predictedWinner));
         }
       }
       removePrediction = {
-        (gameId, gameDate)=>{
+        (gameId, teamName, gameDate)=>{
           store.dispatch(ActionCreator.removePrediction(gameId, gameDate));
+          store.dispatch(ActionCreator.markEligible(teamName));
         }
       }
       dayForward = {

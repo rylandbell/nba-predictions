@@ -16,20 +16,18 @@ const api = {
       gameDate: gameDate
     }
   ),
-  // markIneligible: (teamName, gameDate) => (
-  //   {
-  //     type: 'MARK_INELIGIBLE',
-  //     teamName: teamName,
-  //     gameDate: gameDate
-  //   }
-  // ),
-  // markEligible: (teamName, gameDate) => (
-  //   {
-  //     type: 'MARK_ELIGIBLE',
-  //     teamName: teamName,
-  //     gameDate: gameDate
-  //   }
-  // ),
+  markIneligible: (teamName) => (
+    {
+      type: 'MARK_INELIGIBLE',
+      teamName: teamName
+    }
+  ),
+  markEligible: (teamName) => (
+    {
+      type: 'MARK_ELIGIBLE',
+      teamName: teamName
+    }
+  ),
   dayForward: () => (
     {
       type: 'DAY_FORWARD',

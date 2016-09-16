@@ -44,20 +44,18 @@ var api = {
       gameDate: gameDate
     };
   },
-  // markIneligible: (teamName, gameDate) => (
-  //   {
-  //     type: 'MARK_INELIGIBLE',
-  //     teamName: teamName,
-  //     gameDate: gameDate
-  //   }
-  // ),
-  // markEligible: (teamName, gameDate) => (
-  //   {
-  //     type: 'MARK_ELIGIBLE',
-  //     teamName: teamName,
-  //     gameDate: gameDate
-  //   }
-  // ),
+  markIneligible: function markIneligible(teamName) {
+    return {
+      type: 'MARK_INELIGIBLE',
+      teamName: teamName
+    };
+  },
+  markEligible: function markEligible(teamName) {
+    return {
+      type: 'MARK_ELIGIBLE',
+      teamName: teamName
+    };
+  },
   dayForward: function dayForward() {
     return {
       type: 'DAY_FORWARD'
@@ -186,20 +184,18 @@ var api = _react2.default.createClass({
   displayName: 'api',
 
   handleClick: function handleClick() {
-    var homeVsRoad = this.props.homeVsRoad;
-    var teamData = this.props.gameData[homeVsRoad];
-    if ((teamData.isEligible || teamData.isChosen) && !this.props.gameData.gameStatus.hasStarted) {
-      if (teamData.isChosen) {
-        this.props.removePrediction(this.props.gameData.gameId, this.props.gameData.gameDate);
+    var isEligible = this.props.eligibleTeams[this.props.teamData.teamName];
+    if ((isEligible || this.props.teamData.isChosen) && !this.props.gameData.gameStatus.hasStarted) {
+      if (this.props.teamData.isChosen) {
+        this.props.removePrediction(this.props.gameData.gameId, this.props.teamData.teamName, this.props.gameData.gameDate);
       } else {
-        this.props.addPrediction(this.props.gameData.gameId, this.props.gameData[homeVsRoad].teamName, this.props.gameData.gameDate);
+        this.props.addPrediction(this.props.gameData.gameId, this.props.teamData.teamName, this.props.gameData.gameDate);
       }
     }
   },
   render: function render() {
-    var homeVsRoad = this.props.homeVsRoad;
-    var teamData = this.props.gameData[homeVsRoad];
-    var clickable = teamData.isEligible || teamData.isChosen;
+    var isEligible = this.props.eligibleTeams[this.props.teamData.teamName];
+    var clickable = isEligible || this.props.teamData.isChosen;
     return _react2.default.createElement(
       'div',
       { className: 'game-item game-team', onClick: this.handleClick },
@@ -212,10 +208,10 @@ var api = _react2.default.createClass({
           _react2.default.createElement(
             'h4',
             null,
-            teamData.teamName
+            this.props.teamData.teamName
           )
         ),
-        teamData.isChosen ? _react2.default.createElement(_teamMessage2.default, { teamData: teamData }) : ''
+        this.props.teamData.isChosen ? _react2.default.createElement(_teamMessage2.default, { teamData: this.props.teamData }) : ''
       )
     );
   }
@@ -289,7 +285,7 @@ var api = function api(_ref) {
     'div',
     { className: 'row' },
     reduxState.gamesByDay[dayKey].map(function (gameData, index) {
-      return _react2.default.createElement(_singleGame2.default, { gameData: gameData, addPrediction: addPrediction, removePrediction: removePrediction, key: index });
+      return _react2.default.createElement(_singleGame2.default, { gameData: gameData, eligibleTeams: reduxState.eligibleTeams, addPrediction: addPrediction, removePrediction: removePrediction, key: index });
     })
   );
 };
@@ -319,9 +315,12 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var api = function api(_ref) {
   var gameData = _ref.gameData;
+  var eligibleTeams = _ref.eligibleTeams;
   var addPrediction = _ref.addPrediction;
   var removePrediction = _ref.removePrediction;
 
+
+  //color the panel border appropriately:
   var panelType = 'panel-default';
   if (gameData.roadTeam.isChosen || gameData.homeTeam.isChosen) {
     panelType = 'panel-primary';
@@ -345,9 +344,9 @@ var api = function api(_ref) {
         _react2.default.createElement(
           'div',
           { className: "game-container " + (gameData.gameStatus.hasStarted ? "" : "game-not-started") },
-          _react2.default.createElement(_gameTeam2.default, { gameData: gameData, homeVsRoad: 'roadTeam', addPrediction: addPrediction, removePrediction: removePrediction }),
+          _react2.default.createElement(_gameTeam2.default, { gameData: gameData, teamData: gameData.roadTeam, eligibleTeams: eligibleTeams, homeVsRoad: 'roadTeam', addPrediction: addPrediction, removePrediction: removePrediction }),
           _react2.default.createElement(_gameStatus2.default, { statusData: gameData.gameStatus }),
-          _react2.default.createElement(_gameTeam2.default, { gameData: gameData, homeVsRoad: 'homeTeam', addPrediction: addPrediction, removePrediction: removePrediction })
+          _react2.default.createElement(_gameTeam2.default, { gameData: gameData, teamData: gameData.homeTeam, eligibleTeams: eligibleTeams, homeVsRoad: 'homeTeam', addPrediction: addPrediction, removePrediction: removePrediction })
         )
       )
     )
@@ -456,6 +455,47 @@ var api = '{"resource":"scoreboard","parameters":{"GameDate":"11/03/2016","Leagu
 exports.default = api;
 
 },{}],16:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var api = {
+  ATL: true,
+  BKN: true,
+  BOS: true,
+  CHA: true,
+  CHI: true,
+  CLE: true,
+  DAL: true,
+  DEN: true,
+  DET: true,
+  GSW: true,
+  HOU: true,
+  IND: true,
+  LAC: true,
+  LAL: true,
+  MEM: true,
+  MIA: true,
+  MIL: true,
+  MIN: true,
+  NOP: true,
+  NYK: true,
+  OKC: true,
+  ORL: true,
+  PHI: true,
+  PHX: true,
+  POR: true,
+  SAC: true,
+  SAS: true,
+  TOR: true,
+  UTA: true,
+  WAS: true
+};
+
+exports.default = api;
+
+},{}],17:[function(require,module,exports){
 'use strict';
 
 //babel-polyfill will polyfill ES6 features, specifically Promises for fetch
@@ -505,9 +545,11 @@ function render() {
     reduxState: store.getState(),
     addPrediction: function addPrediction(gameId, predictedWinner, gameDate) {
       store.dispatch(_actionCreators2.default.addPrediction(gameId, predictedWinner, gameDate));
+      store.dispatch(_actionCreators2.default.markIneligible(predictedWinner));
     },
-    removePrediction: function removePrediction(gameId, gameDate) {
+    removePrediction: function removePrediction(gameId, teamName, gameDate) {
       store.dispatch(_actionCreators2.default.removePrediction(gameId, gameDate));
+      store.dispatch(_actionCreators2.default.markEligible(teamName));
     },
     dayForward: function dayForward() {
       store.dispatch(_actionCreators2.default.dayForward());
@@ -530,7 +572,7 @@ render();
 //       GameTeam (home team)
 //         TeamMessage
 
-},{"./action-creators.jsx":2,"./components/games-viewer.jsx":6,"./reducers.jsx":18,"babel-polyfill":"babel-polyfill","react":"react","react-dom":"react-dom","react-redux":"react-redux","redux":"redux","redux-thunk":1}],17:[function(require,module,exports){
+},{"./action-creators.jsx":2,"./components/games-viewer.jsx":6,"./reducers.jsx":19,"babel-polyfill":"babel-polyfill","react":"react","react-dom":"react-dom","react-redux":"react-redux","redux":"redux","redux-thunk":1}],18:[function(require,module,exports){
 'use strict';
 
 //translates nba.com JSON into format that I need. eventually, this should be done once on the backend, saved, and then served to the browser in pre-digested form
@@ -586,11 +628,15 @@ var api = function api(dataString) {
 
 exports.default = api;
 
-},{}],18:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 // State shape:
 
 // {
-//   selectedDate: string
+//   selectedDate: string,
+//   eligibleTeams: {
+//     'ATL': false,
+//     'BOS': false,...
+//   },
 //   gamesByDay: [
 //     singleDayGameList: [
 //       singleGame: {
@@ -640,6 +686,10 @@ var _11 = require('./data/2016-11-03.js');
 
 var _12 = _interopRequireDefault(_11);
 
+var _teamFudge = require('./data/team-fudge.js');
+
+var _teamFudge2 = _interopRequireDefault(_teamFudge);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Redux = require('redux');
@@ -658,6 +708,24 @@ var selectedDate = function selectedDate() {
       return moment(state).add(1, 'days').format('YYYY-MM-DD');
     case 'DAY_BACK':
       return moment(state).subtract(1, 'days').format('YYYY-MM-DD');
+    default:
+      return state;
+  }
+};
+
+var eligibleTeams = function eligibleTeams() {
+  var state = arguments.length <= 0 || arguments[0] === undefined ? _teamFudge2.default : arguments[0];
+  var action = arguments[1];
+
+
+  var update = {};
+  switch (action.type) {
+    case 'MARK_ELIGIBLE':
+      update[action.teamName] = true;
+      return _extends({}, state, update);
+    case 'MARK_INELIGIBLE':
+      update[action.teamName] = false;
+      return _extends({}, state, update);
     default:
       return state;
   }
@@ -789,10 +857,11 @@ var gamesByDay = function gamesByDay() {
 var api = {
   app: Redux.combineReducers({
     selectedDate: selectedDate,
+    eligibleTeams: eligibleTeams,
     gamesByDay: gamesByDay
   })
 };
 
 exports.default = api;
 
-},{"./data/2015-12-09.js":10,"./data/2015-12-10.js":11,"./data/2015-12-11.js":12,"./data/2016-11-01.js":13,"./data/2016-11-02.js":14,"./data/2016-11-03.js":15,"./process-games.jsx":17,"redux":"redux","redux-thunk":1}]},{},[16]);
+},{"./data/2015-12-09.js":10,"./data/2015-12-10.js":11,"./data/2015-12-11.js":12,"./data/2016-11-01.js":13,"./data/2016-11-02.js":14,"./data/2016-11-03.js":15,"./data/team-fudge.js":16,"./process-games.jsx":18,"redux":"redux","redux-thunk":1}]},{},[17]);

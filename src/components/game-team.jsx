@@ -6,27 +6,25 @@ import TeamMessage from './team-message.jsx';
 
 const api = React.createClass({
   handleClick: function () {
-    const homeVsRoad = this.props.homeVsRoad;
-    const teamData = this.props.gameData[homeVsRoad];
-    if((teamData.isEligible || teamData.isChosen) && !this.props.gameData.gameStatus.hasStarted){
-      if(teamData.isChosen) {
-        this.props.removePrediction(this.props.gameData.gameId, this.props.gameData.gameDate);
+    const isEligible = this.props.eligibleTeams[this.props.teamData.teamName];
+    if((isEligible || this.props.teamData.isChosen) && !this.props.gameData.gameStatus.hasStarted){
+      if(this.props.teamData.isChosen) {
+        this.props.removePrediction(this.props.gameData.gameId, this.props.teamData.teamName, this.props.gameData.gameDate);
       } else {
-        this.props.addPrediction(this.props.gameData.gameId, this.props.gameData[homeVsRoad].teamName, this.props.gameData.gameDate);
+        this.props.addPrediction(this.props.gameData.gameId, this.props.teamData.teamName, this.props.gameData.gameDate);
       }
     }
   },
   render: function () {
-    const homeVsRoad = this.props.homeVsRoad;
-    const teamData = this.props.gameData[homeVsRoad];
-    const clickable = teamData.isEligible || teamData.isChosen;
+    const isEligible = this.props.eligibleTeams[this.props.teamData.teamName];
+    const clickable = isEligible || this.props.teamData.isChosen;
     return (
       <div className="game-item game-team" onClick={this.handleClick}>
         <div className="team-container">
           <div className={"team-item team-name " + (clickable ? "eligible-team" : "ineligible-team")} >
-            <h4>{teamData.teamName}</h4>
+            <h4>{this.props.teamData.teamName}</h4>
           </div>
-          {(teamData.isChosen ? <TeamMessage teamData={teamData}/> : '')}
+          {(this.props.teamData.isChosen ? <TeamMessage teamData={this.props.teamData}/> : '')}
         </div>
       </div>
     );

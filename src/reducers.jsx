@@ -1,7 +1,11 @@
 // State shape:
 
 // {
-//   selectedDate: string
+//   selectedDate: string,
+//   eligibleTeams: {
+//     'ATL': false,
+//     'BOS': false,...
+//   },
 //   gamesByDay: [
 //     singleDayGameList: [
 //       singleGame: {
@@ -29,6 +33,7 @@ import oldData_11 from './data/2015-12-11.js';
 import freshData_1 from './data/2016-11-01.js';
 import freshData_2 from './data/2016-11-02.js';
 import freshData_3 from './data/2016-11-03.js';
+import teamFudge from './data/team-fudge.js';
 
 //user-selected date:
 const selectedDate = (state = '2016-11-01', action) => {
@@ -37,6 +42,21 @@ const selectedDate = (state = '2016-11-01', action) => {
       return moment(state).add(1, 'days').format('YYYY-MM-DD');
     case 'DAY_BACK':
       return moment(state).subtract(1, 'days').format('YYYY-MM-DD');
+    default:
+      return state;
+  }
+}
+
+const eligibleTeams = (state = teamFudge, action) => {
+
+  const update = {};
+  switch(action.type){
+    case 'MARK_ELIGIBLE':
+      update[action.teamName] = true;
+      return Object.assign({}, state, update);
+    case 'MARK_INELIGIBLE':
+      update[action.teamName] = false;
+      return Object.assign({}, state, update);
     default:
       return state;
   }
@@ -147,6 +167,7 @@ const gamesByDay = (state = [
 const api = {
   app: Redux.combineReducers({
     selectedDate,
+    eligibleTeams,
     gamesByDay
   })
 }
