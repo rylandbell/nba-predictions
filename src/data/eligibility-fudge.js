@@ -1,3 +1,5 @@
+//describes team eligibility throughout the month:
+
 const api = {
   ATL: true,
   BKN: true,

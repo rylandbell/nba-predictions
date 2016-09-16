@@ -6,6 +6,10 @@
 //     'ATL': false,
 //     'BOS': false,...
 //   },
+//   predictedWinners: {
+//     1: 'POR',
+//     2: 'NYK',...
+//   },
 //   gamesByDay: [
 //     singleDayGameList: [
 //       singleGame: {
@@ -33,7 +37,8 @@ import oldData_11 from './data/2015-12-11.js';
 import freshData_1 from './data/2016-11-01.js';
 import freshData_2 from './data/2016-11-02.js';
 import freshData_3 from './data/2016-11-03.js';
-import teamFudge from './data/team-fudge.js';
+import eligibilityFudge from './data/eligibility-fudge.js';
+import predictionFudge from './data/prediction-fudge.js';
 
 //user-selected date:
 const selectedDate = (state = '2016-11-01', action) => {
@@ -47,8 +52,7 @@ const selectedDate = (state = '2016-11-01', action) => {
   }
 }
 
-const eligibleTeams = (state = teamFudge, action) => {
-
+const eligibleTeams = (state = eligibilityFudge, action) => {
   const update = {};
   switch(action.type){
     case 'MARK_ELIGIBLE':
@@ -56,6 +60,22 @@ const eligibleTeams = (state = teamFudge, action) => {
       return Object.assign({}, state, update);
     case 'MARK_INELIGIBLE':
       update[action.teamName] = false;
+      return Object.assign({}, state, update);
+    default:
+      return state;
+  }
+}
+
+const predictedWinners = (state = predictionFudge, action) => {
+  const date = moment(action.gameDate).format('D');
+  const team = action.predictedWinner;
+  const update = {};
+  switch(action.type){
+    case 'ADD_PREDICTION':
+      update[date] = team;
+      return Object.assign({}, state, update);
+    case 'REMOVE_PREDICTION':
+      update[date] = null;
       return Object.assign({}, state, update);
     default:
       return state;
@@ -79,14 +99,14 @@ const gameDate = (state = null, action) => {
 
 const homeTeam = (state = {}, action) => {
   switch(action.type){
-    case 'ADD_PREDICTION':
-      if(action.predictedWinner===state.teamName){
-        return Object.assign({}, state, {isChosen:true});
-      } else {
-        return Object.assign({}, state, {isChosen:false});
-      }
-    case 'REMOVE_PREDICTION':
-      return Object.assign({}, state, {isChosen:false});
+    // case 'ADD_PREDICTION':
+    //   if(action.predictedWinner===state.teamName){
+    //     return Object.assign({}, state, {isChosen:true});
+    //   } else {
+    //     return Object.assign({}, state, {isChosen:false});
+    //   }
+    // case 'REMOVE_PREDICTION':
+    //   return Object.assign({}, state, {isChosen:false});
     default:
       return state;
   }
@@ -94,14 +114,14 @@ const homeTeam = (state = {}, action) => {
 
 const roadTeam = (state = {}, action) => {
   switch(action.type){
-    case 'ADD_PREDICTION':  
-      if(action.predictedWinner===state.teamName){
-        return Object.assign({}, state, {isChosen:true});
-      } else {
-        return Object.assign({}, state, {isChosen:false});
-      }
-    case 'REMOVE_PREDICTION':
-      return Object.assign({}, state, {isChosen:false});
+    // case 'ADD_PREDICTION':  
+    //   if(action.predictedWinner===state.teamName){
+    //     return Object.assign({}, state, {isChosen:true});
+    //   } else {
+    //     return Object.assign({}, state, {isChosen:false});
+    //   }
+    // case 'REMOVE_PREDICTION':
+    //   return Object.assign({}, state, {isChosen:false});
     default:
       return state;
   }
@@ -126,10 +146,10 @@ const singleGame = Redux.combineReducers({
 
 const singleDayGameList = (state = {}, action) => {
   switch(action.type){
-    case 'ADD_PREDICTION':
-      return state.map(game => singleGame(game,action));
-    case 'REMOVE_PREDICTION':
-      return state.map(game => singleGame(game,action));
+    // case 'ADD_PREDICTION':
+    //   return state.map(game => singleGame(game,action));
+    // case 'REMOVE_PREDICTION':
+    //   return state.map(game => singleGame(game,action));
     default:
       return state;
   }
@@ -143,22 +163,22 @@ const gamesByDay = (state = [
   switch(action.type) {
 
     //*_PREDICTION actions are only passed along to the day of the prediction
-    case 'ADD_PREDICTION':
-      return state.map(day => {
-        if(action.gameDate === day[0].gameDate){
-          return singleDayGameList(day, action);
-        } else {
-          return day;
-        }
-      });
-    case 'REMOVE_PREDICTION':
-      return state.map(day => {
-        if(action.gameDate === day[0].gameDate){
-          return singleDayGameList(day, action);
-        } else {
-          return day;
-        }
-      });
+    // case 'ADD_PREDICTION':
+    //   return state.map(day => {
+    //     if(action.gameDate === day[0].gameDate){
+    //       return singleDayGameList(day, action);
+    //     } else {
+    //       return day;
+    //     }
+    //   });
+    // case 'REMOVE_PREDICTION':
+    //   return state.map(day => {
+    //     if(action.gameDate === day[0].gameDate){
+    //       return singleDayGameList(day, action);
+    //     } else {
+    //       return day;
+    //     }
+    //   });
     default:
       return state;
   }
@@ -168,6 +188,7 @@ const api = {
   app: Redux.combineReducers({
     selectedDate,
     eligibleTeams,
+    predictedWinners,
     gamesByDay
   })
 }

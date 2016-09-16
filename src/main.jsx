@@ -34,6 +34,7 @@ function render() {
       }
       dayForward = {
         () => {
+          console.log(store.getState());
           store.dispatch(ActionCreator.dayForward());
         }
       }

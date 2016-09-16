@@ -460,6 +460,8 @@ exports.default = api;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+//describes team eligibility throughout the month:
+
 var api = {
   ATL: true,
   BKN: true,
@@ -496,6 +498,50 @@ var api = {
 exports.default = api;
 
 },{}],17:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+//dayOfMonth: predictedWinner
+
+var api = {
+  1: null,
+  2: null,
+  3: null,
+  4: null,
+  5: null,
+  6: null,
+  7: null,
+  8: null,
+  9: null,
+  10: null,
+  11: null,
+  12: null,
+  13: null,
+  14: null,
+  15: null,
+  16: null,
+  17: null,
+  18: null,
+  19: null,
+  20: null,
+  21: null,
+  22: null,
+  23: null,
+  24: null,
+  25: null,
+  26: null,
+  27: null,
+  28: null,
+  29: null,
+  30: null,
+  31: null
+};
+
+exports.default = api;
+
+},{}],18:[function(require,module,exports){
 'use strict';
 
 //babel-polyfill will polyfill ES6 features, specifically Promises for fetch
@@ -552,6 +598,7 @@ function render() {
       store.dispatch(_actionCreators2.default.markEligible(teamName));
     },
     dayForward: function dayForward() {
+      console.log(store.getState());
       store.dispatch(_actionCreators2.default.dayForward());
     },
     dayBack: function dayBack() {
@@ -572,7 +619,7 @@ render();
 //       GameTeam (home team)
 //         TeamMessage
 
-},{"./action-creators.jsx":2,"./components/games-viewer.jsx":6,"./reducers.jsx":19,"babel-polyfill":"babel-polyfill","react":"react","react-dom":"react-dom","react-redux":"react-redux","redux":"redux","redux-thunk":1}],18:[function(require,module,exports){
+},{"./action-creators.jsx":2,"./components/games-viewer.jsx":6,"./reducers.jsx":20,"babel-polyfill":"babel-polyfill","react":"react","react-dom":"react-dom","react-redux":"react-redux","redux":"redux","redux-thunk":1}],19:[function(require,module,exports){
 'use strict';
 
 //translates nba.com JSON into format that I need. eventually, this should be done once on the backend, saved, and then served to the browser in pre-digested form
@@ -628,7 +675,7 @@ var api = function api(dataString) {
 
 exports.default = api;
 
-},{}],19:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 // State shape:
 
 // {
@@ -636,6 +683,10 @@ exports.default = api;
 //   eligibleTeams: {
 //     'ATL': false,
 //     'BOS': false,...
+//   },
+//   predictedWinners: {
+//     1: 'POR',
+//     2: 'NYK',...
 //   },
 //   gamesByDay: [
 //     singleDayGameList: [
@@ -686,9 +737,13 @@ var _11 = require('./data/2016-11-03.js');
 
 var _12 = _interopRequireDefault(_11);
 
-var _teamFudge = require('./data/team-fudge.js');
+var _eligibilityFudge = require('./data/eligibility-fudge.js');
 
-var _teamFudge2 = _interopRequireDefault(_teamFudge);
+var _eligibilityFudge2 = _interopRequireDefault(_eligibilityFudge);
+
+var _predictionFudge = require('./data/prediction-fudge.js');
+
+var _predictionFudge2 = _interopRequireDefault(_predictionFudge);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -714,9 +769,8 @@ var selectedDate = function selectedDate() {
 };
 
 var eligibleTeams = function eligibleTeams() {
-  var state = arguments.length <= 0 || arguments[0] === undefined ? _teamFudge2.default : arguments[0];
+  var state = arguments.length <= 0 || arguments[0] === undefined ? _eligibilityFudge2.default : arguments[0];
   var action = arguments[1];
-
 
   var update = {};
   switch (action.type) {
@@ -725,6 +779,25 @@ var eligibleTeams = function eligibleTeams() {
       return _extends({}, state, update);
     case 'MARK_INELIGIBLE':
       update[action.teamName] = false;
+      return _extends({}, state, update);
+    default:
+      return state;
+  }
+};
+
+var predictedWinners = function predictedWinners() {
+  var state = arguments.length <= 0 || arguments[0] === undefined ? _predictionFudge2.default : arguments[0];
+  var action = arguments[1];
+
+  var date = moment(action.gameDate).format('D');
+  var team = action.predictedWinner;
+  var update = {};
+  switch (action.type) {
+    case 'ADD_PREDICTION':
+      update[date] = team;
+      return _extends({}, state, update);
+    case 'REMOVE_PREDICTION':
+      update[date] = null;
       return _extends({}, state, update);
     default:
       return state;
@@ -757,14 +830,14 @@ var homeTeam = function homeTeam() {
   var action = arguments[1];
 
   switch (action.type) {
-    case 'ADD_PREDICTION':
-      if (action.predictedWinner === state.teamName) {
-        return _extends({}, state, { isChosen: true });
-      } else {
-        return _extends({}, state, { isChosen: false });
-      }
-    case 'REMOVE_PREDICTION':
-      return _extends({}, state, { isChosen: false });
+    // case 'ADD_PREDICTION':
+    //   if(action.predictedWinner===state.teamName){
+    //     return Object.assign({}, state, {isChosen:true});
+    //   } else {
+    //     return Object.assign({}, state, {isChosen:false});
+    //   }
+    // case 'REMOVE_PREDICTION':
+    //   return Object.assign({}, state, {isChosen:false});
     default:
       return state;
   }
@@ -775,14 +848,14 @@ var roadTeam = function roadTeam() {
   var action = arguments[1];
 
   switch (action.type) {
-    case 'ADD_PREDICTION':
-      if (action.predictedWinner === state.teamName) {
-        return _extends({}, state, { isChosen: true });
-      } else {
-        return _extends({}, state, { isChosen: false });
-      }
-    case 'REMOVE_PREDICTION':
-      return _extends({}, state, { isChosen: false });
+    // case 'ADD_PREDICTION':  
+    //   if(action.predictedWinner===state.teamName){
+    //     return Object.assign({}, state, {isChosen:true});
+    //   } else {
+    //     return Object.assign({}, state, {isChosen:false});
+    //   }
+    // case 'REMOVE_PREDICTION':
+    //   return Object.assign({}, state, {isChosen:false});
     default:
       return state;
   }
@@ -813,14 +886,10 @@ var singleDayGameList = function singleDayGameList() {
   var action = arguments[1];
 
   switch (action.type) {
-    case 'ADD_PREDICTION':
-      return state.map(function (game) {
-        return singleGame(game, action);
-      });
-    case 'REMOVE_PREDICTION':
-      return state.map(function (game) {
-        return singleGame(game, action);
-      });
+    // case 'ADD_PREDICTION':
+    //   return state.map(game => singleGame(game,action));
+    // case 'REMOVE_PREDICTION':
+    //   return state.map(game => singleGame(game,action));
     default:
       return state;
   }
@@ -833,22 +902,22 @@ var gamesByDay = function gamesByDay() {
   switch (action.type) {
 
     //*_PREDICTION actions are only passed along to the day of the prediction
-    case 'ADD_PREDICTION':
-      return state.map(function (day) {
-        if (action.gameDate === day[0].gameDate) {
-          return singleDayGameList(day, action);
-        } else {
-          return day;
-        }
-      });
-    case 'REMOVE_PREDICTION':
-      return state.map(function (day) {
-        if (action.gameDate === day[0].gameDate) {
-          return singleDayGameList(day, action);
-        } else {
-          return day;
-        }
-      });
+    // case 'ADD_PREDICTION':
+    //   return state.map(day => {
+    //     if(action.gameDate === day[0].gameDate){
+    //       return singleDayGameList(day, action);
+    //     } else {
+    //       return day;
+    //     }
+    //   });
+    // case 'REMOVE_PREDICTION':
+    //   return state.map(day => {
+    //     if(action.gameDate === day[0].gameDate){
+    //       return singleDayGameList(day, action);
+    //     } else {
+    //       return day;
+    //     }
+    //   });
     default:
       return state;
   }
@@ -858,10 +927,11 @@ var api = {
   app: Redux.combineReducers({
     selectedDate: selectedDate,
     eligibleTeams: eligibleTeams,
+    predictedWinners: predictedWinners,
     gamesByDay: gamesByDay
   })
 };
 
 exports.default = api;
 
-},{"./data/2015-12-09.js":10,"./data/2015-12-10.js":11,"./data/2015-12-11.js":12,"./data/2016-11-01.js":13,"./data/2016-11-02.js":14,"./data/2016-11-03.js":15,"./data/team-fudge.js":16,"./process-games.jsx":18,"redux":"redux","redux-thunk":1}]},{},[17]);
+},{"./data/2015-12-09.js":10,"./data/2015-12-10.js":11,"./data/2015-12-11.js":12,"./data/2016-11-01.js":13,"./data/2016-11-02.js":14,"./data/2016-11-03.js":15,"./data/eligibility-fudge.js":16,"./data/prediction-fudge.js":17,"./process-games.jsx":19,"redux":"redux","redux-thunk":1}]},{},[18]);
