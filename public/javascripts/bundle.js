@@ -32,7 +32,6 @@ var api = {
   addPrediction: function addPrediction(gameId, predictedWinner, gameDate) {
     return {
       type: 'ADD_PREDICTION',
-      gameId: gameId,
       predictedWinner: predictedWinner,
       gameDate: gameDate
     };
@@ -40,7 +39,6 @@ var api = {
   removePrediction: function removePrediction(gameId, gameDate) {
     return {
       type: 'REMOVE_PREDICTION',
-      gameId: gameId,
       gameDate: gameDate
     };
   },
@@ -185,8 +183,9 @@ var api = _react2.default.createClass({
 
   handleClick: function handleClick() {
     var isEligible = this.props.eligibleTeams[this.props.teamData.teamName];
-    if ((isEligible || this.props.teamData.isChosen) && !this.props.gameData.gameStatus.hasStarted) {
-      if (this.props.teamData.isChosen) {
+    var isChosen = this.props.predictedWinner === this.props.teamData.teamName;
+    if ((isEligible || isChosen) && !this.props.gameData.gameStatus.hasStarted) {
+      if (isChosen) {
         this.props.removePrediction(this.props.gameData.gameId, this.props.teamData.teamName, this.props.gameData.gameDate);
       } else {
         this.props.addPrediction(this.props.gameData.gameId, this.props.teamData.teamName, this.props.gameData.gameDate);
@@ -195,7 +194,7 @@ var api = _react2.default.createClass({
   },
   render: function render() {
     var isEligible = this.props.eligibleTeams[this.props.teamData.teamName];
-    var clickable = isEligible || this.props.teamData.isChosen;
+    var clickable = isEligible || this.props.predictedWinner === this.props.teamData.teamName;
     return _react2.default.createElement(
       'div',
       { className: 'game-item game-team', onClick: this.handleClick },
@@ -211,7 +210,7 @@ var api = _react2.default.createClass({
             this.props.teamData.teamName
           )
         ),
-        this.props.teamData.isChosen ? _react2.default.createElement(_teamMessage2.default, { teamData: this.props.teamData }) : ''
+        this.props.teamData.teamName === this.props.predictedWinner ? _react2.default.createElement(_teamMessage2.default, { teamData: this.props.teamData }) : ''
       )
     );
   }
@@ -285,7 +284,7 @@ var api = function api(_ref) {
     'div',
     { className: 'row' },
     reduxState.gamesByDay[dayKey].map(function (gameData, index) {
-      return _react2.default.createElement(_singleGame2.default, { gameData: gameData, eligibleTeams: reduxState.eligibleTeams, addPrediction: addPrediction, removePrediction: removePrediction, key: index });
+      return _react2.default.createElement(_singleGame2.default, { gameData: gameData, predictedWinner: reduxState.predictedWinners[dayKey + 1], eligibleTeams: reduxState.eligibleTeams, addPrediction: addPrediction, removePrediction: removePrediction, key: index });
     })
   );
 };
@@ -315,6 +314,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var api = function api(_ref) {
   var gameData = _ref.gameData;
+  var predictedWinner = _ref.predictedWinner;
   var eligibleTeams = _ref.eligibleTeams;
   var addPrediction = _ref.addPrediction;
   var removePrediction = _ref.removePrediction;
@@ -322,13 +322,13 @@ var api = function api(_ref) {
 
   //color the panel border appropriately:
   var panelType = 'panel-default';
-  if (gameData.roadTeam.isChosen || gameData.homeTeam.isChosen) {
+  if (gameData.roadTeam.teamName === predictedWinner || gameData.homeTeam.teamName === predictedWinner) {
     panelType = 'panel-primary';
   }
-  if (gameData.roadTeam.isWinner && gameData.roadTeam.isChosen || gameData.homeTeam.isWinner && gameData.homeTeam.isChosen) {
+  if (gameData.roadTeam.isWinner && gameData.roadTeam.teamName === predictedWinner || gameData.homeTeam.isWinner && gameData.homeTeam.teamName === predictedWinner) {
     panelType = 'panel-success';
   }
-  if (gameData.roadTeam.isLoser && gameData.roadTeam.isChosen || gameData.homeTeam.isLoser && gameData.homeTeam.isChosen) {
+  if (gameData.roadTeam.isLoser && gameData.roadTeam.teamName === predictedWinner || gameData.homeTeam.isLoser && gameData.homeTeam.teamName === predictedWinner) {
     panelType = 'panel-danger';
   }
 
@@ -344,9 +344,9 @@ var api = function api(_ref) {
         _react2.default.createElement(
           'div',
           { className: "game-container " + (gameData.gameStatus.hasStarted ? "" : "game-not-started") },
-          _react2.default.createElement(_gameTeam2.default, { gameData: gameData, teamData: gameData.roadTeam, eligibleTeams: eligibleTeams, homeVsRoad: 'roadTeam', addPrediction: addPrediction, removePrediction: removePrediction }),
+          _react2.default.createElement(_gameTeam2.default, { gameData: gameData, teamData: gameData.roadTeam, predictedWinner: predictedWinner, eligibleTeams: eligibleTeams, homeVsRoad: 'roadTeam', addPrediction: addPrediction, removePrediction: removePrediction }),
           _react2.default.createElement(_gameStatus2.default, { statusData: gameData.gameStatus }),
-          _react2.default.createElement(_gameTeam2.default, { gameData: gameData, teamData: gameData.homeTeam, eligibleTeams: eligibleTeams, homeVsRoad: 'homeTeam', addPrediction: addPrediction, removePrediction: removePrediction })
+          _react2.default.createElement(_gameTeam2.default, { gameData: gameData, teamData: gameData.homeTeam, predictedWinner: predictedWinner, eligibleTeams: eligibleTeams, homeVsRoad: 'homeTeam', addPrediction: addPrediction, removePrediction: removePrediction })
         )
       )
     )
@@ -590,6 +590,13 @@ function render() {
   _reactDom2.default.render(_react2.default.createElement(_gamesViewer2.default, {
     reduxState: store.getState(),
     addPrediction: function addPrediction(gameId, predictedWinner, gameDate) {
+
+      //mark previous selection for that day eligible:
+      var gameDay = moment(gameDate).format('D');
+      var oldPrediction = store.getState().predictedWinners[gameDay];
+      store.dispatch(_actionCreators2.default.markEligible(oldPrediction));
+
+      //add new prediction, then mark that team ineligible for rest of month:
       store.dispatch(_actionCreators2.default.addPrediction(gameId, predictedWinner, gameDate));
       store.dispatch(_actionCreators2.default.markIneligible(predictedWinner));
     },
@@ -598,7 +605,6 @@ function render() {
       store.dispatch(_actionCreators2.default.markEligible(teamName));
     },
     dayForward: function dayForward() {
-      console.log(store.getState());
       store.dispatch(_actionCreators2.default.dayForward());
     },
     dayBack: function dayBack() {
@@ -681,8 +687,8 @@ exports.default = api;
 // {
 //   selectedDate: string,
 //   eligibleTeams: {
-//     'ATL': false,
-//     'BOS': false,...
+//     ATL: false,
+//     BOS: false,...
 //   },
 //   predictedWinners: {
 //     1: 'POR',
@@ -804,6 +810,7 @@ var predictedWinners = function predictedWinners() {
   }
 };
 
+// I should probably eventually collapse all of this stuff into a single reducer for immutable game data from the server:
 //~~~~~~~~~~~BEGIN single-game data~~~~~~~~~~~
 var gameId = function gameId() {
   var state = arguments.length <= 0 || arguments[0] === undefined ? null : arguments[0];
@@ -830,14 +837,6 @@ var homeTeam = function homeTeam() {
   var action = arguments[1];
 
   switch (action.type) {
-    // case 'ADD_PREDICTION':
-    //   if(action.predictedWinner===state.teamName){
-    //     return Object.assign({}, state, {isChosen:true});
-    //   } else {
-    //     return Object.assign({}, state, {isChosen:false});
-    //   }
-    // case 'REMOVE_PREDICTION':
-    //   return Object.assign({}, state, {isChosen:false});
     default:
       return state;
   }
@@ -848,14 +847,6 @@ var roadTeam = function roadTeam() {
   var action = arguments[1];
 
   switch (action.type) {
-    // case 'ADD_PREDICTION':  
-    //   if(action.predictedWinner===state.teamName){
-    //     return Object.assign({}, state, {isChosen:true});
-    //   } else {
-    //     return Object.assign({}, state, {isChosen:false});
-    //   }
-    // case 'REMOVE_PREDICTION':
-    //   return Object.assign({}, state, {isChosen:false});
     default:
       return state;
   }
@@ -886,10 +877,6 @@ var singleDayGameList = function singleDayGameList() {
   var action = arguments[1];
 
   switch (action.type) {
-    // case 'ADD_PREDICTION':
-    //   return state.map(game => singleGame(game,action));
-    // case 'REMOVE_PREDICTION':
-    //   return state.map(game => singleGame(game,action));
     default:
       return state;
   }
@@ -900,24 +887,6 @@ var gamesByDay = function gamesByDay() {
   var action = arguments[1];
 
   switch (action.type) {
-
-    //*_PREDICTION actions are only passed along to the day of the prediction
-    // case 'ADD_PREDICTION':
-    //   return state.map(day => {
-    //     if(action.gameDate === day[0].gameDate){
-    //       return singleDayGameList(day, action);
-    //     } else {
-    //       return day;
-    //     }
-    //   });
-    // case 'REMOVE_PREDICTION':
-    //   return state.map(day => {
-    //     if(action.gameDate === day[0].gameDate){
-    //       return singleDayGameList(day, action);
-    //     } else {
-    //       return day;
-    //     }
-    //   });
     default:
       return state;
   }

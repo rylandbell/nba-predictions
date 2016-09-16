@@ -5,17 +5,17 @@ import React from 'react';
 import GameTeam from './game-team.jsx';
 import GameStatus from './game-status.jsx';
 
-const api = ({gameData, eligibleTeams, addPrediction, removePrediction}) => {
+const api = ({gameData, predictedWinner, eligibleTeams, addPrediction, removePrediction}) => {
   
   //color the panel border appropriately:
   var panelType = 'panel-default';
-  if (gameData.roadTeam.isChosen || gameData.homeTeam.isChosen) {
+  if (gameData.roadTeam.teamName === predictedWinner || gameData.homeTeam.teamName === predictedWinner) {
     panelType = 'panel-primary';
   }
-  if ((gameData.roadTeam.isWinner && gameData.roadTeam.isChosen) || (gameData.homeTeam.isWinner && gameData.homeTeam.isChosen)) {
+  if ((gameData.roadTeam.isWinner && gameData.roadTeam.teamName === predictedWinner) || (gameData.homeTeam.isWinner && gameData.homeTeam.teamName === predictedWinner)) {
     panelType = 'panel-success';
   }
-  if ((gameData.roadTeam.isLoser && gameData.roadTeam.isChosen) || (gameData.homeTeam.isLoser && gameData.homeTeam.isChosen)) {
+  if ((gameData.roadTeam.isLoser && gameData.roadTeam.teamName === predictedWinner) || (gameData.homeTeam.isLoser && gameData.homeTeam.teamName === predictedWinner)) {
     panelType = 'panel-danger';
   }
 
@@ -24,9 +24,9 @@ const api = ({gameData, eligibleTeams, addPrediction, removePrediction}) => {
       <div className={"panel game-panel " + panelType}>
         <div className="panel-body">
           <div className={"game-container " + (gameData.gameStatus.hasStarted ? "":"game-not-started")}>
-            <GameTeam gameData={gameData} teamData={gameData.roadTeam} eligibleTeams = {eligibleTeams} homeVsRoad={'roadTeam'} addPrediction={addPrediction} removePrediction={removePrediction}/>
+            <GameTeam gameData={gameData} teamData={gameData.roadTeam} predictedWinner={predictedWinner} eligibleTeams = {eligibleTeams} homeVsRoad={'roadTeam'} addPrediction={addPrediction} removePrediction={removePrediction}/>
             <GameStatus statusData={gameData.gameStatus}/>
-            <GameTeam gameData={gameData} teamData={gameData.homeTeam} eligibleTeams = {eligibleTeams} homeVsRoad={'homeTeam'} addPrediction={addPrediction} removePrediction={removePrediction}/>
+            <GameTeam gameData={gameData} teamData={gameData.homeTeam} predictedWinner={predictedWinner} eligibleTeams = {eligibleTeams} homeVsRoad={'homeTeam'} addPrediction={addPrediction} removePrediction={removePrediction}/>
           </div>
         </div>
       </div>

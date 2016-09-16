@@ -22,6 +22,13 @@ function render() {
       reduxState={store.getState()} 
       addPrediction={
         (gameId, predictedWinner, gameDate)=>{
+
+          //mark previous selection for that day eligible:
+          const gameDay = moment(gameDate).format('D');
+          const oldPrediction = store.getState().predictedWinners[gameDay];
+          store.dispatch(ActionCreator.markEligible(oldPrediction));
+
+          //add new prediction, then mark that team ineligible for rest of month:
           store.dispatch(ActionCreator.addPrediction(gameId, predictedWinner, gameDate));
           store.dispatch(ActionCreator.markIneligible(predictedWinner));
         }
@@ -34,7 +41,6 @@ function render() {
       }
       dayForward = {
         () => {
-          console.log(store.getState());
           store.dispatch(ActionCreator.dayForward());
         }
       }

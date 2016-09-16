@@ -4,7 +4,6 @@ const api = {
   addPrediction: (gameId, predictedWinner, gameDate) => (
     {
       type: 'ADD_PREDICTION',
-      gameId: gameId,
       predictedWinner: predictedWinner,
       gameDate: gameDate
     }    
@@ -12,7 +11,6 @@ const api = {
   removePrediction: (gameId, gameDate) => (
     {
       type: 'REMOVE_PREDICTION',
-      gameId: gameId,
       gameDate: gameDate
     }
   ),

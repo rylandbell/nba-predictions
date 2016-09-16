@@ -3,8 +3,8 @@
 // {
 //   selectedDate: string,
 //   eligibleTeams: {
-//     'ATL': false,
-//     'BOS': false,...
+//     ATL: false,
+//     BOS: false,...
 //   },
 //   predictedWinners: {
 //     1: 'POR',
@@ -82,6 +82,7 @@ const predictedWinners = (state = predictionFudge, action) => {
   }
 }
 
+// I should probably eventually collapse all of this stuff into a single reducer for immutable game data from the server:
 //~~~~~~~~~~~BEGIN single-game data~~~~~~~~~~~
 const gameId = (state = null, action) => {
   switch(action.type){
@@ -99,14 +100,6 @@ const gameDate = (state = null, action) => {
 
 const homeTeam = (state = {}, action) => {
   switch(action.type){
-    // case 'ADD_PREDICTION':
-    //   if(action.predictedWinner===state.teamName){
-    //     return Object.assign({}, state, {isChosen:true});
-    //   } else {
-    //     return Object.assign({}, state, {isChosen:false});
-    //   }
-    // case 'REMOVE_PREDICTION':
-    //   return Object.assign({}, state, {isChosen:false});
     default:
       return state;
   }
@@ -114,14 +107,6 @@ const homeTeam = (state = {}, action) => {
 
 const roadTeam = (state = {}, action) => {
   switch(action.type){
-    // case 'ADD_PREDICTION':  
-    //   if(action.predictedWinner===state.teamName){
-    //     return Object.assign({}, state, {isChosen:true});
-    //   } else {
-    //     return Object.assign({}, state, {isChosen:false});
-    //   }
-    // case 'REMOVE_PREDICTION':
-    //   return Object.assign({}, state, {isChosen:false});
     default:
       return state;
   }
@@ -146,10 +131,6 @@ const singleGame = Redux.combineReducers({
 
 const singleDayGameList = (state = {}, action) => {
   switch(action.type){
-    // case 'ADD_PREDICTION':
-    //   return state.map(game => singleGame(game,action));
-    // case 'REMOVE_PREDICTION':
-    //   return state.map(game => singleGame(game,action));
     default:
       return state;
   }
@@ -161,24 +142,6 @@ const gamesByDay = (state = [
   processGames(freshData_3)
 ], action) => {
   switch(action.type) {
-
-    //*_PREDICTION actions are only passed along to the day of the prediction
-    // case 'ADD_PREDICTION':
-    //   return state.map(day => {
-    //     if(action.gameDate === day[0].gameDate){
-    //       return singleDayGameList(day, action);
-    //     } else {
-    //       return day;
-    //     }
-    //   });
-    // case 'REMOVE_PREDICTION':
-    //   return state.map(day => {
-    //     if(action.gameDate === day[0].gameDate){
-    //       return singleDayGameList(day, action);
-    //     } else {
-    //       return day;
-    //     }
-    //   });
     default:
       return state;
   }
