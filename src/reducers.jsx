@@ -31,7 +31,7 @@ const selectedDate = (state = '2016-11-01', action) => {
     default:
       return state;
   }
-}
+};
 
 const eligibleTeams = (state = eligibilityFudge, action) => {
   const update = {};
@@ -45,7 +45,7 @@ const eligibleTeams = (state = eligibilityFudge, action) => {
     default:
       return state;
   }
-}
+};
 
 const predictedWinners = (state = predictionFudge, action) => {
   switch(action.type){
@@ -65,14 +65,14 @@ const predictedWinners = (state = predictionFudge, action) => {
     default:
       return state;
   }
-}
+};
 
 const gamesByDay = (state = initGameData, action) => {
   switch(action.type) {
     default:
       return state;
   }
-}
+};
 
 const api = {
   app: Redux.combineReducers({
@@ -81,7 +81,7 @@ const api = {
     predictedWinners,
     gamesByDay
   })
-}
+};
 
 export default api;
 

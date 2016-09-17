@@ -9,6 +9,8 @@ module.exports = function (grunt) {
   //JSX paths:
   var jsxPaths = ['src/**/*.jsx'];
 
+  var esPaths = jsPaths.concat(jsxPaths);
+
   //Jade paths:
   var jadePaths = ['app_server/views/**/*.jade'];
 
@@ -25,96 +27,108 @@ module.exports = function (grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     eslint: {
-      target: jsxPaths
-    },
-    jshint: {
+      target: ['grunt-test.js'],
       options: {
-
-        //environments:
-        browser: true,
-        jquery: true,
-        devel: true,
-        node: true,
-
-        //other options:
-        bitwise: true,
-        curly: true,
-        eqeqeq: true,
-        esversion: 6,
-        forin: true,
-        globals: {
-          Modernizr: false,
-          gapi: false,
-          google: false,
-          define: false,
-          requirejs: false
-        },
-        latedef: 'nofunc',
-        nocomma: true,
-        nonbsp: true,
-        singleGroups: true,
-        undef: true,
-        unused: 'vars'
-      },
-      browser: browserPaths,
-      node: {
-        options: {
-          node: true,
-          browser: false
-        },
-        files: {
-          src: nodePaths
-        }
-      },
-    },
-    jscs: {
-      options: {
-        fix: false, // Autofix code style violations when possible.
-      },
-      autoFix: {
-        files: {
-          src: jsPaths,
-        },
-        options: {
-          fix: true,
-          requireSpaceBeforeBinaryOperators: true,
-          requireSpaceAfterBinaryOperators: true,
-          requireSpacesInAnonymousFunctionExpression: {
-            beforeOpeningRoundBrace: true,
-            beforeOpeningCurlyBrace: true
-          },
-          requireSpaceBeforeBlockStatements: true,
-          requireSpaceAfterComma: true,
-          requireSpaceBetweenArguments: true,
-          requireSpaceAfterKeywords: true,
-          requirePaddingNewLinesAfterBlocks: true,
-          requireLineFeedAtFileEnd: true,
-          disallowTrailingWhitespace: true,
-          requireSpaceBetweenArguments: true,
-          validateQuoteMarks: true,
-          requirePaddingNewLinesBeforeLineComments: true,
-          disallowSpacesInCallExpression: true,
-          disallowQuotedKeysInObjects: true,
-          requireSpacesInsideObjectBrackets: 'all',
-          disallowSpaceAfterObjectKeys: true,
-          disallowMultipleLineBreaks: true,
-          disallowSpacesInsideParentheses: true,
-          disallowSpaceBeforeComma: true,
-          disallowSpaceBeforeBinaryOperators: [','],
-          requireSpaceBeforeObjectValues: true
-        }
-      },
-      showErrors: {
-        files: {
-          src: jsPaths,
-        },
-        options: {
-          preset: 'airbnb',
-          maximumLineLength: false,
-          requireTrailingComma: false
-        }
+        configFile: '.eslintrc.json'
       }
     },
+    // jshint: {
+    //   options: {
+
+    //     //environments:
+    //     browser: true,
+    //     jquery: true,
+    //     devel: true,
+    //     node: true,
+
+    //     //other options:
+    //     bitwise: true,
+    //     curly: true,
+    //     eqeqeq: true,
+    //     esversion: 6,
+    //     forin: true,
+    //     globals: {
+    //       Modernizr: false,
+    //       gapi: false,
+    //       google: false,
+    //       define: false,
+    //       requirejs: false
+    //     },
+    //     latedef: 'nofunc',
+    //     nocomma: true,
+    //     nonbsp: true,
+    //     singleGroups: true,
+    //     undef: true,
+    //     unused: 'vars'
+    //   },
+    //   browser: browserPaths,
+    //   node: {
+    //     options: {
+    //       node: true,
+    //       browser: false
+    //     },
+    //     files: {
+    //       src: nodePaths
+    //     }
+    //   },
+    // },
+    // jscs: {
+    //     src: "path/to/files/*.js",
+    //     options: {
+    //         config: ".jscsrc",
+    //         esnext: true, // If you use ES6 http://jscs.info/overview.html#esnext
+    //         verbose: true, // If you need output with rule names http://jscs.info/overview.html#verbose
+    //         fix: true, // Autofix code style violations when possible.
+    //         requireCurlyBraces: [ "if" ]
+    //     }
+    // },
+    // jscs: {
+    //   options: {
+    //     fix: false, // Autofix code style violations when possible.
+    //   },
+    //   autoFix: {
+    //     files: {
+    //       src: jsPaths,
+    //     },
+    //     options: {
+    //       fix: true,
+    //       requireSpaceBeforeBinaryOperators: true,
+    //       requireSpaceAfterBinaryOperators: true,
+    //       requireSpacesInAnonymousFunctionExpression: {
+    //         beforeOpeningRoundBrace: true,
+    //         beforeOpeningCurlyBrace: true
+    //       },
+    //       requireSpaceBeforeBlockStatements: true,
+    //       requireSpaceAfterComma: true,
+    //       requireSpaceBetweenArguments: true,
+    //       requireSpaceAfterKeywords: true,
+    //       requirePaddingNewLinesAfterBlocks: true,
+    //       requireLineFeedAtFileEnd: true,
+    //       disallowTrailingWhitespace: true,
+    //       validateQuoteMarks: true,
+    //       requirePaddingNewLinesBeforeLineComments: true,
+    //       disallowSpacesInCallExpression: true,
+    //       disallowQuotedKeysInObjects: true,
+    //       requireSpacesInsideObjectBrackets: 'all',
+    //       disallowSpaceAfterObjectKeys: true,
+    //       disallowMultipleLineBreaks: true,
+    //       disallowSpacesInsideParentheses: true,
+    //       disallowSpaceBeforeComma: true,
+    //       disallowSpaceBeforeBinaryOperators: [','],
+    //       requireSpaceBeforeObjectValues: true
+    //     }
+    //   },
+    //   showErrors: {
+    //     files: {
+    //       src: jsPaths,
+    //     },
+    //     options: {
+    //       preset: 'airbnb',
+    //       maximumLineLength: false,
+    //       requireTrailingComma: false
+    //     }
+    //   }
+    // },
     puglint: {
       views: {
         options: {
@@ -180,4 +194,5 @@ module.exports = function (grunt) {
   grunt.registerTask('build', ['browserify:bundle']);
   grunt.registerTask('build-vendor', ['browserify:vendor']);
   grunt.registerTask('build-watch', ['browserify:watch']);
+  grunt.registerTask('eslint', ['eslint']);
 };

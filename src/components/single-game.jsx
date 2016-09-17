@@ -21,9 +21,9 @@ const api = ({gameData, predictedWinner, eligibleTeams, addPrediction, removePre
 
   return (
     <div className="col-xs-12 col-md-6">
-      <div className={"panel game-panel " + panelType}>
+      <div className={'panel game-panel ' + panelType}>
         <div className="panel-body">
-          <div className={"game-container " + (gameData.gameStatus.hasStarted ? "":"game-not-started")}>
+          <div className={'game-container ' + (gameData.gameStatus.hasStarted ? '':'game-not-started')}>
             <GameTeam gameData={gameData} teamData={gameData.roadTeam} predictedWinner={predictedWinner} eligibleTeams = {eligibleTeams} homeVsRoad={'roadTeam'} addPrediction={addPrediction} removePrediction={removePrediction}/>
             <GameStatus statusData={gameData.gameStatus}/>
             <GameTeam gameData={gameData} teamData={gameData.homeTeam} predictedWinner={predictedWinner} eligibleTeams = {eligibleTeams} homeVsRoad={'homeTeam'} addPrediction={addPrediction} removePrediction={removePrediction}/>
@@ -31,7 +31,7 @@ const api = ({gameData, predictedWinner, eligibleTeams, addPrediction, removePre
         </div>
       </div>
     </div>
-  )
+  );
 };
 
 export default api;

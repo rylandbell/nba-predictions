@@ -16,7 +16,7 @@ const api = ({reduxState, addPrediction, removePrediction}) => {
         )
       }
     </div>
-  )
+  );
 };
 
 export default api;

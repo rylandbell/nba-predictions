@@ -27,7 +27,7 @@ const api = ({statusData}) => {
       <h5 className="game-status-score">{scoreString}</h5>
       <small className="game-status-progress">{progressString}</small>
     </div>
-  )
+  );
 };
 
 export default api;

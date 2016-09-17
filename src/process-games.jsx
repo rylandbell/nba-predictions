@@ -30,7 +30,7 @@ const processSingleGame = (data, index) => {
   };
 
   return gameSummary;
-}
+};
 
 //NBA full-day of JSON => array of game objects in my format
 const api = (dataString) => {
@@ -43,6 +43,6 @@ const api = (dataString) => {
   }
   
   return gamesArray;
-}
+};
 
 export default api;

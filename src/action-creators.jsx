@@ -36,6 +36,6 @@ const api = {
       type: 'DAY_BACK'
     }
   )
-}
+};
 
 export default api;
