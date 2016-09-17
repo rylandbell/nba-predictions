@@ -1,4 +1,4 @@
-//describes team eligibility throughout the month:
+//team: is available to choose this month
 
 const api = {
   ATL: true,

@@ -1,10 +1,10 @@
 'use strict';
 
 const api = {
-  addPrediction: (gameId, predictedWinner, gameDate) => (
+  addPrediction: (gameId, teamName, gameDate) => (
     {
       type: 'ADD_PREDICTION',
-      predictedWinner: predictedWinner,
+      teamName: teamName,
       gameDate: gameDate
     }    
   ),

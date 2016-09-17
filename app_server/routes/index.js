@@ -3,7 +3,7 @@ var router = express.Router();
 var ctrlMain = require('../controllers/main');
 
 // GET
-router.get('/', ctrlMain.singleDayMockup);
-router.get('/day', ctrlMain.singleDay);
+router.get('/', ctrlMain.singleDay);
+router.get('/mock-ups', ctrlMain.pageMockups);
 
 module.exports = router;

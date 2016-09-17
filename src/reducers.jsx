@@ -1,44 +1,25 @@
-// State shape:
-
-// {
-//   selectedDate: string,
-//   eligibleTeams: {
-//     ATL: false,
-//     BOS: false,...
-//   },
-//   predictedWinners: {
-//     1: 'POR',
-//     2: 'NYK',...
-//   },
-//   gamesByDay: [
-//     singleDayGameList: [
-//       singleGame: {
-//         gameDate: string
-//         gameId: string,
-//         homeTeam: {...},
-//         roadTeam: {...},
-//         gameStatus: {...}
-//       }
-//     ]
-//   ]  
-// }
+// (State shape at bottom of file)
 
 'use strict';
 
 var Redux = require('redux');
-var ReduxThunk = require('redux-thunk').default;
 
 import processGames from './process-games.jsx';
 
 //Import dummy data:
-import oldData_9 from './data/2015-12-09.js';
-import oldData_10 from './data/2015-12-10.js';
-import oldData_11 from './data/2015-12-11.js';
+// import oldData_9 from './data/2015-12-09.js';
+// import oldData_10 from './data/2015-12-10.js';
+// import oldData_11 from './data/2015-12-11.js';
 import freshData_1 from './data/2016-11-01.js';
 import freshData_2 from './data/2016-11-02.js';
 import freshData_3 from './data/2016-11-03.js';
 import eligibilityFudge from './data/eligibility-fudge.js';
 import predictionFudge from './data/prediction-fudge.js';
+const initGameData = [
+  processGames(freshData_1),
+  processGames(freshData_2),
+  processGames(freshData_3)
+];
 
 //user-selected date:
 const selectedDate = (state = '2016-11-01', action) => {
@@ -67,80 +48,26 @@ const eligibleTeams = (state = eligibilityFudge, action) => {
 }
 
 const predictedWinners = (state = predictionFudge, action) => {
-  const date = moment(action.gameDate).format('D');
-  const team = action.predictedWinner;
-  const update = {};
   switch(action.type){
-    case 'ADD_PREDICTION':
+    case 'ADD_PREDICTION': {
+      const date = moment(action.gameDate).format('D');
+      const team = action.teamName;
+      const update = {};
       update[date] = team;
       return Object.assign({}, state, update);
-    case 'REMOVE_PREDICTION':
+    }
+    case 'REMOVE_PREDICTION': {
+      const date = moment(action.gameDate).format('D');
+      const update = {};
       update[date] = null;
       return Object.assign({}, state, update);
+    }
     default:
       return state;
   }
 }
 
-// I should probably eventually collapse all of this stuff into a single reducer for immutable game data from the server:
-//~~~~~~~~~~~BEGIN single-game data~~~~~~~~~~~
-const gameId = (state = null, action) => {
-  switch(action.type){
-    default:
-      return state;
-  }
-}
-
-const gameDate = (state = null, action) => {
-  switch(action.type){
-    default:
-      return state;
-  }
-}
-
-const homeTeam = (state = {}, action) => {
-  switch(action.type){
-    default:
-      return state;
-  }
-}
-
-const roadTeam = (state = {}, action) => {
-  switch(action.type){
-    default:
-      return state;
-  }
-}
-
-const gameStatus = (state = {}, action) => {
-  switch(action.type){
-    default:
-      return state;
-  }
-}
-
-const singleGame = Redux.combineReducers({
-  gameDate,
-  gameId,
-  homeTeam,
-  roadTeam,
-  gameStatus
-});
-
-//~~~~~~~~~~~~~~END single-game data~~~~~~~~~~~~~~~~
-
-const singleDayGameList = (state = {}, action) => {
-  switch(action.type){
-    default:
-      return state;
-  }
-}
-
-const gamesByDay = (state = [
-  processGames(freshData_1),
-  processGames(freshData_2),
-  processGames(freshData_3)
-], action) => {
+const gamesByDay = (state = initGameData, action) => {
   switch(action.type) {
     default:
       return state;
@@ -157,3 +84,16 @@ const api = {
 }
 
 export default api;
+
+// {
+//   selectedDate: string,
+//   eligibleTeams: {
+//     ATL: false,
+//     BOS: false,...
+//   },
+//   predictedWinners: {
+//     1: 'POR',
+//     2: 'NYK',...
+//   },
+//   gamesByDay: []
+// }

@@ -1,6 +1,4 @@
 var request = require('request');
-var moment = require('moment');
-var helper = require('./helper-functions.js');
 
 /* GET day of games */
 module.exports.singleDay = function (req, res, next) {
@@ -10,9 +8,9 @@ module.exports.singleDay = function (req, res, next) {
   });
 };
 
-/* Temp reference */
-module.exports.singleDayMockup = function (req, res, next) {
-  res.render('single-day-mockup', {
+/* Temp reference page */
+module.exports.pageMockups = function (req, res, next) {
+  res.render('page-mockups', {
     title: 'One Day of Games - Mockup',
     error: req.query.err
   });

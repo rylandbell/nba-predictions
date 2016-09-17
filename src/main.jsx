@@ -21,7 +21,7 @@ function render() {
     <GamesViewer
       reduxState={store.getState()} 
       addPrediction={
-        (gameId, predictedWinner, gameDate)=>{
+        (gameId, teamName, gameDate)=>{
 
           //mark previous selection for that day eligible:
           const gameDay = moment(gameDate).format('D');
@@ -29,8 +29,8 @@ function render() {
           store.dispatch(ActionCreator.markEligible(oldPrediction));
 
           //add new prediction, then mark that team ineligible for rest of month:
-          store.dispatch(ActionCreator.addPrediction(gameId, predictedWinner, gameDate));
-          store.dispatch(ActionCreator.markIneligible(predictedWinner));
+          store.dispatch(ActionCreator.addPrediction(gameId, teamName, gameDate));
+          store.dispatch(ActionCreator.markIneligible(teamName));
         }
       }
       removePrediction = {
