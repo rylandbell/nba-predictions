@@ -7,14 +7,14 @@ var Redux = require('redux');
 import processGames from './process-games.jsx';
 
 //Import dummy data:
-// import oldData_9 from './data/2015-12-09.js';
-// import oldData_10 from './data/2015-12-10.js';
-// import oldData_11 from './data/2015-12-11.js';
-import freshData_1 from './data/2016-11-01.js';
-import freshData_2 from './data/2016-11-02.js';
-import freshData_3 from './data/2016-11-03.js';
-import eligibilityFudge from './data/eligibility-fudge.js';
-import predictionFudge from './data/prediction-fudge.js';
+// import oldData_9 from './data/2015-12-09.jsx';
+// import oldData_10 from './data/2015-12-10.jsx';
+// import oldData_11 from './data/2015-12-11.jsx';
+import freshData_1 from './data/2016-11-01.jsx';
+import freshData_2 from './data/2016-11-02.jsx';
+import freshData_3 from './data/2016-11-03.jsx';
+import eligibilityFudge from './data/eligibility-fudge.jsx';
+import predictionFudge from './data/prediction-fudge.jsx';
 const initGameData = [
   processGames(freshData_1),
   processGames(freshData_2),

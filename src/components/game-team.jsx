@@ -22,7 +22,7 @@ const api = React.createClass({
     return (
       <div className="game-item game-team" onClick={this.handleClick}>
         <div className="team-container">
-          <div className={'team-item team-name '' + (clickable ? 'eligible-team' : 'ineligible-team')} >
+          <div className={'team-item team-name ' + (clickable ? 'eligible-team' : 'ineligible-team')} >
             <h4>{this.props.teamData.teamName}</h4>
           </div>
           {(this.props.teamData.teamName === this.props.predictedWinner ? <TeamMessage teamData={this.props.teamData}/> : '')}
