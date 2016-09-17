@@ -31,7 +31,7 @@ const api = {
   28: null,
   29: null,
   30: null,
-  31: null,
+  31: null
 };
 
 export default api;

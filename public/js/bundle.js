@@ -72,13 +72,9 @@
 
 	var _reducers2 = _interopRequireDefault(_reducers);
 
-	var _gamesViewer = __webpack_require__(505);
+	var _predictionsPage = __webpack_require__(505);
 
-	var _gamesViewer2 = _interopRequireDefault(_gamesViewer);
-
-	var _actionCreators = __webpack_require__(512);
-
-	var _actionCreators2 = _interopRequireDefault(_actionCreators);
+	var _predictionsPage2 = _interopRequireDefault(_predictionsPage);
 
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -89,43 +85,26 @@
 	render();
 
 	function render() {
-	  _reactDom2.default.render(_react2.default.createElement(_gamesViewer2.default, {
-	    reduxState: store.getState(),
-	    addPrediction: function addPrediction(gameId, teamName, gameDate) {
-
-	      //mark previous selection for that day eligible:
-	      var gameDay = moment(gameDate).format('D');
-	      var oldPrediction = store.getState().predictedWinners[gameDay];
-	      store.dispatch(_actionCreators2.default.markEligible(oldPrediction));
-
-	      //add new prediction, then mark that team ineligible for rest of month:
-	      store.dispatch(_actionCreators2.default.addPrediction(gameId, teamName, gameDate));
-	      store.dispatch(_actionCreators2.default.markIneligible(teamName));
-	    },
-	    removePrediction: function removePrediction(gameId, teamName, gameDate) {
-	      store.dispatch(_actionCreators2.default.removePrediction(gameId, gameDate));
-	      store.dispatch(_actionCreators2.default.markEligible(teamName));
-	    },
-	    dayForward: function dayForward() {
-	      store.dispatch(_actionCreators2.default.dayForward());
-	    },
-	    dayBack: function dayBack() {
-	      store.dispatch(_actionCreators2.default.dayBack());
-	    }
-	  }), document.getElementById('app-root'));
+	  _reactDom2.default.render(_react2.default.createElement(
+	    _reactRedux.Provider,
+	    { store: store },
+	    _react2.default.createElement(_predictionsPage2.default, { reduxState: store.getState() })
+	  ), document.getElementById('app-root'));
 	}
 
 	render();
 
-	// GamesViewer
-	//   DayPicker
-	//   SingleDayGameList
-	//     SingleGame
-	//       GameTeam (road team)
-	//         TeamMessage
-	//       GameStatus
-	//       GameTeam (home team)
-	//         TeamMessage
+	// GamePickerPage
+	//   RemainingTeamsTable
+	//   GamesViewer
+	//     DayPicker
+	//     SingleDayGameList
+	//       SingleGame
+	//         GameTeam (road team)
+	//           TeamMessage
+	//         GameStatus
+	//         GameTeam (home team)
+	//           TeamMessage
 
 /***/ },
 /* 1 */
@@ -31254,6 +31233,8 @@
 	  value: true
 	});
 
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 	var _processGames = __webpack_require__(499);
 
 	var _processGames2 = _interopRequireDefault(_processGames);
@@ -31312,10 +31293,10 @@
 	  switch (action.type) {
 	    case 'MARK_ELIGIBLE':
 	      update[action.teamName] = true;
-	      return Object.assign({}, state, update);
+	      return _extends({}, state, update);
 	    case 'MARK_INELIGIBLE':
 	      update[action.teamName] = false;
-	      return Object.assign({}, state, update);
+	      return _extends({}, state, update);
 	    default:
 	      return state;
 	  }
@@ -31332,14 +31313,14 @@
 	        var team = action.teamName;
 	        var update = {};
 	        update[date] = team;
-	        return Object.assign({}, state, update);
+	        return _extends({}, state, update);
 	      }
 	    case 'REMOVE_PREDICTION':
 	      {
 	        var _date = moment(action.gameDate).format('D');
 	        var _update = {};
 	        _update[_date] = null;
-	        return Object.assign({}, state, _update);
+	        return _extends({}, state, _update);
 	      }
 	    default:
 	      return state;
@@ -31583,27 +31564,23 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _singleDayGameList = __webpack_require__(506);
+	var _gamesViewerContainer = __webpack_require__(506);
 
-	var _singleDayGameList2 = _interopRequireDefault(_singleDayGameList);
+	var _gamesViewerContainer2 = _interopRequireDefault(_gamesViewerContainer);
 
-	var _dayPicker = __webpack_require__(511);
+	var _remainingTeamsContainer = __webpack_require__(516);
 
-	var _dayPicker2 = _interopRequireDefault(_dayPicker);
+	var _remainingTeamsContainer2 = _interopRequireDefault(_remainingTeamsContainer);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var api = function api(_ref) {
 	  var reduxState = _ref.reduxState;
-	  var addPrediction = _ref.addPrediction;
-	  var removePrediction = _ref.removePrediction;
-	  var dayForward = _ref.dayForward;
-	  var dayBack = _ref.dayBack;
 	  return _react2.default.createElement(
 	    'div',
-	    null,
-	    _react2.default.createElement(_dayPicker2.default, { reduxState: reduxState, dayForward: dayForward, dayBack: dayBack }),
-	    _react2.default.createElement(_singleDayGameList2.default, { reduxState: reduxState, addPrediction: addPrediction, removePrediction: removePrediction })
+	    { className: 'row' },
+	    _react2.default.createElement(_remainingTeamsContainer2.default, { reduxState: reduxState }),
+	    _react2.default.createElement(_gamesViewerContainer2.default, { reduxState: reduxState })
 	  );
 	};
 
@@ -31619,37 +31596,110 @@
 	  value: true
 	});
 
-	var _react = __webpack_require__(301);
+	var _reactRedux = __webpack_require__(299);
 
-	var _react2 = _interopRequireDefault(_react);
+	var _actionCreators = __webpack_require__(507);
 
-	var _singleGame = __webpack_require__(507);
+	var _actionCreators2 = _interopRequireDefault(_actionCreators);
 
-	var _singleGame2 = _interopRequireDefault(_singleGame);
+	var _gamesViewer = __webpack_require__(508);
+
+	var _gamesViewer2 = _interopRequireDefault(_gamesViewer);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var api = function api(_ref) {
-	  var reduxState = _ref.reduxState;
-	  var addPrediction = _ref.addPrediction;
-	  var removePrediction = _ref.removePrediction;
+	// const mapStateToProps = (state) => reduxState;
 
-
-	  //subtract 1 to go from day-of-month to zero-indexed array position:
-	  var dayKey = moment(reduxState.selectedDate).format('D') - 1;
-	  return _react2.default.createElement(
-	    'div',
-	    { className: 'row' },
-	    reduxState.gamesByDay[dayKey].map(function (gameData, index) {
-	      return _react2.default.createElement(_singleGame2.default, { gameData: gameData, predictedWinner: reduxState.predictedWinners[dayKey + 1], eligibleTeams: reduxState.eligibleTeams, addPrediction: addPrediction, removePrediction: removePrediction, key: index });
-	    })
-	  );
+	var mapStateToProps = function mapStateToProps(state) {
+	  return {
+	    selectedDate: state.selectedDate,
+	    predictedWinners: state.predictedWinners,
+	    eligibleTeams: state.eligibleTeams,
+	    gamesByDay: state.gamesByDay
+	  };
 	};
+
+	var mapDispatchToProps = function mapDispatchToProps(dispatch, ownProps) {
+	  return {
+	    addPrediction: function addPrediction(gameId, teamName, gameDate) {
+
+	      //mark previous selection for that day eligible:
+	      var gameDay = moment(gameDate).format('D');
+	      var oldPrediction = ownProps.reduxState.predictedWinners[gameDay];
+	      dispatch(_actionCreators2.default.markEligible(oldPrediction));
+
+	      //add new prediction, then mark that team ineligible for rest of month:
+	      dispatch(_actionCreators2.default.addPrediction(gameId, teamName, gameDate));
+	      dispatch(_actionCreators2.default.markIneligible(teamName));
+	    },
+	    removePrediction: function removePrediction(gameId, teamName, gameDate) {
+	      dispatch(_actionCreators2.default.removePrediction(gameId, gameDate));
+	      dispatch(_actionCreators2.default.markEligible(teamName));
+	    },
+	    dayForward: function dayForward() {
+	      dispatch(_actionCreators2.default.dayForward());
+	    },
+	    dayBack: function dayBack() {
+	      dispatch(_actionCreators2.default.dayBack());
+	    }
+	  };
+	};
+
+	var api = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_gamesViewer2.default);
 
 	exports.default = api;
 
 /***/ },
 /* 507 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var api = {
+	  addPrediction: function addPrediction(gameId, teamName, gameDate) {
+	    return {
+	      type: 'ADD_PREDICTION',
+	      teamName: teamName,
+	      gameDate: gameDate
+	    };
+	  },
+	  removePrediction: function removePrediction(gameId, gameDate) {
+	    return {
+	      type: 'REMOVE_PREDICTION',
+	      gameDate: gameDate
+	    };
+	  },
+	  markIneligible: function markIneligible(teamName) {
+	    return {
+	      type: 'MARK_INELIGIBLE',
+	      teamName: teamName
+	    };
+	  },
+	  markEligible: function markEligible(teamName) {
+	    return {
+	      type: 'MARK_ELIGIBLE',
+	      teamName: teamName
+	    };
+	  },
+	  dayForward: function dayForward() {
+	    return {
+	      type: 'DAY_FORWARD'
+	    };
+	  },
+	  dayBack: function dayBack() {
+	    return {
+	      type: 'DAY_BACK'
+	    };
+	  }
+	};
+
+	exports.default = api;
+
+/***/ },
+/* 508 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -31662,11 +31712,96 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _gameTeam = __webpack_require__(508);
+	var _singleDayGameList = __webpack_require__(509);
+
+	var _singleDayGameList2 = _interopRequireDefault(_singleDayGameList);
+
+	var _dayPicker = __webpack_require__(514);
+
+	var _dayPicker2 = _interopRequireDefault(_dayPicker);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var api = function api(_ref) {
+	  var selectedDate = _ref.selectedDate;
+	  var gamesByDay = _ref.gamesByDay;
+	  var eligibleTeams = _ref.eligibleTeams;
+	  var predictedWinners = _ref.predictedWinners;
+	  var addPrediction = _ref.addPrediction;
+	  var removePrediction = _ref.removePrediction;
+	  var dayForward = _ref.dayForward;
+	  var dayBack = _ref.dayBack;
+	  return _react2.default.createElement(
+	    'div',
+	    { className: 'col-xs-9 col-sm-8 col-md-9 col-sm-offset-1 col-md-offset-1' },
+	    _react2.default.createElement(_dayPicker2.default, { selectedDate: selectedDate, dayForward: dayForward, dayBack: dayBack }),
+	    _react2.default.createElement(_singleDayGameList2.default, { gamesByDay: gamesByDay, eligibleTeams: eligibleTeams, predictedWinners: predictedWinners, selectedDate: selectedDate, addPrediction: addPrediction, removePrediction: removePrediction })
+	  );
+	};
+
+	exports.default = api;
+
+/***/ },
+/* 509 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(301);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _singleGame = __webpack_require__(510);
+
+	var _singleGame2 = _interopRequireDefault(_singleGame);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var api = function api(_ref) {
+	  var selectedDate = _ref.selectedDate;
+	  var gamesByDay = _ref.gamesByDay;
+	  var predictedWinners = _ref.predictedWinners;
+	  var eligibleTeams = _ref.eligibleTeams;
+	  var addPrediction = _ref.addPrediction;
+	  var removePrediction = _ref.removePrediction;
+
+
+	  //subtract 1 to go from day-of-month to zero-indexed array position:
+	  var dayKey = moment(selectedDate).format('D') - 1;
+	  return _react2.default.createElement(
+	    'div',
+	    { className: 'row' },
+	    gamesByDay[dayKey].map(function (gameData, index) {
+	      return _react2.default.createElement(_singleGame2.default, { gameData: gameData, predictedWinner: predictedWinners[dayKey + 1], eligibleTeams: eligibleTeams, addPrediction: addPrediction, removePrediction: removePrediction, key: index });
+	    })
+	  );
+	};
+
+	exports.default = api;
+
+/***/ },
+/* 510 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(301);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _gameTeam = __webpack_require__(511);
 
 	var _gameTeam2 = _interopRequireDefault(_gameTeam);
 
-	var _gameStatus = __webpack_require__(510);
+	var _gameStatus = __webpack_require__(513);
 
 	var _gameStatus2 = _interopRequireDefault(_gameStatus);
 
@@ -31716,7 +31851,7 @@
 	exports.default = api;
 
 /***/ },
-/* 508 */
+/* 511 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -31729,7 +31864,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _teamMessage = __webpack_require__(509);
+	var _teamMessage = __webpack_require__(512);
 
 	var _teamMessage2 = _interopRequireDefault(_teamMessage);
 
@@ -31776,7 +31911,7 @@
 	exports.default = api;
 
 /***/ },
-/* 509 */
+/* 512 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -31818,7 +31953,7 @@
 	exports.default = api;
 
 /***/ },
-/* 510 */
+/* 513 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -31874,7 +32009,7 @@
 	exports.default = api;
 
 /***/ },
-/* 511 */
+/* 514 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -31890,7 +32025,7 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var api = function api(_ref) {
-	  var reduxState = _ref.reduxState;
+	  var selectedDate = _ref.selectedDate;
 	  var dayForward = _ref.dayForward;
 	  var dayBack = _ref.dayBack;
 	  return _react2.default.createElement(
@@ -31906,7 +32041,7 @@
 	        _react2.default.createElement(
 	          'h3',
 	          null,
-	          moment(reduxState.selectedDate).format('MMMM D, YYYY')
+	          moment(selectedDate).format('MMMM D, YYYY')
 	        )
 	      ),
 	      _react2.default.createElement('span', { onClick: dayForward, className: 'day-picker-item glyphicon glyphicon-menu-right' })
@@ -31917,51 +32052,240 @@
 	exports.default = api;
 
 /***/ },
-/* 512 */
-/***/ function(module, exports) {
+/* 515 */
+/***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	var api = {
-	  addPrediction: function addPrediction(gameId, teamName, gameDate) {
-	    return {
-	      type: 'ADD_PREDICTION',
-	      teamName: teamName,
-	      gameDate: gameDate
-	    };
-	  },
-	  removePrediction: function removePrediction(gameId, gameDate) {
-	    return {
-	      type: 'REMOVE_PREDICTION',
-	      gameDate: gameDate
-	    };
-	  },
-	  markIneligible: function markIneligible(teamName) {
-	    return {
-	      type: 'MARK_INELIGIBLE',
-	      teamName: teamName
-	    };
-	  },
-	  markEligible: function markEligible(teamName) {
-	    return {
-	      type: 'MARK_ELIGIBLE',
-	      teamName: teamName
-	    };
-	  },
-	  dayForward: function dayForward() {
-	    return {
-	      type: 'DAY_FORWARD'
-	    };
-	  },
-	  dayBack: function dayBack() {
-	    return {
-	      type: 'DAY_BACK'
-	    };
-	  }
+
+	var _react = __webpack_require__(301);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var api = function api() {
+	  return _react2.default.createElement(
+	    'div',
+	    { className: 'col-xs-3 col-sm-3 col-md-2' },
+	    _react2.default.createElement(
+	      'div',
+	      { className: 'text-center lead' },
+	      'Remaining Teams'
+	    ),
+	    _react2.default.createElement('hr', null),
+	    _react2.default.createElement(
+	      'table',
+	      { className: 'remaining-teams-table table table-condensed' },
+	      _react2.default.createElement(
+	        'tbody',
+	        null,
+	        _react2.default.createElement(
+	          'tr',
+	          null,
+	          _react2.default.createElement(
+	            'td',
+	            null,
+	            'Atlanta'
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'tr',
+	          null,
+	          _react2.default.createElement(
+	            'td',
+	            null,
+	            'Boston'
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'tr',
+	          null,
+	          _react2.default.createElement(
+	            'td',
+	            null,
+	            'LA Lakers'
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'tr',
+	          null,
+	          _react2.default.createElement(
+	            'td',
+	            null,
+	            'Chicago'
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'tr',
+	          null,
+	          _react2.default.createElement(
+	            'td',
+	            null,
+	            'Oklahoma City'
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'tr',
+	          null,
+	          _react2.default.createElement(
+	            'td',
+	            null,
+	            'ATL'
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'tr',
+	          null,
+	          _react2.default.createElement(
+	            'td',
+	            null,
+	            'BOS'
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'tr',
+	          null,
+	          _react2.default.createElement(
+	            'td',
+	            null,
+	            'CHA'
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'tr',
+	          null,
+	          _react2.default.createElement(
+	            'td',
+	            null,
+	            'CHI'
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'tr',
+	          null,
+	          _react2.default.createElement(
+	            'td',
+	            null,
+	            'DET'
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'tr',
+	          null,
+	          _react2.default.createElement(
+	            'td',
+	            null,
+	            'ATL'
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'tr',
+	          null,
+	          _react2.default.createElement(
+	            'td',
+	            null,
+	            'BOS'
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'tr',
+	          null,
+	          _react2.default.createElement(
+	            'td',
+	            null,
+	            'CHA'
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'tr',
+	          null,
+	          _react2.default.createElement(
+	            'td',
+	            null,
+	            'CHI'
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'tr',
+	          null,
+	          _react2.default.createElement(
+	            'td',
+	            null,
+	            'DET'
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'tr',
+	          null,
+	          _react2.default.createElement(
+	            'td',
+	            null,
+	            'ATL'
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'tr',
+	          null,
+	          _react2.default.createElement(
+	            'td',
+	            null,
+	            'BOS'
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'tr',
+	          null,
+	          _react2.default.createElement(
+	            'td',
+	            null,
+	            'CHA'
+	          )
+	        )
+	      )
+	    )
+	  );
 	};
+
+	exports.default = api;
+
+/***/ },
+/* 516 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _reactRedux = __webpack_require__(299);
+
+	var _remainingTeamsTable = __webpack_require__(515);
+
+	var _remainingTeamsTable2 = _interopRequireDefault(_remainingTeamsTable);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var mapStateToProps = function mapStateToProps(reduxState) {
+	  return reduxState;
+	};
+
+	// import ActionCreator from '../../action-creators.jsx';
+
+
+	var mapDispatchToProps = function mapDispatchToProps(dispatch, ownProps) {
+	  return {
+	    dummy: function dummy() {
+	      ownProps;
+	    }
+	  };
+	};
+
+	var api = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_remainingTeamsTable2.default);
 
 	exports.default = api;
 

@@ -28,7 +28,7 @@ const api = {
   ),
   dayForward: () => (
     {
-      type: 'DAY_FORWARD',
+      type: 'DAY_FORWARD'
     }
   ),
   dayBack: () => (

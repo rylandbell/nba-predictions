@@ -15,10 +15,20 @@ module.exports = {
     publicPath: '/',
     filename: 'bundle.js'
   },
-  devServer: {
-    contentBase: PATHS.dist
+  // devServer: {
+  //   contentBase: PATHS.dist
+  // },
+  eslint: {
+    emitWarning: true
   },
   module: {
+    preLoaders: [
+      {
+        test: /\.js?x$/,
+        loaders: ["eslint-loader"],
+        exclude: /node_modules/
+      }
+    ],
     loaders: [
       // {
       //   test: /\.html$/,
