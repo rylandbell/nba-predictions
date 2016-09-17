@@ -98,7 +98,7 @@ var api = function api(_ref) {
         _react2.default.createElement(
           'h3',
           null,
-          moment(reduxState.selectedDate).format('MMMM Do, YYYY')
+          moment(reduxState.selectedDate).format('MMMM D, YYYY')
         )
       ),
       _react2.default.createElement('span', { onClick: dayForward, className: 'day-picker-item glyphicon glyphicon-menu-right' })
@@ -334,7 +334,7 @@ var api = function api(_ref) {
 
   return _react2.default.createElement(
     'div',
-    { className: 'col-xs-12 col-sm-6 col-md-4' },
+    { className: 'col-xs-12 col-md-6' },
     _react2.default.createElement(
       'div',
       { className: "panel game-panel " + panelType },

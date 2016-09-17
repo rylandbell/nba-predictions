@@ -44,6 +44,10 @@
   text-decoration: line-through;
 }
 
+.panel-primary {
+  box-shadow: 0 0 0.4em 0.15em #2A9FD6;
+}
+
 .game-container.game-not-started .team-name.eligible-team:hover {
   background-color: #2A9FD6;
   cursor: pointer;
@@ -52,4 +56,8 @@
 .game-panel {
   border-width: 3px;
   border-radius: 10px;
+}
+
+.fixed-row {
+  // position: fixed;
 }

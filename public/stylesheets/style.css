@@ -1,28 +1,87 @@
 @import 'single-game.css';
 @import 'day-picker.css';
 
+body {
+  padding-top: 20px;
+}
+
 /*layout*/
-html, body, .full-height {
-	height: 100%;
+// html, body, .full-height {
+// 	height: 100%;
+// }
+
+// .body-block {
+// 	padding-top: 10px;
+// }
+
+// .container-body, .container-navbar {
+// 	width: 100%;
+// 	max-width: 1300px;
+// }
+
+// .container-body {
+// 	min-height: 79vh;
+// }
+
+// .logo {
+// 	width: 70px;
+// }
+
+// .panel-body {
+// 	padding: 10px;
+// }
+
+/*~~~~~~~~~~~~~~~~~~~~~~*/
+
+.horiz-teams-table .selected {
+  // border: 1px solid #2A9FD6;
+  box-shadow: 0 0 0.2em 0.2em #2A9FD6 inset;
 }
 
-.body-block {
-	padding-top: 10px;
+.horiz-teams-table .player-win {
+  // border: 1px solid #77B300;
+  box-shadow: 0 0 0.2em 0.2em #77B300 inset;
 }
 
-.container-body, .container-navbar {
-	width: 100%;
-	max-width: 1300px;
+.horiz-teams-table .player-loss {
+  // border: 1px solid #77B300;
+  box-shadow: 0 0 0.3em 0.2em #CC0000 inset;
 }
 
-.container-body {
-	min-height: 79vh;
+.horiz-teams-table {
+  border-spacing: 5px;
 }
 
-.logo {
-	width: 70px;
+.horiz-teams-table * {
+  text-align: center;
 }
 
-.panel-body {
-	padding: 10px;
+.gap {
+  background-color: #060606;
+}
+
+/*~~~~~~~~~~~~~~~~*/
+
+.vert-teams-table * {
+  text-align: center;
+}
+
+.vert-teams-table .selected {
+  // border: 1px solid #2A9FD6;
+  box-shadow: 0 0 0.2em 0.2em #2A9FD6 inset;
+}
+
+.vert-teams-table .player-win {
+  // border: 1px solid #77B300;
+  box-shadow: 0 0 0.2em 0.2em #77B300 inset;
+}
+
+.vert-teams-table .player-loss {
+  // border: 1px solid #77B300;
+  box-shadow: 0 0 0.3em 0.2em #CC0000 inset;
+}
+
+/*~~~~~~~~~~~~~~~*/
+.remaining-teams-table * {
+  text-align: center;
 }

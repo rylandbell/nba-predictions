@@ -1,7 +1,253 @@
 extends ./layouts/layout.jade
 
-block content
-  #app-root
+block content  
+  .row
+    .col-xs-3.col-sm-3.col-md-2
+      .text-center.lead Remaining Teams
+      hr
+      table.remaining-teams-table.table.table-condensed.table-bordered
+        tbody
+          tr
+            td Atlanta
+          tr
+            td Boston
+          tr
+            td LA Lakers
+          tr
+            td Chicago
+          tr
+            td Oklahoma City
+          tr
+            td ATL
+          tr
+            td BOS
+          tr
+            td CHA
+          tr
+            td CHI
+          tr
+            td DET
+          tr
+            td ATL
+          tr
+            td BOS
+          tr
+            td CHA
+          tr
+            td CHI
+          tr
+            td DET
+          tr
+            td ATL
+          tr
+            td BOS
+          tr
+            td CHA
+    .col-xs-9.col-sm-8.col-sm-offset-1.col-md-9.col-md-offset-1
+      #app-root
+  br
+  br
+  br
+  br
+  br
+  br
+  br
+  .row.fixed-row.hidden-xs.hidden-sm
+    .col-xs-12
+      table.table.table-condensed.horiz-teams-table
+        tbody
+          tr
+            td
+            td ATL
+            td BKN
+            td BOS
+            td CHA
+            td CHI
+            td CLE
+            td DET
+            td IND
+            td MIA
+            td MIL
+            td NYK
+            td ORL
+            td PHI
+            td TOR
+            th WAS
+          tr
+            td Date
+            td
+            td
+            td.player-win 2
+            td.selected 4
+            td.selected 5
+            td
+            td
+            td
+            td
+            td.player-win 3
+            td
+            td
+            td
+            td
+            td
+          tr.gap
+            td
+            td
+            td
+            td
+            td
+            td
+            td
+            td
+            td
+            td
+            td
+            td
+            td
+            td
+            td
+            td
+          tr
+            td 
+            td DAL
+            td DEN
+            td GSW
+            td HOU
+            td LAC
+            td LAL
+            td MEM
+            td MIN
+            td NOP
+            td OKC
+            td PHX
+            td POR
+            td SAC
+            td SAS
+            td UTA
+          tr
+            td Date
+            td
+            td
+            td
+            td.player-loss 1
+            td
+            td
+            td
+            td
+            td
+            td
+            td
+            td
+            td
+            td
+            td     
+  .row
+    .col-xs-12.col-sm-2
+      h6.text-center Western Conference
+      table.vert-teams-table.table.table-condensed
+        thead
+          tr
+            th Team
+            th Date
+        tbody
+          tr.selected
+            td ATL
+            td Nov 12
+          tr
+            td BOS
+            td -
+          tr
+            td CHA
+            td -
+          tr
+            td ATL
+            td -
+          tr
+            td BOS
+            td -
+          tr.selected
+            td CHA
+            td Nov 1
+          tr.selected
+            td ATL
+            td Nov 2
+          tr
+            td BOS
+            td -
+          tr
+            td CHA
+            td -
+          tr
+            td ATL
+            td -
+          tr
+            td BOS
+            td -
+          tr
+            td CHA
+            td -
+          tr
+            td ATL
+            td -
+          tr
+            td BOS
+            td -
+          tr
+            td CHA
+            td -
+    .col-xs-12.col-sm-2
+      h6.text-center Eastern Conference
+      table.vert-teams-table.table.table-condensed
+        thead
+          tr
+            th Team
+            th Date
+        tbody
+          tr
+            td ATL
+            td -
+          tr
+            td BOS
+            td -
+          tr
+            td CHA
+            td -
+          tr
+            td ATL
+            td -
+          tr
+            td BOS
+            td -
+          tr
+            td CHA
+            td -
+          tr
+            td ATL
+            td -
+          tr
+            td BOS
+            td -
+          tr.player-win
+            td CHA
+            td Nov 5
+          tr
+            td ATL
+            td
+          tr.player-loss
+            td BOS
+            td Nov 4
+          tr
+            td CHA
+            td -
+          tr
+            td ATL
+            td -
+          tr
+            td BOS
+            td -
+          tr
+            td CHA
+            td -
 
 block scripts
   script(src='/javascripts/vendor.js')
