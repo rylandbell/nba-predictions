@@ -28,6 +28,7 @@ render();
 
 // GamePickerPage
 //   RemainingTeamsTable
+//     RemainingTeamRow
 //   GamesViewer
 //     DayPicker
 //     SingleDayGameList

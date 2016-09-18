@@ -96,6 +96,7 @@
 
 	// GamePickerPage
 	//   RemainingTeamsTable
+	//     RemainingTeamRow
 	//   GamesViewer
 	//     DayPicker
 	//     SingleDayGameList
@@ -32065,9 +32066,16 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
+	var _remainingTeamRow = __webpack_require__(517);
+
+	var _remainingTeamRow2 = _interopRequireDefault(_remainingTeamRow);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var api = function api() {
+	var api = function api(_ref) {
+	  var eligibleTeams = _ref.eligibleTeams;
+
+
 	  return _react2.default.createElement(
 	    'div',
 	    { className: 'col-xs-3 col-sm-3 col-md-2' },
@@ -32083,168 +32091,11 @@
 	      _react2.default.createElement(
 	        'tbody',
 	        null,
-	        _react2.default.createElement(
-	          'tr',
-	          null,
-	          _react2.default.createElement(
-	            'td',
-	            null,
-	            'Atlanta'
-	          )
-	        ),
-	        _react2.default.createElement(
-	          'tr',
-	          null,
-	          _react2.default.createElement(
-	            'td',
-	            null,
-	            'Boston'
-	          )
-	        ),
-	        _react2.default.createElement(
-	          'tr',
-	          null,
-	          _react2.default.createElement(
-	            'td',
-	            null,
-	            'LA Lakers'
-	          )
-	        ),
-	        _react2.default.createElement(
-	          'tr',
-	          null,
-	          _react2.default.createElement(
-	            'td',
-	            null,
-	            'Chicago'
-	          )
-	        ),
-	        _react2.default.createElement(
-	          'tr',
-	          null,
-	          _react2.default.createElement(
-	            'td',
-	            null,
-	            'Oklahoma City'
-	          )
-	        ),
-	        _react2.default.createElement(
-	          'tr',
-	          null,
-	          _react2.default.createElement(
-	            'td',
-	            null,
-	            'ATL'
-	          )
-	        ),
-	        _react2.default.createElement(
-	          'tr',
-	          null,
-	          _react2.default.createElement(
-	            'td',
-	            null,
-	            'BOS'
-	          )
-	        ),
-	        _react2.default.createElement(
-	          'tr',
-	          null,
-	          _react2.default.createElement(
-	            'td',
-	            null,
-	            'CHA'
-	          )
-	        ),
-	        _react2.default.createElement(
-	          'tr',
-	          null,
-	          _react2.default.createElement(
-	            'td',
-	            null,
-	            'CHI'
-	          )
-	        ),
-	        _react2.default.createElement(
-	          'tr',
-	          null,
-	          _react2.default.createElement(
-	            'td',
-	            null,
-	            'DET'
-	          )
-	        ),
-	        _react2.default.createElement(
-	          'tr',
-	          null,
-	          _react2.default.createElement(
-	            'td',
-	            null,
-	            'ATL'
-	          )
-	        ),
-	        _react2.default.createElement(
-	          'tr',
-	          null,
-	          _react2.default.createElement(
-	            'td',
-	            null,
-	            'BOS'
-	          )
-	        ),
-	        _react2.default.createElement(
-	          'tr',
-	          null,
-	          _react2.default.createElement(
-	            'td',
-	            null,
-	            'CHA'
-	          )
-	        ),
-	        _react2.default.createElement(
-	          'tr',
-	          null,
-	          _react2.default.createElement(
-	            'td',
-	            null,
-	            'CHI'
-	          )
-	        ),
-	        _react2.default.createElement(
-	          'tr',
-	          null,
-	          _react2.default.createElement(
-	            'td',
-	            null,
-	            'DET'
-	          )
-	        ),
-	        _react2.default.createElement(
-	          'tr',
-	          null,
-	          _react2.default.createElement(
-	            'td',
-	            null,
-	            'ATL'
-	          )
-	        ),
-	        _react2.default.createElement(
-	          'tr',
-	          null,
-	          _react2.default.createElement(
-	            'td',
-	            null,
-	            'BOS'
-	          )
-	        ),
-	        _react2.default.createElement(
-	          'tr',
-	          null,
-	          _react2.default.createElement(
-	            'td',
-	            null,
-	            'CHA'
-	          )
-	        )
+	        Object.keys(eligibleTeams).filter(function (team) {
+	          return eligibleTeams[team];
+	        }).map(function (team, index) {
+	          return _react2.default.createElement(_remainingTeamRow2.default, { teamName: team, key: index });
+	        })
 	      )
 	    )
 	  );
@@ -32270,8 +32121,10 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var mapStateToProps = function mapStateToProps(reduxState) {
-	  return reduxState;
+	var mapStateToProps = function mapStateToProps(state) {
+	  return {
+	    eligibleTeams: state.eligibleTeams
+	  };
 	};
 
 	// import ActionCreator from '../../action-creators.jsx';
@@ -32286,6 +32139,37 @@
 	};
 
 	var api = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_remainingTeamsTable2.default);
+
+	exports.default = api;
+
+/***/ },
+/* 517 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(301);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var api = function api(_ref) {
+	  var teamName = _ref.teamName;
+	  return _react2.default.createElement(
+	    'tr',
+	    null,
+	    _react2.default.createElement(
+	      'td',
+	      null,
+	      teamName
+	    )
+	  );
+	};
 
 	exports.default = api;
 

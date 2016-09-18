@@ -5,7 +5,9 @@ import { connect } from 'react-redux';
 // import ActionCreator from '../../action-creators.jsx';
 import RemainingTeamsTable from '../remaining-teams-table/remaining-teams-table.jsx'; 
 
-const mapStateToProps = (reduxState) => reduxState;
+const mapStateToProps = (state) => ({
+  eligibleTeams: state.eligibleTeams
+});
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   dummy: () => {
