@@ -7,10 +7,10 @@ const api = ({teamData}) => {
   var statusClass;
 
   if(teamData.isWinner){
-    message = 'Win!';
+    message = 'Victory!';
     statusClass = 'text-success';
   } else if (teamData.isLoser) {
-    message = 'Loss!';
+    message = 'Defeat!';
     statusClass = 'text-danger';
   } else {
     message = 'Selected';

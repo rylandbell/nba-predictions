@@ -37,7 +37,9 @@ const eligibleTeams = (state = eligibilityFudge, action) => {
   const update = {};
   switch(action.type){
     case 'MARK_ELIGIBLE':
-      update[action.teamName] = true;
+      if(action.teamName) {
+        update[action.teamName] = true;
+      }
       return Object.assign({}, state, update);
     case 'MARK_INELIGIBLE':
       update[action.teamName] = false;
