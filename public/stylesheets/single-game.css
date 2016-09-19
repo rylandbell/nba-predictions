@@ -65,3 +65,45 @@
   border-width: 3px;
   border-radius: 10px;
 }
+
+.mockups .logo {
+  max-width: 70px;
+  max-height: 40px;
+}
+
+.mockups .team-name {
+  padding-bottom: 15px;
+}
+
+.mockups .selected-team {
+  box-shadow: 0 0 0.4em 0.15em #2A9FD6;
+  border: 3px solid #2A9FD6;
+}
+
+.mockups .victory-team {
+  box-shadow: 0 0 0.4em 0.15em #77B300;
+  border: 3px solid #77B300;
+}
+
+.mockups .defeat-team {
+  box-shadow: 0 0 0.4em 0.15em #CC0000;
+  border: 3px solid #CC0000;
+}
+
+.mockups .ineligible-team .logo {
+  -webkit-filter: grayscale(100%);
+  filter: grayscale(80%);
+}
+
+/*
+.team-item.text-primary {
+  position: absolute;
+  bottom: 46px;
+  left: 44px;
+  background-color: rgba(0,0,0,0.5);
+  padding-left: 10px;
+  padding-right: 10px;
+  border-radius: 3px;
+  font-weight: bold;
+}
+*/

@@ -1,288 +1,315 @@
 extends ./layouts/layout.jade
 
 block content
-  .row
-    .col-xs-12.col-sm-6.col-md-4
-      p Upcoming game, no selections made:
-      .panel.panel-default.game-panel
-        .panel-body
-          .game-container.game-not-started
-            .game-item.game-team
-              .team-container
-                .team-item.team-name.eligible-team
-                  h4 POR
-            .game-item.game-status
-              h5 10:00 pm ET
-            .game-item.game-team
-              .team-container
-                .team-item.team-name.eligible-team
-                  h4 UTA
-    .col-xs-12.col-sm-6.col-md-4
-      p Upcoming game, no selections made, Portland ineligible:
-      .panel.panel-default.game-panel
-        .panel-body
-          .game-container.game-not-started
-            .game-item.game-team
-              .team-container
-                .team-item.team-name.ineligible-team
-                  h4 POR
-            .game-item.game-status
-              h5 10:00 pm ET
-            .game-item.game-team
-              .team-container
-                .team-item.team-name.eligible-team
-                  h4 UTA
-    .col-xs-12.col-sm-6.col-md-4
-      p Upcoming game, user has chosen Portland:
-      .panel.panel-primary.game-panel
-        .panel-body
-          .game-container.game-not-started
-            .game-item.game-team
-              .team-container
-                .team-item.team-name.eligible-team
-                  h4 POR
-                .text-primary.team-item Selected
-            .game-item.game-status
-              h5 10:00 pm ET
-            .game-item.game-team
-              .team-container
-                .team-item.team-name.eligible-team
-                  h4 UTA
-  .row
-    .col-xs-12.col-sm-6.col-md-4
-      p Finished game, no selections made:
-      .panel.panel-default.game-panel
-        .panel-body
-          .game-container
-            .game-item.game-team
-              h4 POR
-            .game-item.game-status
-              h5 97-90
-            .game-item.game-team
-              h4 UTA
-    .col-xs-12.col-sm-6.col-md-4
-      p Finished game, user correctly chose Portland:
-      .panel.panel-success.game-panel
-        .panel-body
-          .game-container
-            .game-item.game-team
-              h4 POR
-              .text-success Victory!
-            .game-item.game-status
-              h5 97-90
-            .game-item.game-team
-              h4 UTA
-    .col-xs-12.col-sm-6.col-md-4
-      p Finished game, user incorrectly chose Portland:
-      .panel.panel-danger.game-panel
-        .panel-body
-          .game-container
-            .game-item.game-team
-              h4 POR
-              .text-danger Defeat!
-            .game-item.game-status
-              h5 97-90
-            .game-item.game-team
-              h4 UTA
-  br
-  hr
-  br
-  .row.fixed-row.hidden-xs.hidden-sm
-    .col-xs-12
-      table.table.table-condensed.horiz-teams-table
-        tbody
-          tr
-            td
-            td ATL
-            td BKN
-            td BOS
-            td CHA
-            td CHI
-            td CLE
-            td DET
-            td IND
-            td MIA
-            td MIL
-            td NYK
-            td ORL
-            td PHI
-            td TOR
-            th WAS
-          tr
-            td Date
-            td
-            td
-            td.player-win 2
-            td.selected 4
-            td.selected 5
-            td
-            td
-            td
-            td
-            td.player-win 3
-            td
-            td
-            td
-            td
-            td
-          tr.gap
-            td
-            td
-            td
-            td
-            td
-            td
-            td
-            td
-            td
-            td
-            td
-            td
-            td
-            td
-            td
-            td
-          tr
-            td 
-            td DAL
-            td DEN
-            td GSW
-            td HOU
-            td LAC
-            td LAL
-            td MEM
-            td MIN
-            td NOP
-            td OKC
-            td PHX
-            td POR
-            td SAC
-            td SAS
-            td UTA
-          tr
-            td Date
-            td
-            td
-            td
-            td.player-loss 1
-            td
-            td
-            td
-            td
-            td
-            td
-            td
-            td
-            td
-            td
-            td   
-  br
-  hr
-  br  
-  .row
-    .col-xs-12.col-sm-2
-      h6.text-center Western Conference
-      table.vert-teams-table.table.table-condensed
-        thead
-          tr
-            th Team
-            th Date
-        tbody
-          tr.selected
-            td ATL
-            td Nov 12
-          tr
-            td BOS
-            td -
-          tr
-            td CHA
-            td -
-          tr
-            td ATL
-            td -
-          tr
-            td BOS
-            td -
-          tr.selected
-            td CHA
-            td Nov 1
-          tr.selected
-            td ATL
-            td Nov 2
-          tr
-            td BOS
-            td -
-          tr
-            td CHA
-            td -
-          tr
-            td ATL
-            td -
-          tr
-            td BOS
-            td -
-          tr
-            td CHA
-            td -
-          tr
-            td ATL
-            td -
-          tr
-            td BOS
-            td -
-          tr
-            td CHA
-            td -
-    .col-xs-12.col-sm-2
-      h6.text-center Eastern Conference
-      table.vert-teams-table.table.table-condensed
-        thead
-          tr
-            th Team
-            th Date
-        tbody
-          tr
-            td ATL
-            td -
-          tr
-            td BOS
-            td -
-          tr
-            td CHA
-            td -
-          tr
-            td ATL
-            td -
-          tr
-            td BOS
-            td -
-          tr
-            td CHA
-            td -
-          tr
-            td ATL
-            td -
-          tr
-            td BOS
-            td -
-          tr.player-win
-            td CHA
-            td Nov 5
-          tr
-            td ATL
-            td
-          tr.player-loss
-            td BOS
-            td Nov 4
-          tr
-            td CHA
-            td -
-          tr
-            td ATL
-            td -
-          tr
-            td BOS
-            td -
-          tr
-            td CHA
-            td -
+  .mockups
+    .row
+      .col-xs-12.col-sm-6.col-md-4
+        p Upcoming game, no selections made:
+        .panel.panel-default.game-panel
+          .panel-body
+            .game-container.game-not-started
+              .game-item.game-team
+                .team-container
+                  .team-item.team-name.eligible-team
+                    h4 POR
+                    img(src='/images/logos/por.png').logo
+              .game-item.game-status
+                h5 10:00 pm ET
+              .game-item.game-team
+                .team-container
+                  .team-item.team-name.eligible-team
+                    h4 UTA
+                    img(src='/images/logos/uta.png').logo
+      .col-xs-12.col-sm-6.col-md-4
+        p Upcoming game, no selections made, Portland ineligible:
+        .panel.panel-default.game-panel
+          .panel-body
+            .game-container.game-not-started
+              .game-item.game-team
+                .team-container
+                  .team-item.team-name.ineligible-team
+                    h4 POR
+                    img(src='/images/logos/por.png').logo
+              .game-item.game-status
+                h5 10:00 pm ET
+              .game-item.game-team
+                .team-container
+                  .team-item.team-name.eligible-team
+                    h4 UTA
+                    img(src='/images/logos/uta.png').logo
+      .col-xs-12.col-sm-6.col-md-4
+        p Upcoming game, user has chosen Portland:
+        .panel.game-panel
+          .panel-body
+            .game-container.game-not-started
+              .game-item.game-team
+                .team-container
+                  .team-item.team-name.eligible-team.selected-team
+                    h4 POR
+                    img(src='/images/logos/por.png').logo
+                  //- .text-primary.team-item Selected
+              .game-item.game-status
+                h5 10:00 pm ET
+              .game-item.game-team
+                .team-container
+                  .team-item.team-name.eligible-team
+                    h4 UTA
+                    img(src='/images/logos/uta.png').logo
+    .row
+      .col-xs-12.col-sm-6.col-md-4
+        p Finished game, no selections made:
+        .panel.panel-default.game-panel
+          .panel-body
+            .game-container
+              .game-item.game-team
+                .team-container
+                  .team-item.team-name.eligible-team
+                    h4 POR
+                    img(src='/images/logos/por.png').logo
+              .game-item.game-status
+                h5 97-90
+              .game-item.game-team
+                .team-container
+                  .team-item.team-name.eligible-team
+                    h4 UTA
+                    img(src='/images/logos/uta.png').logo
+      .col-xs-12.col-sm-6.col-md-4
+        p Finished game, user correctly chose Portland:
+        .panel.game-panel
+          .panel-body
+            .game-container
+              .game-item.game-team
+                .team-container
+                  .team-item.team-name.eligible-team.victory-team
+                    h4 POR
+                    img(src='/images/logos/por.png').logo
+                //- .text-success Victory!
+              .game-item.game-status
+                h5 97-90
+                .text-success Victory!
+              .game-item.game-team
+                .team-container
+                  .team-item.team-name.eligible-team
+                    h4 UTA
+                    img(src='/images/logos/uta.png').logo
+      .col-xs-12.col-sm-6.col-md-4
+        p Finished game, user incorrectly chose Portland:
+        .panel.game-panel
+          .panel-body
+            .game-container
+              .game-item.game-team
+                .team-container
+                  .team-item.team-name.eligible-team.defeat-team
+                    h4 POR
+                    img(src='/images/logos/por.png').logo
+                //- .text-danger Defeat!
+              .game-item.game-status
+                h5 97-90
+                .text-danger Defeat!
+              .game-item.game-team
+                .team-container
+                  .team-item.team-name.eligible-team
+                    h4 UTA
+                    img(src='/images/logos/uta.png').logo
+    br
+    hr
+    br
+    .row.fixed-row.hidden-xs.hidden-sm
+      .col-xs-12
+        table.table.table-condensed.horiz-teams-table
+          tbody
+            tr
+              td
+              td ATL
+              td BKN
+              td BOS
+              td CHA
+              td CHI
+              td CLE
+              td DET
+              td IND
+              td MIA
+              td MIL
+              td NYK
+              td ORL
+              td PHI
+              td TOR
+              th WAS
+            tr
+              td Date
+              td
+              td
+              td.player-win 2
+              td.selected 4
+              td.selected 5
+              td
+              td
+              td
+              td
+              td.player-win 3
+              td
+              td
+              td
+              td
+              td
+            tr.gap
+              td
+              td
+              td
+              td
+              td
+              td
+              td
+              td
+              td
+              td
+              td
+              td
+              td
+              td
+              td
+              td
+            tr
+              td 
+              td DAL
+              td DEN
+              td GSW
+              td HOU
+              td LAC
+              td LAL
+              td MEM
+              td MIN
+              td NOP
+              td OKC
+              td PHX
+              td POR
+              td SAC
+              td SAS
+              td UTA
+            tr
+              td Date
+              td
+              td
+              td
+              td.player-loss 1
+              td
+              td
+              td
+              td
+              td
+              td
+              td
+              td
+              td
+              td
+              td   
+    br
+    hr
+    br  
+    .row
+      .col-xs-12.col-sm-2
+        h6.text-center Western Conference
+        table.vert-teams-table.table.table-condensed
+          thead
+            tr
+              th Team
+              th Date
+          tbody
+            tr.selected
+              td ATL
+              td Nov 12
+            tr
+              td BOS
+              td -
+            tr
+              td CHA
+              td -
+            tr
+              td ATL
+              td -
+            tr
+              td BOS
+              td -
+            tr.selected
+              td CHA
+              td Nov 1
+            tr.selected
+              td ATL
+              td Nov 2
+            tr
+              td BOS
+              td -
+            tr
+              td CHA
+              td -
+            tr
+              td ATL
+              td -
+            tr
+              td BOS
+              td -
+            tr
+              td CHA
+              td -
+            tr
+              td ATL
+              td -
+            tr
+              td BOS
+              td -
+            tr
+              td CHA
+              td -
+      .col-xs-12.col-sm-2
+        h6.text-center Eastern Conference
+        table.vert-teams-table.table.table-condensed
+          thead
+            tr
+              th Team
+              th Date
+          tbody
+            tr
+              td ATL
+              td -
+            tr
+              td BOS
+              td -
+            tr
+              td CHA
+              td -
+            tr
+              td ATL
+              td -
+            tr
+              td BOS
+              td -
+            tr
+              td CHA
+              td -
+            tr
+              td ATL
+              td -
+            tr
+              td BOS
+              td -
+            tr.player-win
+              td CHA
+              td Nov 5
+            tr
+              td ATL
+              td
+            tr.player-loss
+              td BOS
+              td Nov 4
+            tr
+              td CHA
+              td -
+            tr
+              td ATL
+              td -
+            tr
+              td BOS
+              td -
+            tr
+              td CHA
+              td -
