@@ -7,6 +7,7 @@ var bodyParser = require('body-parser');
 require('./app_api/models/db');
 
 var routes = require('./app_server/routes/index');
+var routesApi = require('./app_api/routes/index');
 
 var app = express();
 
@@ -30,6 +31,7 @@ app.use(function(req, res, next){
 });
 
 app.use('/', routes);
+app.use('/api', routesApi);
 
 //Report on envirnoment to console:
 app.listen(app.get('port'),function(){
