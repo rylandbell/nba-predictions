@@ -15,14 +15,20 @@ var router = express.Router();
 // });
 
 var ctrlUserMonths = require('../controllers/user-months');
+var ctrlEligibleTeams = require('../controllers/eligible-teams');
+var ctrlPredictedWinners = require('../controllers/predicted-winners');
+
 // var ctrlAuth = require('../controllers/authentication');
 
 // routes for calls to userMonths folder:
 // router.get('/userMonths', ctrlUserMonths.userMonthsList);
-router.get('/userMonths/:userMonthId', ctrlUserMonths.userMonthsReadOne);
-router.post('/userMonths', ctrlUserMonths.userMonthsCreate);
+router.get('/userMonth/:userMonthId', ctrlUserMonths.userMonthsReadOne);
+router.post('/userMonth', ctrlUserMonths.userMonthsCreate);
 // router.put('/userMonths/:userMonthId', ctrlUserMonths.userMonthsUpdateOne);
 // router.delete('/userMonths', ctrlUserMonths.userMonthsDeleteCompleted);
+
+router.put('/userMonth/:userMonthId/eligibleTeams', ctrlEligibleTeams.eligibleTeamsUpdate);
+router.put('/userMonth/:userMonthId/predictedWinners', ctrlPredictedWinners.predictedWinnersUpdate)
 
 // router.delete('/userMonths/:userMonthid', auth, ctrlUserMonths.userMonthsDeleteOne);
 
