@@ -21,16 +21,12 @@ var ctrlPredictedWinners = require('../controllers/predicted-winners');
 // var ctrlAuth = require('../controllers/authentication');
 
 // routes for calls to userMonths folder:
-// router.get('/userMonths', ctrlUserMonths.userMonthsList);
-router.get('/userMonth/:userMonthId', ctrlUserMonths.userMonthsReadOne);
-router.post('/userMonth', ctrlUserMonths.userMonthsCreate);
-// router.put('/userMonths/:userMonthId', ctrlUserMonths.userMonthsUpdateOne);
-// router.delete('/userMonths', ctrlUserMonths.userMonthsDeleteCompleted);
+router.get('/userMonth/:userMonthId', ctrlUserMonths.userMonthReadOne);
+router.post('/userMonth', ctrlUserMonths.userMonthCreate);
+router.delete('/userMonth/:userMonthId', ctrlUserMonths.userMonthDelete);
 
 router.put('/userMonth/:userMonthId/eligibleTeams', ctrlEligibleTeams.eligibleTeamsUpdate);
-router.put('/userMonth/:userMonthId/predictedWinners', ctrlPredictedWinners.predictedWinnersUpdate)
-
-// router.delete('/userMonths/:userMonthid', auth, ctrlUserMonths.userMonthsDeleteOne);
+router.put('/userMonth/:userMonthId/predictedWinners', ctrlPredictedWinners.predictedWinnersUpdate);
 
 // routes for authentication requests:
 // router.post('/register', ctrlAuth.register);
