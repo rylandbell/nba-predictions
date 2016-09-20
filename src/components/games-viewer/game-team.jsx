@@ -1,12 +1,13 @@
 'use strict';
 
 import React from 'react';
+import _ from 'lodash';
 
 import TeamMessage from './team-message.jsx';
 
 const api = React.createClass({
   handleClick: function () {
-    const isEligible = this.props.eligibleTeams[this.props.teamData.teamName];
+    const isEligible = _.includes(this.props.eligibleTeams, this.props.teamData.teamName);
     const isChosen = this.props.predictedWinner === this.props.teamData.teamName;
     if((isEligible || isChosen) && !this.props.gameData.gameStatus.hasStarted){
       if(isChosen) {
@@ -17,7 +18,7 @@ const api = React.createClass({
     }
   },
   render: function () {
-    const isEligible = this.props.eligibleTeams[this.props.teamData.teamName];
+    const isEligible = _.includes(this.props.eligibleTeams, this.props.teamData.teamName);
     const clickable = isEligible || this.props.predictedWinner === this.props.teamData.teamName;
     return (
       <div className="game-item game-team" onClick={this.handleClick}>

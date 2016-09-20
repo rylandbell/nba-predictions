@@ -44,11 +44,11 @@ module.exports.predictedWinnersUpdate = function (req, res) {
           }
         }
 
-        userMonth.save(function (err, task) {
+        userMonth.save(function (err, userMonth) {
           if (err) {
             sendJsonResponse(res, 400, err);
           } else {
-            sendJsonResponse(res, 200, task);
+            sendJsonResponse(res, 200, userMonth);
           }
         });
       }

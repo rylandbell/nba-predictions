@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import RemainingTeamsTable from '../remaining-teams-table/remaining-teams-table.jsx'; 
 
 const mapStateToProps = (state) => ({
-  eligibleTeams: state.eligibleTeams
+  eligibleTeams: state.userMonth.eligibleTeams
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({

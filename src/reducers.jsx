@@ -3,6 +3,7 @@
 'use strict';
 
 var Redux = require('redux');
+import _ from 'lodash';
 
 import processGames from './process-games.jsx';
 
@@ -13,13 +14,13 @@ import processGames from './process-games.jsx';
 import freshData_1 from './data/2016-11-01.jsx';
 import freshData_2 from './data/2016-11-02.jsx';
 import freshData_3 from './data/2016-11-03.jsx';
-import eligibilityFudge from './data/eligibility-fudge.jsx';
-import predictionFudge from './data/prediction-fudge.jsx';
 const initGameData = [
   processGames(freshData_1),
   processGames(freshData_2),
   processGames(freshData_3)
 ];
+
+const teams = ['ATL', 'BKN', 'BOS', 'CHA', 'CHI', 'CLE', 'DAL', 'DEN', 'DET', 'GSW', 'HOU', 'IND', 'LAC', 'LAL', 'MEM', 'MIA', 'MIL', 'MIN', 'NOP', 'NYK', 'OKC', 'ORL', 'PHI', 'PHX', 'POR', 'SAC', 'SAS', 'TOR', 'UTA', 'WAS'];
 
 //user-selected date:
 const selectedDate = (state = '2016-11-01', action) => {
@@ -33,24 +34,51 @@ const selectedDate = (state = '2016-11-01', action) => {
   }
 };
 
-const eligibleTeams = (state = eligibilityFudge, action) => {
-  const update = {};
+const month = (state = '', action) => {
   switch(action.type){
-    case 'MARK_ELIGIBLE':
-      if(action.teamName) {
-        update[action.teamName] = true;
-      }
-      return Object.assign({}, state, update);
-    case 'MARK_INELIGIBLE':
-      update[action.teamName] = false;
-      return Object.assign({}, state, update);
+    case 'RECEIVE_USER_MONTH':
+      return action.response.userMonth.month;
     default:
       return state;
   }
 };
 
-const predictedWinners = (state = predictionFudge, action) => {
+const isFetching = (state = false, action) => {
   switch(action.type){
+    case 'REQUEST_USER_MONTH_WAITING':
+      return true;
+    case 'RECEIVE_USER_MONTH':
+      return false;
+    case 'REQUEST_USER_MONTH_FAILURE':
+      return false;
+    default:
+      return state;
+  }
+};
+
+const eligibleTeams = (state = [], action) => {
+  var chosenTeams;
+  switch(action.type){
+    case 'RECEIVE_USER_MONTH':
+      chosenTeams = _.values(action.response.userMonth.predictedWinners);
+      return _.difference(teams, chosenTeams).sort();
+    case 'MARK_ELIGIBLE':
+      if(action.teamName){
+        return state.concat([action.teamName]).sort();
+      } else {
+        return state;
+      }
+    case 'MARK_INELIGIBLE':
+      return _.without(state,action.teamName).sort();
+    default:
+      return state;
+  }
+}
+
+const predictedWinners = (state = {}, action) => {
+  switch(action.type){
+    case 'RECEIVE_USER_MONTH':
+      return action.response.userMonth.predictedWinners;
     case 'ADD_PREDICTION': {
       const date = moment(action.gameDate).format('D');
       const team = action.teamName;
@@ -69,6 +97,13 @@ const predictedWinners = (state = predictionFudge, action) => {
   }
 };
 
+const userMonth = Redux.combineReducers({
+  month,
+  isFetching,
+  eligibleTeams,
+  predictedWinners
+});
+
 const gamesByDay = (state = initGameData, action) => {
   switch(action.type) {
     default:
@@ -79,8 +114,7 @@ const gamesByDay = (state = initGameData, action) => {
 const api = {
   app: Redux.combineReducers({
     selectedDate,
-    eligibleTeams,
-    predictedWinners,
+    userMonth,
     gamesByDay
   })
 };
@@ -89,13 +123,17 @@ export default api;
 
 // {
 //   selectedDate: string,
-//   eligibleTeams: {
-//     ATL: false,
-//     BOS: false,...
-//   },
-//   predictedWinners: {
-//     1: 'POR',
-//     2: 'NYK',...
+//   userMonth: {
+//     isFetching: false,
+//     month: '2016_09',
+//     eligibleTeams: {
+//       ATL: false,
+//       BOS: false,...
+//     },
+//     predictedWinners: {
+//       1: 'POR',
+//       2: 'NYK',...
+//     }
 //   },
 //   gamesByDay: []
 // }

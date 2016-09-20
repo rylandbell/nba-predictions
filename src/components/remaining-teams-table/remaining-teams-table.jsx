@@ -13,10 +13,7 @@ return  (
       <hr />
       <table className="remaining-teams-table table table-condensed">
         <tbody>
-          {Object.keys(eligibleTeams)
-            .filter(team => eligibleTeams[team])
-            .map((team, index) => <RemainingTeamRow teamName={team} key={index}/>)
-          }
+          {eligibleTeams.map((team, index) => <RemainingTeamRow teamName={team} key={index}/>)}
         </tbody>
       </table>
     </div>

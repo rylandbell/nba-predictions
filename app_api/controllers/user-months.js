@@ -9,14 +9,14 @@ var sendJsonResponse = function (res, status, content) {
 
 //Response functions for CRUD operations on userMonths
 
-/* GET one task by userMonthId */
+/* GET one userMonth by userMonthId */
 module.exports.userMonthReadOne = function (req, res) {
   if (req.params && req.params.userMonthId) {
     UserMonthModel
       .findById(req.params.userMonthId)
-      .exec(function (err, task) {
+      .exec(function (err, userMonth) {
         var responseBody = {};
-        if (!task) {
+        if (!userMonth) {
           sendJsonResponse(res, 404, {
             message: 'userMonthId not found'
           });
@@ -27,7 +27,7 @@ module.exports.userMonthReadOne = function (req, res) {
           return;
         }
 
-        responseBody.task = task;
+        responseBody.userMonth = userMonth;
         sendJsonResponse(res, 200, responseBody);
       });
   } else {

@@ -9,8 +9,8 @@ import GamesViewer from '../games-viewer/games-viewer.jsx';
 
 const mapStateToProps = (state) => ({
   selectedDate: state.selectedDate,
-  predictedWinners: state.predictedWinners,
-  eligibleTeams: state.eligibleTeams,
+  predictedWinners: state.userMonth.predictedWinners,
+  eligibleTeams: state.userMonth.eligibleTeams,
   gamesByDay: state.gamesByDay
 });
 
@@ -20,7 +20,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 
       //mark previous selection for that day eligible:
       const gameDay = moment(gameDate).format('D');
-      const oldPrediction = ownProps.reduxState.predictedWinners[gameDay];
+      const oldPrediction = ownProps.reduxState.userMonth.predictedWinners[gameDay];
       dispatch(ActionCreator.markEligible(oldPrediction));
 
       //add new prediction, then mark that team ineligible for rest of month:
