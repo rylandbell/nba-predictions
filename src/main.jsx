@@ -27,6 +27,7 @@ function render() {
             Helper.myFetch(
               'http://localhost:3000/api/userMonth/57e07e805bd5d96123c1931f',
               'GET',
+              {},
               (response => {
                 store.dispatch(ActionCreator.receiveUserMonth(response));
               }),

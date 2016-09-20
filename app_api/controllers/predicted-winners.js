@@ -33,7 +33,8 @@ module.exports.predictedWinnersUpdate = function (req, res) {
           sendJsonResponse(res, 400, err);
           return;
         }
-
+        console.log('REQUEST BODY: ', req.body);
+        // var requestData = JSON.parse(req.body);
         for (var key in req.body) {
           if (req.body.hasOwnProperty(key)) {
             if (req.body[key]==="null") {

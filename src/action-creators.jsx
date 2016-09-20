@@ -22,6 +22,25 @@ const api = {
     }
   ),
 
+  //PUT send game prediction:
+  sendPredictionWaiting: () => (
+    {
+      type: 'SEND_PREDICTION_WAITING'
+    }
+  ),
+
+  sendPredictionSuccess: () => (
+    {
+      type: 'SEND_PREDICTION_SUCCESS'
+    }
+  ),
+
+  sendPredictionFailure: () => (
+    {
+      type: 'SEND_PREDICTION_FAILURE'
+    }
+  ),
+
   //User actions:
   addPrediction: (gameId, teamName, gameDate) => (
     {

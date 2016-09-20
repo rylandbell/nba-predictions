@@ -99,7 +99,7 @@
 	    _react2.default.createElement(_predictionsPage2.default, {
 	      reduxState: store.getState(),
 	      getInitialUserMonthData: function getInitialUserMonthData() {
-	        _helper2.default.myFetch('http://localhost:3000/api/userMonth/57e07e805bd5d96123c1931f', 'GET', function (response) {
+	        _helper2.default.myFetch('http://localhost:3000/api/userMonth/57e07e805bd5d96123c1931f', 'GET', {}, function (response) {
 	          store.dispatch(_actionCreators2.default.receiveUserMonth(response));
 	        }, function (response) {
 	          store.dispatch(_actionCreators2.default.requestUserMonthFailure());
@@ -31594,6 +31594,25 @@
 	    };
 	  },
 
+	  //PUT send game prediction:
+	  sendPredictionWaiting: function sendPredictionWaiting() {
+	    return {
+	      type: 'SEND_PREDICTION_WAITING'
+	    };
+	  },
+
+	  sendPredictionSuccess: function sendPredictionSuccess() {
+	    return {
+	      type: 'SEND_PREDICTION_SUCCESS'
+	    };
+	  },
+
+	  sendPredictionFailure: function sendPredictionFailure() {
+	    return {
+	      type: 'SEND_PREDICTION_FAILURE'
+	    };
+	  },
+
 	  //User actions:
 	  addPrediction: function addPrediction(gameId, teamName, gameDate) {
 	    return {
@@ -31654,7 +31673,7 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var api = {
-	  myFetch: function myFetch(url, method, successCallback, failureCallback) {
+	  myFetch: function myFetch(url, method, bodyData, successCallback, failureCallback) {
 	    //Create headers with authorization token stored in cookie:
 	    // const userCookie = document.cookie.slice(document.cookie.indexOf('user=')+5);
 	    // const accessToken = JSON.parse(decodeURIComponent(userCookie)).token;
@@ -31662,14 +31681,19 @@
 	    // const myHeaders = new Headers();
 	    // myHeaders.append('Authorization', 'Bearer ' + accessToken);
 
-	    var myInit = {
+	    var newRequest = {
 	      method: method,
-	      // headers: myHeaders,
 	      mode: 'cors',
 	      cache: 'default'
 	    };
 
-	    (0, _isomorphicFetch2.default)(url, myInit).then(function (response) {
+	    if (method !== 'GET') {
+	      newRequest.body = JSON.stringify(bodyData);
+	      newRequest.headers = new Headers();
+	      newRequest.headers.append('Content-Type', 'application/json');
+	    }
+
+	    (0, _isomorphicFetch2.default)(url, newRequest).then(function (response) {
 	      return response.json();
 	    }).then(function (response) {
 	      return successCallback(response);
@@ -32150,6 +32174,10 @@
 
 	var _gamesViewer2 = _interopRequireDefault(_gamesViewer);
 
+	var _helper = __webpack_require__(507);
+
+	var _helper2 = _interopRequireDefault(_helper);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	// const mapStateToProps = (state) => reduxState;
@@ -32175,10 +32203,35 @@
 	      //add new prediction, then mark that team ineligible for rest of month:
 	      dispatch(_actionCreators2.default.addPrediction(gameId, teamName, gameDate));
 	      dispatch(_actionCreators2.default.markIneligible(teamName));
+
+	      //update the database:
+	      var body = {};
+	      body[gameDay] = teamName;
+
+	      _helper2.default.myFetch('http://localhost:3000/api/userMonth/57e07e805bd5d96123c1931f/predictedWinners', 'PUT', body, function (response) {
+	        dispatch(_actionCreators2.default.sendPredictionSuccess(response));
+	      }, function (response) {
+	        dispatch(_actionCreators2.default.sendPredictionFailure());
+	        console.log('Failed to post new prediction', response);
+	      });
+	      dispatch(_actionCreators2.default.sendPredictionWaiting());
 	    },
 	    removePrediction: function removePrediction(gameId, teamName, gameDate) {
 	      dispatch(_actionCreators2.default.removePrediction(gameId, gameDate));
 	      dispatch(_actionCreators2.default.markEligible(teamName));
+
+	      //update the database:
+	      var body = {};
+	      var gameDay = moment(gameDate).format('D');
+	      body[gameDay] = null;
+
+	      _helper2.default.myFetch('http://localhost:3000/api/userMonth/57e07e805bd5d96123c1931f/predictedWinners', 'PUT', body, function (response) {
+	        dispatch(_actionCreators2.default.sendPredictionSuccess(response));
+	      }, function (response) {
+	        dispatch(_actionCreators2.default.sendPredictionFailure());
+	        console.log('Failed to post new prediction', response);
+	      });
+	      dispatch(_actionCreators2.default.sendPredictionWaiting());
 	    },
 	    dayForward: function dayForward() {
 	      dispatch(_actionCreators2.default.dayForward());

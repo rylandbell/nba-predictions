@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 
 import ActionCreator from '../../action-creators.jsx';
 import GamesViewer from '../games-viewer/games-viewer.jsx';
+import Helper from '../../helper.jsx';
 
 // const mapStateToProps = (state) => reduxState;
 
@@ -26,11 +27,48 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
       //add new prediction, then mark that team ineligible for rest of month:
       dispatch(ActionCreator.addPrediction(gameId, teamName, gameDate));
       dispatch(ActionCreator.markIneligible(teamName));
+
+      //update the database:
+      const body = {};
+      body[gameDay] = teamName;
+
+      Helper.myFetch(
+        'http://localhost:3000/api/userMonth/57e07e805bd5d96123c1931f/predictedWinners',
+        'PUT',
+        body,
+        (response => {
+          dispatch(ActionCreator.sendPredictionSuccess(response));
+        }),
+        (response => {
+          dispatch(ActionCreator.sendPredictionFailure());
+          console.log('Failed to post new prediction', response);
+        })
+      );
+      dispatch(ActionCreator.sendPredictionWaiting());
     },
   removePrediction:
     (gameId, teamName, gameDate)=>{
       dispatch(ActionCreator.removePrediction(gameId, gameDate));
       dispatch(ActionCreator.markEligible(teamName));
+
+      //update the database:
+      const body = {};
+      const gameDay = moment(gameDate).format('D');
+      body[gameDay] = null;
+
+      Helper.myFetch(
+        'http://localhost:3000/api/userMonth/57e07e805bd5d96123c1931f/predictedWinners',
+        'PUT',
+        body,
+        (response => {
+          dispatch(ActionCreator.sendPredictionSuccess(response));
+        }),
+        (response => {
+          dispatch(ActionCreator.sendPredictionFailure());
+          console.log('Failed to post new prediction', response);
+        })
+      );
+      dispatch(ActionCreator.sendPredictionWaiting());
     },
   dayForward:
     () => {
