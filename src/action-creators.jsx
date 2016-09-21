@@ -22,6 +22,25 @@ const api = {
     }
   ),
 
+  requestGameDataWaiting: () => (
+    {
+      type: 'REQUEST_GAME_DATA_WAITING'
+    }
+  ),
+
+  receiveGameData: (response) => (
+    { 
+      type: 'RECEIVE_GAME_DATA',
+      response: response
+    }
+  ),
+
+  requestGameDataFailure: () => (
+    {
+      type: 'REQUEST_GAME_DATA_FAILURE'
+    }
+  ),
+
   //PUT send game prediction:
   sendPredictionWaiting: () => (
     {

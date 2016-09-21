@@ -38,6 +38,23 @@ function render() {
             );
             ActionCreator.requestUserMonthWaiting();
           }
+        }
+        getGameData = {
+          () => {
+            Helper.myFetch(
+              'http://localhost:3000/api/dailyGamesData/2016-11',
+              'GET',
+              {},
+              (response => {
+                store.dispatch(ActionCreator.receiveGameData(response));
+              }),
+              (response => {
+                store.dispatch(ActionCreator.requestGameDataFailure());
+                console.log('Failed to fetch gameData', response);
+              })
+            );
+            ActionCreator.requestGameDataWaiting();
+          }
         } />
     </Provider>,
     document.getElementById('app-root')

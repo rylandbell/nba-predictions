@@ -10,10 +10,13 @@ const api = ({visibleDate, gamesByDay, predictedWinners, eligibleTeams, addPredi
   const dayKey = moment(visibleDate).format('D')-1;
   return (
     <div className="row">
-      {gamesByDay[dayKey].map(
-        (gameData, index) =>
-          <SingleGame gameData={gameData} predictedWinner={predictedWinners[dayKey+1]} eligibleTeams = {eligibleTeams} addPrediction={addPrediction} removePrediction={removePrediction} key={index} />
-        )
+      {
+        (gamesByDay && gamesByDay[dayKey] && gamesByDay[dayKey].gameSummaries.length>0) ?
+          gamesByDay[dayKey].gameSummaries.map(
+          (gameData, index) =>
+            <SingleGame gameData={gameData} predictedWinner={predictedWinners[dayKey+1]} eligibleTeams = {eligibleTeams} addPrediction={addPrediction} removePrediction={removePrediction} key={index} />
+          )
+        : null
       }
     </div>
   );

@@ -72,15 +72,15 @@
 
 	var _reducers2 = _interopRequireDefault(_reducers);
 
-	var _predictionsPage = __webpack_require__(505);
+	var _predictionsPage = __webpack_require__(501);
 
 	var _predictionsPage2 = _interopRequireDefault(_predictionsPage);
 
-	var _actionCreators = __webpack_require__(507);
+	var _actionCreators = __webpack_require__(503);
 
 	var _actionCreators2 = _interopRequireDefault(_actionCreators);
 
-	var _helper = __webpack_require__(515);
+	var _helper = __webpack_require__(507);
 
 	var _helper2 = _interopRequireDefault(_helper);
 
@@ -106,6 +106,15 @@
 	          console.log('Failed to fetch userMonth', response);
 	        });
 	        _actionCreators2.default.requestUserMonthWaiting();
+	      },
+	      getGameData: function getGameData() {
+	        _helper2.default.myFetch('http://localhost:3000/api/dailyGamesData/2016-11', 'GET', {}, function (response) {
+	          store.dispatch(_actionCreators2.default.receiveGameData(response));
+	        }, function (response) {
+	          store.dispatch(_actionCreators2.default.requestGameDataFailure());
+	          console.log('Failed to fetch gameData', response);
+	        });
+	        _actionCreators2.default.requestGameDataWaiting();
 	      } })
 	  ), document.getElementById('app-root'));
 	}
@@ -31258,32 +31267,25 @@
 
 	var _lodash2 = _interopRequireDefault(_lodash);
 
-	var _processGames = __webpack_require__(501);
-
-	var _processGames2 = _interopRequireDefault(_processGames);
-
-	var _2 = __webpack_require__(502);
-
-	var _3 = _interopRequireDefault(_2);
-
-	var _4 = __webpack_require__(503);
-
-	var _5 = _interopRequireDefault(_4);
-
-	var _6 = __webpack_require__(504);
-
-	var _7 = _interopRequireDefault(_6);
-
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var Redux = __webpack_require__(338);
+
+
+	// import processGames from './process-games.jsx';
 
 	//Import dummy data:
 	// import oldData_9 from './data/2015-12-09.jsx';
 	// import oldData_10 from './data/2015-12-10.jsx';
 	// import oldData_11 from './data/2015-12-11.jsx';
-
-	var initGameData = [(0, _processGames2.default)(_3.default), (0, _processGames2.default)(_5.default), (0, _processGames2.default)(_7.default)];
+	// import freshData_1 from './data/2016-11-01.jsx';
+	// import freshData_2 from './data/2016-11-02.jsx';
+	// import freshData_3 from './data/2016-11-03.jsx';
+	// const initGameData = [
+	//   processGames(freshData_1),
+	//   processGames(freshData_2),
+	//   processGames(freshData_3)
+	// ];
 
 	var teams = ['ATL', 'BKN', 'BOS', 'CHA', 'CHI', 'CLE', 'DAL', 'DEN', 'DET', 'GSW', 'HOU', 'IND', 'LAC', 'LAL', 'MEM', 'MIA', 'MIL', 'MIN', 'NOP', 'NYK', 'OKC', 'ORL', 'PHI', 'PHX', 'POR', 'SAC', 'SAS', 'TOR', 'UTA', 'WAS'];
 
@@ -31387,10 +31389,13 @@
 	});
 
 	var gamesByDay = function gamesByDay() {
-	  var state = arguments.length <= 0 || arguments[0] === undefined ? initGameData : arguments[0];
+	  var state = arguments.length <= 0 || arguments[0] === undefined ? [] : arguments[0];
 	  var action = arguments[1];
 
 	  switch (action.type) {
+	    case 'RECEIVE_GAME_DATA':
+	      console.log(action.response);
+	      return action.response;
 	    default:
 	      return state;
 	  }
@@ -48181,102 +48186,6 @@
 
 /***/ },
 /* 501 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	//translates nba.com JSON into format that I need. eventually, this should be done once on the backend, saved, and then served to the browser in pre-digested form
-
-	// (NBA daily data, index of individual game) => my format for game data
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	var processSingleGame = function processSingleGame(data, index) {
-	  var gameSummary = {};
-
-	  gameSummary.gameId = data.resultSets[1].rowSet[2 * index][2];
-	  gameSummary.gameDate = data.resultSets[0].rowSet[index][0].substring(0, 10);
-
-	  gameSummary.gameStatus = {
-	    startTime: data.resultSets[0].rowSet[index][4],
-	    hasStarted: data.resultSets[0].rowSet[index][9] !== 0,
-	    roadScore: data.resultSets[1].rowSet[2 * index][21],
-	    homeScore: data.resultSets[1].rowSet[2 * index + 1][21],
-	    isFinal: data.resultSets[0].rowSet[index][4] === 'Final'
-	  };
-
-	  gameSummary.roadTeam = {
-	    teamName: data.resultSets[1].rowSet[2 * index][4],
-	    isWinner: data.resultSets[0].rowSet[index][4] === 'Final' && data.resultSets[1].rowSet[2 * index][21] > data.resultSets[1].rowSet[2 * index + 1][21],
-	    isLoser: data.resultSets[0].rowSet[index][4] === 'Final' && data.resultSets[1].rowSet[2 * index][21] < data.resultSets[1].rowSet[2 * index + 1][21]
-	  };
-
-	  gameSummary.homeTeam = {
-	    teamName: data.resultSets[1].rowSet[2 * index + 1][4],
-	    isWinner: data.resultSets[0].rowSet[index][4] === 'Final' && data.resultSets[1].rowSet[2 * index][21] < data.resultSets[1].rowSet[2 * index + 1][21],
-	    isLoser: data.resultSets[0].rowSet[index][4] === 'Final' && data.resultSets[1].rowSet[2 * index][21] > data.resultSets[1].rowSet[2 * index + 1][21]
-	  };
-
-	  return gameSummary;
-	};
-
-	//NBA full-day of JSON => array of game objects in my format
-	var api = function api(dataString) {
-	  var data = JSON.parse(dataString);
-	  var gamesArray = [];
-	  var gameCount = data.resultSets[0].rowSet.length;
-
-	  for (var i = 0; i < gameCount; i++) {
-	    gamesArray.push(processSingleGame(data, i));
-	  }
-
-	  return gamesArray;
-	};
-
-	exports.default = api;
-
-/***/ },
-/* 502 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	var api = '{"resource":"scoreboard","parameters":{"GameDate":"11/01/2016","LeagueID":"00","DayOffset":"0"},"resultSets":[{"name":"GameHeader","headers":["GAME_DATE_EST","GAME_SEQUENCE","GAME_ID","GAME_STATUS_ID","GAME_STATUS_TEXT","GAMECODE","HOME_TEAM_ID","VISITOR_TEAM_ID","SEASON","LIVE_PERIOD","LIVE_PC_TIME","NATL_TV_BROADCASTER_ABBREVIATION","LIVE_PERIOD_TIME_BCAST","WH_STATUS"],"rowSet":[["2016-11-01T00:00:00",1,"0021600046",1,"7:00 pm ET","20161101/ORLPHI",1610612755,1610612753,"2016",0,"     ",null,"Q0       - ",0],["2016-11-01T00:00:00",2,"0021600047",1,"7:00 pm ET","20161101/HOUCLE",1610612739,1610612745,"2016",0,"     ","NBA TV","Q0       - NBA TV",0],["2016-11-01T00:00:00",3,"0021600048",1,"7:00 pm ET","20161101/LALIND",1610612754,1610612747,"2016",0,"     ",null,"Q0       - ",0],["2016-11-01T00:00:00",4,"0021600049",1,"7:30 pm ET","20161101/SACMIA",1610612748,1610612758,"2016",0,"     ",null,"Q0       - ",0],["2016-11-01T00:00:00",5,"0021600050",1,"7:30 pm ET","20161101/NYKDET",1610612765,1610612752,"2016",0,"     ",null,"Q0       - ",0],["2016-11-01T00:00:00",6,"0021600051",1,"8:00 pm ET","20161101/MILNOP",1610612740,1610612749,"2016",0,"     ",null,"Q0       - ",0],["2016-11-01T00:00:00",7,"0021600052",1,"8:00 pm ET","20161101/MEMMIN",1610612750,1610612763,"2016",0,"     ",null,"Q0       - ",0],["2016-11-01T00:00:00",8,"0021600053",1,"8:30 pm ET","20161101/UTASAS",1610612759,1610612762,"2016",0,"     ",null,"Q0       - ",0],["2016-11-01T00:00:00",9,"0021600054",1,"10:00 pm ET","20161101/GSWPOR",1610612757,1610612744,"2016",0,"     ","NBA TV","Q0       - NBA TV",0]]},{"name":"LineScore","headers":["GAME_DATE_EST","GAME_SEQUENCE","GAME_ID","TEAM_ID","TEAM_ABBREVIATION","TEAM_CITY_NAME","TEAM_WINS_LOSSES","PTS_QTR1","PTS_QTR2","PTS_QTR3","PTS_QTR4","PTS_OT1","PTS_OT2","PTS_OT3","PTS_OT4","PTS_OT5","PTS_OT6","PTS_OT7","PTS_OT8","PTS_OT9","PTS_OT10","PTS","FG_PCT","FT_PCT","FG3_PCT","AST","REB","TOV"],"rowSet":[["2016-11-01T00:00:00",1,"0021600046",1610612753,"ORL","Orlando","0-0",null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],["2016-11-01T00:00:00",1,"0021600046",1610612755,"PHI","Philadelphia","0-0",null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],["2016-11-01T00:00:00",2,"0021600047",1610612745,"HOU","Houston","0-0",null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],["2016-11-01T00:00:00",2,"0021600047",1610612739,"CLE","Cleveland","0-0",null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],["2016-11-01T00:00:00",3,"0021600048",1610612754,"IND","Indiana","0-0",null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],["2016-11-01T00:00:00",3,"0021600048",1610612747,"LAL","Los Angeles","0-0",null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],["2016-11-01T00:00:00",4,"0021600049",1610612748,"MIA","Miami","0-0",null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],["2016-11-01T00:00:00",4,"0021600049",1610612758,"SAC","Sacramento","0-0",null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],["2016-11-01T00:00:00",5,"0021600050",1610612765,"DET","Detroit","0-0",null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],["2016-11-01T00:00:00",5,"0021600050",1610612752,"NYK","New York","0-0",null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],["2016-11-01T00:00:00",6,"0021600051",1610612740,"NOP","New Orleans","0-0",null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],["2016-11-01T00:00:00",6,"0021600051",1610612749,"MIL","Milwaukee","0-0",null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],["2016-11-01T00:00:00",7,"0021600052",1610612750,"MIN","Minnesota","0-0",null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],["2016-11-01T00:00:00",7,"0021600052",1610612763,"MEM","Memphis","0-0",null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],["2016-11-01T00:00:00",8,"0021600053",1610612759,"SAS","San Antonio","0-0",null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],["2016-11-01T00:00:00",8,"0021600053",1610612762,"UTA","Utah","0-0",null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],["2016-11-01T00:00:00",9,"0021600054",1610612757,"POR","Portland","0-0",null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],["2016-11-01T00:00:00",9,"0021600054",1610612744,"GSW","Golden State","0-0",null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null]]},{"name":"SeriesStandings","headers":["GAME_ID","HOME_TEAM_ID","VISITOR_TEAM_ID","GAME_DATE_EST","HOME_TEAM_WINS","HOME_TEAM_LOSSES","SERIES_LEADER"],"rowSet":[]},{"name":"LastMeeting","headers":["GAME_ID","LAST_GAME_ID","LAST_GAME_DATE_EST","LAST_GAME_HOME_TEAM_ID","LAST_GAME_HOME_TEAM_CITY","LAST_GAME_HOME_TEAM_NAME","LAST_GAME_HOME_TEAM_ABBREVIATION","LAST_GAME_HOME_TEAM_POINTS","LAST_GAME_VISITOR_TEAM_ID","LAST_GAME_VISITOR_TEAM_CITY","LAST_GAME_VISITOR_TEAM_NAME","LAST_GAME_VISITOR_TEAM_CITY1","LAST_GAME_VISITOR_TEAM_POINTS"],"rowSet":[["0021600046","0021500881","2016-02-28T00:00:00",1610612755,"Philadelphia","76ers","PHI",116,1610612753,"Orlando","Magic","ORL",130],["0021600047","0021501111","2016-03-29T00:00:00",1610612739,"Cleveland","Cavaliers","CLE",100,1610612745,"Houston","Rockets","HOU",106],["0021600048","0021500776","2016-02-08T00:00:00",1610612754,"Indiana","Pacers","IND",89,1610612747,"Los Angeles","Lakers","LAL",87],["0021600049","0021501135","2016-04-01T00:00:00",1610612748,"Miami","Heat","MIA",112,1610612758,"Sacramento","Kings","SAC",106],["0021600050","0021500923","2016-03-05T00:00:00",1610612765,"Detroit","Pistons","DET",89,1610612752,"New York","Knicks","NYK",102],["0021600051","0021500978","2016-03-12T00:00:00",1610612740,"New Orleans","Pelicans","NOP",92,1610612749,"Milwaukee","Bucks","MIL",103],["0021600052","0021501008","2016-03-16T00:00:00",1610612750,"Minnesota","Timberwolves","MIN",114,1610612763,"Memphis","Grizzlies","MEM",108],["0021600053","0021501161","2016-04-05T00:00:00",1610612759,"San Antonio","Spurs","SAS",88,1610612762,"Utah","Jazz","UTA",86],["0021600054","0041500225","2016-05-11T00:00:00",1610612757,"Portland","Trail Blazers","POR",121,1610612744,"Golden State","Warriors","GSW",125]]},{"name":"EastConfStandingsByDay","headers":["TEAM_ID","LEAGUE_ID","SEASON_ID","STANDINGSDATE","CONFERENCE","TEAM","G","W","L","W_PCT","HOME_RECORD","ROAD_RECORD"],"rowSet":[[1610612737,"00","22016","11/01/2016","East","Atlanta",0,0,0,0.0,"0-0","0-0"],[1610612738,"00","22016","11/01/2016","East","Boston",0,0,0,0.0,"0-0","0-0"],[1610612751,"00","22016","11/01/2016","East","Brooklyn",0,0,0,0.0,"0-0","0-0"],[1610612766,"00","22016","11/01/2016","East","Charlotte",0,0,0,0.0,"0-0","0-0"],[1610612741,"00","22016","11/01/2016","East","Chicago",0,0,0,0.0,"0-0","0-0"],[1610612739,"00","22016","11/01/2016","East","Cleveland",0,0,0,0.0,"0-0","0-0"],[1610612765,"00","22016","11/01/2016","East","Detroit",0,0,0,0.0,"0-0","0-0"],[1610612754,"00","22016","11/01/2016","East","Indiana",0,0,0,0.0,"0-0","0-0"],[1610612748,"00","22016","11/01/2016","East","Miami",0,0,0,0.0,"0-0","0-0"],[1610612749,"00","22016","11/01/2016","East","Milwaukee",0,0,0,0.0,"0-0","0-0"],[1610612752,"00","22016","11/01/2016","East","New York",0,0,0,0.0,"0-0","0-0"],[1610612753,"00","22016","11/01/2016","East","Orlando",0,0,0,0.0,"0-0","0-0"],[1610612755,"00","22016","11/01/2016","East","Philadelphia",0,0,0,0.0,"0-0","0-0"],[1610612761,"00","22016","11/01/2016","East","Toronto",0,0,0,0.0,"0-0","0-0"],[1610612764,"00","22016","11/01/2016","East","Washington",0,0,0,0.0,"0-0","0-0"]]},{"name":"WestConfStandingsByDay","headers":["TEAM_ID","LEAGUE_ID","SEASON_ID","STANDINGSDATE","CONFERENCE","TEAM","G","W","L","W_PCT","HOME_RECORD","ROAD_RECORD"],"rowSet":[[1610612742,"00","22016","11/01/2016","West","Dallas",0,0,0,0.0,"0-0","0-0"],[1610612743,"00","22016","11/01/2016","West","Denver",0,0,0,0.0,"0-0","0-0"],[1610612744,"00","22016","11/01/2016","West","Golden State",0,0,0,0.0,"0-0","0-0"],[1610612745,"00","22016","11/01/2016","West","Houston",0,0,0,0.0,"0-0","0-0"],[1610612747,"00","22016","11/01/2016","West","L.A. Lakers",0,0,0,0.0,"0-0","0-0"],[1610612746,"00","22016","11/01/2016","West","LA Clippers",0,0,0,0.0,"0-0","0-0"],[1610612763,"00","22016","11/01/2016","West","Memphis",0,0,0,0.0,"0-0","0-0"],[1610612750,"00","22016","11/01/2016","West","Minnesota",0,0,0,0.0,"0-0","0-0"],[1610612740,"00","22016","11/01/2016","West","New Orleans",0,0,0,0.0,"0-0","0-0"],[1610612760,"00","22016","11/01/2016","West","Oklahoma City",0,0,0,0.0,"0-0","0-0"],[1610612756,"00","22016","11/01/2016","West","Phoenix",0,0,0,0.0,"0-0","0-0"],[1610612757,"00","22016","11/01/2016","West","Portland",0,0,0,0.0,"0-0","0-0"],[1610612758,"00","22016","11/01/2016","West","Sacramento",0,0,0,0.0,"0-0","0-0"],[1610612759,"00","22016","11/01/2016","West","San Antonio",0,0,0,0.0,"0-0","0-0"],[1610612762,"00","22016","11/01/2016","West","Utah",0,0,0,0.0,"0-0","0-0"]]},{"name":"Available","headers":["GAME_ID","PT_AVAILABLE"],"rowSet":[["0021600046",0],["0021600047",0],["0021600048",0],["0021600049",0],["0021600050",0],["0021600051",0],["0021600052",0],["0021600053",0],["0021600054",0]]}]}';
-
-	exports.default = api;
-
-/***/ },
-/* 503 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	var api = '{"resource":"scoreboard","parameters":{"GameDate":"11/02/2016","LeagueID":"00","DayOffset":"0"},"resultSets":[{"name":"GameHeader","headers":["GAME_DATE_EST","GAME_SEQUENCE","GAME_ID","GAME_STATUS_ID","GAME_STATUS_TEXT","GAMECODE","HOME_TEAM_ID","VISITOR_TEAM_ID","SEASON","LIVE_PERIOD","LIVE_PC_TIME","NATL_TV_BROADCASTER_ABBREVIATION","LIVE_PERIOD_TIME_BCAST","WH_STATUS"],"rowSet":[["2016-11-02T00:00:00",1,"0021600055",1,"7:00 pm ET","20161102/TORWAS",1610612764,1610612761,"2016",0,"     ",null,"Q0       - ",0],["2016-11-02T00:00:00",2,"0021600056",1,"7:00 pm ET","20161102/PHICHA",1610612766,1610612755,"2016",0,"     ",null,"Q0       - ",0],["2016-11-02T00:00:00",3,"0021600057",1,"7:30 pm ET","20161102/DETBKN",1610612751,1610612765,"2016",0,"     ",null,"Q0       - ",0],["2016-11-02T00:00:00",4,"0021600058",1,"7:30 pm ET","20161102/HOUNYK",1610612752,1610612745,"2016",0,"     ",null,"Q0       - ",0],["2016-11-02T00:00:00",5,"0021600059",1,"7:30 pm ET","20161102/LALATL",1610612737,1610612747,"2016",0,"     ",null,"Q0       - ",0],["2016-11-02T00:00:00",6,"0021600060",1,"8:00 pm ET","20161102/NOPMEM",1610612763,1610612740,"2016",0,"     ",null,"Q0       - ",0],["2016-11-02T00:00:00",7,"0021600061",1,"8:00 pm ET","20161102/CHIBOS",1610612738,1610612741,"2016",0,"     ","ESPN","Q0       - ESPN",0],["2016-11-02T00:00:00",8,"0021600062",1,"9:00 pm ET","20161102/DALUTA",1610612762,1610612742,"2016",0,"     ",null,"Q0       - ",0],["2016-11-02T00:00:00",9,"0021600063",1,"10:00 pm ET","20161102/PORPHX",1610612756,1610612757,"2016",0,"     ",null,"Q0       - ",0],["2016-11-02T00:00:00",10,"0021600064",1,"10:30 pm ET","20161102/OKCLAC",1610612746,1610612760,"2016",0,"     ","ESPN","Q0       - ESPN",0]]},{"name":"LineScore","headers":["GAME_DATE_EST","GAME_SEQUENCE","GAME_ID","TEAM_ID","TEAM_ABBREVIATION","TEAM_CITY_NAME","TEAM_WINS_LOSSES","PTS_QTR1","PTS_QTR2","PTS_QTR3","PTS_QTR4","PTS_OT1","PTS_OT2","PTS_OT3","PTS_OT4","PTS_OT5","PTS_OT6","PTS_OT7","PTS_OT8","PTS_OT9","PTS_OT10","PTS","FG_PCT","FT_PCT","FG3_PCT","AST","REB","TOV"],"rowSet":[["2016-11-02T00:00:00",1,"0021600055",1610612761,"TOR","Toronto","0-0",null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],["2016-11-02T00:00:00",1,"0021600055",1610612764,"WAS","Washington","0-0",null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],["2016-11-02T00:00:00",2,"0021600056",1610612755,"PHI","Philadelphia","0-0",null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],["2016-11-02T00:00:00",2,"0021600056",1610612766,"CHA","Charlotte","0-0",null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],["2016-11-02T00:00:00",3,"0021600057",1610612765,"DET","Detroit","0-0",null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],["2016-11-02T00:00:00",3,"0021600057",1610612751,"BKN","Brooklyn","0-0",null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],["2016-11-02T00:00:00",4,"0021600058",1610612745,"HOU","Houston","0-0",null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],["2016-11-02T00:00:00",4,"0021600058",1610612752,"NYK","New York","0-0",null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],["2016-11-02T00:00:00",5,"0021600059",1610612737,"ATL","Atlanta","0-0",null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],["2016-11-02T00:00:00",5,"0021600059",1610612747,"LAL","Los Angeles","0-0",null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],["2016-11-02T00:00:00",6,"0021600060",1610612763,"MEM","Memphis","0-0",null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],["2016-11-02T00:00:00",6,"0021600060",1610612740,"NOP","New Orleans","0-0",null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],["2016-11-02T00:00:00",7,"0021600061",1610612738,"BOS","Boston","0-0",null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],["2016-11-02T00:00:00",7,"0021600061",1610612741,"CHI","Chicago","0-0",null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],["2016-11-02T00:00:00",8,"0021600062",1610612762,"UTA","Utah","0-0",null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],["2016-11-02T00:00:00",8,"0021600062",1610612742,"DAL","Dallas","0-0",null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],["2016-11-02T00:00:00",9,"0021600063",1610612756,"PHX","Phoenix","0-0",null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],["2016-11-02T00:00:00",9,"0021600063",1610612757,"POR","Portland","0-0",null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],["2016-11-02T00:00:00",10,"0021600064",1610612746,"LAC","LA","0-0",null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],["2016-11-02T00:00:00",10,"0021600064",1610612760,"OKC","Oklahoma City","0-0",null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null]]},{"name":"SeriesStandings","headers":["GAME_ID","HOME_TEAM_ID","VISITOR_TEAM_ID","GAME_DATE_EST","HOME_TEAM_WINS","HOME_TEAM_LOSSES","SERIES_LEADER"],"rowSet":[]},{"name":"LastMeeting","headers":["GAME_ID","LAST_GAME_ID","LAST_GAME_DATE_EST","LAST_GAME_HOME_TEAM_ID","LAST_GAME_HOME_TEAM_CITY","LAST_GAME_HOME_TEAM_NAME","LAST_GAME_HOME_TEAM_ABBREVIATION","LAST_GAME_HOME_TEAM_POINTS","LAST_GAME_VISITOR_TEAM_ID","LAST_GAME_VISITOR_TEAM_CITY","LAST_GAME_VISITOR_TEAM_NAME","LAST_GAME_VISITOR_TEAM_CITY1","LAST_GAME_VISITOR_TEAM_POINTS"],"rowSet":[["0021600055","0021500680","2016-01-26T00:00:00",1610612764,"Washington","Wizards","WAS",89,1610612761,"Toronto","Raptors","TOR",106],["0021600056","0021501128","2016-04-01T00:00:00",1610612766,"Charlotte","Hornets","CHA",100,1610612755,"Philadelphia","76ers","PHI",91],["0021600057","0021501030","2016-03-19T00:00:00",1610612751,"Brooklyn","Nets","BKN",103,1610612765,"Detroit","Pistons","DET",115],["0021600058","0021500252","2015-11-29T00:00:00",1610612752,"New York","Knicks","NYK",111,1610612745,"Houston","Rockets","HOU",116],["0021600059","0021500921","2016-03-04T00:00:00",1610612737,"Atlanta","Hawks","ATL",106,1610612747,"Los Angeles","Lakers","LAL",77],["0021600060","0021500967","2016-03-11T00:00:00",1610612763,"Memphis","Grizzlies","MEM",121,1610612740,"New Orleans","Pelicans","NOP",114],["0021600061","0021500646","2016-01-22T00:00:00",1610612738,"Boston","Celtics","BOS",110,1610612741,"Chicago","Bulls","CHI",101],["0021600062","0021501210","2016-04-11T00:00:00",1610612762,"Utah","Jazz","UTA",92,1610612742,"Dallas","Mavericks","DAL",101],["0021600063","0021500343","2015-12-11T00:00:00",1610612756,"Phoenix","Suns","PHX",96,1610612757,"Portland","Trail Blazers","POR",106],["0021600064","0021501126","2016-03-31T00:00:00",1610612746,"LA","Clippers","LAC",117,1610612760,"Oklahoma City","Thunder","OKC",119]]},{"name":"EastConfStandingsByDay","headers":["TEAM_ID","LEAGUE_ID","SEASON_ID","STANDINGSDATE","CONFERENCE","TEAM","G","W","L","W_PCT","HOME_RECORD","ROAD_RECORD"],"rowSet":[[1610612737,"00","22016","11/02/2016","East","Atlanta",0,0,0,0.0,"0-0","0-0"],[1610612738,"00","22016","11/02/2016","East","Boston",0,0,0,0.0,"0-0","0-0"],[1610612751,"00","22016","11/02/2016","East","Brooklyn",0,0,0,0.0,"0-0","0-0"],[1610612766,"00","22016","11/02/2016","East","Charlotte",0,0,0,0.0,"0-0","0-0"],[1610612741,"00","22016","11/02/2016","East","Chicago",0,0,0,0.0,"0-0","0-0"],[1610612739,"00","22016","11/02/2016","East","Cleveland",0,0,0,0.0,"0-0","0-0"],[1610612765,"00","22016","11/02/2016","East","Detroit",0,0,0,0.0,"0-0","0-0"],[1610612754,"00","22016","11/02/2016","East","Indiana",0,0,0,0.0,"0-0","0-0"],[1610612748,"00","22016","11/02/2016","East","Miami",0,0,0,0.0,"0-0","0-0"],[1610612749,"00","22016","11/02/2016","East","Milwaukee",0,0,0,0.0,"0-0","0-0"],[1610612752,"00","22016","11/02/2016","East","New York",0,0,0,0.0,"0-0","0-0"],[1610612753,"00","22016","11/02/2016","East","Orlando",0,0,0,0.0,"0-0","0-0"],[1610612755,"00","22016","11/02/2016","East","Philadelphia",0,0,0,0.0,"0-0","0-0"],[1610612761,"00","22016","11/02/2016","East","Toronto",0,0,0,0.0,"0-0","0-0"],[1610612764,"00","22016","11/02/2016","East","Washington",0,0,0,0.0,"0-0","0-0"]]},{"name":"WestConfStandingsByDay","headers":["TEAM_ID","LEAGUE_ID","SEASON_ID","STANDINGSDATE","CONFERENCE","TEAM","G","W","L","W_PCT","HOME_RECORD","ROAD_RECORD"],"rowSet":[[1610612742,"00","22016","11/02/2016","West","Dallas",0,0,0,0.0,"0-0","0-0"],[1610612743,"00","22016","11/02/2016","West","Denver",0,0,0,0.0,"0-0","0-0"],[1610612744,"00","22016","11/02/2016","West","Golden State",0,0,0,0.0,"0-0","0-0"],[1610612745,"00","22016","11/02/2016","West","Houston",0,0,0,0.0,"0-0","0-0"],[1610612747,"00","22016","11/02/2016","West","L.A. Lakers",0,0,0,0.0,"0-0","0-0"],[1610612746,"00","22016","11/02/2016","West","LA Clippers",0,0,0,0.0,"0-0","0-0"],[1610612763,"00","22016","11/02/2016","West","Memphis",0,0,0,0.0,"0-0","0-0"],[1610612750,"00","22016","11/02/2016","West","Minnesota",0,0,0,0.0,"0-0","0-0"],[1610612740,"00","22016","11/02/2016","West","New Orleans",0,0,0,0.0,"0-0","0-0"],[1610612760,"00","22016","11/02/2016","West","Oklahoma City",0,0,0,0.0,"0-0","0-0"],[1610612756,"00","22016","11/02/2016","West","Phoenix",0,0,0,0.0,"0-0","0-0"],[1610612757,"00","22016","11/02/2016","West","Portland",0,0,0,0.0,"0-0","0-0"],[1610612758,"00","22016","11/02/2016","West","Sacramento",0,0,0,0.0,"0-0","0-0"],[1610612759,"00","22016","11/02/2016","West","San Antonio",0,0,0,0.0,"0-0","0-0"],[1610612762,"00","22016","11/02/2016","West","Utah",0,0,0,0.0,"0-0","0-0"]]},{"name":"Available","headers":["GAME_ID","PT_AVAILABLE"],"rowSet":[["0021600055",0],["0021600056",0],["0021600057",0],["0021600058",0],["0021600059",0],["0021600060",0],["0021600062",0],["0021600063",0],["0021600061",0],["0021600064",0]]}]}';
-
-	exports.default = api;
-
-/***/ },
-/* 504 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	var api = '{"resource":"scoreboard","parameters":{"GameDate":"11/03/2016","LeagueID":"00","DayOffset":"0"},"resultSets":[{"name":"GameHeader","headers":["GAME_DATE_EST","GAME_SEQUENCE","GAME_ID","GAME_STATUS_ID","GAME_STATUS_TEXT","GAMECODE","HOME_TEAM_ID","VISITOR_TEAM_ID","SEASON","LIVE_PERIOD","LIVE_PC_TIME","NATL_TV_BROADCASTER_ABBREVIATION","LIVE_PERIOD_TIME_BCAST","WH_STATUS"],"rowSet":[["2016-11-03T00:00:00",1,"0021600065",1,"7:00 pm ET","20161103/SACORL",1610612753,1610612758,"2016",0,"     ",null,"Q0       - ",0],["2016-11-03T00:00:00",2,"0021600066",1,"8:00 pm ET","20161103/INDMIL",1610612749,1610612754,"2016",0,"     ",null,"Q0       - ",0],["2016-11-03T00:00:00",3,"0021600067",1,"8:00 pm ET","20161103/DENMIN",1610612750,1610612743,"2016",0,"     ",null,"Q0       - ",0],["2016-11-03T00:00:00",4,"0021600068",1,"8:00 pm ET","20161103/BOSCLE",1610612739,1610612738,"2016",0,"     ","TNT","Q0       - TNT",0],["2016-11-03T00:00:00",5,"0021600069",1,"10:30 pm ET","20161103/OKCGSW",1610612744,1610612760,"2016",0,"     ","TNT","Q0       - TNT",0]]},{"name":"LineScore","headers":["GAME_DATE_EST","GAME_SEQUENCE","GAME_ID","TEAM_ID","TEAM_ABBREVIATION","TEAM_CITY_NAME","TEAM_WINS_LOSSES","PTS_QTR1","PTS_QTR2","PTS_QTR3","PTS_QTR4","PTS_OT1","PTS_OT2","PTS_OT3","PTS_OT4","PTS_OT5","PTS_OT6","PTS_OT7","PTS_OT8","PTS_OT9","PTS_OT10","PTS","FG_PCT","FT_PCT","FG3_PCT","AST","REB","TOV"],"rowSet":[["2016-11-03T00:00:00",1,"0021600065",1610612753,"ORL","Orlando","0-0",null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],["2016-11-03T00:00:00",1,"0021600065",1610612758,"SAC","Sacramento","0-0",null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],["2016-11-03T00:00:00",2,"0021600066",1610612749,"MIL","Milwaukee","0-0",null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],["2016-11-03T00:00:00",2,"0021600066",1610612754,"IND","Indiana","0-0",null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],["2016-11-03T00:00:00",3,"0021600067",1610612750,"MIN","Minnesota","0-0",null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],["2016-11-03T00:00:00",3,"0021600067",1610612743,"DEN","Denver","0-0",null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],["2016-11-03T00:00:00",4,"0021600068",1610612739,"CLE","Cleveland","0-0",null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],["2016-11-03T00:00:00",4,"0021600068",1610612738,"BOS","Boston","0-0",null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],["2016-11-03T00:00:00",5,"0021600069",1610612744,"GSW","Golden State","0-0",null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],["2016-11-03T00:00:00",5,"0021600069",1610612760,"OKC","Oklahoma City","0-0",null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null]]},{"name":"SeriesStandings","headers":["GAME_ID","HOME_TEAM_ID","VISITOR_TEAM_ID","GAME_DATE_EST","HOME_TEAM_WINS","HOME_TEAM_LOSSES","SERIES_LEADER"],"rowSet":[]},{"name":"LastMeeting","headers":["GAME_ID","LAST_GAME_ID","LAST_GAME_DATE_EST","LAST_GAME_HOME_TEAM_ID","LAST_GAME_HOME_TEAM_CITY","LAST_GAME_HOME_TEAM_NAME","LAST_GAME_HOME_TEAM_ABBREVIATION","LAST_GAME_HOME_TEAM_POINTS","LAST_GAME_VISITOR_TEAM_ID","LAST_GAME_VISITOR_TEAM_CITY","LAST_GAME_VISITOR_TEAM_NAME","LAST_GAME_VISITOR_TEAM_CITY1","LAST_GAME_VISITOR_TEAM_POINTS"],"rowSet":[["0021600065","0021500970","2016-03-11T00:00:00",1610612753,"Orlando","Magic","ORL",107,1610612758,"Sacramento","Kings","SAC",100],["0021600066","0021501225","2016-04-13T00:00:00",1610612749,"Milwaukee","Bucks","MIL",92,1610612754,"Indiana","Pacers","IND",97],["0021600067","0021500530","2016-01-06T00:00:00",1610612750,"Minnesota","Timberwolves","MIN",74,1610612743,"Denver","Nuggets","DEN",78],["0021600068","0021500922","2016-03-05T00:00:00",1610612739,"Cleveland","Cavaliers","CLE",120,1610612738,"Boston","Celtics","BOS",103],["0021600069","0041500317","2016-05-30T00:00:00",1610612744,"Golden State","Warriors","GSW",96,1610612760,"Oklahoma City","Thunder","OKC",88]]},{"name":"EastConfStandingsByDay","headers":["TEAM_ID","LEAGUE_ID","SEASON_ID","STANDINGSDATE","CONFERENCE","TEAM","G","W","L","W_PCT","HOME_RECORD","ROAD_RECORD"],"rowSet":[[1610612737,"00","22016","11/03/2016","East","Atlanta",0,0,0,0.0,"0-0","0-0"],[1610612738,"00","22016","11/03/2016","East","Boston",0,0,0,0.0,"0-0","0-0"],[1610612751,"00","22016","11/03/2016","East","Brooklyn",0,0,0,0.0,"0-0","0-0"],[1610612766,"00","22016","11/03/2016","East","Charlotte",0,0,0,0.0,"0-0","0-0"],[1610612741,"00","22016","11/03/2016","East","Chicago",0,0,0,0.0,"0-0","0-0"],[1610612739,"00","22016","11/03/2016","East","Cleveland",0,0,0,0.0,"0-0","0-0"],[1610612765,"00","22016","11/03/2016","East","Detroit",0,0,0,0.0,"0-0","0-0"],[1610612754,"00","22016","11/03/2016","East","Indiana",0,0,0,0.0,"0-0","0-0"],[1610612748,"00","22016","11/03/2016","East","Miami",0,0,0,0.0,"0-0","0-0"],[1610612749,"00","22016","11/03/2016","East","Milwaukee",0,0,0,0.0,"0-0","0-0"],[1610612752,"00","22016","11/03/2016","East","New York",0,0,0,0.0,"0-0","0-0"],[1610612753,"00","22016","11/03/2016","East","Orlando",0,0,0,0.0,"0-0","0-0"],[1610612755,"00","22016","11/03/2016","East","Philadelphia",0,0,0,0.0,"0-0","0-0"],[1610612761,"00","22016","11/03/2016","East","Toronto",0,0,0,0.0,"0-0","0-0"],[1610612764,"00","22016","11/03/2016","East","Washington",0,0,0,0.0,"0-0","0-0"]]},{"name":"WestConfStandingsByDay","headers":["TEAM_ID","LEAGUE_ID","SEASON_ID","STANDINGSDATE","CONFERENCE","TEAM","G","W","L","W_PCT","HOME_RECORD","ROAD_RECORD"],"rowSet":[[1610612742,"00","22016","11/03/2016","West","Dallas",0,0,0,0.0,"0-0","0-0"],[1610612743,"00","22016","11/03/2016","West","Denver",0,0,0,0.0,"0-0","0-0"],[1610612744,"00","22016","11/03/2016","West","Golden State",0,0,0,0.0,"0-0","0-0"],[1610612745,"00","22016","11/03/2016","West","Houston",0,0,0,0.0,"0-0","0-0"],[1610612747,"00","22016","11/03/2016","West","L.A. Lakers",0,0,0,0.0,"0-0","0-0"],[1610612746,"00","22016","11/03/2016","West","LA Clippers",0,0,0,0.0,"0-0","0-0"],[1610612763,"00","22016","11/03/2016","West","Memphis",0,0,0,0.0,"0-0","0-0"],[1610612750,"00","22016","11/03/2016","West","Minnesota",0,0,0,0.0,"0-0","0-0"],[1610612740,"00","22016","11/03/2016","West","New Orleans",0,0,0,0.0,"0-0","0-0"],[1610612760,"00","22016","11/03/2016","West","Oklahoma City",0,0,0,0.0,"0-0","0-0"],[1610612756,"00","22016","11/03/2016","West","Phoenix",0,0,0,0.0,"0-0","0-0"],[1610612757,"00","22016","11/03/2016","West","Portland",0,0,0,0.0,"0-0","0-0"],[1610612758,"00","22016","11/03/2016","West","Sacramento",0,0,0,0.0,"0-0","0-0"],[1610612759,"00","22016","11/03/2016","West","San Antonio",0,0,0,0.0,"0-0","0-0"],[1610612762,"00","22016","11/03/2016","West","Utah",0,0,0,0.0,"0-0","0-0"]]},{"name":"Available","headers":["GAME_ID","PT_AVAILABLE"],"rowSet":[["0021600065",0],["0021600066",0],["0021600067",0],["0021600068",0],["0021600069",0]]}]}';
-
-	exports.default = api;
-
-/***/ },
-/* 505 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -48289,11 +48198,11 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _gamesViewerContainer = __webpack_require__(506);
+	var _gamesViewerContainer = __webpack_require__(502);
 
 	var _gamesViewerContainer2 = _interopRequireDefault(_gamesViewerContainer);
 
-	var _remainingTeamsContainer = __webpack_require__(518);
+	var _remainingTeamsContainer = __webpack_require__(510);
 
 	var _remainingTeamsContainer2 = _interopRequireDefault(_remainingTeamsContainer);
 
@@ -48304,6 +48213,7 @@
 
 	  componentDidMount: function componentDidMount() {
 	    this.props.getInitialUserMonthData();
+	    this.props.getGameData();
 	  },
 	  render: function render() {
 	    return _react2.default.createElement(
@@ -48318,7 +48228,7 @@
 	exports.default = api;
 
 /***/ },
-/* 506 */
+/* 502 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -48329,15 +48239,15 @@
 
 	var _reactRedux = __webpack_require__(299);
 
-	var _actionCreators = __webpack_require__(507);
+	var _actionCreators = __webpack_require__(503);
 
 	var _actionCreators2 = _interopRequireDefault(_actionCreators);
 
-	var _gamesViewer = __webpack_require__(508);
+	var _gamesViewer = __webpack_require__(504);
 
 	var _gamesViewer2 = _interopRequireDefault(_gamesViewer);
 
-	var _helper = __webpack_require__(515);
+	var _helper = __webpack_require__(507);
 
 	var _helper2 = _interopRequireDefault(_helper);
 
@@ -48410,7 +48320,7 @@
 	exports.default = api;
 
 /***/ },
-/* 507 */
+/* 503 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -48437,6 +48347,25 @@
 	  requestUserMonthFailure: function requestUserMonthFailure() {
 	    return {
 	      type: 'REQUEST_USER_MONTH_FAILURE'
+	    };
+	  },
+
+	  requestGameDataWaiting: function requestGameDataWaiting() {
+	    return {
+	      type: 'REQUEST_GAME_DATA_WAITING'
+	    };
+	  },
+
+	  receiveGameData: function receiveGameData(response) {
+	    return {
+	      type: 'RECEIVE_GAME_DATA',
+	      response: response
+	    };
+	  },
+
+	  requestGameDataFailure: function requestGameDataFailure() {
+	    return {
+	      type: 'REQUEST_GAME_DATA_FAILURE'
 	    };
 	  },
 
@@ -48500,7 +48429,7 @@
 	exports.default = api;
 
 /***/ },
-/* 508 */
+/* 504 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -48513,11 +48442,11 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _singleDayGameList = __webpack_require__(509);
+	var _singleDayGameList = __webpack_require__(505);
 
 	var _singleDayGameList2 = _interopRequireDefault(_singleDayGameList);
 
-	var _dayPicker = __webpack_require__(514);
+	var _dayPicker = __webpack_require__(506);
 
 	var _dayPicker2 = _interopRequireDefault(_dayPicker);
 
@@ -48543,7 +48472,7 @@
 	exports.default = api;
 
 /***/ },
-/* 509 */
+/* 505 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -48556,7 +48485,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _singleGame = __webpack_require__(510);
+	var _singleGame = __webpack_require__(513);
 
 	var _singleGame2 = _interopRequireDefault(_singleGame);
 
@@ -48576,245 +48505,16 @@
 	  return _react2.default.createElement(
 	    'div',
 	    { className: 'row' },
-	    gamesByDay[dayKey].map(function (gameData, index) {
+	    gamesByDay && gamesByDay[dayKey] && gamesByDay[dayKey].gameSummaries.length > 0 ? gamesByDay[dayKey].gameSummaries.map(function (gameData, index) {
 	      return _react2.default.createElement(_singleGame2.default, { gameData: gameData, predictedWinner: predictedWinners[dayKey + 1], eligibleTeams: eligibleTeams, addPrediction: addPrediction, removePrediction: removePrediction, key: index });
-	    })
+	    }) : null
 	  );
 	};
 
 	exports.default = api;
 
 /***/ },
-/* 510 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _react = __webpack_require__(301);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _gameTeam = __webpack_require__(511);
-
-	var _gameTeam2 = _interopRequireDefault(_gameTeam);
-
-	var _gameStatus = __webpack_require__(513);
-
-	var _gameStatus2 = _interopRequireDefault(_gameStatus);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var api = function api(_ref) {
-	  var gameData = _ref.gameData;
-	  var predictedWinner = _ref.predictedWinner;
-	  var eligibleTeams = _ref.eligibleTeams;
-	  var addPrediction = _ref.addPrediction;
-	  var removePrediction = _ref.removePrediction;
-
-
-	  //color the panel border appropriately:
-	  var panelType = 'panel-default';
-	  if (gameData.roadTeam.teamName === predictedWinner || gameData.homeTeam.teamName === predictedWinner) {
-	    panelType = 'panel-primary';
-	  }
-	  if (gameData.roadTeam.isWinner && gameData.roadTeam.teamName === predictedWinner || gameData.homeTeam.isWinner && gameData.homeTeam.teamName === predictedWinner) {
-	    panelType = 'panel-success';
-	  }
-	  if (gameData.roadTeam.isLoser && gameData.roadTeam.teamName === predictedWinner || gameData.homeTeam.isLoser && gameData.homeTeam.teamName === predictedWinner) {
-	    panelType = 'panel-danger';
-	  }
-
-	  return _react2.default.createElement(
-	    'div',
-	    { className: 'col-xs-12 col-md-6' },
-	    _react2.default.createElement(
-	      'div',
-	      { className: 'panel game-panel ' + panelType },
-	      _react2.default.createElement(
-	        'div',
-	        { className: 'panel-body' },
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'game-container ' + (gameData.gameStatus.hasStarted ? '' : 'game-not-started') },
-	          _react2.default.createElement(_gameTeam2.default, { gameData: gameData, teamData: gameData.roadTeam, predictedWinner: predictedWinner, eligibleTeams: eligibleTeams, homeVsRoad: 'roadTeam', addPrediction: addPrediction, removePrediction: removePrediction }),
-	          _react2.default.createElement(_gameStatus2.default, { statusData: gameData.gameStatus }),
-	          _react2.default.createElement(_gameTeam2.default, { gameData: gameData, teamData: gameData.homeTeam, predictedWinner: predictedWinner, eligibleTeams: eligibleTeams, homeVsRoad: 'homeTeam', addPrediction: addPrediction, removePrediction: removePrediction })
-	        )
-	      )
-	    )
-	  );
-	};
-
-	exports.default = api;
-
-/***/ },
-/* 511 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _react = __webpack_require__(301);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _lodash = __webpack_require__(499);
-
-	var _lodash2 = _interopRequireDefault(_lodash);
-
-	var _teamMessage = __webpack_require__(512);
-
-	var _teamMessage2 = _interopRequireDefault(_teamMessage);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var api = _react2.default.createClass({
-	  displayName: 'api',
-
-	  handleClick: function handleClick() {
-	    var isEligible = _lodash2.default.includes(this.props.eligibleTeams, this.props.teamData.teamName);
-	    var isChosen = this.props.predictedWinner === this.props.teamData.teamName;
-	    if ((isEligible || isChosen) && !this.props.gameData.gameStatus.hasStarted) {
-	      if (isChosen) {
-	        this.props.removePrediction(this.props.gameData.gameId, this.props.teamData.teamName, this.props.gameData.gameDate);
-	      } else {
-	        this.props.addPrediction(this.props.gameData.gameId, this.props.teamData.teamName, this.props.gameData.gameDate);
-	      }
-	    }
-	  },
-	  render: function render() {
-	    var isEligible = _lodash2.default.includes(this.props.eligibleTeams, this.props.teamData.teamName);
-	    var clickable = isEligible || this.props.predictedWinner === this.props.teamData.teamName;
-	    return _react2.default.createElement(
-	      'div',
-	      { className: 'game-item game-team', onClick: this.handleClick },
-	      _react2.default.createElement(
-	        'div',
-	        { className: 'team-container' },
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'team-item team-name ' + (clickable ? 'eligible-team' : 'ineligible-team') },
-	          _react2.default.createElement(
-	            'h4',
-	            null,
-	            this.props.teamData.teamName
-	          )
-	        ),
-	        this.props.teamData.teamName === this.props.predictedWinner ? _react2.default.createElement(_teamMessage2.default, { teamData: this.props.teamData }) : ''
-	      )
-	    );
-	  }
-	});
-
-	exports.default = api;
-
-/***/ },
-/* 512 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _react = __webpack_require__(301);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var api = function api(_ref) {
-	  var teamData = _ref.teamData;
-
-	  var message;
-	  var statusClass;
-
-	  if (teamData.isWinner) {
-	    message = 'Victory!';
-	    statusClass = 'text-success';
-	  } else if (teamData.isLoser) {
-	    message = 'Defeat!';
-	    statusClass = 'text-danger';
-	  } else {
-	    message = 'Selected';
-	    statusClass = 'text-primary';
-	  }
-
-	  return _react2.default.createElement(
-	    'div',
-	    { className: 'team-item ' + statusClass },
-	    message
-	  );
-	};
-
-	exports.default = api;
-
-/***/ },
-/* 513 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _react = __webpack_require__(301);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var api = function api(_ref) {
-	  var statusData = _ref.statusData;
-
-	  var scoreString;
-	  var progressString;
-
-	  //set scoreString to game score or start time
-	  if (statusData.hasStarted) {
-	    scoreString = statusData.roadScore + ' - ' + statusData.homeScore;
-	  } else {
-	    scoreString = statusData.startTime;
-	  }
-
-	  // set progressString to Final or In Progress (maybe eventually better precision than In Progress)
-	  if (statusData.hasStarted) {
-	    if (statusData.isFinal) {
-	      progressString = 'Final';
-	    } else {
-	      progressString = 'In Progress';
-	    }
-	  }
-
-	  return _react2.default.createElement(
-	    'div',
-	    { className: 'game-item game-status' },
-	    _react2.default.createElement(
-	      'h5',
-	      { className: 'game-status-score' },
-	      scoreString
-	    ),
-	    _react2.default.createElement(
-	      'small',
-	      { className: 'game-status-progress' },
-	      progressString
-	    )
-	  );
-	};
-
-	exports.default = api;
-
-/***/ },
-/* 514 */
+/* 506 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -48857,7 +48557,7 @@
 	exports.default = api;
 
 /***/ },
-/* 515 */
+/* 507 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
@@ -48869,7 +48569,7 @@
 	  value: true
 	});
 
-	var _isomorphicFetch = __webpack_require__(516);
+	var _isomorphicFetch = __webpack_require__(508);
 
 	var _isomorphicFetch2 = _interopRequireDefault(_isomorphicFetch);
 
@@ -48907,19 +48607,19 @@
 	};exports.default = api;
 
 /***/ },
-/* 516 */
+/* 508 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// the whatwg-fetch polyfill installs the fetch() function
 	// on the global object (window or self)
 	//
 	// Return that as the export for use in Webpack, Browserify etc.
-	__webpack_require__(517);
+	__webpack_require__(509);
 	module.exports = self.fetch.bind(self);
 
 
 /***/ },
-/* 517 */
+/* 509 */
 /***/ function(module, exports) {
 
 	(function(self) {
@@ -49358,7 +49058,7 @@
 
 
 /***/ },
-/* 518 */
+/* 510 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -49369,7 +49069,7 @@
 
 	var _reactRedux = __webpack_require__(299);
 
-	var _remainingTeamsTable = __webpack_require__(519);
+	var _remainingTeamsTable = __webpack_require__(511);
 
 	var _remainingTeamsTable2 = _interopRequireDefault(_remainingTeamsTable);
 
@@ -49397,7 +49097,7 @@
 	exports.default = api;
 
 /***/ },
-/* 519 */
+/* 511 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -49410,7 +49110,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _remainingTeamRow = __webpack_require__(520);
+	var _remainingTeamRow = __webpack_require__(512);
 
 	var _remainingTeamRow2 = _interopRequireDefault(_remainingTeamRow);
 
@@ -49446,7 +49146,7 @@
 	exports.default = api;
 
 /***/ },
-/* 520 */
+/* 512 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -49470,6 +49170,235 @@
 	      'td',
 	      null,
 	      teamName
+	    )
+	  );
+	};
+
+	exports.default = api;
+
+/***/ },
+/* 513 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(301);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _gameTeam = __webpack_require__(514);
+
+	var _gameTeam2 = _interopRequireDefault(_gameTeam);
+
+	var _gameStatus = __webpack_require__(516);
+
+	var _gameStatus2 = _interopRequireDefault(_gameStatus);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var api = function api(_ref) {
+	  var gameData = _ref.gameData;
+	  var predictedWinner = _ref.predictedWinner;
+	  var eligibleTeams = _ref.eligibleTeams;
+	  var addPrediction = _ref.addPrediction;
+	  var removePrediction = _ref.removePrediction;
+
+
+	  //color the panel border appropriately:
+	  var panelType = 'panel-default';
+	  if (gameData.roadTeam.teamName === predictedWinner || gameData.homeTeam.teamName === predictedWinner) {
+	    panelType = 'panel-primary';
+	  }
+	  if (gameData.roadTeam.isWinner && gameData.roadTeam.teamName === predictedWinner || gameData.homeTeam.isWinner && gameData.homeTeam.teamName === predictedWinner) {
+	    panelType = 'panel-success';
+	  }
+	  if (gameData.roadTeam.isLoser && gameData.roadTeam.teamName === predictedWinner || gameData.homeTeam.isLoser && gameData.homeTeam.teamName === predictedWinner) {
+	    panelType = 'panel-danger';
+	  }
+
+	  return _react2.default.createElement(
+	    'div',
+	    { className: 'col-xs-12 col-md-6' },
+	    _react2.default.createElement(
+	      'div',
+	      { className: 'panel game-panel ' + panelType },
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'panel-body' },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'game-container ' + (gameData.gameStatus.hasStarted ? '' : 'game-not-started') },
+	          _react2.default.createElement(_gameTeam2.default, { gameData: gameData, teamData: gameData.roadTeam, predictedWinner: predictedWinner, eligibleTeams: eligibleTeams, homeVsRoad: 'roadTeam', addPrediction: addPrediction, removePrediction: removePrediction }),
+	          _react2.default.createElement(_gameStatus2.default, { statusData: gameData.gameStatus }),
+	          _react2.default.createElement(_gameTeam2.default, { gameData: gameData, teamData: gameData.homeTeam, predictedWinner: predictedWinner, eligibleTeams: eligibleTeams, homeVsRoad: 'homeTeam', addPrediction: addPrediction, removePrediction: removePrediction })
+	        )
+	      )
+	    )
+	  );
+	};
+
+	exports.default = api;
+
+/***/ },
+/* 514 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(301);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _lodash = __webpack_require__(499);
+
+	var _lodash2 = _interopRequireDefault(_lodash);
+
+	var _teamMessage = __webpack_require__(515);
+
+	var _teamMessage2 = _interopRequireDefault(_teamMessage);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var api = _react2.default.createClass({
+	  displayName: 'api',
+
+	  handleClick: function handleClick() {
+	    var isEligible = _lodash2.default.includes(this.props.eligibleTeams, this.props.teamData.teamName);
+	    var isChosen = this.props.predictedWinner === this.props.teamData.teamName;
+	    if ((isEligible || isChosen) && !this.props.gameData.gameStatus.hasStarted) {
+	      if (isChosen) {
+	        this.props.removePrediction(this.props.gameData.gameId, this.props.teamData.teamName, this.props.gameData.gameDate);
+	      } else {
+	        this.props.addPrediction(this.props.gameData.gameId, this.props.teamData.teamName, this.props.gameData.gameDate);
+	      }
+	    }
+	  },
+	  render: function render() {
+	    var isEligible = _lodash2.default.includes(this.props.eligibleTeams, this.props.teamData.teamName);
+	    var clickable = isEligible || this.props.predictedWinner === this.props.teamData.teamName;
+	    return _react2.default.createElement(
+	      'div',
+	      { className: 'game-item game-team', onClick: this.handleClick },
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'team-container' },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'team-item team-name ' + (clickable ? 'eligible-team' : 'ineligible-team') },
+	          _react2.default.createElement(
+	            'h4',
+	            null,
+	            this.props.teamData.teamName
+	          )
+	        ),
+	        this.props.teamData.teamName === this.props.predictedWinner ? _react2.default.createElement(_teamMessage2.default, { teamData: this.props.teamData }) : ''
+	      )
+	    );
+	  }
+	});
+
+	exports.default = api;
+
+/***/ },
+/* 515 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(301);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var api = function api(_ref) {
+	  var teamData = _ref.teamData;
+
+	  var message;
+	  var statusClass;
+
+	  if (teamData.isWinner) {
+	    message = 'Victory!';
+	    statusClass = 'text-success';
+	  } else if (teamData.isLoser) {
+	    message = 'Defeat!';
+	    statusClass = 'text-danger';
+	  } else {
+	    message = 'Selected';
+	    statusClass = 'text-primary';
+	  }
+
+	  return _react2.default.createElement(
+	    'div',
+	    { className: 'team-item ' + statusClass },
+	    message
+	  );
+	};
+
+	exports.default = api;
+
+/***/ },
+/* 516 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(301);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var api = function api(_ref) {
+	  var statusData = _ref.statusData;
+
+	  var scoreString;
+	  var progressString;
+
+	  //set scoreString to game score or start time
+	  if (statusData.hasStarted) {
+	    scoreString = statusData.roadScore + ' - ' + statusData.homeScore;
+	  } else {
+	    scoreString = statusData.startTime;
+	  }
+
+	  // set progressString to Final or In Progress (maybe eventually better precision than In Progress)
+	  if (statusData.hasStarted) {
+	    if (statusData.isFinal) {
+	      progressString = 'Final';
+	    } else {
+	      progressString = 'In Progress';
+	    }
+	  }
+
+	  return _react2.default.createElement(
+	    'div',
+	    { className: 'game-item game-status' },
+	    _react2.default.createElement(
+	      'h5',
+	      { className: 'game-status-score' },
+	      scoreString
+	    ),
+	    _react2.default.createElement(
+	      'small',
+	      { className: 'game-status-progress' },
+	      progressString
 	    )
 	  );
 	};

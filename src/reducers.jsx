@@ -5,20 +5,20 @@
 var Redux = require('redux');
 import _ from 'lodash';
 
-import processGames from './process-games.jsx';
+// import processGames from './process-games.jsx';
 
 //Import dummy data:
 // import oldData_9 from './data/2015-12-09.jsx';
 // import oldData_10 from './data/2015-12-10.jsx';
 // import oldData_11 from './data/2015-12-11.jsx';
-import freshData_1 from './data/2016-11-01.jsx';
-import freshData_2 from './data/2016-11-02.jsx';
-import freshData_3 from './data/2016-11-03.jsx';
-const initGameData = [
-  processGames(freshData_1),
-  processGames(freshData_2),
-  processGames(freshData_3)
-];
+// import freshData_1 from './data/2016-11-01.jsx';
+// import freshData_2 from './data/2016-11-02.jsx';
+// import freshData_3 from './data/2016-11-03.jsx';
+// const initGameData = [
+//   processGames(freshData_1),
+//   processGames(freshData_2),
+//   processGames(freshData_3)
+// ];
 
 const teams = ['ATL', 'BKN', 'BOS', 'CHA', 'CHI', 'CLE', 'DAL', 'DEN', 'DET', 'GSW', 'HOU', 'IND', 'LAC', 'LAL', 'MEM', 'MIA', 'MIL', 'MIN', 'NOP', 'NYK', 'OKC', 'ORL', 'PHI', 'PHX', 'POR', 'SAC', 'SAS', 'TOR', 'UTA', 'WAS'];
 
@@ -104,8 +104,11 @@ const userMonth = Redux.combineReducers({
   predictedWinners
 });
 
-const gamesByDay = (state = initGameData, action) => {
+const gamesByDay = (state = [], action) => {
   switch(action.type) {
+    case 'RECEIVE_GAME_DATA':
+      console.log(action.response);
+      return action.response;
     default:
       return state;
   }

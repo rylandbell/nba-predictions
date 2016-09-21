@@ -1,18 +1,10 @@
-# Wasatch CMS
+# NBA Survivor
 
-A web application for clincians at a substance abuse recovery facility to use for:
-
-* Tracking clients
-* Submitting notes after client meetings
-* Tracking data that clients submit via a separate iOS app
-* Setting up availability slots for their youcanbook.me account
-* Messaging their clients
-
-It's very much a work in progress, and is being shared here only as a work sample for my professional portfolio.
+Description coming soon.
 
 ## Usage
 
-Message me if you're interested in viewing this app, and haven't already been given log-in credentials by me. I'm happy to share access, but don't want to post credentials publicly.
+Usage info coming soon.
 
 
 ## License

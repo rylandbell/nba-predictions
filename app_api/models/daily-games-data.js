@@ -7,7 +7,7 @@ var mongoose = require('mongoose');
 
 var gameStatusSchema = new mongoose.Schema({
   startTime: { type: String },
-  hasStarted: { type: String, required: true },
+  hasStarted: { type: Boolean, required: true },
   homeScore: { type: String },
   roadScore: { type: String },
   isFinal: { type: Boolean, required: true }
@@ -21,6 +21,7 @@ var teamSummarySchema = new mongoose.Schema({
 
 var gameSummarySchema = new mongoose.Schema({
   gameId: { type: String, required: true },
+  gameDate: { type: String, required: true },
   gameStatus: gameStatusSchema,
   roadTeam: teamSummarySchema,
   homeTeam: teamSummarySchema
