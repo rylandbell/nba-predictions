@@ -7,7 +7,7 @@ var sendJsonResponse = function (res, status, content) {
   res.json(content);
 };
 
-// PUT update the eligible-teams list
+// PUT update the predictedWinners list
 module.exports.predictedWinnersUpdate = function (req, res) {
 
   if (!req.params.userMonthId) {
@@ -33,12 +33,14 @@ module.exports.predictedWinnersUpdate = function (req, res) {
           sendJsonResponse(res, 400, err);
           return;
         }
+
         console.log('REQUEST BODY: ', req.body);
+
         // var requestData = JSON.parse(req.body);
         for (var key in req.body) {
           if (req.body.hasOwnProperty(key)) {
-            if (req.body[key]==="null") {
-              userMonth.predictedWinners[key] = null;              
+            if (req.body[key] === 'null') {
+              userMonth.predictedWinners[key] = null;
             } else {
               userMonth.predictedWinners[key] = req.body[key];
             }

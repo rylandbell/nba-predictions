@@ -4,10 +4,10 @@ import React from 'react';
 
 import SingleGame from './single-game.jsx';
 
-const api = ({selectedDate, gamesByDay, predictedWinners, eligibleTeams, addPrediction, removePrediction}) => {
+const api = ({visibleDate, gamesByDay, predictedWinners, eligibleTeams, addPrediction, removePrediction}) => {
 
   //subtract 1 to go from day-of-month to zero-indexed array position:
-  const dayKey = moment(selectedDate).format('D')-1;
+  const dayKey = moment(visibleDate).format('D')-1;
   return (
     <div className="row">
       {gamesByDay[dayKey].map(

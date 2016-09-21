@@ -23,7 +23,7 @@ const initGameData = [
 const teams = ['ATL', 'BKN', 'BOS', 'CHA', 'CHI', 'CLE', 'DAL', 'DEN', 'DET', 'GSW', 'HOU', 'IND', 'LAC', 'LAL', 'MEM', 'MIA', 'MIL', 'MIN', 'NOP', 'NYK', 'OKC', 'ORL', 'PHI', 'PHX', 'POR', 'SAC', 'SAS', 'TOR', 'UTA', 'WAS'];
 
 //user-selected date:
-const selectedDate = (state = '2016-11-01', action) => {
+const visibleDate = (state = '2016-11-01', action) => {
   switch(action.type){
     case 'DAY_FORWARD':
       return moment(state).add(1, 'days').format('YYYY-MM-DD');
@@ -113,7 +113,7 @@ const gamesByDay = (state = initGameData, action) => {
 
 const api = {
   app: Redux.combineReducers({
-    selectedDate,
+    visibleDate,
     userMonth,
     gamesByDay
   })
@@ -122,7 +122,7 @@ const api = {
 export default api;
 
 // {
-//   selectedDate: string,
+//   visibleDate: string,
 //   userMonth: {
 //     isFetching: false,
 //     month: '2016_09',

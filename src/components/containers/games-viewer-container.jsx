@@ -9,7 +9,7 @@ import Helper from '../../helper.jsx';
 // const mapStateToProps = (state) => reduxState;
 
 const mapStateToProps = (state) => ({
-  selectedDate: state.selectedDate,
+  visibleDate: state.visibleDate,
   predictedWinners: state.userMonth.predictedWinners,
   eligibleTeams: state.userMonth.eligibleTeams,
   gamesByDay: state.gamesByDay
@@ -33,7 +33,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
       body[gameDay] = teamName;
 
       Helper.myFetch(
-        'http://localhost:3000/api/userMonth/57e07e805bd5d96123c1931f/predictedWinners',
+        'http://localhost:3000/api/userMonth/57e1a9dc07523c6b07aec4ef/predictedWinners',
         'PUT',
         body,
         (response => {
@@ -57,7 +57,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
       body[gameDay] = null;
 
       Helper.myFetch(
-        'http://localhost:3000/api/userMonth/57e07e805bd5d96123c1931f/predictedWinners',
+        'http://localhost:3000/api/userMonth/57e1a9dc07523c6b07aec4ef/predictedWinners',
         'PUT',
         body,
         (response => {

@@ -7,8 +7,6 @@ var sendJsonResponse = function (res, status, content) {
   res.json(content);
 };
 
-//Response functions for CRUD operations on userMonths
-
 /* GET one userMonth by userMonthId */
 module.exports.userMonthReadOne = function (req, res) {
   if (req.params && req.params.userMonthId) {
@@ -42,40 +40,39 @@ module.exports.userMonthReadOne = function (req, res) {
 module.exports.userMonthCreate = function (req, res) {
   UserMonthModel.create({
     month: req.body.month,
-    eligibleTeams: {},
     predictedWinners: {}
   }, function (err, userMonth) {
     if (err) {
       console.log(err);
       sendJsonResponse(res, 400, err);
     } else {
-      console.log(userMonth);
       sendJsonResponse(res, 201, userMonth);
     }
   });
 };
 
 /* DELETE a userMonth */
-module.exports.userMonthDelete = function(req, res) {
+module.exports.userMonthDelete = function (req, res) {
   var userMonthId = req.params.userMonthId;
   if (userMonthId) {
     UserMonthModel
       .findByIdAndRemove(userMonthId)
       .exec(
-        function(err, userMonth) {
+        function (err, userMonth) {
           if (err) {
             console.log(err);
             sendJsonResponse(res, 404, err);
             return;
           }
-          console.log("userMonth id " + userMonthId + " deleted");
+
+          console.log('userMonth id ' + userMonthId + ' deleted');
           sendJsonResponse(res, 204, null);
           return;
         }
     );
   } else {
-    sendJSONresponse(res, 404, {
-      "message": "No userMonthId"
+    sendJsonResponse(res, 404, {
+      message: 'No userMonthId'
     });
   }
 };
