@@ -72,15 +72,15 @@
 
 	var _reducers2 = _interopRequireDefault(_reducers);
 
-	var _predictionsPage = __webpack_require__(501);
+	var _predictionsPage = __webpack_require__(499);
 
 	var _predictionsPage2 = _interopRequireDefault(_predictionsPage);
 
-	var _actionCreators = __webpack_require__(503);
+	var _actionCreators = __webpack_require__(501);
 
 	var _actionCreators2 = _interopRequireDefault(_actionCreators);
 
-	var _helper = __webpack_require__(507);
+	var _helper = __webpack_require__(511);
 
 	var _helper2 = _interopRequireDefault(_helper);
 
@@ -31263,7 +31263,7 @@
 
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-	var _lodash = __webpack_require__(499);
+	var _lodash = __webpack_require__(506);
 
 	var _lodash2 = _interopRequireDefault(_lodash);
 
@@ -31271,21 +31271,6 @@
 
 	var Redux = __webpack_require__(338);
 
-
-	// import processGames from './process-games.jsx';
-
-	//Import dummy data:
-	// import oldData_9 from './data/2015-12-09.jsx';
-	// import oldData_10 from './data/2015-12-10.jsx';
-	// import oldData_11 from './data/2015-12-11.jsx';
-	// import freshData_1 from './data/2016-11-01.jsx';
-	// import freshData_2 from './data/2016-11-02.jsx';
-	// import freshData_3 from './data/2016-11-03.jsx';
-	// const initGameData = [
-	//   processGames(freshData_1),
-	//   processGames(freshData_2),
-	//   processGames(freshData_3)
-	// ];
 
 	var teams = ['ATL', 'BKN', 'BOS', 'CHA', 'CHI', 'CLE', 'DAL', 'DEN', 'DET', 'GSW', 'HOU', 'IND', 'LAC', 'LAL', 'MEM', 'MIA', 'MIL', 'MIN', 'NOP', 'NYK', 'OKC', 'ORL', 'PHI', 'PHX', 'POR', 'SAC', 'SAS', 'TOR', 'UTA', 'WAS'];
 
@@ -31394,8 +31379,9 @@
 
 	  switch (action.type) {
 	    case 'RECEIVE_GAME_DATA':
-	      console.log(action.response);
-	      return action.response;
+	      return _lodash2.default.sortBy(action.response, [function (obj) {
+	        return obj.date;
+	      }]);
 	    default:
 	      return state;
 	  }
@@ -31430,6 +31416,470 @@
 
 /***/ },
 /* 499 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(301);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _gamesViewerContainer = __webpack_require__(500);
+
+	var _gamesViewerContainer2 = _interopRequireDefault(_gamesViewerContainer);
+
+	var _remainingTeamsContainer = __webpack_require__(514);
+
+	var _remainingTeamsContainer2 = _interopRequireDefault(_remainingTeamsContainer);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var api = _react2.default.createClass({
+	  displayName: 'api',
+
+	  componentDidMount: function componentDidMount() {
+	    this.props.getInitialUserMonthData();
+	    this.props.getGameData();
+	  },
+	  render: function render() {
+	    return _react2.default.createElement(
+	      'div',
+	      { className: 'row' },
+	      _react2.default.createElement(_remainingTeamsContainer2.default, { reduxState: this.props.reduxState }),
+	      _react2.default.createElement(_gamesViewerContainer2.default, { reduxState: this.props.reduxState })
+	    );
+	  }
+	});
+
+	exports.default = api;
+
+/***/ },
+/* 500 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _reactRedux = __webpack_require__(299);
+
+	var _actionCreators = __webpack_require__(501);
+
+	var _actionCreators2 = _interopRequireDefault(_actionCreators);
+
+	var _gamesViewer = __webpack_require__(502);
+
+	var _gamesViewer2 = _interopRequireDefault(_gamesViewer);
+
+	var _helper = __webpack_require__(511);
+
+	var _helper2 = _interopRequireDefault(_helper);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	// const mapStateToProps = (state) => reduxState;
+
+	var mapStateToProps = function mapStateToProps(state) {
+	  return {
+	    visibleDate: state.visibleDate,
+	    predictedWinners: state.userMonth.predictedWinners,
+	    eligibleTeams: state.userMonth.eligibleTeams,
+	    gamesByDay: state.gamesByDay
+	  };
+	};
+
+	var mapDispatchToProps = function mapDispatchToProps(dispatch, ownProps) {
+	  return {
+	    addPrediction: function addPrediction(gameId, teamName, gameDate) {
+
+	      //mark previous selection for that day eligible:
+	      var gameDay = moment(gameDate).format('D');
+	      var oldPrediction = ownProps.reduxState.userMonth.predictedWinners[gameDay];
+	      dispatch(_actionCreators2.default.markEligible(oldPrediction));
+
+	      //add new prediction, then mark that team ineligible for rest of month:
+	      dispatch(_actionCreators2.default.addPrediction(gameId, teamName, gameDate));
+	      dispatch(_actionCreators2.default.markIneligible(teamName));
+
+	      //update the database:
+	      var body = {};
+	      body[gameDay] = teamName;
+
+	      _helper2.default.myFetch('http://localhost:3000/api/userMonth/57e1a9dc07523c6b07aec4ef/predictedWinners', 'PUT', body, function (response) {
+	        dispatch(_actionCreators2.default.sendPredictionSuccess(response));
+	      }, function (response) {
+	        dispatch(_actionCreators2.default.sendPredictionFailure());
+	        console.log('Failed to post new prediction', response);
+	      });
+	      dispatch(_actionCreators2.default.sendPredictionWaiting());
+	    },
+	    removePrediction: function removePrediction(gameId, teamName, gameDate) {
+	      dispatch(_actionCreators2.default.removePrediction(gameId, gameDate));
+	      dispatch(_actionCreators2.default.markEligible(teamName));
+
+	      //update the database:
+	      var body = {};
+	      var gameDay = moment(gameDate).format('D');
+	      body[gameDay] = null;
+
+	      _helper2.default.myFetch('http://localhost:3000/api/userMonth/57e1a9dc07523c6b07aec4ef/predictedWinners', 'PUT', body, function (response) {
+	        dispatch(_actionCreators2.default.sendPredictionSuccess(response));
+	      }, function (response) {
+	        dispatch(_actionCreators2.default.sendPredictionFailure());
+	        console.log('Failed to post new prediction', response);
+	      });
+	      dispatch(_actionCreators2.default.sendPredictionWaiting());
+	    },
+	    dayForward: function dayForward() {
+	      dispatch(_actionCreators2.default.dayForward());
+	    },
+	    dayBack: function dayBack() {
+	      dispatch(_actionCreators2.default.dayBack());
+	    }
+	  };
+	};
+
+	var api = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_gamesViewer2.default);
+
+	exports.default = api;
+
+/***/ },
+/* 501 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var api = {
+
+	  //GET initial data:
+	  requestUserMonthWaiting: function requestUserMonthWaiting() {
+	    return {
+	      type: 'REQUEST_USER_MONTH_WAITING'
+	    };
+	  },
+
+	  receiveUserMonth: function receiveUserMonth(response) {
+	    return {
+	      type: 'RECEIVE_USER_MONTH',
+	      response: response
+	    };
+	  },
+
+	  requestUserMonthFailure: function requestUserMonthFailure() {
+	    return {
+	      type: 'REQUEST_USER_MONTH_FAILURE'
+	    };
+	  },
+
+	  requestGameDataWaiting: function requestGameDataWaiting() {
+	    return {
+	      type: 'REQUEST_GAME_DATA_WAITING'
+	    };
+	  },
+
+	  receiveGameData: function receiveGameData(response) {
+	    return {
+	      type: 'RECEIVE_GAME_DATA',
+	      response: response
+	    };
+	  },
+
+	  requestGameDataFailure: function requestGameDataFailure() {
+	    return {
+	      type: 'REQUEST_GAME_DATA_FAILURE'
+	    };
+	  },
+
+	  //PUT send game prediction:
+	  sendPredictionWaiting: function sendPredictionWaiting() {
+	    return {
+	      type: 'SEND_PREDICTION_WAITING'
+	    };
+	  },
+
+	  sendPredictionSuccess: function sendPredictionSuccess() {
+	    return {
+	      type: 'SEND_PREDICTION_SUCCESS'
+	    };
+	  },
+
+	  sendPredictionFailure: function sendPredictionFailure() {
+	    return {
+	      type: 'SEND_PREDICTION_FAILURE'
+	    };
+	  },
+
+	  //User actions:
+	  addPrediction: function addPrediction(gameId, teamName, gameDate) {
+	    return {
+	      type: 'ADD_PREDICTION',
+	      teamName: teamName,
+	      gameDate: gameDate
+	    };
+	  },
+	  removePrediction: function removePrediction(gameId, gameDate) {
+	    return {
+	      type: 'REMOVE_PREDICTION',
+	      gameDate: gameDate
+	    };
+	  },
+	  markIneligible: function markIneligible(teamName) {
+	    return {
+	      type: 'MARK_INELIGIBLE',
+	      teamName: teamName
+	    };
+	  },
+	  markEligible: function markEligible(teamName) {
+	    return {
+	      type: 'MARK_ELIGIBLE',
+	      teamName: teamName
+	    };
+	  },
+	  dayForward: function dayForward() {
+	    return {
+	      type: 'DAY_FORWARD'
+	    };
+	  },
+	  dayBack: function dayBack() {
+	    return {
+	      type: 'DAY_BACK'
+	    };
+	  }
+	};
+
+	exports.default = api;
+
+/***/ },
+/* 502 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(301);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _singleDayGameList = __webpack_require__(503);
+
+	var _singleDayGameList2 = _interopRequireDefault(_singleDayGameList);
+
+	var _dayPicker = __webpack_require__(510);
+
+	var _dayPicker2 = _interopRequireDefault(_dayPicker);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var api = function api(_ref) {
+	  var visibleDate = _ref.visibleDate;
+	  var gamesByDay = _ref.gamesByDay;
+	  var eligibleTeams = _ref.eligibleTeams;
+	  var predictedWinners = _ref.predictedWinners;
+	  var addPrediction = _ref.addPrediction;
+	  var removePrediction = _ref.removePrediction;
+	  var dayForward = _ref.dayForward;
+	  var dayBack = _ref.dayBack;
+	  return _react2.default.createElement(
+	    'div',
+	    { className: 'col-xs-9 col-sm-8 col-md-9 col-sm-offset-1 col-md-offset-1' },
+	    _react2.default.createElement(_dayPicker2.default, { visibleDate: visibleDate, dayForward: dayForward, dayBack: dayBack }),
+	    _react2.default.createElement(_singleDayGameList2.default, { gamesByDay: gamesByDay, eligibleTeams: eligibleTeams, predictedWinners: predictedWinners, visibleDate: visibleDate, addPrediction: addPrediction, removePrediction: removePrediction })
+	  );
+	};
+
+	exports.default = api;
+
+/***/ },
+/* 503 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(301);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _singleGame = __webpack_require__(504);
+
+	var _singleGame2 = _interopRequireDefault(_singleGame);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var api = function api(_ref) {
+	  var visibleDate = _ref.visibleDate;
+	  var gamesByDay = _ref.gamesByDay;
+	  var predictedWinners = _ref.predictedWinners;
+	  var eligibleTeams = _ref.eligibleTeams;
+	  var addPrediction = _ref.addPrediction;
+	  var removePrediction = _ref.removePrediction;
+
+
+	  //subtract 1 to go from day-of-month to zero-indexed array position:
+	  var dayKey = moment(visibleDate).format('D') - 1;
+	  return _react2.default.createElement(
+	    'div',
+	    { className: 'row' },
+	    gamesByDay && gamesByDay[dayKey] && gamesByDay[dayKey].gameSummaries.length > 0 ? gamesByDay[dayKey].gameSummaries.map(function (gameData, index) {
+	      return _react2.default.createElement(_singleGame2.default, { gameData: gameData, predictedWinner: predictedWinners[dayKey + 1], eligibleTeams: eligibleTeams, addPrediction: addPrediction, removePrediction: removePrediction, key: index });
+	    }) : _react2.default.createElement(
+	      'div',
+	      null,
+	      ' Sorry, no games scheduled for today. '
+	    )
+	  );
+	};
+
+	exports.default = api;
+
+/***/ },
+/* 504 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(301);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _gameTeam = __webpack_require__(505);
+
+	var _gameTeam2 = _interopRequireDefault(_gameTeam);
+
+	var _gameStatus = __webpack_require__(509);
+
+	var _gameStatus2 = _interopRequireDefault(_gameStatus);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var api = function api(_ref) {
+	  var gameData = _ref.gameData;
+	  var predictedWinner = _ref.predictedWinner;
+	  var eligibleTeams = _ref.eligibleTeams;
+	  var addPrediction = _ref.addPrediction;
+	  var removePrediction = _ref.removePrediction;
+
+
+	  //color the panel border appropriately:
+	  var panelType = 'panel-default';
+	  if (gameData.roadTeam.teamName === predictedWinner || gameData.homeTeam.teamName === predictedWinner) {
+	    panelType = 'panel-primary';
+	  }
+	  if (gameData.roadTeam.isWinner && gameData.roadTeam.teamName === predictedWinner || gameData.homeTeam.isWinner && gameData.homeTeam.teamName === predictedWinner) {
+	    panelType = 'panel-success';
+	  }
+	  if (gameData.roadTeam.isLoser && gameData.roadTeam.teamName === predictedWinner || gameData.homeTeam.isLoser && gameData.homeTeam.teamName === predictedWinner) {
+	    panelType = 'panel-danger';
+	  }
+
+	  return _react2.default.createElement(
+	    'div',
+	    { className: 'col-xs-12 col-md-6' },
+	    _react2.default.createElement(
+	      'div',
+	      { className: 'panel game-panel ' + panelType },
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'panel-body' },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'game-container ' + (gameData.gameStatus.hasStarted ? '' : 'game-not-started') },
+	          _react2.default.createElement(_gameTeam2.default, { gameData: gameData, teamData: gameData.roadTeam, predictedWinner: predictedWinner, eligibleTeams: eligibleTeams, homeVsRoad: 'roadTeam', addPrediction: addPrediction, removePrediction: removePrediction }),
+	          _react2.default.createElement(_gameStatus2.default, { statusData: gameData.gameStatus }),
+	          _react2.default.createElement(_gameTeam2.default, { gameData: gameData, teamData: gameData.homeTeam, predictedWinner: predictedWinner, eligibleTeams: eligibleTeams, homeVsRoad: 'homeTeam', addPrediction: addPrediction, removePrediction: removePrediction })
+	        )
+	      )
+	    )
+	  );
+	};
+
+	exports.default = api;
+
+/***/ },
+/* 505 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(301);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _lodash = __webpack_require__(506);
+
+	var _lodash2 = _interopRequireDefault(_lodash);
+
+	var _teamMessage = __webpack_require__(508);
+
+	var _teamMessage2 = _interopRequireDefault(_teamMessage);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var api = _react2.default.createClass({
+	  displayName: 'api',
+
+	  handleClick: function handleClick() {
+	    var isEligible = _lodash2.default.includes(this.props.eligibleTeams, this.props.teamData.teamName);
+	    var isChosen = this.props.predictedWinner === this.props.teamData.teamName;
+	    if ((isEligible || isChosen) && !this.props.gameData.gameStatus.hasStarted) {
+	      if (isChosen) {
+	        this.props.removePrediction(this.props.gameData.gameId, this.props.teamData.teamName, this.props.gameData.gameDate);
+	      } else {
+	        this.props.addPrediction(this.props.gameData.gameId, this.props.teamData.teamName, this.props.gameData.gameDate);
+	      }
+	    }
+	  },
+	  render: function render() {
+	    var isEligible = _lodash2.default.includes(this.props.eligibleTeams, this.props.teamData.teamName);
+	    var clickable = isEligible || this.props.predictedWinner === this.props.teamData.teamName;
+	    return _react2.default.createElement(
+	      'div',
+	      { className: 'game-item game-team', onClick: this.handleClick },
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'team-container' },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'team-item team-name ' + (clickable ? 'eligible-team' : 'ineligible-team') },
+	          _react2.default.createElement(
+	            'h4',
+	            null,
+	            this.props.teamData.teamName
+	          )
+	        ),
+	        this.props.teamData.teamName === this.props.predictedWinner ? _react2.default.createElement(_teamMessage2.default, { teamData: this.props.teamData }) : ''
+	      )
+	    );
+	  }
+	});
+
+	exports.default = api;
+
+/***/ },
+/* 506 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(global, module) {/**
@@ -48166,10 +48616,10 @@
 	  }
 	}.call(this));
 
-	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(500)(module)))
+	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(507)(module)))
 
 /***/ },
-/* 500 */
+/* 507 */
 /***/ function(module, exports) {
 
 	module.exports = function(module) {
@@ -48185,7 +48635,7 @@
 
 
 /***/ },
-/* 501 */
+/* 508 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -48198,37 +48648,36 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _gamesViewerContainer = __webpack_require__(502);
-
-	var _gamesViewerContainer2 = _interopRequireDefault(_gamesViewerContainer);
-
-	var _remainingTeamsContainer = __webpack_require__(510);
-
-	var _remainingTeamsContainer2 = _interopRequireDefault(_remainingTeamsContainer);
-
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var api = _react2.default.createClass({
-	  displayName: 'api',
+	var api = function api(_ref) {
+	  var teamData = _ref.teamData;
 
-	  componentDidMount: function componentDidMount() {
-	    this.props.getInitialUserMonthData();
-	    this.props.getGameData();
-	  },
-	  render: function render() {
-	    return _react2.default.createElement(
-	      'div',
-	      { className: 'row' },
-	      _react2.default.createElement(_remainingTeamsContainer2.default, { reduxState: this.props.reduxState }),
-	      _react2.default.createElement(_gamesViewerContainer2.default, { reduxState: this.props.reduxState })
-	    );
+	  var message;
+	  var statusClass;
+
+	  if (teamData.isWinner) {
+	    message = 'Victory!';
+	    statusClass = 'text-success';
+	  } else if (teamData.isLoser) {
+	    message = 'Defeat!';
+	    statusClass = 'text-danger';
+	  } else {
+	    message = 'Selected';
+	    statusClass = 'text-primary';
 	  }
-	});
+
+	  return _react2.default.createElement(
+	    'div',
+	    { className: 'team-item ' + statusClass },
+	    message
+	  );
+	};
 
 	exports.default = api;
 
 /***/ },
-/* 502 */
+/* 509 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -48237,284 +48686,54 @@
 	  value: true
 	});
 
-	var _reactRedux = __webpack_require__(299);
+	var _react = __webpack_require__(301);
 
-	var _actionCreators = __webpack_require__(503);
-
-	var _actionCreators2 = _interopRequireDefault(_actionCreators);
-
-	var _gamesViewer = __webpack_require__(504);
-
-	var _gamesViewer2 = _interopRequireDefault(_gamesViewer);
-
-	var _helper = __webpack_require__(507);
-
-	var _helper2 = _interopRequireDefault(_helper);
+	var _react2 = _interopRequireDefault(_react);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	// const mapStateToProps = (state) => reduxState;
+	var api = function api(_ref) {
+	  var statusData = _ref.statusData;
 
-	var mapStateToProps = function mapStateToProps(state) {
-	  return {
-	    visibleDate: state.visibleDate,
-	    predictedWinners: state.userMonth.predictedWinners,
-	    eligibleTeams: state.userMonth.eligibleTeams,
-	    gamesByDay: state.gamesByDay
-	  };
-	};
+	  var scoreString;
+	  var progressString;
 
-	var mapDispatchToProps = function mapDispatchToProps(dispatch, ownProps) {
-	  return {
-	    addPrediction: function addPrediction(gameId, teamName, gameDate) {
+	  //set scoreString to game score or start time
+	  if (statusData.hasStarted) {
+	    scoreString = statusData.roadScore + ' - ' + statusData.homeScore;
+	  } else {
+	    scoreString = statusData.startTime;
+	  }
 
-	      //mark previous selection for that day eligible:
-	      var gameDay = moment(gameDate).format('D');
-	      var oldPrediction = ownProps.reduxState.userMonth.predictedWinners[gameDay];
-	      dispatch(_actionCreators2.default.markEligible(oldPrediction));
-
-	      //add new prediction, then mark that team ineligible for rest of month:
-	      dispatch(_actionCreators2.default.addPrediction(gameId, teamName, gameDate));
-	      dispatch(_actionCreators2.default.markIneligible(teamName));
-
-	      //update the database:
-	      var body = {};
-	      body[gameDay] = teamName;
-
-	      _helper2.default.myFetch('http://localhost:3000/api/userMonth/57e1a9dc07523c6b07aec4ef/predictedWinners', 'PUT', body, function (response) {
-	        dispatch(_actionCreators2.default.sendPredictionSuccess(response));
-	      }, function (response) {
-	        dispatch(_actionCreators2.default.sendPredictionFailure());
-	        console.log('Failed to post new prediction', response);
-	      });
-	      dispatch(_actionCreators2.default.sendPredictionWaiting());
-	    },
-	    removePrediction: function removePrediction(gameId, teamName, gameDate) {
-	      dispatch(_actionCreators2.default.removePrediction(gameId, gameDate));
-	      dispatch(_actionCreators2.default.markEligible(teamName));
-
-	      //update the database:
-	      var body = {};
-	      var gameDay = moment(gameDate).format('D');
-	      body[gameDay] = null;
-
-	      _helper2.default.myFetch('http://localhost:3000/api/userMonth/57e1a9dc07523c6b07aec4ef/predictedWinners', 'PUT', body, function (response) {
-	        dispatch(_actionCreators2.default.sendPredictionSuccess(response));
-	      }, function (response) {
-	        dispatch(_actionCreators2.default.sendPredictionFailure());
-	        console.log('Failed to post new prediction', response);
-	      });
-	      dispatch(_actionCreators2.default.sendPredictionWaiting());
-	    },
-	    dayForward: function dayForward() {
-	      dispatch(_actionCreators2.default.dayForward());
-	    },
-	    dayBack: function dayBack() {
-	      dispatch(_actionCreators2.default.dayBack());
+	  // set progressString to Final or In Progress (maybe eventually better precision than In Progress)
+	  if (statusData.hasStarted) {
+	    if (statusData.isFinal) {
+	      progressString = 'Final';
+	    } else {
+	      progressString = 'In Progress';
 	    }
-	  };
-	};
-
-	var api = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_gamesViewer2.default);
-
-	exports.default = api;
-
-/***/ },
-/* 503 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	var api = {
-
-	  //GET initial data:
-	  requestUserMonthWaiting: function requestUserMonthWaiting() {
-	    return {
-	      type: 'REQUEST_USER_MONTH_WAITING'
-	    };
-	  },
-
-	  receiveUserMonth: function receiveUserMonth(response) {
-	    return {
-	      type: 'RECEIVE_USER_MONTH',
-	      response: response
-	    };
-	  },
-
-	  requestUserMonthFailure: function requestUserMonthFailure() {
-	    return {
-	      type: 'REQUEST_USER_MONTH_FAILURE'
-	    };
-	  },
-
-	  requestGameDataWaiting: function requestGameDataWaiting() {
-	    return {
-	      type: 'REQUEST_GAME_DATA_WAITING'
-	    };
-	  },
-
-	  receiveGameData: function receiveGameData(response) {
-	    return {
-	      type: 'RECEIVE_GAME_DATA',
-	      response: response
-	    };
-	  },
-
-	  requestGameDataFailure: function requestGameDataFailure() {
-	    return {
-	      type: 'REQUEST_GAME_DATA_FAILURE'
-	    };
-	  },
-
-	  //PUT send game prediction:
-	  sendPredictionWaiting: function sendPredictionWaiting() {
-	    return {
-	      type: 'SEND_PREDICTION_WAITING'
-	    };
-	  },
-
-	  sendPredictionSuccess: function sendPredictionSuccess() {
-	    return {
-	      type: 'SEND_PREDICTION_SUCCESS'
-	    };
-	  },
-
-	  sendPredictionFailure: function sendPredictionFailure() {
-	    return {
-	      type: 'SEND_PREDICTION_FAILURE'
-	    };
-	  },
-
-	  //User actions:
-	  addPrediction: function addPrediction(gameId, teamName, gameDate) {
-	    return {
-	      type: 'ADD_PREDICTION',
-	      teamName: teamName,
-	      gameDate: gameDate
-	    };
-	  },
-	  removePrediction: function removePrediction(gameId, gameDate) {
-	    return {
-	      type: 'REMOVE_PREDICTION',
-	      gameDate: gameDate
-	    };
-	  },
-	  markIneligible: function markIneligible(teamName) {
-	    return {
-	      type: 'MARK_INELIGIBLE',
-	      teamName: teamName
-	    };
-	  },
-	  markEligible: function markEligible(teamName) {
-	    return {
-	      type: 'MARK_ELIGIBLE',
-	      teamName: teamName
-	    };
-	  },
-	  dayForward: function dayForward() {
-	    return {
-	      type: 'DAY_FORWARD'
-	    };
-	  },
-	  dayBack: function dayBack() {
-	    return {
-	      type: 'DAY_BACK'
-	    };
 	  }
-	};
 
-	exports.default = api;
-
-/***/ },
-/* 504 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _react = __webpack_require__(301);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _singleDayGameList = __webpack_require__(505);
-
-	var _singleDayGameList2 = _interopRequireDefault(_singleDayGameList);
-
-	var _dayPicker = __webpack_require__(506);
-
-	var _dayPicker2 = _interopRequireDefault(_dayPicker);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var api = function api(_ref) {
-	  var visibleDate = _ref.visibleDate;
-	  var gamesByDay = _ref.gamesByDay;
-	  var eligibleTeams = _ref.eligibleTeams;
-	  var predictedWinners = _ref.predictedWinners;
-	  var addPrediction = _ref.addPrediction;
-	  var removePrediction = _ref.removePrediction;
-	  var dayForward = _ref.dayForward;
-	  var dayBack = _ref.dayBack;
 	  return _react2.default.createElement(
 	    'div',
-	    { className: 'col-xs-9 col-sm-8 col-md-9 col-sm-offset-1 col-md-offset-1' },
-	    _react2.default.createElement(_dayPicker2.default, { visibleDate: visibleDate, dayForward: dayForward, dayBack: dayBack }),
-	    _react2.default.createElement(_singleDayGameList2.default, { gamesByDay: gamesByDay, eligibleTeams: eligibleTeams, predictedWinners: predictedWinners, visibleDate: visibleDate, addPrediction: addPrediction, removePrediction: removePrediction })
+	    { className: 'game-item game-status' },
+	    _react2.default.createElement(
+	      'h5',
+	      { className: 'game-status-score' },
+	      scoreString
+	    ),
+	    _react2.default.createElement(
+	      'small',
+	      { className: 'game-status-progress' },
+	      progressString
+	    )
 	  );
 	};
 
 	exports.default = api;
 
 /***/ },
-/* 505 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _react = __webpack_require__(301);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _singleGame = __webpack_require__(513);
-
-	var _singleGame2 = _interopRequireDefault(_singleGame);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var api = function api(_ref) {
-	  var visibleDate = _ref.visibleDate;
-	  var gamesByDay = _ref.gamesByDay;
-	  var predictedWinners = _ref.predictedWinners;
-	  var eligibleTeams = _ref.eligibleTeams;
-	  var addPrediction = _ref.addPrediction;
-	  var removePrediction = _ref.removePrediction;
-
-
-	  //subtract 1 to go from day-of-month to zero-indexed array position:
-	  var dayKey = moment(visibleDate).format('D') - 1;
-	  return _react2.default.createElement(
-	    'div',
-	    { className: 'row' },
-	    gamesByDay && gamesByDay[dayKey] && gamesByDay[dayKey].gameSummaries.length > 0 ? gamesByDay[dayKey].gameSummaries.map(function (gameData, index) {
-	      return _react2.default.createElement(_singleGame2.default, { gameData: gameData, predictedWinner: predictedWinners[dayKey + 1], eligibleTeams: eligibleTeams, addPrediction: addPrediction, removePrediction: removePrediction, key: index });
-	    }) : null
-	  );
-	};
-
-	exports.default = api;
-
-/***/ },
-/* 506 */
+/* 510 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -48557,7 +48776,7 @@
 	exports.default = api;
 
 /***/ },
-/* 507 */
+/* 511 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
@@ -48569,7 +48788,7 @@
 	  value: true
 	});
 
-	var _isomorphicFetch = __webpack_require__(508);
+	var _isomorphicFetch = __webpack_require__(512);
 
 	var _isomorphicFetch2 = _interopRequireDefault(_isomorphicFetch);
 
@@ -48607,19 +48826,19 @@
 	};exports.default = api;
 
 /***/ },
-/* 508 */
+/* 512 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// the whatwg-fetch polyfill installs the fetch() function
 	// on the global object (window or self)
 	//
 	// Return that as the export for use in Webpack, Browserify etc.
-	__webpack_require__(509);
+	__webpack_require__(513);
 	module.exports = self.fetch.bind(self);
 
 
 /***/ },
-/* 509 */
+/* 513 */
 /***/ function(module, exports) {
 
 	(function(self) {
@@ -49058,7 +49277,7 @@
 
 
 /***/ },
-/* 510 */
+/* 514 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -49069,7 +49288,7 @@
 
 	var _reactRedux = __webpack_require__(299);
 
-	var _remainingTeamsTable = __webpack_require__(511);
+	var _remainingTeamsTable = __webpack_require__(515);
 
 	var _remainingTeamsTable2 = _interopRequireDefault(_remainingTeamsTable);
 
@@ -49097,7 +49316,7 @@
 	exports.default = api;
 
 /***/ },
-/* 511 */
+/* 515 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -49110,7 +49329,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _remainingTeamRow = __webpack_require__(512);
+	var _remainingTeamRow = __webpack_require__(516);
 
 	var _remainingTeamRow2 = _interopRequireDefault(_remainingTeamRow);
 
@@ -49146,7 +49365,7 @@
 	exports.default = api;
 
 /***/ },
-/* 512 */
+/* 516 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -49170,235 +49389,6 @@
 	      'td',
 	      null,
 	      teamName
-	    )
-	  );
-	};
-
-	exports.default = api;
-
-/***/ },
-/* 513 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _react = __webpack_require__(301);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _gameTeam = __webpack_require__(514);
-
-	var _gameTeam2 = _interopRequireDefault(_gameTeam);
-
-	var _gameStatus = __webpack_require__(516);
-
-	var _gameStatus2 = _interopRequireDefault(_gameStatus);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var api = function api(_ref) {
-	  var gameData = _ref.gameData;
-	  var predictedWinner = _ref.predictedWinner;
-	  var eligibleTeams = _ref.eligibleTeams;
-	  var addPrediction = _ref.addPrediction;
-	  var removePrediction = _ref.removePrediction;
-
-
-	  //color the panel border appropriately:
-	  var panelType = 'panel-default';
-	  if (gameData.roadTeam.teamName === predictedWinner || gameData.homeTeam.teamName === predictedWinner) {
-	    panelType = 'panel-primary';
-	  }
-	  if (gameData.roadTeam.isWinner && gameData.roadTeam.teamName === predictedWinner || gameData.homeTeam.isWinner && gameData.homeTeam.teamName === predictedWinner) {
-	    panelType = 'panel-success';
-	  }
-	  if (gameData.roadTeam.isLoser && gameData.roadTeam.teamName === predictedWinner || gameData.homeTeam.isLoser && gameData.homeTeam.teamName === predictedWinner) {
-	    panelType = 'panel-danger';
-	  }
-
-	  return _react2.default.createElement(
-	    'div',
-	    { className: 'col-xs-12 col-md-6' },
-	    _react2.default.createElement(
-	      'div',
-	      { className: 'panel game-panel ' + panelType },
-	      _react2.default.createElement(
-	        'div',
-	        { className: 'panel-body' },
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'game-container ' + (gameData.gameStatus.hasStarted ? '' : 'game-not-started') },
-	          _react2.default.createElement(_gameTeam2.default, { gameData: gameData, teamData: gameData.roadTeam, predictedWinner: predictedWinner, eligibleTeams: eligibleTeams, homeVsRoad: 'roadTeam', addPrediction: addPrediction, removePrediction: removePrediction }),
-	          _react2.default.createElement(_gameStatus2.default, { statusData: gameData.gameStatus }),
-	          _react2.default.createElement(_gameTeam2.default, { gameData: gameData, teamData: gameData.homeTeam, predictedWinner: predictedWinner, eligibleTeams: eligibleTeams, homeVsRoad: 'homeTeam', addPrediction: addPrediction, removePrediction: removePrediction })
-	        )
-	      )
-	    )
-	  );
-	};
-
-	exports.default = api;
-
-/***/ },
-/* 514 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _react = __webpack_require__(301);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _lodash = __webpack_require__(499);
-
-	var _lodash2 = _interopRequireDefault(_lodash);
-
-	var _teamMessage = __webpack_require__(515);
-
-	var _teamMessage2 = _interopRequireDefault(_teamMessage);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var api = _react2.default.createClass({
-	  displayName: 'api',
-
-	  handleClick: function handleClick() {
-	    var isEligible = _lodash2.default.includes(this.props.eligibleTeams, this.props.teamData.teamName);
-	    var isChosen = this.props.predictedWinner === this.props.teamData.teamName;
-	    if ((isEligible || isChosen) && !this.props.gameData.gameStatus.hasStarted) {
-	      if (isChosen) {
-	        this.props.removePrediction(this.props.gameData.gameId, this.props.teamData.teamName, this.props.gameData.gameDate);
-	      } else {
-	        this.props.addPrediction(this.props.gameData.gameId, this.props.teamData.teamName, this.props.gameData.gameDate);
-	      }
-	    }
-	  },
-	  render: function render() {
-	    var isEligible = _lodash2.default.includes(this.props.eligibleTeams, this.props.teamData.teamName);
-	    var clickable = isEligible || this.props.predictedWinner === this.props.teamData.teamName;
-	    return _react2.default.createElement(
-	      'div',
-	      { className: 'game-item game-team', onClick: this.handleClick },
-	      _react2.default.createElement(
-	        'div',
-	        { className: 'team-container' },
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'team-item team-name ' + (clickable ? 'eligible-team' : 'ineligible-team') },
-	          _react2.default.createElement(
-	            'h4',
-	            null,
-	            this.props.teamData.teamName
-	          )
-	        ),
-	        this.props.teamData.teamName === this.props.predictedWinner ? _react2.default.createElement(_teamMessage2.default, { teamData: this.props.teamData }) : ''
-	      )
-	    );
-	  }
-	});
-
-	exports.default = api;
-
-/***/ },
-/* 515 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _react = __webpack_require__(301);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var api = function api(_ref) {
-	  var teamData = _ref.teamData;
-
-	  var message;
-	  var statusClass;
-
-	  if (teamData.isWinner) {
-	    message = 'Victory!';
-	    statusClass = 'text-success';
-	  } else if (teamData.isLoser) {
-	    message = 'Defeat!';
-	    statusClass = 'text-danger';
-	  } else {
-	    message = 'Selected';
-	    statusClass = 'text-primary';
-	  }
-
-	  return _react2.default.createElement(
-	    'div',
-	    { className: 'team-item ' + statusClass },
-	    message
-	  );
-	};
-
-	exports.default = api;
-
-/***/ },
-/* 516 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _react = __webpack_require__(301);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var api = function api(_ref) {
-	  var statusData = _ref.statusData;
-
-	  var scoreString;
-	  var progressString;
-
-	  //set scoreString to game score or start time
-	  if (statusData.hasStarted) {
-	    scoreString = statusData.roadScore + ' - ' + statusData.homeScore;
-	  } else {
-	    scoreString = statusData.startTime;
-	  }
-
-	  // set progressString to Final or In Progress (maybe eventually better precision than In Progress)
-	  if (statusData.hasStarted) {
-	    if (statusData.isFinal) {
-	      progressString = 'Final';
-	    } else {
-	      progressString = 'In Progress';
-	    }
-	  }
-
-	  return _react2.default.createElement(
-	    'div',
-	    { className: 'game-item game-status' },
-	    _react2.default.createElement(
-	      'h5',
-	      { className: 'game-status-score' },
-	      scoreString
-	    ),
-	    _react2.default.createElement(
-	      'small',
-	      { className: 'game-status-progress' },
-	      progressString
 	    )
 	  );
 	};

@@ -16,7 +16,7 @@ const api = ({visibleDate, gamesByDay, predictedWinners, eligibleTeams, addPredi
           (gameData, index) =>
             <SingleGame gameData={gameData} predictedWinner={predictedWinners[dayKey+1]} eligibleTeams = {eligibleTeams} addPrediction={addPrediction} removePrediction={removePrediction} key={index} />
           )
-        : null
+        : <div> Sorry, no games scheduled for today. </div>
       }
     </div>
   );

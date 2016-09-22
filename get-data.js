@@ -57,17 +57,32 @@ const shapeSingleGame = (data, index) => {
     isFinal: (data.resultSets[0].rowSet[index][4] === 'Final')
   };
 
-  gameSummary.roadTeam = {
-    teamName: data.resultSets[1].rowSet[2*index][4],
-    isWinner: (data.resultSets[0].rowSet[index][4] === 'Final') && (data.resultSets[1].rowSet[2*index][21] > data.resultSets[1].rowSet[2*index + 1][21]),
-    isLoser: (data.resultSets[0].rowSet[index][4] === 'Final') && (data.resultSets[1].rowSet[2*index][21] < data.resultSets[1].rowSet[2*index + 1][21])
-  };
+  //This big if-else block is to correctly distinguish the home and road teams
+  if(data.resultSets[1].rowSet[2*index][3] === data.resultSets[0].rowSet[index][7]){
+    gameSummary.roadTeam = {
+      teamName: data.resultSets[1].rowSet[2*index][4],
+      isWinner: (data.resultSets[0].rowSet[index][4] === 'Final') && (data.resultSets[1].rowSet[2*index][21] > data.resultSets[1].rowSet[2*index + 1][21]),
+      isLoser: (data.resultSets[0].rowSet[index][4] === 'Final') && (data.resultSets[1].rowSet[2*index][21] < data.resultSets[1].rowSet[2*index + 1][21])
+    };
 
-  gameSummary.homeTeam = {
-    teamName: data.resultSets[1].rowSet[2*index + 1][4],
-    isWinner: (data.resultSets[0].rowSet[index][4] === 'Final') && (data.resultSets[1].rowSet[2*index][21] < data.resultSets[1].rowSet[2*index + 1][21]),
-    isLoser: (data.resultSets[0].rowSet[index][4] === 'Final') && (data.resultSets[1].rowSet[2*index][21] > data.resultSets[1].rowSet[2*index + 1][21])
-  };
+    gameSummary.homeTeam = {
+      teamName: data.resultSets[1].rowSet[2*index + 1][4],
+      isWinner: (data.resultSets[0].rowSet[index][4] === 'Final') && (data.resultSets[1].rowSet[2*index][21] < data.resultSets[1].rowSet[2*index + 1][21]),
+      isLoser: (data.resultSets[0].rowSet[index][4] === 'Final') && (data.resultSets[1].rowSet[2*index][21] > data.resultSets[1].rowSet[2*index + 1][21])
+    };
+  } else {
+    gameSummary.homeTeam = {
+      teamName: data.resultSets[1].rowSet[2*index][4],
+      isWinner: (data.resultSets[0].rowSet[index][4] === 'Final') && (data.resultSets[1].rowSet[2*index][21] > data.resultSets[1].rowSet[2*index + 1][21]),
+      isLoser: (data.resultSets[0].rowSet[index][4] === 'Final') && (data.resultSets[1].rowSet[2*index][21] < data.resultSets[1].rowSet[2*index + 1][21])
+    };
+
+    gameSummary.roadTeam = {
+      teamName: data.resultSets[1].rowSet[2*index + 1][4],
+      isWinner: (data.resultSets[0].rowSet[index][4] === 'Final') && (data.resultSets[1].rowSet[2*index][21] < data.resultSets[1].rowSet[2*index + 1][21]),
+      isLoser: (data.resultSets[0].rowSet[index][4] === 'Final') && (data.resultSets[1].rowSet[2*index][21] > data.resultSets[1].rowSet[2*index + 1][21])
+    };
+  }
 
   return gameSummary;
 };
@@ -97,12 +112,19 @@ const shapeAndPostDay = (date, data) => {
   postGameData(dailyGamesData,console.log,console.log);
 }
 
-const main = (date) => {
+const main = (day) => {
+  const date = moment('Nov '+day+' 2016').format('YYYY-MM-DD');
   nbaFetch(date, shapeAndPostDay.bind(this,date), console.log);
 }
 
-main('2016-11-01');
-main('2016-11-02');
-main('2016-11-03');
-main('2016-11-04');
-main('2016-11-05');
+var counter = 1;
+
+const timer = setInterval(
+  function(){
+    main(counter);
+    counter++;
+    if(counter === 31) {
+        clearInterval(timer);
+    }
+  }, 
+2000);
