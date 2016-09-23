@@ -12,7 +12,8 @@ const mapStateToProps = (state) => ({
   visibleDate: state.visibleDate,
   predictedWinners: state.userMonth.predictedWinners,
   eligibleTeams: state.userMonth.eligibleTeams,
-  gamesByDay: state.gamesByDay
+  gamesByDay: state.gamesByDay,
+  isSendingPrediction: state.isSendingPrediction
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({

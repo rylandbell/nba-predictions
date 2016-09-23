@@ -5,7 +5,7 @@ import React from 'react';
 import GameTeam from './game-team.jsx';
 import GameStatus from './game-status.jsx';
 
-const api = ({gameData, predictedWinner, eligibleTeams, addPrediction, removePrediction}) => {
+const api = ({gameData, predictedWinner, isSendingPrediction, eligibleTeams, addPrediction, removePrediction}) => {
   
   //color the panel border appropriately:
   var panelType = 'panel-default';
@@ -24,9 +24,9 @@ const api = ({gameData, predictedWinner, eligibleTeams, addPrediction, removePre
       <div className={'panel game-panel ' + panelType}>
         <div className="panel-body">
           <div className={'game-container ' + (gameData.gameStatus.hasStarted ? '':'game-not-started')}>
-            <GameTeam gameData={gameData} teamData={gameData.roadTeam} predictedWinner={predictedWinner} eligibleTeams = {eligibleTeams} homeVsRoad={'roadTeam'} addPrediction={addPrediction} removePrediction={removePrediction}/>
+            <GameTeam gameData={gameData} teamData={gameData.roadTeam} predictedWinner={predictedWinner} isSendingPrediction={isSendingPrediction} eligibleTeams = {eligibleTeams} homeVsRoad={'roadTeam'} addPrediction={addPrediction} removePrediction={removePrediction}/>
             <GameStatus statusData={gameData.gameStatus}/>
-            <GameTeam gameData={gameData} teamData={gameData.homeTeam} predictedWinner={predictedWinner} eligibleTeams = {eligibleTeams} homeVsRoad={'homeTeam'} addPrediction={addPrediction} removePrediction={removePrediction}/>
+            <GameTeam gameData={gameData} teamData={gameData.homeTeam} predictedWinner={predictedWinner} isSendingPrediction={isSendingPrediction} eligibleTeams = {eligibleTeams} homeVsRoad={'homeTeam'} addPrediction={addPrediction} removePrediction={removePrediction}/>
           </div>
         </div>
       </div>

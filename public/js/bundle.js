@@ -98,14 +98,14 @@
 	    { store: store },
 	    _react2.default.createElement(_predictionsPage2.default, {
 	      reduxState: store.getState(),
-	      getInitialUserMonthData: function getInitialUserMonthData() {
+	      getUserMonthData: function getUserMonthData() {
 	        _helper2.default.myFetch('http://localhost:3000/api/userMonth/57e1a9dc07523c6b07aec4ef', 'GET', {}, function (response) {
 	          store.dispatch(_actionCreators2.default.receiveUserMonth(response));
 	        }, function (response) {
 	          store.dispatch(_actionCreators2.default.requestUserMonthFailure());
 	          console.log('Failed to fetch userMonth', response);
 	        });
-	        _actionCreators2.default.requestUserMonthWaiting();
+	        store.dispatch(_actionCreators2.default.requestUserMonthWaiting());
 	      },
 	      getGameData: function getGameData() {
 	        _helper2.default.myFetch('http://localhost:3000/api/dailyGamesData/2016-11', 'GET', {}, function (response) {
@@ -114,7 +114,7 @@
 	          store.dispatch(_actionCreators2.default.requestGameDataFailure());
 	          console.log('Failed to fetch gameData', response);
 	        });
-	        _actionCreators2.default.requestGameDataWaiting();
+	        store.dispatch(_actionCreators2.default.requestGameDataWaiting());
 	      } })
 	  ), document.getElementById('app-root'));
 	}
@@ -31274,6 +31274,54 @@
 
 	var teams = ['ATL', 'BKN', 'BOS', 'CHA', 'CHI', 'CLE', 'DAL', 'DEN', 'DET', 'GSW', 'HOU', 'IND', 'LAC', 'LAL', 'MEM', 'MIA', 'MIL', 'MIN', 'NOP', 'NYK', 'OKC', 'ORL', 'PHI', 'PHX', 'POR', 'SAC', 'SAS', 'TOR', 'UTA', 'WAS'];
 
+	var isFetchingPredictions = function isFetchingPredictions() {
+	  var state = arguments.length <= 0 || arguments[0] === undefined ? false : arguments[0];
+	  var action = arguments[1];
+
+	  switch (action.type) {
+	    case 'REQUEST_USER_MONTH_WAITING':
+	      return true;
+	    case 'RECEIVE_USER_MONTH':
+	      return false;
+	    case 'REQUEST_USER_MONTH_FAILURE':
+	      return false;
+	    default:
+	      return state;
+	  }
+	};
+
+	var isFetchingGameData = function isFetchingGameData() {
+	  var state = arguments.length <= 0 || arguments[0] === undefined ? false : arguments[0];
+	  var action = arguments[1];
+
+	  switch (action.type) {
+	    case 'REQUEST_GAME_DATA_WAITING':
+	      return true;
+	    case 'RECEIVE_GAME_DATA':
+	      return false;
+	    case 'REQUEST_GAME_DATA_FAILURE':
+	      return false;
+	    default:
+	      return state;
+	  }
+	};
+
+	var isSendingPrediction = function isSendingPrediction() {
+	  var state = arguments.length <= 0 || arguments[0] === undefined ? false : arguments[0];
+	  var action = arguments[1];
+
+	  switch (action.type) {
+	    case 'SEND_PREDICTION_WAITING':
+	      return true;
+	    case 'SEND_PREDICTION_SUCCESS':
+	      return false;
+	    case 'SEND_PREDICTION_FAILURE':
+	      return false;
+	    default:
+	      return state;
+	  }
+	};
+
 	//user-selected date:
 	var visibleDate = function visibleDate() {
 	  var state = arguments.length <= 0 || arguments[0] === undefined ? '2016-11-01' : arguments[0];
@@ -31296,22 +31344,6 @@
 	  switch (action.type) {
 	    case 'RECEIVE_USER_MONTH':
 	      return action.response.userMonth.month;
-	    default:
-	      return state;
-	  }
-	};
-
-	var isFetching = function isFetching() {
-	  var state = arguments.length <= 0 || arguments[0] === undefined ? false : arguments[0];
-	  var action = arguments[1];
-
-	  switch (action.type) {
-	    case 'REQUEST_USER_MONTH_WAITING':
-	      return true;
-	    case 'RECEIVE_USER_MONTH':
-	      return false;
-	    case 'REQUEST_USER_MONTH_FAILURE':
-	      return false;
 	    default:
 	      return state;
 	  }
@@ -31368,7 +31400,6 @@
 
 	var userMonth = Redux.combineReducers({
 	  month: month,
-	  isFetching: isFetching,
 	  eligibleTeams: eligibleTeams,
 	  predictedWinners: predictedWinners
 	});
@@ -31389,6 +31420,9 @@
 
 	var api = {
 	  app: Redux.combineReducers({
+	    isFetchingGameData: isFetchingGameData,
+	    isFetchingPredictions: isFetchingPredictions,
+	    isSendingPrediction: isSendingPrediction,
 	    visibleDate: visibleDate,
 	    userMonth: userMonth,
 	    gamesByDay: gamesByDay
@@ -31398,9 +31432,11 @@
 	exports.default = api;
 
 	// {
+	//   isFetchingGameData,
+	//   isFetchingPredictions,
+	//   isSendingPrediction,
 	//   visibleDate: string,
 	//   userMonth: {
-	//     isFetching: false,
 	//     month: '2016_09',
 	//     eligibleTeams: {
 	//       ATL: false,
@@ -31442,13 +31478,17 @@
 	  displayName: 'api',
 
 	  componentDidMount: function componentDidMount() {
-	    this.props.getInitialUserMonthData();
+	    this.props.getUserMonthData();
 	    this.props.getGameData();
 	  },
 	  render: function render() {
-	    return _react2.default.createElement(
+	    return this.props.reduxState.isFetchingPredictions || this.props.reduxState.isFetchingGameData ? _react2.default.createElement(
 	      'div',
-	      { className: 'row' },
+	      null,
+	      'Loading games data... '
+	    ) : _react2.default.createElement(
+	      'div',
+	      { className: 'row ' + (this.props.reduxState.isSendingPrediction ? 'send-waiting' : '') },
 	      _react2.default.createElement(_remainingTeamsContainer2.default, { reduxState: this.props.reduxState }),
 	      _react2.default.createElement(_gamesViewerContainer2.default, { reduxState: this.props.reduxState })
 	    );
@@ -31490,7 +31530,8 @@
 	    visibleDate: state.visibleDate,
 	    predictedWinners: state.userMonth.predictedWinners,
 	    eligibleTeams: state.userMonth.eligibleTeams,
-	    gamesByDay: state.gamesByDay
+	    gamesByDay: state.gamesByDay,
+	    isSendingPrediction: state.isSendingPrediction
 	  };
 	};
 
@@ -31686,6 +31727,7 @@
 	  var visibleDate = _ref.visibleDate;
 	  var gamesByDay = _ref.gamesByDay;
 	  var eligibleTeams = _ref.eligibleTeams;
+	  var isSendingPrediction = _ref.isSendingPrediction;
 	  var predictedWinners = _ref.predictedWinners;
 	  var addPrediction = _ref.addPrediction;
 	  var removePrediction = _ref.removePrediction;
@@ -31695,7 +31737,7 @@
 	    'div',
 	    { className: 'col-xs-9 col-sm-8 col-md-9 col-sm-offset-1 col-md-offset-1' },
 	    _react2.default.createElement(_dayPicker2.default, { visibleDate: visibleDate, dayForward: dayForward, dayBack: dayBack }),
-	    _react2.default.createElement(_singleDayGameList2.default, { gamesByDay: gamesByDay, eligibleTeams: eligibleTeams, predictedWinners: predictedWinners, visibleDate: visibleDate, addPrediction: addPrediction, removePrediction: removePrediction })
+	    _react2.default.createElement(_singleDayGameList2.default, { gamesByDay: gamesByDay, eligibleTeams: eligibleTeams, isSendingPrediction: isSendingPrediction, predictedWinners: predictedWinners, visibleDate: visibleDate, addPrediction: addPrediction, removePrediction: removePrediction })
 	  );
 	};
 
@@ -31725,6 +31767,7 @@
 	  var visibleDate = _ref.visibleDate;
 	  var gamesByDay = _ref.gamesByDay;
 	  var predictedWinners = _ref.predictedWinners;
+	  var isSendingPrediction = _ref.isSendingPrediction;
 	  var eligibleTeams = _ref.eligibleTeams;
 	  var addPrediction = _ref.addPrediction;
 	  var removePrediction = _ref.removePrediction;
@@ -31736,7 +31779,7 @@
 	    'div',
 	    { className: 'row' },
 	    gamesByDay && gamesByDay[dayKey] && gamesByDay[dayKey].gameSummaries.length > 0 ? gamesByDay[dayKey].gameSummaries.map(function (gameData, index) {
-	      return _react2.default.createElement(_singleGame2.default, { gameData: gameData, predictedWinner: predictedWinners[dayKey + 1], eligibleTeams: eligibleTeams, addPrediction: addPrediction, removePrediction: removePrediction, key: index });
+	      return _react2.default.createElement(_singleGame2.default, { gameData: gameData, isSendingPrediction: isSendingPrediction, predictedWinner: predictedWinners[dayKey + 1], eligibleTeams: eligibleTeams, addPrediction: addPrediction, removePrediction: removePrediction, key: index });
 	    }) : _react2.default.createElement(
 	      'div',
 	      null,
@@ -31774,6 +31817,7 @@
 	var api = function api(_ref) {
 	  var gameData = _ref.gameData;
 	  var predictedWinner = _ref.predictedWinner;
+	  var isSendingPrediction = _ref.isSendingPrediction;
 	  var eligibleTeams = _ref.eligibleTeams;
 	  var addPrediction = _ref.addPrediction;
 	  var removePrediction = _ref.removePrediction;
@@ -31803,9 +31847,9 @@
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'game-container ' + (gameData.gameStatus.hasStarted ? '' : 'game-not-started') },
-	          _react2.default.createElement(_gameTeam2.default, { gameData: gameData, teamData: gameData.roadTeam, predictedWinner: predictedWinner, eligibleTeams: eligibleTeams, homeVsRoad: 'roadTeam', addPrediction: addPrediction, removePrediction: removePrediction }),
+	          _react2.default.createElement(_gameTeam2.default, { gameData: gameData, teamData: gameData.roadTeam, predictedWinner: predictedWinner, isSendingPrediction: isSendingPrediction, eligibleTeams: eligibleTeams, homeVsRoad: 'roadTeam', addPrediction: addPrediction, removePrediction: removePrediction }),
 	          _react2.default.createElement(_gameStatus2.default, { statusData: gameData.gameStatus }),
-	          _react2.default.createElement(_gameTeam2.default, { gameData: gameData, teamData: gameData.homeTeam, predictedWinner: predictedWinner, eligibleTeams: eligibleTeams, homeVsRoad: 'homeTeam', addPrediction: addPrediction, removePrediction: removePrediction })
+	          _react2.default.createElement(_gameTeam2.default, { gameData: gameData, teamData: gameData.homeTeam, predictedWinner: predictedWinner, isSendingPrediction: isSendingPrediction, eligibleTeams: eligibleTeams, homeVsRoad: 'homeTeam', addPrediction: addPrediction, removePrediction: removePrediction })
 	        )
 	      )
 	    )
@@ -31842,13 +31886,17 @@
 	  displayName: 'api',
 
 	  handleClick: function handleClick() {
-	    var isEligible = _lodash2.default.includes(this.props.eligibleTeams, this.props.teamData.teamName);
-	    var isChosen = this.props.predictedWinner === this.props.teamData.teamName;
-	    if ((isEligible || isChosen) && !this.props.gameData.gameStatus.hasStarted) {
-	      if (isChosen) {
-	        this.props.removePrediction(this.props.gameData.gameId, this.props.teamData.teamName, this.props.gameData.gameDate);
-	      } else {
-	        this.props.addPrediction(this.props.gameData.gameId, this.props.teamData.teamName, this.props.gameData.gameDate);
+	    if (this.props.isSendingPrediction) {
+	      return;
+	    } else {
+	      var isEligible = _lodash2.default.includes(this.props.eligibleTeams, this.props.teamData.teamName);
+	      var isChosen = this.props.predictedWinner === this.props.teamData.teamName;
+	      if ((isEligible || isChosen) && !this.props.gameData.gameStatus.hasStarted) {
+	        if (isChosen) {
+	          this.props.removePrediction(this.props.gameData.gameId, this.props.teamData.teamName, this.props.gameData.gameDate);
+	        } else {
+	          this.props.addPrediction(this.props.gameData.gameId, this.props.teamData.teamName, this.props.gameData.gameDate);
+	        }
 	      }
 	    }
 	  },

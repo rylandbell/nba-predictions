@@ -7,13 +7,17 @@ import TeamMessage from './team-message.jsx';
 
 const api = React.createClass({
   handleClick: function () {
-    const isEligible = _.includes(this.props.eligibleTeams, this.props.teamData.teamName);
-    const isChosen = this.props.predictedWinner === this.props.teamData.teamName;
-    if((isEligible || isChosen) && !this.props.gameData.gameStatus.hasStarted){
-      if(isChosen) {
-        this.props.removePrediction(this.props.gameData.gameId, this.props.teamData.teamName, this.props.gameData.gameDate);
-      } else {
-        this.props.addPrediction(this.props.gameData.gameId, this.props.teamData.teamName, this.props.gameData.gameDate);
+    if(this.props.isSendingPrediction){
+      return
+    } else {
+      const isEligible = _.includes(this.props.eligibleTeams, this.props.teamData.teamName);
+      const isChosen = this.props.predictedWinner === this.props.teamData.teamName;
+      if((isEligible || isChosen) && !this.props.gameData.gameStatus.hasStarted){
+        if(isChosen) {
+          this.props.removePrediction(this.props.gameData.gameId, this.props.teamData.teamName, this.props.gameData.gameDate);
+        } else {
+          this.props.addPrediction(this.props.gameData.gameId, this.props.teamData.teamName, this.props.gameData.gameDate);
+        }
       }
     }
   },

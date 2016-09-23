@@ -7,16 +7,17 @@ import RemainingTeamsContainer from './containers/remaining-teams-container.jsx'
 
 const api = React.createClass({
   componentDidMount: function() {
-    this.props.getInitialUserMonthData()
+    this.props.getUserMonthData()
     this.props.getGameData()
   },
   render: function() {
     return (
-      <div className="row">
+      (this.props.reduxState.isFetchingPredictions || this.props.reduxState.isFetchingGameData) ?
+      <div>Loading games data... </div> :
+      <div className={'row '+(this.props.reduxState.isSendingPrediction ? 'send-waiting' : '')}>
         <RemainingTeamsContainer reduxState={this.props.reduxState}/>
         <GamesViewerContainer reduxState={this.props.reduxState}/>
-      </div>
-    );
+      </div>)
   }
 });
 

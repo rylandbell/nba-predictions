@@ -7,6 +7,45 @@ import _ from 'lodash';
 
 const teams = ['ATL', 'BKN', 'BOS', 'CHA', 'CHI', 'CLE', 'DAL', 'DEN', 'DET', 'GSW', 'HOU', 'IND', 'LAC', 'LAL', 'MEM', 'MIA', 'MIL', 'MIN', 'NOP', 'NYK', 'OKC', 'ORL', 'PHI', 'PHX', 'POR', 'SAC', 'SAS', 'TOR', 'UTA', 'WAS'];
 
+const isFetchingPredictions = (state = false, action) => {
+  switch(action.type){
+    case 'REQUEST_USER_MONTH_WAITING':
+      return true;
+    case 'RECEIVE_USER_MONTH':
+      return false;
+    case 'REQUEST_USER_MONTH_FAILURE':
+      return false;
+    default:
+      return state;
+  }
+};
+
+const isFetchingGameData = (state = false, action) => {
+  switch(action.type){
+    case 'REQUEST_GAME_DATA_WAITING':
+      return true;
+    case 'RECEIVE_GAME_DATA':
+      return false;
+    case 'REQUEST_GAME_DATA_FAILURE':
+      return false;
+    default:
+      return state;
+  }
+};
+
+const isSendingPrediction = (state = false, action) => {
+  switch(action.type){
+    case 'SEND_PREDICTION_WAITING':
+      return true;
+    case 'SEND_PREDICTION_SUCCESS':
+      return false;
+    case 'SEND_PREDICTION_FAILURE':
+      return false;
+    default:
+      return state;
+  }
+};
+
 //user-selected date:
 const visibleDate = (state = '2016-11-01', action) => {
   switch(action.type){
@@ -23,19 +62,6 @@ const month = (state = '', action) => {
   switch(action.type){
     case 'RECEIVE_USER_MONTH':
       return action.response.userMonth.month;
-    default:
-      return state;
-  }
-};
-
-const isFetching = (state = false, action) => {
-  switch(action.type){
-    case 'REQUEST_USER_MONTH_WAITING':
-      return true;
-    case 'RECEIVE_USER_MONTH':
-      return false;
-    case 'REQUEST_USER_MONTH_FAILURE':
-      return false;
     default:
       return state;
   }
@@ -84,7 +110,6 @@ const predictedWinners = (state = {}, action) => {
 
 const userMonth = Redux.combineReducers({
   month,
-  isFetching,
   eligibleTeams,
   predictedWinners
 });
@@ -100,6 +125,9 @@ const gamesByDay = (state = [], action) => {
 
 const api = {
   app: Redux.combineReducers({
+    isFetchingGameData,
+    isFetchingPredictions,
+    isSendingPrediction,
     visibleDate,
     userMonth,
     gamesByDay
@@ -109,9 +137,11 @@ const api = {
 export default api;
 
 // {
+//   isFetchingGameData,
+//   isFetchingPredictions,
+//   isSendingPrediction,
 //   visibleDate: string,
 //   userMonth: {
-//     isFetching: false,
 //     month: '2016_09',
 //     eligibleTeams: {
 //       ATL: false,

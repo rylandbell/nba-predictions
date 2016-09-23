@@ -22,7 +22,7 @@ function render() {
     <Provider store={store}>
       <PredictionsPage 
         reduxState={store.getState()}
-        getInitialUserMonthData = {
+        getUserMonthData = {
           () => {
             Helper.myFetch(
               'http://localhost:3000/api/userMonth/57e1a9dc07523c6b07aec4ef',
@@ -36,7 +36,7 @@ function render() {
                 console.log('Failed to fetch userMonth', response);
               })
             );
-            ActionCreator.requestUserMonthWaiting();
+            store.dispatch(ActionCreator.requestUserMonthWaiting());
           }
         }
         getGameData = {
@@ -53,7 +53,7 @@ function render() {
                 console.log('Failed to fetch gameData', response);
               })
             );
-            ActionCreator.requestGameDataWaiting();
+            store.dispatch(ActionCreator.requestGameDataWaiting());
           }
         } />
     </Provider>,

@@ -29,6 +29,10 @@ body {
 // 	padding: 10px;
 // }
 
+.send-waiting, .send-waiting * {
+  cursor: progress !important;
+}
+
 /*~~~~~~~~~~~~~~~~~~~~~~*/
 
 .horiz-teams-table .selected {
