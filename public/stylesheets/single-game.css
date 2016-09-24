@@ -4,6 +4,7 @@
   display: flex;
   flex-direction: row;
   align-items: baseline;
+  height: 107px;
 }
 
 .game-item {
@@ -41,18 +42,18 @@
 
 .ineligible-team * {
   color: #555;
-  text-decoration: line-through;
+  /*text-decoration: line-through;*/
 }
 
-.panel-primary {
+.game-panel.panel-primary {
   box-shadow: 0 0 0.4em 0.15em #2A9FD6;
 }
 
-.panel-success {
+.game-panel.panel-success {
   box-shadow: 0 0 0.4em 0.15em #77B300;
 }
 
-.panel-danger {
+.game-panel.panel-danger {
   box-shadow: 0 0 0.4em 0.15em #CC0000;
 }
 
@@ -66,33 +67,31 @@
   border-radius: 10px;
 }
 
-.mockups .logo {
-  max-width: 70px;
-  max-height: 40px;
+.logo {
+  height: 40px;
 }
 
-.mockups .team-name {
+.team-name {
   padding-bottom: 15px;
 }
 
-.mockups .selected-team {
+.selected-team {
   box-shadow: 0 0 0.4em 0.15em #2A9FD6;
   border: 3px solid #2A9FD6;
 }
 
-.mockups .victory-team {
+.victory-team {
   box-shadow: 0 0 0.4em 0.15em #77B300;
   border: 3px solid #77B300;
 }
 
-.mockups .defeat-team {
+.defeat-team {
   box-shadow: 0 0 0.4em 0.15em #CC0000;
   border: 3px solid #CC0000;
 }
 
-.mockups .ineligible-team .logo {
-  -webkit-filter: grayscale(100%);
-  filter: grayscale(80%);
+.ineligible-team .logo {
+  opacity: 0.2;
 }
 
 /*

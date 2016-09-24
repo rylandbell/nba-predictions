@@ -6,8 +6,6 @@ import ActionCreator from '../../action-creators.jsx';
 import GamesViewer from '../games-viewer/games-viewer.jsx';
 import Helper from '../../helper.jsx';
 
-// const mapStateToProps = (state) => reduxState;
-
 const mapStateToProps = (state) => ({
   visibleDate: state.visibleDate,
   predictedWinners: state.userMonth.predictedWinners,

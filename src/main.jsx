@@ -2,7 +2,6 @@
 
 //babel-polyfill will polyfill ES6 features, specifically Promises for fetch
 import 'babel-polyfill';
-import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -13,7 +12,7 @@ import PredictionsPage from './components/predictions-page.jsx';
 import ActionCreator from './action-creators.jsx';
 import Helper from './helper.jsx';
 
-const store = Redux.createStore(Reducers.app, Redux.applyMiddleware(thunk));
+const store = Redux.createStore(Reducers.app);
 store.subscribe(render);
 render();
 

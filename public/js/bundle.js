@@ -50,10 +50,6 @@
 
 	__webpack_require__(1);
 
-	var _reduxThunk = __webpack_require__(298);
-
-	var _reduxThunk2 = _interopRequireDefault(_reduxThunk);
-
 	var _reactRedux = __webpack_require__(299);
 
 	var _react = __webpack_require__(301);
@@ -88,7 +84,7 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var store = Redux.createStore(_reducers2.default.app, Redux.applyMiddleware(_reduxThunk2.default));
+	var store = Redux.createStore(_reducers2.default.app);
 	store.subscribe(render);
 	render();
 
@@ -8264,34 +8260,7 @@
 	};
 
 /***/ },
-/* 298 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	exports.__esModule = true;
-	function createThunkMiddleware(extraArgument) {
-	  return function (_ref) {
-	    var dispatch = _ref.dispatch;
-	    var getState = _ref.getState;
-	    return function (next) {
-	      return function (action) {
-	        if (typeof action === 'function') {
-	          return action(dispatch, getState, extraArgument);
-	        }
-
-	        return next(action);
-	      };
-	    };
-	  };
-	}
-
-	var thunk = createThunkMiddleware();
-	thunk.withExtraArgument = createThunkMiddleware;
-
-	exports['default'] = thunk;
-
-/***/ },
+/* 298 */,
 /* 299 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -31472,6 +31441,10 @@
 
 	var _remainingTeamsContainer2 = _interopRequireDefault(_remainingTeamsContainer);
 
+	var _statusMessage = __webpack_require__(518);
+
+	var _statusMessage2 = _interopRequireDefault(_statusMessage);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var api = _react2.default.createClass({
@@ -31482,11 +31455,7 @@
 	    this.props.getGameData();
 	  },
 	  render: function render() {
-	    return this.props.reduxState.isFetchingPredictions || this.props.reduxState.isFetchingGameData ? _react2.default.createElement(
-	      'div',
-	      null,
-	      'Loading games data... '
-	    ) : _react2.default.createElement(
+	    return this.props.reduxState.isFetchingPredictions || this.props.reduxState.isFetchingGameData ? _react2.default.createElement(_statusMessage2.default, { messageBold: 'Loading game data...', messageBody: 'Just hang tight.', messageClass: 'general' }) : _react2.default.createElement(
 	      'div',
 	      { className: 'row ' + (this.props.reduxState.isSendingPrediction ? 'send-waiting' : '') },
 	      _react2.default.createElement(_remainingTeamsContainer2.default, { reduxState: this.props.reduxState }),
@@ -31522,8 +31491,6 @@
 	var _helper2 = _interopRequireDefault(_helper);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	// const mapStateToProps = (state) => reduxState;
 
 	var mapStateToProps = function mapStateToProps(state) {
 	  return {
@@ -31824,23 +31791,23 @@
 
 
 	  //color the panel border appropriately:
-	  var panelType = 'panel-default';
-	  if (gameData.roadTeam.teamName === predictedWinner || gameData.homeTeam.teamName === predictedWinner) {
-	    panelType = 'panel-primary';
-	  }
-	  if (gameData.roadTeam.isWinner && gameData.roadTeam.teamName === predictedWinner || gameData.homeTeam.isWinner && gameData.homeTeam.teamName === predictedWinner) {
-	    panelType = 'panel-success';
-	  }
-	  if (gameData.roadTeam.isLoser && gameData.roadTeam.teamName === predictedWinner || gameData.homeTeam.isLoser && gameData.homeTeam.teamName === predictedWinner) {
-	    panelType = 'panel-danger';
-	  }
+	  // var panelType = 'panel-default';
+	  // if (gameData.roadTeam.teamName === predictedWinner || gameData.homeTeam.teamName === predictedWinner) {
+	  //   panelType = 'panel-primary';
+	  // }
+	  // if ((gameData.roadTeam.isWinner && gameData.roadTeam.teamName === predictedWinner) || (gameData.homeTeam.isWinner && gameData.homeTeam.teamName === predictedWinner)) {
+	  //   panelType = 'panel-success';
+	  // }
+	  // if ((gameData.roadTeam.isLoser && gameData.roadTeam.teamName === predictedWinner) || (gameData.homeTeam.isLoser && gameData.homeTeam.teamName === predictedWinner)) {
+	  //   panelType = 'panel-danger';
+	  // }
 
 	  return _react2.default.createElement(
 	    'div',
 	    { className: 'col-xs-12 col-md-6' },
 	    _react2.default.createElement(
 	      'div',
-	      { className: 'panel game-panel ' + panelType },
+	      { className: 'panel game-panel' },
 	      _react2.default.createElement(
 	        'div',
 	        { className: 'panel-body' },
@@ -31876,10 +31843,6 @@
 
 	var _lodash2 = _interopRequireDefault(_lodash);
 
-	var _teamMessage = __webpack_require__(508);
-
-	var _teamMessage2 = _interopRequireDefault(_teamMessage);
-
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var api = _react2.default.createClass({
@@ -31901,6 +31864,7 @@
 	    }
 	  },
 	  render: function render() {
+	    var isChosen = this.props.predictedWinner === this.props.teamData.teamName;
 	    var isEligible = _lodash2.default.includes(this.props.eligibleTeams, this.props.teamData.teamName);
 	    var clickable = isEligible || this.props.predictedWinner === this.props.teamData.teamName;
 	    return _react2.default.createElement(
@@ -31911,14 +31875,14 @@
 	        { className: 'team-container' },
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'team-item team-name ' + (clickable ? 'eligible-team' : 'ineligible-team') },
+	          { className: 'team-item team-name ' + (clickable ? 'eligible-team' : 'ineligible-team') + (isChosen ? ' selected-team' : '') },
 	          _react2.default.createElement(
 	            'h4',
 	            null,
 	            this.props.teamData.teamName
-	          )
-	        ),
-	        this.props.teamData.teamName === this.props.predictedWinner ? _react2.default.createElement(_teamMessage2.default, { teamData: this.props.teamData }) : ''
+	          ),
+	          _react2.default.createElement('img', { src: '/images/logos/' + this.props.teamData.teamName + '.png', className: 'logo' })
+	        )
 	      )
 	    );
 	  }
@@ -48683,48 +48647,7 @@
 
 
 /***/ },
-/* 508 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _react = __webpack_require__(301);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var api = function api(_ref) {
-	  var teamData = _ref.teamData;
-
-	  var message;
-	  var statusClass;
-
-	  if (teamData.isWinner) {
-	    message = 'Victory!';
-	    statusClass = 'text-success';
-	  } else if (teamData.isLoser) {
-	    message = 'Defeat!';
-	    statusClass = 'text-danger';
-	  } else {
-	    message = 'Selected';
-	    statusClass = 'text-primary';
-	  }
-
-	  return _react2.default.createElement(
-	    'div',
-	    { className: 'team-item ' + statusClass },
-	    message
-	  );
-	};
-
-	exports.default = api;
-
-/***/ },
+/* 508 */,
 /* 509 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -49438,6 +49361,43 @@
 	      null,
 	      teamName
 	    )
+	  );
+	};
+
+	exports.default = api;
+
+/***/ },
+/* 517 */,
+/* 518 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(301);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var api = function api(_ref) {
+	  var messageBold = _ref.messageBold;
+	  var messageBody = _ref.messageBody;
+	  var messageClass = _ref.messageClass;
+
+
+	  return _react2.default.createElement(
+	    'div',
+	    { className: 'status-message alert alert-' + messageClass },
+	    _react2.default.createElement(
+	      'strong',
+	      null,
+	      messageBold
+	    ),
+	    '\t' + messageBody
 	  );
 	};
 

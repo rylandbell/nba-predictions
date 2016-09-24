@@ -1,0 +1,8 @@
+.status-message {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 40px;
+  max-width: 500px;
+  font-size: 1.1em;
+  text-align: center;
+}

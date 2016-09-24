@@ -1,5 +1,7 @@
 'use strict';
 
+// {(this.props.teamData.teamName === this.props.predictedWinner ? <TeamMessage teamData={this.props.teamData}/> : '')}
+
 import React from 'react';
 
 const api = ({teamData}) => {
