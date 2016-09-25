@@ -21,7 +21,7 @@ const api = ({gameData, predictedWinner, isSendingPrediction, eligibleTeams, add
 
   return (
     <div className="col-xs-12 col-md-6">
-      <div className={'panel game-panel'}>
+      <div className={'panel panel-default game-panel'}>
         <div className="panel-body">
           <div className={'game-container ' + (gameData.gameStatus.hasStarted ? '':'game-not-started')}>
             <GameTeam gameData={gameData} teamData={gameData.roadTeam} predictedWinner={predictedWinner} isSendingPrediction={isSendingPrediction} eligibleTeams = {eligibleTeams} homeVsRoad={'roadTeam'} addPrediction={addPrediction} removePrediction={removePrediction}/>

@@ -31807,7 +31807,7 @@
 	    { className: 'col-xs-12 col-md-6' },
 	    _react2.default.createElement(
 	      'div',
-	      { className: 'panel game-panel' },
+	      { className: 'panel panel-default game-panel' },
 	      _react2.default.createElement(
 	        'div',
 	        { className: 'panel-body' },

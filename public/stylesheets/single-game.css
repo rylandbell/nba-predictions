@@ -4,7 +4,6 @@
   display: flex;
   flex-direction: row;
   align-items: baseline;
-  height: 107px;
 }
 
 .game-item {
@@ -29,7 +28,7 @@
 }
 
 .team-name {
-  border-radius: 5px;
+  border-radius: 10px;
 }
 
 .game-status-score {
@@ -42,19 +41,6 @@
 
 .ineligible-team * {
   color: #555;
-  /*text-decoration: line-through;*/
-}
-
-.game-panel.panel-primary {
-  box-shadow: 0 0 0.4em 0.15em #2A9FD6;
-}
-
-.game-panel.panel-success {
-  box-shadow: 0 0 0.4em 0.15em #77B300;
-}
-
-.game-panel.panel-danger {
-  box-shadow: 0 0 0.4em 0.15em #CC0000;
 }
 
 .game-container.game-not-started .team-name.eligible-team:hover {
@@ -67,12 +53,17 @@
   border-radius: 10px;
 }
 
+.game-panel .panel-body {
+  padding: 5px 10px;
+}
+
 .logo {
   height: 40px;
 }
 
 .team-name {
   padding-bottom: 15px;
+  border: 3px solid #222;
 }
 
 .selected-team {
@@ -93,16 +84,3 @@
 .ineligible-team .logo {
   opacity: 0.2;
 }
-
-/*
-.team-item.text-primary {
-  position: absolute;
-  bottom: 46px;
-  left: 44px;
-  background-color: rgba(0,0,0,0.5);
-  padding-left: 10px;
-  padding-right: 10px;
-  border-radius: 3px;
-  font-weight: bold;
-}
-*/
