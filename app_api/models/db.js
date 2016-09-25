@@ -53,5 +53,4 @@ process.on('SIGTERM', function () {
 // BRING IN YOUR SCHEMAS & MODELS
 require('./user-months');
 require('./daily-games-data');
-
-// require('./users');
+require('./users');
