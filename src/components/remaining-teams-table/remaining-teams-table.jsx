@@ -6,7 +6,7 @@ import RemainingTeamRow from './remaining-team-row.jsx';
 const api = ({eligibleTeams}) => {
 
 return  (
-    <div className="col-xs-3 col-sm-3 col-md-2">
+    <div className="col-xs-3 col-sm-3 col-md-2 col-sm-offset-1 col-md-offset-1">
       <div className="text-center lead">
         Remaining Teams
       </div>

@@ -1,6 +1,7 @@
 @import 'single-game.css';
 @import 'day-picker.css';
 @import 'status-message.css';
+@import 'predictions-summary.css';
 
 body {
   padding-top: 70px;

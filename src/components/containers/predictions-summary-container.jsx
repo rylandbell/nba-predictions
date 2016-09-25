@@ -2,11 +2,10 @@
 
 import { connect } from 'react-redux';
 
-// import ActionCreator from '../../action-creators.jsx';
-import RemainingTeamsTable from '../remaining-teams-table/remaining-teams-table.jsx'; 
+import PredictionsSummary from '../predictions-summary/predictions-summary.jsx';
 
 const mapStateToProps = (state) => ({
-  eligibleTeams: state.userMonth.eligibleTeams
+  predictedWinners: state.userMonth.predictedWinners
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
@@ -18,6 +17,6 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 const api = connect(
   mapStateToProps,
   mapDispatchToProps
-)(RemainingTeamsTable);
+)(PredictionsSummary);
 
 export default api;
