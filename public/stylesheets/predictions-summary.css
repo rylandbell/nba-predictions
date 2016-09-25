@@ -15,12 +15,12 @@
 }
 
 .predictions-summary .date-col {
-  width: 20px;
+  width: 40px;
   text-align: left;
 }
 
 .predictions-summary .outcome-col {
-  width: 30px;
-  text-align: center;
+  width: 40px;
+  text-align: right;
 }
 

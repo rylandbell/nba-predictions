@@ -48734,7 +48734,7 @@
 	        _react2.default.createElement(
 	          'h3',
 	          null,
-	          moment(visibleDate).format('MMMM D, YYYY')
+	          moment(visibleDate).format('dddd, MMM D')
 	        )
 	      ),
 	      _react2.default.createElement('span', { onClick: dayForward, className: 'day-picker-item glyphicon glyphicon-menu-right' })
@@ -49396,15 +49396,15 @@
 	    null,
 	    _react2.default.createElement(
 	      'td',
-	      { className: 'dateCol' },
+	      { className: 'date-col' },
 	      '11/' + date
 	    ),
 	    _react2.default.createElement(
 	      'td',
-	      { className: 'teamCol' },
-	      predictedWinners[date]
+	      { className: 'team-col' },
+	      predictedWinners[date] ? predictedWinners[date] : '-'
 	    ),
-	    _react2.default.createElement('td', { className: 'outcomeCol' })
+	    _react2.default.createElement('td', { className: 'outcome-col' })
 	  );
 	  // } else {
 	  //   return null;

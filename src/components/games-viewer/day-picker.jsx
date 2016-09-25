@@ -8,7 +8,7 @@ const api = ({visibleDate, dayForward, dayBack}) => (
       <span onClick={dayBack} className="day-picker-item glyphicon glyphicon-menu-left"></span>
       <div className="day-picker-item date-display">
         <h3>
-          {moment(visibleDate).format('MMMM D, YYYY')}
+          {moment(visibleDate).format('dddd, MMM D')}
         </h3>
       </div>
       <span onClick={dayForward} className="day-picker-item glyphicon glyphicon-menu-right"></span>
