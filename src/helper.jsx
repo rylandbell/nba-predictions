@@ -12,10 +12,11 @@ const api = {
 
     // const myHeaders = new Headers();
     // myHeaders.append('Authorization', 'Bearer ' + accessToken);
-    
     const newRequest = {
+      // mode: 'cors',
       method: method,
-      mode: 'cors',
+      // credentials: 'include',
+      credentials: 'same-origin',
       cache: 'default'
     };
 

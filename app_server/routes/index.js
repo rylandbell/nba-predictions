@@ -5,5 +5,9 @@ var ctrlMain = require('../controllers/main');
 // GET
 router.get('/', ctrlMain.singleDay);
 router.get('/mock-ups', ctrlMain.pageMockups);
+router.get('/login', ctrlMain.login);
+
+//POST login credentials
+router.post('/login', ctrlMain.submitCredentials);
 
 module.exports = router;

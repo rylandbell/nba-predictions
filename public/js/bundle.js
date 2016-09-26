@@ -95,7 +95,7 @@
 	    _react2.default.createElement(_predictionsPage2.default, {
 	      reduxState: store.getState(),
 	      getUserMonthData: function getUserMonthData() {
-	        _helper2.default.myFetch('http://localhost:3000/api/userMonth/57e1a9dc07523c6b07aec4ef', 'GET', {}, function (response) {
+	        _helper2.default.myFetch('http://localhost:3000/api/userMonth', 'GET', {}, function (response) {
 	          store.dispatch(_actionCreators2.default.receiveUserMonth(response));
 	        }, function (response) {
 	          store.dispatch(_actionCreators2.default.requestUserMonthFailure());
@@ -31311,7 +31311,7 @@
 
 	  switch (action.type) {
 	    case 'RECEIVE_USER_MONTH':
-	      return action.response.userMonth.month;
+	      return _extends({}, action.response.userMonth.month);
 	    default:
 	      return state;
 	  }
@@ -31345,7 +31345,7 @@
 
 	  switch (action.type) {
 	    case 'RECEIVE_USER_MONTH':
-	      return action.response.userMonth.predictedWinners;
+	      return _extends({}, action.response.userMonth.predictedWinners);
 	    case 'ADD_PREDICTION':
 	      {
 	        var date = moment(action.gameDate).format('D');
@@ -48274,7 +48274,7 @@
 	      var body = {};
 	      body[gameDay] = teamName;
 
-	      _helper2.default.myFetch('http://localhost:3000/api/userMonth/57e1a9dc07523c6b07aec4ef/predictedWinners', 'PUT', body, function (response) {
+	      _helper2.default.myFetch('http://localhost:3000/api/userMonth/57e8733f008bcc8fc2719fe4/predictedWinners', 'PUT', body, function (response) {
 	        dispatch(_actionCreators2.default.sendPredictionSuccess(response));
 	      }, function (response) {
 	        dispatch(_actionCreators2.default.sendPredictionFailure());
@@ -48291,7 +48291,7 @@
 	      var gameDay = moment(gameDate).format('D');
 	      body[gameDay] = null;
 
-	      _helper2.default.myFetch('http://localhost:3000/api/userMonth/57e1a9dc07523c6b07aec4ef/predictedWinners', 'PUT', body, function (response) {
+	      _helper2.default.myFetch('http://localhost:3000/api/userMonth/57e8733f008bcc8fc2719fe4/predictedWinners', 'PUT', body, function (response) {
 	        dispatch(_actionCreators2.default.sendPredictionSuccess(response));
 	      }, function (response) {
 	        dispatch(_actionCreators2.default.sendPredictionFailure());
@@ -48771,10 +48771,11 @@
 
 	    // const myHeaders = new Headers();
 	    // myHeaders.append('Authorization', 'Bearer ' + accessToken);
-
 	    var newRequest = {
+	      // mode: 'cors',
 	      method: method,
-	      mode: 'cors',
+	      // credentials: 'include',
+	      credentials: 'same-origin',
 	      cache: 'default'
 	    };
 

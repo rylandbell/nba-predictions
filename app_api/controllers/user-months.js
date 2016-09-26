@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var UserMonthModel = mongoose.model('UserMonth');
+var UserModel = mongoose.model('User');
 
 //helper function for composing responses as status codes (e.g. 404) with JSON files
 var sendJsonResponse = function (res, status, content) {
@@ -7,16 +8,50 @@ var sendJsonResponse = function (res, status, content) {
   res.json(content);
 };
 
+//helper function for getting author data from JWT
+var getOwnerData = function (req, res, callback) {
+  if (req.payload._id) {
+    UserModel
+      .findOne({ _id: req.payload._id })
+      .exec(function (err, user) {
+        if (!user) {
+          sendJsonResponse(res, 404, {
+            message: 'User not found'
+          });
+          return;
+        } else if (err) {
+          sendJsonResponse(res, 404, err);
+          return;
+        }
+
+        callback(req, res, user);
+      });
+
+  } else {
+    sendJsonResponse(res, 404, {
+      message: 'User not found'
+    });
+    return;
+  }
+};
+
 /* GET one userMonth by userMonthId */
 module.exports.userMonthReadOne = function (req, res) {
-  if (req.params && req.params.userMonthId) {
+  getOwnerData(req, res, function (req, res, owner) {
+
+    //I'll need to wrap all this in an if-exists block if I reference anything from req.params (like month)
+    var filter = {
+      ownerId: owner._id,
+      month: '2016-11'
+    };
     UserMonthModel
-      .findById(req.params.userMonthId)
+      .find(filter)
       .exec(function (err, userMonth) {
+
         var responseBody = {};
-        if (!userMonth) {
+        if (!userMonth || userMonth.length === 0) {
           sendJsonResponse(res, 404, {
-            message: 'userMonthId not found'
+            message: 'No userMonth found'
           });
           return;
         } else if (err) {
@@ -24,22 +59,18 @@ module.exports.userMonthReadOne = function (req, res) {
           sendJsonResponse(res, 404, err);
           return;
         }
+        responseBody.userMonth = userMonth[0];
 
-        responseBody.userMonth = userMonth;
         sendJsonResponse(res, 200, responseBody);
       });
-  } else {
-    console.log('No userMonthId specified');
-    sendJsonResponse(res, 404, {
-      message: 'No userMonthId in request'
-    });
-  }
+  });
 };
 
 /* POST a new userMonth */
 module.exports.userMonthCreate = function (req, res) {
   UserMonthModel.create({
     month: req.body.month,
+    ownerId: req.body.ownerId,
     predictedWinners: {}
   }, function (err, userMonth) {
     if (err) {

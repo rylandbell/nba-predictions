@@ -24,7 +24,7 @@ function render() {
         getUserMonthData = {
           () => {
             Helper.myFetch(
-              'http://localhost:3000/api/userMonth/57e1a9dc07523c6b07aec4ef',
+              'http://localhost:3000/api/userMonth',
               'GET',
               {},
               (response => {

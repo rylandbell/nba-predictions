@@ -1,5 +1,12 @@
 var request = require('request');
 
+var apiOptions = {
+  server: 'http://localhost:3000'
+};
+if (process.env.NODE_ENV === 'production') {
+  // apiOptions.server = 'https://immense-dusk-59566.herokuapp.com';
+}
+
 /* GET day of games */
 module.exports.singleDay = function (req, res, next) {
   res.render('single-day', {
@@ -67,5 +74,47 @@ var _showError = function (req, res, apiResponse, err, body) {
     message: message,
     title: title,
     content: content
+  });
+};
+
+// GET login page
+var renderLoginView = function (req, res, body) {
+  var message;
+  if (body) {
+    message = body.message;
+  }
+
+  res
+    .clearCookie('token')
+    .render('login', {
+      title: 'Login Page',
+      message: message
+    });
+};
+
+module.exports.login = function (req, res, next) {
+  renderLoginView(req, res);
+};
+
+// POST credentials from login page
+module.exports.submitCredentials = function (req, res, next) {
+  var path = '/api/login';
+  var requestOptions = {
+    url: apiOptions.server + path,
+    method: 'POST',
+    json: req.body,
+    qs: {}
+  };
+  request(requestOptions, function (err, apiResponse, body) {
+    var cookieOptions = {};
+    cookieOptions.maxAge = 1000 * 3600 * 24 * 7;
+    if (apiResponse.statusCode === 200) {
+      res.cookie('token', apiResponse.body.token, cookieOptions);
+      res.redirect('/');
+    } else if (apiResponse.statusCode === 400 || apiResponse.statusCode === 401) {
+      renderLoginView(req, res, apiResponse.body);
+    } else {
+      _showError(req, res, apiResponse);
+    }
   });
 };

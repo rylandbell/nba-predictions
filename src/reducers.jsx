@@ -61,7 +61,7 @@ const visibleDate = (state = '2016-11-01', action) => {
 const month = (state = '', action) => {
   switch(action.type){
     case 'RECEIVE_USER_MONTH':
-      return action.response.userMonth.month;
+      return Object.assign({},action.response.userMonth.month);
     default:
       return state;
   }
@@ -89,7 +89,7 @@ const eligibleTeams = (state = [], action) => {
 const predictedWinners = (state = {}, action) => {
   switch(action.type){
     case 'RECEIVE_USER_MONTH':
-      return action.response.userMonth.predictedWinners;
+      return Object.assign({},action.response.userMonth.predictedWinners);
     case 'ADD_PREDICTION': {
       const date = moment(action.gameDate).format('D');
       const team = action.teamName;

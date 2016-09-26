@@ -32,7 +32,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
       body[gameDay] = teamName;
 
       Helper.myFetch(
-        'http://localhost:3000/api/userMonth/57e1a9dc07523c6b07aec4ef/predictedWinners',
+        'http://localhost:3000/api/userMonth/57e8733f008bcc8fc2719fe4/predictedWinners',
         'PUT',
         body,
         (response => {
@@ -56,7 +56,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
       body[gameDay] = null;
 
       Helper.myFetch(
-        'http://localhost:3000/api/userMonth/57e1a9dc07523c6b07aec4ef/predictedWinners',
+        'http://localhost:3000/api/userMonth/57e8733f008bcc8fc2719fe4/predictedWinners',
         'PUT',
         body,
         (response => {
