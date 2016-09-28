@@ -24,7 +24,7 @@ function render() {
         getUserMonthData = {
           () => {
             Helper.myFetch(
-              'http://localhost:3000/api/userMonth',
+              '/api/userMonth',
               'GET',
               {},
               (response => {
@@ -41,7 +41,7 @@ function render() {
         getGameData = {
           () => {
             Helper.myFetch(
-              'http://localhost:3000/api/dailyGamesData/2016-11',
+              '/api/dailyGamesData/2016-11',
               'GET',
               {},
               (response => {

@@ -95,7 +95,7 @@
 	    _react2.default.createElement(_predictionsPage2.default, {
 	      reduxState: store.getState(),
 	      getUserMonthData: function getUserMonthData() {
-	        _helper2.default.myFetch('http://localhost:3000/api/userMonth', 'GET', {}, function (response) {
+	        _helper2.default.myFetch('/api/userMonth', 'GET', {}, function (response) {
 	          store.dispatch(_actionCreators2.default.receiveUserMonth(response));
 	        }, function (response) {
 	          store.dispatch(_actionCreators2.default.requestUserMonthFailure());
@@ -104,7 +104,7 @@
 	        store.dispatch(_actionCreators2.default.requestUserMonthWaiting());
 	      },
 	      getGameData: function getGameData() {
-	        _helper2.default.myFetch('http://localhost:3000/api/dailyGamesData/2016-11', 'GET', {}, function (response) {
+	        _helper2.default.myFetch('/api/dailyGamesData/2016-11', 'GET', {}, function (response) {
 	          store.dispatch(_actionCreators2.default.receiveGameData(response));
 	        }, function (response) {
 	          store.dispatch(_actionCreators2.default.requestGameDataFailure());
@@ -48196,7 +48196,7 @@
 
 	var _predictionsSummaryContainer2 = _interopRequireDefault(_predictionsSummaryContainer);
 
-	var _statusMessage = __webpack_require__(513);
+	var _statusMessage = __webpack_require__(515);
 
 	var _statusMessage2 = _interopRequireDefault(_statusMessage);
 
@@ -48274,7 +48274,7 @@
 	      var body = {};
 	      body[gameDay] = teamName;
 
-	      _helper2.default.myFetch('http://localhost:3000/api/userMonth/57e8733f008bcc8fc2719fe4/predictedWinners', 'PUT', body, function (response) {
+	      _helper2.default.myFetch('/api/userMonth/57e8733f008bcc8fc2719fe4/predictedWinners', 'PUT', body, function (response) {
 	        dispatch(_actionCreators2.default.sendPredictionSuccess(response));
 	      }, function (response) {
 	        dispatch(_actionCreators2.default.sendPredictionFailure());
@@ -49258,7 +49258,7 @@
 
 	var _reactRedux = __webpack_require__(298);
 
-	var _predictionsSummary = __webpack_require__(514);
+	var _predictionsSummary = __webpack_require__(513);
 
 	var _predictionsSummary2 = _interopRequireDefault(_predictionsSummary);
 
@@ -49296,43 +49296,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var api = function api(_ref) {
-	  var messageBold = _ref.messageBold;
-	  var messageBody = _ref.messageBody;
-	  var messageClass = _ref.messageClass;
-
-
-	  return _react2.default.createElement(
-	    'div',
-	    { className: 'status-message alert alert-' + messageClass },
-	    _react2.default.createElement(
-	      'strong',
-	      null,
-	      messageBold
-	    ),
-	    '\t' + messageBody
-	  );
-	};
-
-	exports.default = api;
-
-/***/ },
-/* 514 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _react = __webpack_require__(300);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _predictionsSummaryRow = __webpack_require__(515);
+	var _predictionsSummaryRow = __webpack_require__(514);
 
 	var _predictionsSummaryRow2 = _interopRequireDefault(_predictionsSummaryRow);
 
@@ -49372,7 +49336,7 @@
 	// {eligibleTeams.map((team, index) => <PredictionsSummaryRow predictedWinners={predictedWinners} date={index} key={index}/>)}
 
 /***/ },
-/* 515 */
+/* 514 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -49410,6 +49374,42 @@
 	  // } else {
 	  //   return null;
 	  // }
+	};
+
+	exports.default = api;
+
+/***/ },
+/* 515 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(300);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var api = function api(_ref) {
+	  var messageBold = _ref.messageBold;
+	  var messageBody = _ref.messageBody;
+	  var messageClass = _ref.messageClass;
+
+
+	  return _react2.default.createElement(
+	    'div',
+	    { className: 'status-message alert alert-' + messageClass },
+	    _react2.default.createElement(
+	      'strong',
+	      null,
+	      messageBold
+	    ),
+	    '\t' + messageBody
+	  );
 	};
 
 	exports.default = api;
