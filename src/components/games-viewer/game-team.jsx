@@ -28,7 +28,7 @@ const api = React.createClass({
         <div className="team-container">
           <div className={'team-item team-name ' + (clickable ? 'eligible-team' : 'ineligible-team') + (isChosen ? ' selected-team' : '')} >
             <h4>{this.props.teamData.teamName}</h4>
-            <img src={'/images/logos/'+this.props.teamData.teamName+'.png'} className="logo"/>
+            <img src={'/images/'+this.props.teamData.teamName+'.png'} className="logo"/>
           </div>
         </div>
       </div>

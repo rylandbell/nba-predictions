@@ -48636,7 +48636,7 @@
 	            null,
 	            this.props.teamData.teamName
 	          ),
-	          _react2.default.createElement('img', { src: '/images/logos/' + this.props.teamData.teamName + '.png', className: 'logo' })
+	          _react2.default.createElement('img', { src: '/images/' + this.props.teamData.teamName + '.png', className: 'logo' })
 	        )
 	      )
 	    );
