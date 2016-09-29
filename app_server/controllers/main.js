@@ -7,22 +7,6 @@ if (process.env.NODE_ENV === 'production') {
   apiOptions.server = 'https://frozen-retreat-57000.herokuapp.com';
 }
 
-/* GET day of games */
-module.exports.singleDay = function (req, res, next) {
-  res.render('single-day', {
-    title: 'One Day of Games',
-    error: req.query.err
-  });
-};
-
-/* Temp reference page */
-module.exports.pageMockups = function (req, res, next) {
-  res.render('page-mockups', {
-    title: 'One Day of Games - Mockup',
-    error: req.query.err
-  });
-};
-
 // generate error page in browser:
 var _showError = function (req, res, apiResponse, err, body) {
   var title;
@@ -77,6 +61,23 @@ var _showError = function (req, res, apiResponse, err, body) {
   });
 };
 
+/* GET day of games */
+module.exports.singleDay = function (req, res, next) {
+  res.render('single-day', {
+    title: 'One Day of Games',
+    showSignOut: true,
+    error: req.query.err
+  });
+};
+
+/* Temp reference page */
+module.exports.pageMockups = function (req, res, next) {
+  res.render('page-mockups', {
+    title: 'One Day of Games - Mockup',
+    error: req.query.err
+  });
+};
+
 // GET login page
 var renderLoginView = function (req, res, body) {
   var message;
@@ -88,6 +89,7 @@ var renderLoginView = function (req, res, body) {
     .clearCookie('token')
     .render('login', {
       title: 'Login Page',
+      showSignOut: false,
       message: message
     });
 };

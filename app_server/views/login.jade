@@ -18,7 +18,7 @@ block content
     //-           label Password: &nbsp;
     //-           input.form-control(type='password' name='password')
     //-         button.btn.btn-default(type='submit') Submit
-    .col-xs-12.col-sm-6
+    .col-xs-12.col-sm-8.col-sm-offset-2.col-md-6.col-md-offset-3
       .panel.panel-primary
         .panel-heading
           .panel-title  Log In
@@ -26,10 +26,10 @@ block content
           form.form(action='/login', method='post', role='form')
             .form-group
               label Username: &nbsp;
-              input.form-control(type='text' name='username' autocomplete='off')
+              input.form-control(type='text' name='username' autocomplete='off' autofocus required)
             .form-group
               label Password: &nbsp;
-              input.form-control(type='password' name='password')
+              input.form-control(type='password' name='password' required)
             button.btn.btn-default(type='submit') Submit
     br
   -if(message)

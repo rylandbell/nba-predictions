@@ -15,5 +15,7 @@ nav.navbar.navbar-default.navbar-fixed-top
           a(href='/mock-ups')
             | Component Mock-Ups
             span.sr-only (current)
-    // /.navbar-collapse
-  // /.container-fluid
+      ul.nav.navbar-nav.navbar-right
+        -if(showSignOut)
+          li
+            a(href='/login') Sign Out
