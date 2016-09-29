@@ -4,7 +4,7 @@ var apiOptions = {
   server: 'http://localhost:3000'
 };
 if (process.env.NODE_ENV === 'production') {
-  // apiOptions.server = 'https://immense-dusk-59566.herokuapp.com';
+  apiOptions.server = 'https://frozen-retreat-57000.herokuapp.com';
 }
 
 /* GET day of games */
