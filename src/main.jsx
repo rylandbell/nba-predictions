@@ -41,7 +41,7 @@ function render() {
         getGameData = {
           () => {
             Helper.myFetch(
-              '/api/dailyGamesData/2016-11',
+              '/api/dailyGamesData/2016-10',
               'GET',
               {},
               (response => {

@@ -104,7 +104,7 @@
 	        store.dispatch(_actionCreators2.default.requestUserMonthWaiting());
 	      },
 	      getGameData: function getGameData() {
-	        _helper2.default.myFetch('/api/dailyGamesData/2016-11', 'GET', {}, function (response) {
+	        _helper2.default.myFetch('/api/dailyGamesData/2016-10', 'GET', {}, function (response) {
 	          store.dispatch(_actionCreators2.default.receiveGameData(response));
 	        }, function (response) {
 	          store.dispatch(_actionCreators2.default.requestGameDataFailure());
@@ -31292,7 +31292,7 @@
 
 	//user-selected date:
 	var visibleDate = function visibleDate() {
-	  var state = arguments.length <= 0 || arguments[0] === undefined ? '2016-11-01' : arguments[0];
+	  var state = arguments.length <= 0 || arguments[0] === undefined ? '2016-10-01' : arguments[0];
 	  var action = arguments[1];
 
 	  switch (action.type) {
@@ -48750,7 +48750,6 @@
 /* 509 */
 /***/ function(module, exports, __webpack_require__) {
 
-	
 	'use strict';
 
 	// import React from 'react';

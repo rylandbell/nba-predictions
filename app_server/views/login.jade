@@ -2,23 +2,7 @@ extends ./layouts/layout
 
 block content
   .row.login-view
-    //- .col-xs-12.col-sm-6
-    //-   .panel.panel-primary
-    //-     .panel-heading
-    //-       .panel-title Create New Account
-    //-     .panel-body
-    //-       form#register-form.form(action='/register', method='post', role='form')
-    //-         .form-group
-    //-           label Username: &nbsp;
-    //-           input.form-control(type='text' name='username' autocomplete='off')
-    //-         .form-group
-    //-           label Display Name: &nbsp;
-    //-           input.form-control(type='text' name='name' autocomplete='off')
-    //-         .form-group
-    //-           label Password: &nbsp;
-    //-           input.form-control(type='password' name='password')
-    //-         button.btn.btn-default(type='submit') Submit
-    .col-xs-12.col-sm-8.col-sm-offset-2.col-md-6.col-md-offset-3
+    .col-xs-12.col-sm-6
       .panel.panel-primary
         .panel-heading
           .panel-title  Log In
@@ -31,7 +15,22 @@ block content
               label Password: &nbsp;
               input.form-control(type='password' name='password' required)
             button.btn.btn-default(type='submit') Submit
-    br
+    .col-xs-12.col-sm-6
+      .panel.panel-primary
+        .panel-heading
+          .panel-title Create New Account
+        .panel-body
+          form#register-form.form(action='/register', method='post', role='form')
+            .form-group
+              label Username: &nbsp;
+              input.form-control(type='text' name='username' autocomplete='off' required)
+            .form-group
+              label Display Name: &nbsp;
+              input.form-control(type='text' name='displayName' autocomplete='off' required)
+            .form-group
+              label Password: &nbsp;
+              input.form-control(type='password' name='password' required)
+            button.btn.btn-default(type='submit') Submit
   -if(message)
     .alert.alert-warning= message
   -else

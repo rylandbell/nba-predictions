@@ -9,5 +9,6 @@ router.get('/login', ctrlMain.login);
 
 //POST login credentials
 router.post('/login', ctrlMain.submitCredentials);
+router.post('/register', ctrlMain.registerNew);
 
 module.exports = router;

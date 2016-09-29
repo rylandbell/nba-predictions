@@ -47,7 +47,7 @@ const isSendingPrediction = (state = false, action) => {
 };
 
 //user-selected date:
-const visibleDate = (state = '2016-11-01', action) => {
+const visibleDate = (state = '2016-10-01', action) => {
   switch(action.type){
     case 'DAY_FORWARD':
       return moment(state).add(1, 'days').format('YYYY-MM-DD');

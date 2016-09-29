@@ -120,3 +120,25 @@ module.exports.submitCredentials = function (req, res, next) {
     }
   });
 };
+
+module.exports.registerNew = function (req, res, next) {
+  var path = '/api/register';
+  var requestOptions = {
+    url: apiOptions.server + path,
+    method: 'POST',
+    json: req.body,
+    qs: {}
+  };
+  request(requestOptions, function (err, apiResponse, body) {
+    var cookieOptions = {};
+    cookieOptions.maxAge = 1000 * 3600 * 24;
+    if (apiResponse.statusCode === 200) {
+      res.cookie('token', apiResponse.body.token, cookieOptions);
+      res.redirect('/');
+    } else if (apiResponse.statusCode === 400 || apiResponse.statusCode === 401) {
+      renderLoginView(req, res, apiResponse.body);
+    } else {
+      _showError(req, res, apiResponse);
+    }
+  });
+};
