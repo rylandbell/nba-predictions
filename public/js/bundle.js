@@ -48636,12 +48636,14 @@
 	            null,
 	            this.props.teamData.teamName
 	          ),
-	          _react2.default.createElement('img', { src: '/images/logos/' + this.props.teamData.teamName + '.png', className: 'logo' })
+	          _react2.default.createElement('div', { className: 'logo ' + this.props.teamData.teamName.toLowerCase() })
 	        )
 	      )
 	    );
 	  }
 	});
+
+	// <img src={'/images/logos/'+this.props.teamData.teamName+'.png'} className="logo"/>
 
 	exports.default = api;
 

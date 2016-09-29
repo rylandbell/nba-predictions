@@ -1,4 +1,4 @@
-require('dotenv').load();
+require('dotenv').config({silent:true});
 process.env.PWD = process.cwd()
 
 var express = require('express');

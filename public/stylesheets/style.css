@@ -2,6 +2,7 @@
 @import 'day-picker.css';
 @import 'status-message.css';
 @import 'predictions-summary.css';
+@import 'logo-sprites.css';
 
 body {
   padding-top: 70px;
