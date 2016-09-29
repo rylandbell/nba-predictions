@@ -50,9 +50,19 @@ const isSendingPrediction = (state = false, action) => {
 const visibleDate = (state = '2016-10-01', action) => {
   switch(action.type){
     case 'DAY_FORWARD':
-      return moment(state).add(1, 'days').format('YYYY-MM-DD');
+      var nextDay = moment(state).add(1, 'days').format('YYYY-MM-DD');
+      if (moment(nextDay).format('MM') === moment(state).format('MM')){
+        return nextDay;
+      } else {
+        return state
+      }
     case 'DAY_BACK':
-      return moment(state).subtract(1, 'days').format('YYYY-MM-DD');
+      var previousDay = moment(state).subtract(1, 'days').format('YYYY-MM-DD');
+      if (moment(previousDay).format('MM') === moment(state).format('MM')){
+        return previousDay;
+      } else {
+        return state
+      }
     default:
       return state;
   }
