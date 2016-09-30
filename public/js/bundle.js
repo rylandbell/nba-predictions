@@ -48313,7 +48313,7 @@
 	      var gameDay = moment(gameDate).format('D');
 	      body[gameDay] = null;
 
-	      _helper2.default.myFetch('http://localhost:3000/api/userMonth/57e8733f008bcc8fc2719fe4/predictedWinners', 'PUT', body, function (response) {
+	      _helper2.default.myFetch('/api/userMonth/' + ownProps.reduxState.activeMonth + '/predictedWinners', 'PUT', body, function (response) {
 	        dispatch(_actionCreators2.default.sendPredictionSuccess(response));
 	      }, function (response) {
 	        dispatch(_actionCreators2.default.sendPredictionFailure());

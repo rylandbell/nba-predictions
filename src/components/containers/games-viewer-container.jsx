@@ -56,7 +56,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
       body[gameDay] = null;
 
       Helper.myFetch(
-        'http://localhost:3000/api/userMonth/57e8733f008bcc8fc2719fe4/predictedWinners',
+        '/api/userMonth/' + ownProps.reduxState.activeMonth + '/predictedWinners',
         'PUT',
         body,
         (response => {

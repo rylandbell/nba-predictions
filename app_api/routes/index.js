@@ -16,7 +16,6 @@ var auth = jwt({
 });
 
 var ctrlUserMonths = require('../controllers/user-months');
-var ctrlPredictedWinners = require('../controllers/predicted-winners');
 var ctrlDailyGamesData = require('../controllers/daily-games-data');
 var ctrlAuth = require('../controllers/authentication');
 

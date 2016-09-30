@@ -95,8 +95,6 @@ module.exports.predictedWinnersUpdate = function (req, res) {
       month: req.params.month
     };
 
-    console.log('FILTER: ', filter);
-
     UserMonthModel
       .find(filter)
       .select('predictedWinners')
