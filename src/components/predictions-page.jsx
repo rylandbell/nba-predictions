@@ -8,8 +8,8 @@ import StatusMessage from './status-message.jsx';
 
 const api = React.createClass({
   componentDidMount: function() {
-    this.props.getUserMonthData()
-    this.props.getGameData()
+    this.props.getUserMonthData(this.props.reduxState.activeMonth);
+    this.props.getGameData(this.props.reduxState.activeMonth);
   },
   render: function() {
     return (

@@ -35,14 +35,12 @@ var getOwnerData = function (req, res, callback) {
   }
 };
 
-/* GET one userMonth by userMonthId */
+/* GET one userMonth ownerId, month */
 module.exports.userMonthReadOne = function (req, res) {
   getOwnerData(req, res, function (req, res, owner) {
-
-    //I'll need to wrap all this in an if-exists block if I reference anything from req.params (like month)
     var filter = {
       ownerId: owner._id,
-      month: '2016-11'
+      month: req.params.month
     };
     UserMonthModel
       .find(filter)
@@ -81,6 +79,61 @@ module.exports.userMonthCreate = function (req, res) {
     }
   });
 };
+
+//  PUT update the predictedWinners list
+module.exports.predictedWinnersUpdate = function (req, res) {
+  getOwnerData(req, res, function (req, res, owner) {
+    if (!req.params.month) {
+      sendJsonResponse(res, 404, {
+        message: 'Not found, month name is required'
+      });
+      return;
+    }
+
+    var filter = {
+      ownerId: owner._id,
+      month: req.params.month
+    };
+
+    console.log('FILTER: ', filter);
+
+    UserMonthModel
+      .find(filter)
+      .select('predictedWinners')
+      .exec(
+        function (err, userMonth) {
+          if (!userMonth) {
+            sendJsonResponse(res, 404, {
+              message: 'userMonth not found'
+            });
+            return;
+          } else if (err) {
+            sendJsonResponse(res, 400, err);
+            return;
+          }
+
+          for (var key in req.body) {
+            if (req.body.hasOwnProperty(key)) {
+              if (req.body[key] === 'null') {
+                userMonth[0].predictedWinners[key] = null;
+              } else {
+                userMonth[0].predictedWinners[key] = req.body[key];
+              }
+            }
+          }
+
+          userMonth[0].save(function (err, userMonth) {
+            if (err) {
+              sendJsonResponse(res, 400, err);
+            } else {
+              sendJsonResponse(res, 200, userMonth);
+            }
+          });
+        }
+    );
+  });
+};
+
 
 /* DELETE a userMonth */
 module.exports.userMonthDelete = function (req, res) {

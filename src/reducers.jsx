@@ -47,7 +47,7 @@ const isSendingPrediction = (state = false, action) => {
 };
 
 //user-selected date:
-const visibleDate = (state = '2016-10-01', action) => {
+const visibleDate = (state = '2016-11-01', action) => {
   switch(action.type){
     case 'DAY_FORWARD':
       var nextDay = moment(state).add(1, 'days').format('YYYY-MM-DD');
@@ -68,10 +68,17 @@ const visibleDate = (state = '2016-10-01', action) => {
   }
 };
 
-const month = (state = '', action) => {
+const userMonthId = (state = '', action) => {
   switch(action.type){
     case 'RECEIVE_USER_MONTH':
-      return Object.assign({},action.response.userMonth.month);
+      return Object.assign({},action.response.userMonth._id);
+    default:
+      return state;
+  }
+};
+
+const activeMonth = (state = '2016-11', action) => {
+  switch(action.type){
     default:
       return state;
   }
@@ -119,7 +126,7 @@ const predictedWinners = (state = {}, action) => {
 };
 
 const userMonth = Redux.combineReducers({
-  month,
+  userMonthId,
   eligibleTeams,
   predictedWinners
 });
@@ -138,6 +145,7 @@ const api = {
     isFetchingGameData,
     isFetchingPredictions,
     isSendingPrediction,
+    activeMonth,
     visibleDate,
     userMonth,
     gamesByDay
@@ -151,8 +159,9 @@ export default api;
 //   isFetchingPredictions,
 //   isSendingPrediction,
 //   visibleDate: string,
+//   activeMonth: '2016-11',
 //   userMonth: {
-//     month: '2016_09',
+//     userMonthId: string
 //     eligibleTeams: {
 //       ATL: false,
 //       BOS: false,...

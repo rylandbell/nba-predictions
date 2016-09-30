@@ -22,9 +22,9 @@ function render() {
       <PredictionsPage 
         reduxState={store.getState()}
         getUserMonthData = {
-          () => {
+          (month) => {
             Helper.myFetch(
-              '/api/userMonth',
+              '/api/userMonth/'+month,
               'GET',
               {},
               (response => {
@@ -39,9 +39,9 @@ function render() {
           }
         }
         getGameData = {
-          () => {
+          (month) => {
             Helper.myFetch(
-              '/api/dailyGamesData/2016-10',
+              '/api/dailyGamesData/'+month,
               'GET',
               {},
               (response => {

@@ -94,8 +94,8 @@
 	    { store: store },
 	    _react2.default.createElement(_predictionsPage2.default, {
 	      reduxState: store.getState(),
-	      getUserMonthData: function getUserMonthData() {
-	        _helper2.default.myFetch('/api/userMonth', 'GET', {}, function (response) {
+	      getUserMonthData: function getUserMonthData(month) {
+	        _helper2.default.myFetch('/api/userMonth/' + month, 'GET', {}, function (response) {
 	          store.dispatch(_actionCreators2.default.receiveUserMonth(response));
 	        }, function (response) {
 	          store.dispatch(_actionCreators2.default.requestUserMonthFailure());
@@ -103,8 +103,8 @@
 	        });
 	        store.dispatch(_actionCreators2.default.requestUserMonthWaiting());
 	      },
-	      getGameData: function getGameData() {
-	        _helper2.default.myFetch('/api/dailyGamesData/2016-10', 'GET', {}, function (response) {
+	      getGameData: function getGameData(month) {
+	        _helper2.default.myFetch('/api/dailyGamesData/' + month, 'GET', {}, function (response) {
 	          store.dispatch(_actionCreators2.default.receiveGameData(response));
 	        }, function (response) {
 	          store.dispatch(_actionCreators2.default.requestGameDataFailure());
@@ -31292,7 +31292,7 @@
 
 	//user-selected date:
 	var visibleDate = function visibleDate() {
-	  var state = arguments.length <= 0 || arguments[0] === undefined ? '2016-10-01' : arguments[0];
+	  var state = arguments.length <= 0 || arguments[0] === undefined ? '2016-11-01' : arguments[0];
 	  var action = arguments[1];
 
 	  switch (action.type) {
@@ -31315,13 +31315,23 @@
 	  }
 	};
 
-	var month = function month() {
+	var userMonthId = function userMonthId() {
 	  var state = arguments.length <= 0 || arguments[0] === undefined ? '' : arguments[0];
 	  var action = arguments[1];
 
 	  switch (action.type) {
 	    case 'RECEIVE_USER_MONTH':
-	      return _extends({}, action.response.userMonth.month);
+	      return _extends({}, action.response.userMonth._id);
+	    default:
+	      return state;
+	  }
+	};
+
+	var activeMonth = function activeMonth() {
+	  var state = arguments.length <= 0 || arguments[0] === undefined ? '2016-11' : arguments[0];
+	  var action = arguments[1];
+
+	  switch (action.type) {
 	    default:
 	      return state;
 	  }
@@ -31377,7 +31387,7 @@
 	};
 
 	var userMonth = Redux.combineReducers({
-	  month: month,
+	  userMonthId: userMonthId,
 	  eligibleTeams: eligibleTeams,
 	  predictedWinners: predictedWinners
 	});
@@ -31401,6 +31411,7 @@
 	    isFetchingGameData: isFetchingGameData,
 	    isFetchingPredictions: isFetchingPredictions,
 	    isSendingPrediction: isSendingPrediction,
+	    activeMonth: activeMonth,
 	    visibleDate: visibleDate,
 	    userMonth: userMonth,
 	    gamesByDay: gamesByDay
@@ -31414,8 +31425,9 @@
 	//   isFetchingPredictions,
 	//   isSendingPrediction,
 	//   visibleDate: string,
+	//   activeMonth: '2016-11',
 	//   userMonth: {
-	//     month: '2016_09',
+	//     userMonthId: string
 	//     eligibleTeams: {
 	//       ATL: false,
 	//       BOS: false,...
@@ -48216,8 +48228,8 @@
 	  displayName: 'api',
 
 	  componentDidMount: function componentDidMount() {
-	    this.props.getUserMonthData();
-	    this.props.getGameData();
+	    this.props.getUserMonthData(this.props.reduxState.activeMonth);
+	    this.props.getGameData(this.props.reduxState.activeMonth);
 	  },
 	  render: function render() {
 	    return this.props.reduxState.isFetchingPredictions || this.props.reduxState.isFetchingGameData ? _react2.default.createElement(_statusMessage2.default, { messageBold: 'Loading game data...', messageBody: 'Just hang tight.', messageClass: 'general' }) : _react2.default.createElement(
@@ -48284,7 +48296,7 @@
 	      var body = {};
 	      body[gameDay] = teamName;
 
-	      _helper2.default.myFetch('/api/userMonth/57e8733f008bcc8fc2719fe4/predictedWinners', 'PUT', body, function (response) {
+	      _helper2.default.myFetch('/api/userMonth/' + ownProps.reduxState.activeMonth + '/predictedWinners', 'PUT', body, function (response) {
 	        dispatch(_actionCreators2.default.sendPredictionSuccess(response));
 	      }, function (response) {
 	        dispatch(_actionCreators2.default.sendPredictionFailure());

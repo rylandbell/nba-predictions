@@ -21,11 +21,11 @@ var ctrlDailyGamesData = require('../controllers/daily-games-data');
 var ctrlAuth = require('../controllers/authentication');
 
 // routes for calls to userMonths folder:
-router.get('/userMonth', auth, ctrlUserMonths.userMonthReadOne);
+router.get('/userMonth/:month', auth, ctrlUserMonths.userMonthReadOne);
 router.post('/userMonth', auth, ctrlUserMonths.userMonthCreate);
 router.delete('/userMonth/:userMonthId', auth, ctrlUserMonths.userMonthDelete);
 
-router.put('/userMonth/:userMonthId/predictedWinners', auth, ctrlPredictedWinners.predictedWinnersUpdate);
+router.put('/userMonth/:month/predictedWinners', auth, ctrlUserMonths.predictedWinnersUpdate);
 
 // routes for dailyGamesData:
 router.get('/dailyGamesData/:month', ctrlDailyGamesData.dailyGamesDataGetMonth);
