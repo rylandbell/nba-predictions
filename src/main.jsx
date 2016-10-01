@@ -13,6 +13,7 @@ import ActionCreator from './action-creators.jsx';
 import Helper from './helper.jsx';
 
 const store = Redux.createStore(Reducers.app);
+store.dispatch({type:'SET_ACTIVE_MONTH', month: activeMonth});
 store.subscribe(render);
 render();
 

@@ -47,8 +47,10 @@ const isSendingPrediction = (state = false, action) => {
 };
 
 //user-selected date:
-const visibleDate = (state = '2016-11-01', action) => {
+const visibleDate = (state = '', action) => {
   switch(action.type){
+    case 'SET_ACTIVE_MONTH':
+      return action.month+'-01';
     case 'DAY_FORWARD':
       var nextDay = moment(state).add(1, 'days').format('YYYY-MM-DD');
       if (moment(nextDay).format('MM') === moment(state).format('MM')){
@@ -77,8 +79,10 @@ const userMonthId = (state = '', action) => {
   }
 };
 
-const activeMonth = (state = '2016-11', action) => {
+const activeMonth = (state = '', action) => {
   switch(action.type){
+    case 'SET_ACTIVE_MONTH':
+      return action.month;
     default:
       return state;
   }

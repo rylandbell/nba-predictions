@@ -1,4 +1,5 @@
 var request = require('request');
+var moment = require('moment');
 
 var apiOptions = {
   server: 'http://localhost:3000'
@@ -61,10 +62,21 @@ var _showError = function (req, res, apiResponse, err, body) {
   });
 };
 
+/* GET logged-in landing page */
+module.exports.landingPage = function (req, res, next) {
+  res.render('landing-page', {
+    title: 'NBA Survivor',
+    showSignOut: true,
+    error: req.query.err
+  });
+};
+
 /* GET day of games */
-module.exports.singleDay = function (req, res, next) {
-  res.render('single-day', {
-    title: 'One Day of Games',
+module.exports.predictionsPage = function (req, res, next) {
+  var prettyDate = moment(req.params.month).format('MMM YYYY');
+  res.render('predictions-page', {
+    title: 'Predictions: ' + prettyDate,
+    month: req.params.month,
     showSignOut: true,
     error: req.query.err
   });

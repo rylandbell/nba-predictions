@@ -85,6 +85,7 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var store = Redux.createStore(_reducers2.default.app);
+	store.dispatch({ type: 'SET_ACTIVE_MONTH', month: activeMonth });
 	store.subscribe(render);
 	render();
 
@@ -31292,10 +31293,12 @@
 
 	//user-selected date:
 	var visibleDate = function visibleDate() {
-	  var state = arguments.length <= 0 || arguments[0] === undefined ? '2016-11-01' : arguments[0];
+	  var state = arguments.length <= 0 || arguments[0] === undefined ? '' : arguments[0];
 	  var action = arguments[1];
 
 	  switch (action.type) {
+	    case 'SET_ACTIVE_MONTH':
+	      return action.month + '-01';
 	    case 'DAY_FORWARD':
 	      var nextDay = moment(state).add(1, 'days').format('YYYY-MM-DD');
 	      if (moment(nextDay).format('MM') === moment(state).format('MM')) {
@@ -31328,10 +31331,12 @@
 	};
 
 	var activeMonth = function activeMonth() {
-	  var state = arguments.length <= 0 || arguments[0] === undefined ? '2016-11' : arguments[0];
+	  var state = arguments.length <= 0 || arguments[0] === undefined ? '' : arguments[0];
 	  var action = arguments[1];
 
 	  switch (action.type) {
+	    case 'SET_ACTIVE_MONTH':
+	      return action.month;
 	    default:
 	      return state;
 	  }
