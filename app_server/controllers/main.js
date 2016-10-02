@@ -1,5 +1,6 @@
 var request = require('request');
 var moment = require('moment');
+var _ = require('lodash');
 
 var apiOptions = {
   server: 'http://localhost:3000'
@@ -62,16 +63,56 @@ var _showError = function (req, res, apiResponse, err, body) {
   });
 };
 
-/* GET logged-in landing page */
-module.exports.landingPage = function (req, res, next) {
+var renderLandingPage = function (req, res, responseBody) {
+
+  //get month names ('2016-10' format) from API results
+  var existingUserMonths = [];
+  responseBody.userMonthArray.forEach(userMonth => {
+    existingUserMonths.push(userMonth.month);
+  });
+  existingUserMonths.sort().reverse();
+
+  //check if current, next month already have userMonths; if not, send them to view to create links to add them
+  var addableUserMonths = [];
+  var currentMonth = moment().format('YYYY-MM');
+  if(!_.includes(existingUserMonths, currentMonth)){
+    addableUserMonths.push(currentMonth);
+  }
+  var nextMonth = moment().add(1,'months').format('YYYY-MM');
+  if(!_.includes(existingUserMonths, nextMonth)){
+    addableUserMonths.push(nextMonth);
+  }
+  addableUserMonths.sort().reverse();
+
   res.render('landing-page', {
     title: 'NBA Survivor',
+    existingUserMonths: existingUserMonths,
+    addableUserMonths: addableUserMonths,
     showSignOut: true,
-    error: req.query.err
+    error: req.query.err,
+    moment: moment  
   });
 };
 
-/* GET day of games */
+/* GET logged-in landing page */
+module.exports.landingPage = function (req, res, next) {
+  var path = '/api/userMonth';
+  var requestOptions = {
+    url: apiOptions.server + path,
+    method: 'GET',
+    json: req.cookies,
+    qs: {}
+  };
+  request(requestOptions, function (err, apiResponse, body) {
+    if (apiResponse.statusCode === 200) {
+      renderLandingPage(req, res, body);
+    } else {
+      _showError(req, res, apiResponse);
+    }
+  });
+};
+
+/* GET predictions page */
 module.exports.predictionsPage = function (req, res, next) {
   var prettyDate = moment(req.params.month).format('MMM YYYY');
   res.render('predictions-page', {
@@ -85,10 +126,32 @@ module.exports.predictionsPage = function (req, res, next) {
 /* Temp reference page */
 module.exports.pageMockups = function (req, res, next) {
   res.render('page-mockups', {
-    title: 'One Day of Games - Mockup',
+    title: 'Mockup Components',
     error: req.query.err
   });
 };
+
+//add new userMonth, then redirect user to it 
+module.exports.newUserMonth = function (req, res, next) {
+  console.log('server controller runs');
+  var path = '/api/userMonth';
+  var requestOptions = {
+    url: apiOptions.server + path,
+    method: 'POST',
+    json: {
+      token: req.cookies.token,
+      month: req.params.month
+    },
+    qs: {}
+  };
+  request(requestOptions, function (err, apiResponse, body) {
+    if (apiResponse.statusCode === 201) {
+      res.redirect('/month/'+req.params.month)
+    } else {
+      _showError(req, res, apiResponse);
+    }
+  });
+}
 
 // GET login page
 var renderLoginView = function (req, res, body) {

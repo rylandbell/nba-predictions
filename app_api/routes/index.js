@@ -6,7 +6,9 @@ var auth = jwt({
   secret: process.env.JWT_SECRET,
   userProperty: 'payload',
   getToken: function (req) {
-    if (req.cookies.token) {
+    if (req.body.token) {
+      return req.body.token;
+    } else if (req.cookies.token) {  
       return req.cookies.token;
     } else {
       console.log('Couldn\'t find a cookie token');
@@ -21,6 +23,7 @@ var ctrlAuth = require('../controllers/authentication');
 
 // routes for calls to userMonths folder:
 router.get('/userMonth/:month', auth, ctrlUserMonths.userMonthReadOne);
+router.get('/userMonth', auth, ctrlUserMonths.userMonthReadAll);
 router.post('/userMonth', auth, ctrlUserMonths.userMonthCreate);
 router.delete('/userMonth/:userMonthId', auth, ctrlUserMonths.userMonthDelete);
 

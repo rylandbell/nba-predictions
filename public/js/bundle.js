@@ -48799,6 +48799,7 @@
 
 	    // const myHeaders = new Headers();
 	    // myHeaders.append('Authorization', 'Bearer ' + accessToken);
+	    // const accessToken = document.cookie.slice(document.cookie.indexOf('token=')+6);
 	    var newRequest = {
 	      // mode: 'cors',
 	      method: method,

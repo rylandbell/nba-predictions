@@ -1,12 +1,22 @@
+var moment = require('moment');
+
 extends ./layouts/layout.jade
 
 block content
   .lead Choose a month:
-  ul
-    a(href='/month/2016-10')
-      li October
-    a(href='/month/2016-11')
-      li November
+  .row
+    .col-xs-3
+      .list-group
+        each month in addableUserMonths
+          a.list-group-item(href='/new-month/#{month}')
+            h5.text-center= moment(month).format('MMMM YYYY')
+        each month in existingUserMonths
+          a.list-group-item(href='/month/#{month}')
+            h5.text-center= moment(month).format('MMMM YYYY')
+
+  //- .row
+  //-   a(href='/new-month/2016-12') Add December
+
 
 block scripts
   //- script(src='/js/bundle.js') 

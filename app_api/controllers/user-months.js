@@ -64,19 +64,49 @@ module.exports.userMonthReadOne = function (req, res) {
   });
 };
 
+/* GET all userMonths for ownerId */
+module.exports.userMonthReadAll = function (req, res) {
+  getOwnerData(req, res, function (req, res, owner) {
+    var filter = {
+      ownerId: owner._id
+    };
+    UserMonthModel
+      .find(filter)
+      .exec(function (err, userMonthArray) {
+
+        var responseBody = {};
+        if (!userMonthArray) {
+          sendJsonResponse(res, 404, {
+            message: 'No userMonths found'
+          });
+          return;
+        } else if (err) {
+          console.log(err);
+          sendJsonResponse(res, 404, err);
+          return;
+        }
+        responseBody.userMonthArray = userMonthArray;
+
+        sendJsonResponse(res, 200, responseBody);
+      });
+  });
+};
+
 /* POST a new userMonth */
 module.exports.userMonthCreate = function (req, res) {
-  UserMonthModel.create({
-    month: req.body.month,
-    ownerId: req.body.ownerId,
-    predictedWinners: {}
-  }, function (err, userMonth) {
-    if (err) {
-      console.log(err);
-      sendJsonResponse(res, 400, err);
-    } else {
-      sendJsonResponse(res, 201, userMonth);
-    }
+  getOwnerData(req, res, function (req, res, owner) {
+    UserMonthModel.create({
+      month: req.body.month,
+      ownerId: owner._id,
+      predictedWinners: {}
+    }, function (err, userMonth) {
+      if (err) {
+        console.log(err);
+        sendJsonResponse(res, 400, err);
+      } else {
+        sendJsonResponse(res, 201, userMonth);
+      }
+    });
   });
 };
 
