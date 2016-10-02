@@ -75,13 +75,15 @@ var renderLandingPage = function (req, res, responseBody) {
   //check if current, next month already have userMonths; if not, send them to view to create links to add them
   var addableUserMonths = [];
   var currentMonth = moment().format('YYYY-MM');
-  if(!_.includes(existingUserMonths, currentMonth)){
+  if (!_.includes(existingUserMonths, currentMonth)) {
     addableUserMonths.push(currentMonth);
   }
-  var nextMonth = moment().add(1,'months').format('YYYY-MM');
-  if(!_.includes(existingUserMonths, nextMonth)){
+
+  var nextMonth = moment().add(1, 'months').format('YYYY-MM');
+  if (!_.includes(existingUserMonths, nextMonth)) {
     addableUserMonths.push(nextMonth);
   }
+
   addableUserMonths.sort().reverse();
 
   res.render('landing-page', {
@@ -90,7 +92,7 @@ var renderLandingPage = function (req, res, responseBody) {
     addableUserMonths: addableUserMonths,
     showSignOut: true,
     error: req.query.err,
-    moment: moment  
+    moment: moment
   });
 };
 
@@ -131,7 +133,7 @@ module.exports.pageMockups = function (req, res, next) {
   });
 };
 
-//add new userMonth, then redirect user to it 
+//add new userMonth, then redirect user to it
 module.exports.newUserMonth = function (req, res, next) {
   console.log('server controller runs');
   var path = '/api/userMonth';
@@ -146,12 +148,12 @@ module.exports.newUserMonth = function (req, res, next) {
   };
   request(requestOptions, function (err, apiResponse, body) {
     if (apiResponse.statusCode === 201) {
-      res.redirect('/month/'+req.params.month)
+      res.redirect('/month/' + req.params.month);
     } else {
       _showError(req, res, apiResponse);
     }
   });
-}
+};
 
 // GET login page
 var renderLoginView = function (req, res, body) {

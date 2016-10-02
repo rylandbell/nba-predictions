@@ -57,6 +57,7 @@ module.exports.userMonthReadOne = function (req, res) {
           sendJsonResponse(res, 404, err);
           return;
         }
+
         responseBody.userMonth = userMonth[0];
 
         sendJsonResponse(res, 200, responseBody);
@@ -85,6 +86,7 @@ module.exports.userMonthReadAll = function (req, res) {
           sendJsonResponse(res, 404, err);
           return;
         }
+
         responseBody.userMonthArray = userMonthArray;
 
         sendJsonResponse(res, 200, responseBody);
@@ -161,7 +163,6 @@ module.exports.predictedWinnersUpdate = function (req, res) {
     );
   });
 };
-
 
 /* DELETE a userMonth */
 module.exports.userMonthDelete = function (req, res) {

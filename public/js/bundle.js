@@ -31299,6 +31299,8 @@
 	  switch (action.type) {
 	    case 'SET_ACTIVE_MONTH':
 	      return action.month + '-01';
+	    case 'GO_TO_DATE':
+	      return action.date;
 	    case 'DAY_FORWARD':
 	      var nextDay = moment(state).add(1, 'days').format('YYYY-MM-DD');
 	      if (moment(nextDay).format('MM') === moment(state).format('MM')) {
@@ -48434,6 +48436,12 @@
 	      teamName: teamName
 	    };
 	  },
+	  goToDate: function goToDate(date) {
+	    return {
+	      type: 'GO_TO_DATE',
+	      date: date
+	    };
+	  },
 	  dayForward: function dayForward() {
 	    return {
 	      type: 'DAY_FORWARD'
@@ -49287,6 +49295,10 @@
 
 	var _reactRedux = __webpack_require__(298);
 
+	var _actionCreators = __webpack_require__(502);
+
+	var _actionCreators2 = _interopRequireDefault(_actionCreators);
+
 	var _predictionsSummary = __webpack_require__(513);
 
 	var _predictionsSummary2 = _interopRequireDefault(_predictionsSummary);
@@ -49295,14 +49307,16 @@
 
 	var mapStateToProps = function mapStateToProps(state) {
 	  return {
-	    predictedWinners: state.userMonth.predictedWinners
+	    predictedWinners: state.userMonth.predictedWinners,
+	    visibleDate: state.visibleDate,
+	    activeMonth: state.activeMonth
 	  };
 	};
 
-	var mapDispatchToProps = function mapDispatchToProps(dispatch, ownProps) {
+	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 	  return {
-	    dummy: function dummy() {
-	      ownProps;
+	    goToDate: function goToDate(date) {
+	      dispatch(_actionCreators2.default.goToDate(date));
 	    }
 	  };
 	};
@@ -49333,11 +49347,15 @@
 
 	var api = function api(_ref) {
 	  var predictedWinners = _ref.predictedWinners;
+	  var visibleDate = _ref.visibleDate;
+	  var activeMonth = _ref.activeMonth;
+	  var goToDate = _ref.goToDate;
 
+	  var daysInMonth = moment(activeMonth).daysInMonth();
 
 	  var rows = [];
-	  for (var i = 1; i <= 31; i++) {
-	    rows.push(_react2.default.createElement(_predictionsSummaryRow2.default, { predictedWinners: predictedWinners, date: i, key: i }));
+	  for (var i = 1; i <= daysInMonth; i++) {
+	    rows.push(_react2.default.createElement(_predictionsSummaryRow2.default, { predictedWinners: predictedWinners, visibleDate: visibleDate, activeMonth: activeMonth, goToDate: goToDate, dayOfMonth: i, key: i }));
 	  }
 
 	  return _react2.default.createElement(
@@ -49380,30 +49398,32 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var api = function api(_ref) {
-	  var predictedWinners = _ref.predictedWinners;
-	  var date = _ref.date;
+	var api = _react2.default.createClass({
+	  displayName: 'api',
 
-	  // if(predictedWinners[date]){
-	  return _react2.default.createElement(
-	    'tr',
-	    null,
-	    _react2.default.createElement(
-	      'td',
-	      { className: 'date-col' },
-	      '11/' + date
-	    ),
-	    _react2.default.createElement(
-	      'td',
-	      { className: 'team-col' },
-	      predictedWinners[date] ? predictedWinners[date] : '-'
-	    ),
-	    _react2.default.createElement('td', { className: 'outcome-col' })
-	  );
-	  // } else {
-	  //   return null;
-	  // }
-	};
+	  handleClick: function handleClick() {
+	    this.props.goToDate(moment(this.props.activeMonth).add(this.props.dayOfMonth - 1, 'days').format('YYYY-MM-DD'));
+	  },
+	  render: function render() {
+	    var isActive = this.props.dayOfMonth == moment(this.props.visibleDate).format('D') ? 'active' : '';
+	    return _react2.default.createElement(
+	      'tr',
+	      { onClick: this.handleClick, className: isActive },
+	      _react2.default.createElement(
+	        'td',
+	        { className: 'date-col' },
+	        this.props.activeMonth.substring(5, 7) + '/' + this.props.dayOfMonth
+	      ),
+	      _react2.default.createElement(
+	        'td',
+	        { className: 'team-col' },
+	        this.props.predictedWinners[this.props.dayOfMonth] ? this.props.predictedWinners[this.props.dayOfMonth] : '-'
+	      ),
+	      _react2.default.createElement('td', { className: 'outcome-col' })
+	    );
+	  }
+
+	});
 
 	exports.default = api;
 

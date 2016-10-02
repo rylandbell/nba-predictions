@@ -8,7 +8,7 @@ var auth = jwt({
   getToken: function (req) {
     if (req.body.token) {
       return req.body.token;
-    } else if (req.cookies.token) {  
+    } else if (req.cookies.token) {
       return req.cookies.token;
     } else {
       console.log('Couldn\'t find a cookie token');

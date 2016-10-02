@@ -51,6 +51,8 @@ const visibleDate = (state = '', action) => {
   switch(action.type){
     case 'SET_ACTIVE_MONTH':
       return action.month+'-01';
+    case 'GO_TO_DATE':
+      return action.date;
     case 'DAY_FORWARD':
       var nextDay = moment(state).add(1, 'days').format('YYYY-MM-DD');
       if (moment(nextDay).format('MM') === moment(state).format('MM')){

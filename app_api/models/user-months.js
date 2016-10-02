@@ -37,7 +37,7 @@ var predictedWinnersSchema = new mongoose.Schema({
 
 //By 'userMonth', I mean one month of one user's prediction data
 var userMonthSchema = new mongoose.Schema({
-  
+
   //e.g. 2016-09
   month: { type: String, required: true },
   ownerId: { type: String, required: true },

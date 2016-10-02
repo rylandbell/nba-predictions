@@ -8,7 +8,7 @@ var sendJsonResponse = function (res, status, content) {
 };
 
 module.exports.register = function (req, res) {
-  if (!req.body.username || !req.body.displayName ||!req.body.password) {
+  if (!req.body.username || !req.body.displayName || !req.body.password) {
     sendJsonResponse(res, 400, {
       message: 'All fields required'
     });

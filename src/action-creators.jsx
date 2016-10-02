@@ -86,6 +86,12 @@ const api = {
       teamName: teamName
     }
   ),
+  goToDate: (date) => (
+    {
+      type: 'GO_TO_DATE',
+      date: date
+    }
+  ),
   dayForward: () => (
     {
       type: 'DAY_FORWARD'

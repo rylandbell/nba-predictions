@@ -1,16 +1,19 @@
 'use strict';
 
 import { connect } from 'react-redux';
+import ActionCreator from '../../action-creators.jsx';
 
 import PredictionsSummary from '../predictions-summary/predictions-summary.jsx';
 
 const mapStateToProps = (state) => ({
-  predictedWinners: state.userMonth.predictedWinners
+  predictedWinners: state.userMonth.predictedWinners,
+  visibleDate: state.visibleDate,
+  activeMonth: state.activeMonth
 });
 
-const mapDispatchToProps = (dispatch, ownProps) => ({
-  dummy: () => {
-    ownProps;
+const mapDispatchToProps = (dispatch) => ({
+  goToDate: (date) => {
+    dispatch(ActionCreator.goToDate(date));
   }
 });
 
