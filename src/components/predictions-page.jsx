@@ -12,9 +12,11 @@ const api = React.createClass({
     this.props.getGameData(this.props.reduxState.activeMonth);
   },
   render: function() {
+    const isLoading = this.props.reduxState.isFetchingPredictions || this.props.reduxState.isFetchingGameData;
+    const isError = this.props.reduxState.errorMessage.showError;
     return (
-      (this.props.reduxState.isFetchingPredictions || this.props.reduxState.isFetchingGameData) ?
-      <StatusMessage messageBold={'Loading game data...'} messageBody={'Just hang tight.'} messageClass={'general'}/> :
+      (isLoading || isError) ?
+      <StatusMessage messageBold={'Loading game data...'} messageBody={'Just hang tight.'} messageClass={'info'}/> :
       <div className={'row '+(this.props.reduxState.isSendingPrediction ? 'send-waiting' : '')}>
         <GamesViewerContainer reduxState={this.props.reduxState}/>
         <PredictionsSummaryContainer reduxState={this.props.reduxState}/>

@@ -2,9 +2,9 @@
 
 import { connect } from 'react-redux';
 
-import ActionCreator from '../../action-creators.jsx';
+import ActionCreator from '../../action-creators.js';
 import GamesViewer from '../games-viewer/games-viewer.jsx';
-import Helper from '../../helper.jsx';
+import Helper from '../../helper.js';
 
 const mapStateToProps = (state) => ({
   visibleDate: state.visibleDate,

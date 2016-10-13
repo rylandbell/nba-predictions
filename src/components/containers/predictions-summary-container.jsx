@@ -1,7 +1,7 @@
 'use strict';
 
 import { connect } from 'react-redux';
-import ActionCreator from '../../action-creators.jsx';
+import ActionCreator from '../../action-creators.js';
 
 import PredictionsSummary from '../predictions-summary/predictions-summary.jsx';
 

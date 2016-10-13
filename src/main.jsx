@@ -7,10 +7,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import * as Redux from 'redux';
 
-import Reducers from './reducers.jsx';
+import Reducers from './reducers.js';
 import PredictionsPage from './components/predictions-page.jsx';
-import ActionCreator from './action-creators.jsx';
-import Helper from './helper.jsx';
+import ActionCreator from './action-creators.js';
+import Helper from './helper.js';
 
 const store = Redux.createStore(Reducers.app);
 store.dispatch({type:'SET_ACTIVE_MONTH', month: activeMonth});

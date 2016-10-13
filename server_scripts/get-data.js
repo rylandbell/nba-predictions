@@ -1,6 +1,6 @@
 'use strict';
 // Call this file with:
-// node -e 'require("./server_scripts/get-data.js").addDateRange('2016-11-09', 5)'
+// node -e 'require("./server_scripts/get-data.js").addDateRange("2016-11-09", 5)'
 
 var server = 'http://localhost:3000';
 if (process.env.NODE_ENV === 'production') {
@@ -139,8 +139,7 @@ module.exports.addDateRange = (startDate, numberOfDays) => {
       if(counter >= numberOfDays) {
         clearInterval(timer);
         return;
-      }
-      
+      }    
     }, 
   2000);
 }

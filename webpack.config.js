@@ -24,7 +24,7 @@ module.exports = {
   module: {
     preLoaders: [
       {
-        test: /\.js?x$/,
+        test: /\.jsx?$/,
         loaders: ["eslint-loader"],
         exclude: /node_modules/
       }
@@ -35,9 +35,9 @@ module.exports = {
       //   loader: "file?name=[name].[ext]"
       // },
       {
-        test: /\.js?x$/,
+        test: /\.jsx?$/,
         exclude: /node_modules/,
-        loaders: ["babel-loader"]
+        loaders: ["babel-loader"],
       }
     ]
   }

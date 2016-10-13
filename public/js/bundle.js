@@ -31243,6 +31243,43 @@
 
 	var teams = ['ATL', 'BKN', 'BOS', 'CHA', 'CHI', 'CLE', 'DAL', 'DEN', 'DET', 'GSW', 'HOU', 'IND', 'LAC', 'LAL', 'MEM', 'MIA', 'MIL', 'MIN', 'NOP', 'NYK', 'OKC', 'ORL', 'PHI', 'PHX', 'POR', 'SAC', 'SAS', 'TOR', 'UTA', 'WAS'];
 
+	var showError = function showError() {
+	  var state = arguments.length <= 0 || arguments[0] === undefined ? false : arguments[0];
+	  var action = arguments[1];
+
+	  switch (action.type) {
+	    case 'REQUEST_USER_MONTH_FAILURE':
+	      return true;
+	    case 'REQUEST_GAME_DATA_FAILURE':
+	      return true;
+	    case 'SEND_PREDICTION_FAILURE':
+	      return true;
+	    default:
+	      return state;
+	  }
+	};
+
+	var message = function message() {
+	  var state = arguments.length <= 0 || arguments[0] === undefined ? '' : arguments[0];
+	  var action = arguments[1];
+
+	  switch (action.type) {
+	    case 'REQUEST_USER_MONTH_FAILURE':
+	      return 'Invalid month: Unable to find userMonth object.';
+	    case 'REQUEST_GAME_DATA_FAILURE':
+	      return 'Invalid month: Unable to find gameData object.';
+	    case 'SEND_PREDICTION_FAILURE':
+	      return 'Latest prediction was not successfully sent.';
+	    default:
+	      return state;
+	  }
+	};
+
+	var errorMessage = Redux.combineReducers({
+	  showError: showError,
+	  message: message
+	});
+
 	var isFetchingPredictions = function isFetchingPredictions() {
 	  var state = arguments.length <= 0 || arguments[0] === undefined ? false : arguments[0];
 	  var action = arguments[1];
@@ -31415,6 +31452,7 @@
 
 	var api = {
 	  app: Redux.combineReducers({
+	    errorMessage: errorMessage,
 	    isFetchingGameData: isFetchingGameData,
 	    isFetchingPredictions: isFetchingPredictions,
 	    isSendingPrediction: isSendingPrediction,
@@ -48239,7 +48277,9 @@
 	    this.props.getGameData(this.props.reduxState.activeMonth);
 	  },
 	  render: function render() {
-	    return this.props.reduxState.isFetchingPredictions || this.props.reduxState.isFetchingGameData ? _react2.default.createElement(_statusMessage2.default, { messageBold: 'Loading game data...', messageBody: 'Just hang tight.', messageClass: 'general' }) : _react2.default.createElement(
+	    var isLoading = this.props.reduxState.isFetchingPredictions || this.props.reduxState.isFetchingGameData;
+	    var isError = this.props.reduxState.errorMessage.showError;
+	    return isLoading || isError ? _react2.default.createElement(_statusMessage2.default, { messageBold: 'Loading game data...', messageBody: 'Just hang tight.', messageClass: 'info' }) : _react2.default.createElement(
 	      'div',
 	      { className: 'row ' + (this.props.reduxState.isSendingPrediction ? 'send-waiting' : '') },
 	      _react2.default.createElement(_gamesViewerContainer2.default, { reduxState: this.props.reduxState }),
