@@ -32,6 +32,7 @@ router.put('/userMonth/:month/predictedWinners', auth, ctrlUserMonths.predictedW
 // routes for dailyGamesData:
 router.get('/dailyGamesData/:month', ctrlDailyGamesData.dailyGamesDataGetMonth);
 router.post('/dailyGamesData', ctrlDailyGamesData.dailyGamesDataCreate);
+router.put('/dailyGamesData/:date', ctrlDailyGamesData.dailyGamesDataUpdate);
 
 // routes for authentication requests:
 router.post('/register', ctrlAuth.register);

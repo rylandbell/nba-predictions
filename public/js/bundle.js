@@ -48329,7 +48329,6 @@
 	var mapDispatchToProps = function mapDispatchToProps(dispatch, ownProps) {
 	  return {
 	    addPrediction: function addPrediction(gameId, teamName, gameDate) {
-
 	      //mark previous selection for that day eligible:
 	      var gameDay = moment(gameDate).format('D');
 	      var oldPrediction = ownProps.reduxState.userMonth.predictedWinners[gameDay];
@@ -48682,6 +48681,7 @@
 	    if (this.props.isSendingPrediction) {
 	      return;
 	    } else {
+	      console.log(this.props.teamData);
 	      var isEligible = _lodash2.default.includes(this.props.eligibleTeams, this.props.teamData.teamName);
 	      var isChosen = this.props.predictedWinner === this.props.teamData.teamName;
 	      if ((isEligible || isChosen) && !this.props.gameData.gameStatus.hasStarted) {
@@ -48696,7 +48696,10 @@
 	  render: function render() {
 	    var isChosen = this.props.predictedWinner === this.props.teamData.teamName;
 	    var isEligible = _lodash2.default.includes(this.props.eligibleTeams, this.props.teamData.teamName);
+	    var successfulPrediction = this.props.teamData.isWinner && isChosen;
+	    var failedPrediction = this.props.teamData.isLoser && isChosen;
 	    var clickable = isEligible || this.props.predictedWinner === this.props.teamData.teamName;
+
 	    return _react2.default.createElement(
 	      'div',
 	      { className: 'game-item game-team', onClick: this.handleClick },
@@ -48705,7 +48708,7 @@
 	        { className: 'team-container' },
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'team-item team-name ' + (clickable ? 'eligible-team' : 'ineligible-team') + (isChosen ? ' selected-team' : '') },
+	          { className: 'team-item team-name ' + (clickable ? 'eligible-team' : 'ineligible-team') + (isChosen ? ' selected-team' : '') + (successfulPrediction ? ' victory-team ' : '') + (failedPrediction ? ' defeat-team ' : '') },
 	          _react2.default.createElement(
 	            'h4',
 	            null,

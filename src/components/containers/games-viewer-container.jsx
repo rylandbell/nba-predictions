@@ -17,7 +17,6 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch, ownProps) => ({
   addPrediction:
     (gameId, teamName, gameDate)=>{
-
       //mark previous selection for that day eligible:
       const gameDay = moment(gameDate).format('D');
       const oldPrediction = ownProps.reduxState.userMonth.predictedWinners[gameDay];

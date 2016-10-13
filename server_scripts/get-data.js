@@ -1,6 +1,7 @@
 'use strict';
 // Call this file with:
 // node -e 'require("./server_scripts/get-data.js").addDateRange("2016-11-09", 5)'
+// node -e 'require("./server_scripts/get-data.js").updateByDate("2016-10-01")'
 
 var server = 'http://localhost:3000';
 if (process.env.NODE_ENV === 'production') {
@@ -40,6 +41,27 @@ const postGameData = function(data, successCallback, failureCallback){
   
   const newRequest = {
     method: 'POST',
+    mode: 'cors',
+    cache: 'default',
+    headers: headers,
+    body: JSON.stringify(data)
+  };
+  
+  fetch(url,newRequest)
+    .then(response => response.json())
+    .then(response => successCallback(response))
+    .catch(response => failureCallback(response));
+}
+
+//updates translated game data in database
+const putGameData = function(date, data, successCallback, failureCallback){
+  const url = server + '/api/dailyGamesData/'+date;
+
+  const headers = new Headers();
+  headers.append('Content-Type', 'application/json');
+  
+  const newRequest = {
+    method: 'PUT',
     mode: 'cors',
     cache: 'default',
     headers: headers,
@@ -121,9 +143,20 @@ const shapeAndPostDay = (date, data) => {
   postGameData(dailyGamesData,console.log,console.log);
 }
 
+//callback for nbaFetch; receives NBA-formatted object
+const shapeAndPutDay = (date, data) => {
+  const dailyGamesData = shapeFullDay(date, data);
+  putGameData(date,dailyGamesData,console.log,console.log);
+}
+
 //Takes date, fetches and shapes data, posts to DB
 const addSingleDate = (date) => {
   nbaFetch(date, shapeAndPostDay.bind(this,date), console.log);
+}
+
+//Takes date, fetches and shapes data, sends to DB as PUT request
+const updateSingleDate = (date) => {
+  nbaFetch(date, shapeAndPutDay.bind(this,date), console.log);
 }
 
 //startDate formatted like '2016-10-20'
@@ -142,4 +175,8 @@ module.exports.addDateRange = (startDate, numberOfDays) => {
       }    
     }, 
   2000);
+}
+
+module.exports.updateByDate = (date) => {
+  updateSingleDate(date);
 }

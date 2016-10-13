@@ -52,6 +52,38 @@ module.exports.dailyGamesDataCreate = function (req, res) {
   });
 };
 
+/* PUT: update a dailyGamesData (once game scores are available) */
+module.exports.dailyGamesDataUpdate = function (req, res) {
+  DailyGamesDataModel.find({
+    date: req.params.date,
+  }, function (err, dailyGamesData) {
+    if (err) {
+      console.log('error in controller');
+      sendJsonResponse(res, 400, err);
+      return;
+    } else if (!dailyGamesData) { 
+      sendJsonResponse(res, 404, {
+        message: 'date not found'
+      });
+      return;
+    } else if (dailyGamesData.length === 0) {
+      sendJsonResponse(res, 200, dailyGamesData);
+      return;
+    } else {
+      dailyGamesData[0].gameSummaries = req.body.gameSummaries;
+      dailyGamesData[0].save(function (err, dailyGamesData) {
+        if (err) {
+          sendJsonResponse(res, 400, err);
+          return;
+        } else {
+          sendJsonResponse(res, 200, dailyGamesData);
+          return;
+        }
+      });
+    }
+  });
+};
+
 // /* DELETE a userMonth */
 // module.exports.userMonthDelete = function(req, res) {
 //   var userMonthId = req.params.userMonthId;
