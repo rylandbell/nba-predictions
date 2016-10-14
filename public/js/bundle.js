@@ -100,6 +100,7 @@
 	          store.dispatch(_actionCreators2.default.receiveUserMonth(response));
 	        }, function (response) {
 	          store.dispatch(_actionCreators2.default.requestUserMonthFailure());
+	          console.log(store.getState());
 	          console.log('Failed to fetch userMonth', response);
 	        });
 	        store.dispatch(_actionCreators2.default.requestUserMonthWaiting());
@@ -31388,7 +31389,9 @@
 	  var chosenTeams;
 	  switch (action.type) {
 	    case 'RECEIVE_USER_MONTH':
-	      chosenTeams = _lodash2.default.values(action.response.userMonth.predictedWinners);
+	      chosenTeams = _lodash2.default.values(action.response.userMonth.predictedWinners).map(function (obj) {
+	        return obj.teamName;
+	      });
 	      return _lodash2.default.difference(teams, chosenTeams).sort();
 	    case 'MARK_ELIGIBLE':
 	      if (action.teamName) {
@@ -31409,6 +31412,7 @@
 
 	  switch (action.type) {
 	    case 'RECEIVE_USER_MONTH':
+	      console.log(_extends({}, action.response.userMonth.predictedWinners));
 	      return _extends({}, action.response.userMonth.predictedWinners);
 	    case 'ADD_PREDICTION':
 	      {
@@ -48644,7 +48648,7 @@
 	          'div',
 	          { className: 'game-container ' + (gameData.gameStatus.hasStarted ? '' : 'game-not-started') },
 	          _react2.default.createElement(_gameTeam2.default, { gameData: gameData, teamData: gameData.roadTeam, predictedWinner: predictedWinner, isSendingPrediction: isSendingPrediction, eligibleTeams: eligibleTeams, homeVsRoad: 'roadTeam', addPrediction: addPrediction, removePrediction: removePrediction }),
-	          _react2.default.createElement(_gameStatus2.default, { statusData: gameData.gameStatus }),
+	          _react2.default.createElement(_gameStatus2.default, { statusData: gameData.gameStatus, roadData: gameData.roadTeam, homeData: gameData.homeTeam }),
 	          _react2.default.createElement(_gameTeam2.default, { gameData: gameData, teamData: gameData.homeTeam, predictedWinner: predictedWinner, isSendingPrediction: isSendingPrediction, eligibleTeams: eligibleTeams, homeVsRoad: 'homeTeam', addPrediction: addPrediction, removePrediction: removePrediction })
 	        )
 	      )
@@ -48683,7 +48687,7 @@
 	    } else {
 	      console.log(this.props.teamData);
 	      var isEligible = _lodash2.default.includes(this.props.eligibleTeams, this.props.teamData.teamName);
-	      var isChosen = this.props.predictedWinner === this.props.teamData.teamName;
+	      var isChosen = this.props.predictedWinner.teamName === this.props.teamData.teamName;
 	      if ((isEligible || isChosen) && !this.props.gameData.gameStatus.hasStarted) {
 	        if (isChosen) {
 	          this.props.removePrediction(this.props.gameData.gameId, this.props.teamData.teamName, this.props.gameData.gameDate);
@@ -48694,11 +48698,11 @@
 	    }
 	  },
 	  render: function render() {
-	    var isChosen = this.props.predictedWinner === this.props.teamData.teamName;
+	    var isChosen = this.props.predictedWinner.teamName === this.props.teamData.teamName;
 	    var isEligible = _lodash2.default.includes(this.props.eligibleTeams, this.props.teamData.teamName);
 	    var successfulPrediction = this.props.teamData.isWinner && isChosen;
 	    var failedPrediction = this.props.teamData.isLoser && isChosen;
-	    var clickable = isEligible || this.props.predictedWinner === this.props.teamData.teamName;
+	    var clickable = isEligible || this.props.predictedWinner.teamName === this.props.teamData.teamName;
 
 	    return _react2.default.createElement(
 	      'div',
@@ -48775,6 +48779,11 @@
 	      'small',
 	      { className: 'game-status-progress' },
 	      progressString
+	    ),
+	    _react2.default.createElement(
+	      'h4',
+	      { className: 'text-danger' },
+	      _react2.default.createElement('span', { className: 'glyphicon glyphicon-thumbs-down' })
 	    )
 	  );
 	};
@@ -49449,21 +49458,25 @@
 	  },
 	  render: function render() {
 	    var isActive = this.props.dayOfMonth == moment(this.props.visibleDate).format('D') ? 'active' : '';
-	    return _react2.default.createElement(
-	      'tr',
-	      { onClick: this.handleClick, className: isActive },
-	      _react2.default.createElement(
-	        'td',
-	        { className: 'date-col' },
-	        this.props.activeMonth.substring(5, 7) + '/' + this.props.dayOfMonth
-	      ),
-	      _react2.default.createElement(
-	        'td',
-	        { className: 'team-col' },
-	        this.props.predictedWinners[this.props.dayOfMonth] ? this.props.predictedWinners[this.props.dayOfMonth] : '-'
-	      ),
-	      _react2.default.createElement('td', { className: 'outcome-col' })
-	    );
+	    if (this.props.predictedWinners && this.props.predictedWinners[1]) {
+	      return _react2.default.createElement(
+	        'tr',
+	        { onClick: this.handleClick, className: isActive },
+	        _react2.default.createElement(
+	          'td',
+	          { className: 'date-col' },
+	          this.props.activeMonth.substring(5, 7) + '/' + this.props.dayOfMonth
+	        ),
+	        _react2.default.createElement(
+	          'td',
+	          { className: 'team-col' },
+	          this.props.predictedWinners[this.props.dayOfMonth].teamName ? this.props.predictedWinners[this.props.dayOfMonth].teamName : '-'
+	        ),
+	        _react2.default.createElement('td', { className: 'outcome-col' })
+	      );
+	    } else {
+	      return null;
+	    }
 	  }
 
 	});

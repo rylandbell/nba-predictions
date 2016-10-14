@@ -40,7 +40,7 @@ var _showError = function (req, res, apiResponse, err, body) {
         break;
       default:
         title = apiResponse.statusCode + ' error';
-        if (apiResponse.body) {
+        if (apiResponse.body && apiResponse.body.errors) {
           content = 'Something\'s gone wrong with this request: \n\n' + apiResponse.body.errors[0].message;
         } else {
           content = 'Something\'s gone wrong with this request.';
@@ -135,7 +135,6 @@ module.exports.pageMockups = function (req, res, next) {
 
 //add new userMonth, then redirect user to it
 module.exports.newUserMonth = function (req, res, next) {
-  console.log('server controller runs');
   var path = '/api/userMonth';
   var requestOptions = {
     url: apiOptions.server + path,

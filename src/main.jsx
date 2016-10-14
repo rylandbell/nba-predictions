@@ -33,6 +33,7 @@ function render() {
               }),
               (response => {
                 store.dispatch(ActionCreator.requestUserMonthFailure());
+                console.log(store.getState());
                 console.log('Failed to fetch userMonth', response);
               })
             );

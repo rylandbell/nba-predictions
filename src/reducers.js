@@ -125,7 +125,7 @@ const eligibleTeams = (state = [], action) => {
   var chosenTeams;
   switch(action.type){
     case 'RECEIVE_USER_MONTH':
-      chosenTeams = _.values(action.response.userMonth.predictedWinners);
+      chosenTeams = _.values(action.response.userMonth.predictedWinners).map(obj=>obj.teamName);
       return _.difference(teams, chosenTeams).sort();
     case 'MARK_ELIGIBLE':
       if(action.teamName){
@@ -143,6 +143,7 @@ const eligibleTeams = (state = [], action) => {
 const predictedWinners = (state = {}, action) => {
   switch(action.type){
     case 'RECEIVE_USER_MONTH':
+      console.log(Object.assign({},action.response.userMonth.predictedWinners));
       return Object.assign({},action.response.userMonth.predictedWinners);
     case 'ADD_PREDICTION': {
       const date = moment(action.gameDate).format('D');

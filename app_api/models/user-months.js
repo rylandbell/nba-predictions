@@ -1,48 +1,55 @@
 var mongoose = require('mongoose');
 
-//tracks predicted winners by day of month
-var predictedWinnersSchema = new mongoose.Schema({
-  1: { type: String, default: null },
-  2: { type: String, default: null },
-  3: { type: String, default: null },
-  4: { type: String, default: null },
-  5: { type: String, default: null },
-  6: { type: String, default: null },
-  7: { type: String, default: null },
-  8: { type: String, default: null },
-  9: { type: String, default: null },
-  10: { type: String, default: null },
-  11: { type: String, default: null },
-  12: { type: String, default: null },
-  13: { type: String, default: null },
-  14: { type: String, default: null },
-  15: { type: String, default: null },
-  16: { type: String, default: null },
-  17: { type: String, default: null },
-  18: { type: String, default: null },
-  19: { type: String, default: null },
-  20: { type: String, default: null },
-  21: { type: String, default: null },
-  22: { type: String, default: null },
-  23: { type: String, default: null },
-  24: { type: String, default: null },
-  25: { type: String, default: null },
-  26: { type: String, default: null },
-  27: { type: String, default: null },
-  28: { type: String, default: null },
-  29: { type: String, default: null },
-  30: { type: String, default: null },
-  31: { type: String, default: null }
+//data for single day's prediction:
+var predictionSchema = new mongoose.Schema({
+  teamName: {type: String, default: null},
+  isSuccess: {type: Boolean, default: false},
+  isFailure: {type: Boolean, default: false},
 });
 
-//By 'userMonth', I mean one month of one user's prediction data
+//tracks predicted winners by day of month
+var predictedWinnersSchema = new mongoose.Schema({
+  1: {type: predictionSchema, default: {teamName: 'GSW'}},
+  2: {type: predictionSchema, default: {}},
+  3: {type: predictionSchema, default: {}},
+  4: {type: predictionSchema, default: {}},
+  5: {type: predictionSchema, default: {}},
+  6: {type: predictionSchema, default: {}},
+  7: {type: predictionSchema, default: {}},
+  8: {type: predictionSchema, default: {}},
+  9: {type: predictionSchema, default: {}},
+  10: {type: predictionSchema, default: {}},
+  11: {type: predictionSchema, default: {}},
+  12: {type: predictionSchema, default: {}},
+  13: {type: predictionSchema, default: {}},
+  14: {type: predictionSchema, default: {}},
+  15: {type: predictionSchema, default: {}},
+  16: {type: predictionSchema, default: {}},
+  17: {type: predictionSchema, default: {}},
+  18: {type: predictionSchema, default: {}},
+  19: {type: predictionSchema, default: {}},
+  20: {type: predictionSchema, default: {}},
+  21: {type: predictionSchema, default: {}},
+  22: {type: predictionSchema, default: {}},
+  23: {type: predictionSchema, default: {}},
+  24: {type: predictionSchema, default: {}},
+  25: {type: predictionSchema, default: {}},
+  26: {type: predictionSchema, default: {}},
+  27: {type: predictionSchema, default: {}},
+  28: {type: predictionSchema, default: {}},
+  29: {type: predictionSchema, default: {}},
+  30: {type: predictionSchema, default: {}},
+  31: {type: predictionSchema, default: {}}
+});
+
+//By 'userMonth', I mean one month of one user's prediction and outcome data
 var userMonthSchema = new mongoose.Schema({
 
   //e.g. 2016-09
   month: { type: String, required: true },
   ownerId: { type: String, required: true },
-  predictedWinners: predictedWinnersSchema
+  predictedWinners: {type: predictedWinnersSchema, default: predictedWinnersSchema}
 });
 
-//connect this schema to the database. automatically creates a MongoDB collection 'months' based on the supplied parameter 'Month'
+//connect this schema to the database. automatically creates a MongoDB collection 'usermonths' based on the supplied parameter 'month'
 mongoose.model('UserMonth', userMonthSchema);

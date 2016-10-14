@@ -145,9 +145,9 @@ module.exports.predictedWinnersUpdate = function (req, res) {
           for (var key in req.body) {
             if (req.body.hasOwnProperty(key)) {
               if (req.body[key] === 'null') {
-                userMonth[0].predictedWinners[key] = null;
+                userMonth[0].predictedWinners[key] = {teamName: null, isSuccess: false, isFailure: false};
               } else {
-                userMonth[0].predictedWinners[key] = req.body[key];
+                userMonth[0].predictedWinners[key] = {teamName: req.body[key], isSuccess: false, isFailure: false};
               }
             }
           }
@@ -177,7 +177,6 @@ module.exports.userMonthDelete = function (req, res) {
             sendJsonResponse(res, 404, err);
             return;
           }
-
           console.log('userMonth id ' + userMonthId + ' deleted');
           sendJsonResponse(res, 204, null);
           return;

@@ -10,7 +10,7 @@ const api = React.createClass({
     } else {
       console.log(this.props.teamData);
       const isEligible = _.includes(this.props.eligibleTeams, this.props.teamData.teamName);
-      const isChosen = this.props.predictedWinner === this.props.teamData.teamName;
+      const isChosen = this.props.predictedWinner.teamName === this.props.teamData.teamName;
       if((isEligible || isChosen) && !this.props.gameData.gameStatus.hasStarted){
         if(isChosen) {
           this.props.removePrediction(this.props.gameData.gameId, this.props.teamData.teamName, this.props.gameData.gameDate);
@@ -21,11 +21,11 @@ const api = React.createClass({
     }
   },
   render: function () {
-    const isChosen = this.props.predictedWinner === this.props.teamData.teamName;
+    const isChosen = this.props.predictedWinner.teamName === this.props.teamData.teamName;
     const isEligible = _.includes(this.props.eligibleTeams, this.props.teamData.teamName);
     const successfulPrediction = this.props.teamData.isWinner && isChosen;
     const failedPrediction = this.props.teamData.isLoser && isChosen;    
-    const clickable = isEligible || this.props.predictedWinner === this.props.teamData.teamName;
+    const clickable = isEligible || this.props.predictedWinner.teamName === this.props.teamData.teamName;
 
     return (
       <div className="game-item game-team" onClick={this.handleClick}>
