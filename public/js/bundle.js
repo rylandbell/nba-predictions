@@ -31412,21 +31412,20 @@
 
 	  switch (action.type) {
 	    case 'RECEIVE_USER_MONTH':
-	      console.log(_extends({}, action.response.userMonth.predictedWinners));
 	      return _extends({}, action.response.userMonth.predictedWinners);
 	    case 'ADD_PREDICTION':
 	      {
 	        var date = moment(action.gameDate).format('D');
 	        var team = action.teamName;
 	        var update = {};
-	        update[date] = team;
+	        update[date] = _extends({}, state[date], { teamName: team });
 	        return _extends({}, state, update);
 	      }
 	    case 'REMOVE_PREDICTION':
 	      {
 	        var _date = moment(action.gameDate).format('D');
 	        var _update = {};
-	        _update[_date] = null;
+	        _update[_date] = _extends({}, state[_date], { teamName: null });
 	        return _extends({}, state, _update);
 	      }
 	    default:
@@ -48335,7 +48334,7 @@
 	    addPrediction: function addPrediction(gameId, teamName, gameDate) {
 	      //mark previous selection for that day eligible:
 	      var gameDay = moment(gameDate).format('D');
-	      var oldPrediction = ownProps.reduxState.userMonth.predictedWinners[gameDay];
+	      var oldPrediction = ownProps.reduxState.userMonth.predictedWinners[gameDay].teamName;
 	      dispatch(_actionCreators2.default.markEligible(oldPrediction));
 
 	      //add new prediction, then mark that team ineligible for rest of month:

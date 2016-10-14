@@ -9,7 +9,7 @@ var predictionSchema = new mongoose.Schema({
 
 //tracks predicted winners by day of month
 var predictedWinnersSchema = new mongoose.Schema({
-  1: {type: predictionSchema, default: {teamName: 'GSW'}},
+  1: {type: predictionSchema, default: {}},
   2: {type: predictionSchema, default: {}},
   3: {type: predictionSchema, default: {}},
   4: {type: predictionSchema, default: {}},

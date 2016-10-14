@@ -143,19 +143,18 @@ const eligibleTeams = (state = [], action) => {
 const predictedWinners = (state = {}, action) => {
   switch(action.type){
     case 'RECEIVE_USER_MONTH':
-      console.log(Object.assign({},action.response.userMonth.predictedWinners));
       return Object.assign({},action.response.userMonth.predictedWinners);
     case 'ADD_PREDICTION': {
       const date = moment(action.gameDate).format('D');
       const team = action.teamName;
       const update = {};
-      update[date] = team;
+      update[date] = Object.assign({}, state[date], {teamName: team});
       return Object.assign({}, state, update);
     }
     case 'REMOVE_PREDICTION': {
       const date = moment(action.gameDate).format('D');
       const update = {};
-      update[date] = null;
+      update[date] = Object.assign({}, state[date], {teamName: null});
       return Object.assign({}, state, update);
     }
     default:
