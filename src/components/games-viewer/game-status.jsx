@@ -26,9 +26,6 @@ const api = ({statusData}) => {
     <div className="game-item game-status">
       <h5 className="game-status-score">{scoreString}</h5>
       <small className="game-status-progress">{progressString}</small>
-      <h4 className="text-danger">
-        <span className="glyphicon glyphicon-thumbs-down"></span>
-      </h4>
     </div>
   );
 };

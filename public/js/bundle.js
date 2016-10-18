@@ -48778,11 +48778,6 @@
 	      'small',
 	      { className: 'game-status-progress' },
 	      progressString
-	    ),
-	    _react2.default.createElement(
-	      'h4',
-	      { className: 'text-danger' },
-	      _react2.default.createElement('span', { className: 'glyphicon glyphicon-thumbs-down' })
 	    )
 	  );
 	};
