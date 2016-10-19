@@ -7,7 +7,7 @@ var sendJsonResponse = function (res, status, content) {
   res.json(content);
 };
 
-/* GET one userMonth by userMonthId */
+/* GET one month of dailyGamesData by month */
 module.exports.dailyGamesDataGetMonth = function (req, res) {
   if (req.params && req.params.month) {
     DailyGamesDataModel

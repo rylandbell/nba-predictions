@@ -47,11 +47,11 @@ const shapeAndPutDay = (date, data) => {
 }
 
 //Takes date, fetches and shapes data, posts to DB
-const addSingleDate = (date) => {
+module.exports.addSingleDate = (date) => {
   Nba.nbaFetch(date, shapeAndPostDay.bind(this,date), console.log);
 }
 
 //Takes date, fetches and shapes data, sends to DB as PUT request
-const updateSingleDate = (date) => {
+module.exports.updateSingleDate = (date) => {
   Nba.nbaFetch(date, shapeAndPutDay.bind(this,date), console.log);
 }

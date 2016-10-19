@@ -13,18 +13,14 @@ var gameStatusSchema = new mongoose.Schema({
   isFinal: { type: Boolean, required: true }
 });
 
-var teamSummarySchema = new mongoose.Schema({
-  teamName: { type: String, required: true },
-  isWinner: { type: Boolean, required: true },
-  isLoser: { type: Boolean, required: true }
-});
-
 var gameSummarySchema = new mongoose.Schema({
   gameId: { type: String, required: true },
   gameDate: { type: String, required: true },
+  winner: {type: String, default: null},
+  loser: {type: String, default: null},
+  roadTeam: {type: String, required: true},
+  homeTeam: {type: String, required: true},
   gameStatus: gameStatusSchema,
-  roadTeam: teamSummarySchema,
-  homeTeam: teamSummarySchema
 });
 
 //By 'userMonth', I mean one month of one user's prediction data

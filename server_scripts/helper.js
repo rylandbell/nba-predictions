@@ -18,29 +18,50 @@ const shapeSingleGame = (data, index) => {
 
   //This big if-else block is to correctly distinguish the home and road teams
   if(data.resultSets[1].rowSet[2*index][3] === data.resultSets[0].rowSet[index][7]){
-    gameSummary.roadTeam = {
-      teamName: data.resultSets[1].rowSet[2*index][4],
-      isWinner: (data.resultSets[0].rowSet[index][4] === 'Final') && (data.resultSets[1].rowSet[2*index][21] > data.resultSets[1].rowSet[2*index + 1][21]),
-      isLoser: (data.resultSets[0].rowSet[index][4] === 'Final') && (data.resultSets[1].rowSet[2*index][21] < data.resultSets[1].rowSet[2*index + 1][21])
-    };
+    gameSummary.roadTeam = data.resultSets[1].rowSet[2*index][4];
 
-    gameSummary.homeTeam = {
-      teamName: data.resultSets[1].rowSet[2*index + 1][4],
-      isWinner: (data.resultSets[0].rowSet[index][4] === 'Final') && (data.resultSets[1].rowSet[2*index][21] < data.resultSets[1].rowSet[2*index + 1][21]),
-      isLoser: (data.resultSets[0].rowSet[index][4] === 'Final') && (data.resultSets[1].rowSet[2*index][21] > data.resultSets[1].rowSet[2*index + 1][21])
-    };
+    //did the road team win?
+    if ((data.resultSets[0].rowSet[index][4] === 'Final') && (data.resultSets[1].rowSet[2*index][21] > data.resultSets[1].rowSet[2*index + 1][21])) {
+      gameSummary.winner = data.resultSets[1].rowSet[2*index][4];
+
+    //did the road team lose?
+    } else if ((data.resultSets[0].rowSet[index][4] === 'Final') && (data.resultSets[1].rowSet[2*index][21] < data.resultSets[1].rowSet[2*index + 1][21])) {
+      gameSummary.loser = data.resultSets[1].rowSet[2*index][4];
+    }
+
+    gameSummary.homeTeam = data.resultSets[1].rowSet[2*index + 1][4];
+
+    //did the home team win?
+    if ((data.resultSets[0].rowSet[index][4] === 'Final') && (data.resultSets[1].rowSet[2*index][21] < data.resultSets[1].rowSet[2*index + 1][21])) {
+      gameSummary.winner = data.resultSets[1].rowSet[2*index + 1][4];
+
+    //did the home team lose?
+    } else if ((data.resultSets[0].rowSet[index][4] === 'Final') && (data.resultSets[1].rowSet[2*index][21] > data.resultSets[1].rowSet[2*index + 1][21])) {
+      gameSummary.loser = data.resultSets[1].rowSet[2*index + 1][4];
+    }
+
   } else {
-    gameSummary.homeTeam = {
-      teamName: data.resultSets[1].rowSet[2*index][4],
-      isWinner: (data.resultSets[0].rowSet[index][4] === 'Final') && (data.resultSets[1].rowSet[2*index][21] > data.resultSets[1].rowSet[2*index + 1][21]),
-      isLoser: (data.resultSets[0].rowSet[index][4] === 'Final') && (data.resultSets[1].rowSet[2*index][21] < data.resultSets[1].rowSet[2*index + 1][21])
-    };
+    gameSummary.homeTeam = data.resultSets[1].rowSet[2*index][4];
 
-    gameSummary.roadTeam = {
-      teamName: data.resultSets[1].rowSet[2*index + 1][4],
-      isWinner: (data.resultSets[0].rowSet[index][4] === 'Final') && (data.resultSets[1].rowSet[2*index][21] < data.resultSets[1].rowSet[2*index + 1][21]),
-      isLoser: (data.resultSets[0].rowSet[index][4] === 'Final') && (data.resultSets[1].rowSet[2*index][21] > data.resultSets[1].rowSet[2*index + 1][21])
-    };
+    //did the home team win?
+    if ((data.resultSets[0].rowSet[index][4] === 'Final') && (data.resultSets[1].rowSet[2*index][21] > data.resultSets[1].rowSet[2*index + 1][21])) {
+      gameSummary.winner = data.resultSets[1].rowSet[2*index][4];
+
+    //did the home team lose?
+    } else if ((data.resultSets[0].rowSet[index][4] === 'Final') && (data.resultSets[1].rowSet[2*index][21] < data.resultSets[1].rowSet[2*index + 1][21])) {
+      gameSummary.loser = data.resultSets[1].rowSet[2*index][4];
+    }
+
+    gameSummary.roadTeam = data.resultSets[1].rowSet[2*index + 1][4];
+
+    //did the road team win?
+    if ((data.resultSets[0].rowSet[index][4] === 'Final') && (data.resultSets[1].rowSet[2*index][21] < data.resultSets[1].rowSet[2*index + 1][21])) {
+      gameSummary.winner = data.resultSets[1].rowSet[2*index + 1][4];
+
+    //did the road team lose?
+    } else if ((data.resultSets[0].rowSet[index][4] === 'Final') && (data.resultSets[1].rowSet[2*index][21] > data.resultSets[1].rowSet[2*index + 1][21])) {
+      gameSummary.loser = data.resultSets[1].rowSet[2*index + 1][4];
+    }
   }
 
   return gameSummary;
@@ -63,3 +84,24 @@ module.exports.shapeFullDay = (date, data) => {
 
   return day;
 };
+
+// const determinePredictionOutcome = function(dailyGamesData, userDay) {
+
+//   //did the user make a prediction for today?
+//   if(userDay.teamName){
+//     const userTeam === userDay.teamName;
+
+//     //find the game with the prediction
+//     dailyGamesData.gameSummaries.filter(
+//       game => (game.homeTeam.teamName === userTeam || game.roadTeam.teamName === userTeam)
+//     ).forEach(
+//       game => {
+//         if(game.homeTeam.teamName === userTeam && game.homeTeam.isWinner) {
+//           return true;
+//         } else if (game.)}
+//       }
+//     )
+//   } else {
+//     return null;
+//   }
+// }

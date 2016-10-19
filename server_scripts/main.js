@@ -9,7 +9,7 @@ const moment = require('moment');
 
 const GameData = require('./manage-game-data.js');
 
-//used to update a single day's data, as scores become available
+//used to update a single day's game and user data, as scores become available
 module.exports.updateByDate = (date) => {
   GameData.updateSingleDate(date);
 }
