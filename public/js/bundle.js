@@ -48646,9 +48646,9 @@
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'game-container ' + (gameData.gameStatus.hasStarted ? '' : 'game-not-started') },
-	          _react2.default.createElement(_gameTeam2.default, { gameData: gameData, teamData: gameData.roadTeam, predictedWinner: predictedWinner, isSendingPrediction: isSendingPrediction, eligibleTeams: eligibleTeams, homeVsRoad: 'roadTeam', addPrediction: addPrediction, removePrediction: removePrediction }),
+	          _react2.default.createElement(_gameTeam2.default, { gameData: gameData, teamName: gameData.roadTeam, predictedWinner: predictedWinner, isSendingPrediction: isSendingPrediction, eligibleTeams: eligibleTeams, homeVsRoad: 'roadTeam', addPrediction: addPrediction, removePrediction: removePrediction }),
 	          _react2.default.createElement(_gameStatus2.default, { statusData: gameData.gameStatus, roadData: gameData.roadTeam, homeData: gameData.homeTeam }),
-	          _react2.default.createElement(_gameTeam2.default, { gameData: gameData, teamData: gameData.homeTeam, predictedWinner: predictedWinner, isSendingPrediction: isSendingPrediction, eligibleTeams: eligibleTeams, homeVsRoad: 'homeTeam', addPrediction: addPrediction, removePrediction: removePrediction })
+	          _react2.default.createElement(_gameTeam2.default, { gameData: gameData, teamName: gameData.homeTeam, predictedWinner: predictedWinner, isSendingPrediction: isSendingPrediction, eligibleTeams: eligibleTeams, homeVsRoad: 'homeTeam', addPrediction: addPrediction, removePrediction: removePrediction })
 	        )
 	      )
 	    )
@@ -48684,24 +48684,26 @@
 	    if (this.props.isSendingPrediction) {
 	      return;
 	    } else {
-	      console.log(this.props.teamData);
-	      var isEligible = _lodash2.default.includes(this.props.eligibleTeams, this.props.teamData.teamName);
-	      var isChosen = this.props.predictedWinner.teamName === this.props.teamData.teamName;
+	      var isEligible = _lodash2.default.includes(this.props.eligibleTeams, this.props.teamName);
+	      var isChosen = this.props.predictedWinner.teamName === this.props.teamName;
 	      if ((isEligible || isChosen) && !this.props.gameData.gameStatus.hasStarted) {
 	        if (isChosen) {
-	          this.props.removePrediction(this.props.gameData.gameId, this.props.teamData.teamName, this.props.gameData.gameDate);
+	          this.props.removePrediction(this.props.gameData.gameId, this.props.teamName, this.props.gameData.gameDate);
 	        } else {
-	          this.props.addPrediction(this.props.gameData.gameId, this.props.teamData.teamName, this.props.gameData.gameDate);
+	          this.props.addPrediction(this.props.gameData.gameId, this.props.teamName, this.props.gameData.gameDate);
 	        }
 	      }
 	    }
 	  },
 	  render: function render() {
-	    var isChosen = this.props.predictedWinner.teamName === this.props.teamData.teamName;
-	    var isEligible = _lodash2.default.includes(this.props.eligibleTeams, this.props.teamData.teamName);
-	    var successfulPrediction = this.props.teamData.isWinner && isChosen;
-	    var failedPrediction = this.props.teamData.isLoser && isChosen;
-	    var clickable = isEligible || this.props.predictedWinner.teamName === this.props.teamData.teamName;
+	    var isChosen = this.props.predictedWinner.teamName === this.props.teamName;
+	    var isEligible = _lodash2.default.includes(this.props.eligibleTeams, this.props.teamName);
+	    // const successfulPrediction = this.props.teamData.isWinner && isChosen;
+	    // const failedPrediction = this.props.teamData.isLoser && isChosen;    
+	    var successfulPrediction = false;
+	    var failedPrediction = false;
+
+	    var clickable = isEligible || this.props.predictedWinner.teamName === this.props.teamName;
 
 	    return _react2.default.createElement(
 	      'div',
@@ -48715,16 +48717,16 @@
 	          _react2.default.createElement(
 	            'h4',
 	            null,
-	            this.props.teamData.teamName
+	            this.props.teamName
 	          ),
-	          _react2.default.createElement('div', { className: 'logo ' + this.props.teamData.teamName.toLowerCase() })
+	          _react2.default.createElement('div', { className: 'logo ' + this.props.teamName.toLowerCase() })
 	        )
 	      )
 	    );
 	  }
 	});
 
-	// <img src={'/images/logos/'+this.props.teamData.teamName+'.png'} className="logo"/>
+	// <img src={'/images/logos/'+this.props.teamName+'.png'} className="logo"/>
 
 	exports.default = api;
 

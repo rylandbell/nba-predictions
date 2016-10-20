@@ -8,31 +8,33 @@ const api = React.createClass({
     if(this.props.isSendingPrediction){
       return
     } else {
-      console.log(this.props.teamData);
-      const isEligible = _.includes(this.props.eligibleTeams, this.props.teamData.teamName);
-      const isChosen = this.props.predictedWinner.teamName === this.props.teamData.teamName;
+      const isEligible = _.includes(this.props.eligibleTeams, this.props.teamName);
+      const isChosen = this.props.predictedWinner.teamName === this.props.teamName;
       if((isEligible || isChosen) && !this.props.gameData.gameStatus.hasStarted){
         if(isChosen) {
-          this.props.removePrediction(this.props.gameData.gameId, this.props.teamData.teamName, this.props.gameData.gameDate);
+          this.props.removePrediction(this.props.gameData.gameId, this.props.teamName, this.props.gameData.gameDate);
         } else {
-          this.props.addPrediction(this.props.gameData.gameId, this.props.teamData.teamName, this.props.gameData.gameDate);
+          this.props.addPrediction(this.props.gameData.gameId, this.props.teamName, this.props.gameData.gameDate);
         }
       }
     }
   },
   render: function () {
-    const isChosen = this.props.predictedWinner.teamName === this.props.teamData.teamName;
-    const isEligible = _.includes(this.props.eligibleTeams, this.props.teamData.teamName);
-    const successfulPrediction = this.props.teamData.isWinner && isChosen;
-    const failedPrediction = this.props.teamData.isLoser && isChosen;    
-    const clickable = isEligible || this.props.predictedWinner.teamName === this.props.teamData.teamName;
+    const isChosen = this.props.predictedWinner.teamName === this.props.teamName;
+    const isEligible = _.includes(this.props.eligibleTeams, this.props.teamName);
+    // const successfulPrediction = this.props.teamData.isWinner && isChosen;
+    // const failedPrediction = this.props.teamData.isLoser && isChosen;    
+    const successfulPrediction = false;
+    const failedPrediction = false; 
+
+    const clickable = isEligible || this.props.predictedWinner.teamName === this.props.teamName;
 
     return (
       <div className="game-item game-team" onClick={this.handleClick}>
         <div className="team-container">
           <div className={'team-item team-name ' + (clickable ? 'eligible-team' : 'ineligible-team') + (isChosen ? ' selected-team' : '') + (successfulPrediction ? ' victory-team ' : '') + (failedPrediction ? ' defeat-team ' : '')} >
-            <h4>{this.props.teamData.teamName}</h4>
-            <div className={'logo '+this.props.teamData.teamName.toLowerCase()}></div>
+            <h4>{this.props.teamName}</h4>
+            <div className={'logo '+this.props.teamName.toLowerCase()}></div>
           </div>
         </div>
       </div>
@@ -40,6 +42,6 @@ const api = React.createClass({
   }
 });
 
-// <img src={'/images/logos/'+this.props.teamData.teamName+'.png'} className="logo"/>
+// <img src={'/images/logos/'+this.props.teamName+'.png'} className="logo"/>
 
 export default api;
