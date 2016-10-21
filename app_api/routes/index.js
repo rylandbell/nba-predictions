@@ -23,7 +23,8 @@ var ctrlAuth = require('../controllers/authentication');
 
 // routes for calls to userMonths folder:
 router.get('/userMonth/:month', auth, ctrlUserMonths.userMonthReadOne);
-router.get('/userMonth', auth, ctrlUserMonths.userMonthReadAll);
+router.get('/userMonth', auth, ctrlUserMonths.userMonthReadAllForUser);
+router.get('/userMonth/all/:month', ctrlUserMonths.userMonthReadAllByMonth);
 router.post('/userMonth', auth, ctrlUserMonths.userMonthCreate);
 router.delete('/userMonth/:userMonthId', auth, ctrlUserMonths.userMonthDelete);
 
