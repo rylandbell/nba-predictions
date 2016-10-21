@@ -28,6 +28,7 @@ router.post('/userMonth', auth, ctrlUserMonths.userMonthCreate);
 router.delete('/userMonth/:userMonthId', auth, ctrlUserMonths.userMonthDelete);
 
 router.put('/userMonth/:month/predictedWinners', auth, ctrlUserMonths.predictedWinnersUpdate);
+router.put('/userMonth/:userMonthId', ctrlUserMonths.outcomeUpdate);
 
 // routes for dailyGamesData:
 router.get('/dailyGamesData/:month', ctrlDailyGamesData.dailyGamesDataGetMonth);

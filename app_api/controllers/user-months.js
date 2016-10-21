@@ -142,12 +142,13 @@ module.exports.predictedWinnersUpdate = function (req, res) {
             return;
           }
 
+          //the key is a number from 1-31; there's only one, but since I don't know what it will be ahead of time, I run through this loop:
           for (var key in req.body) {
             if (req.body.hasOwnProperty(key)) {
               if (req.body[key] === 'null') {
-                userMonth[0].predictedWinners[key] = {teamName: null, isSuccess: false, isFailure: false};
+                userMonth[0].predictedWinners[key].teamName = null;
               } else {
-                userMonth[0].predictedWinners[key] = {teamName: req.body[key], isSuccess: false, isFailure: false};
+                userMonth[0].predictedWinners[key].teamName = req.body[key];
               }
             }
           }
@@ -162,6 +163,53 @@ module.exports.predictedWinnersUpdate = function (req, res) {
         }
     );
   });
+};
+
+/* PUT mark a prediction as success or failure */
+module.exports.outcomeUpdate = function (req, res) {
+  var userMonthId = req.params.userMonthId;
+  if (userMonthId) {
+    UserMonthModel
+      .findById(userMonthId)
+      .select('predictedWinners')
+      .exec(
+        function (err, userMonth) {
+          
+          //catch basic errors:
+          if (!userMonth) {
+            sendJsonResponse(res, 404, {
+              message: 'userMonth not found'
+            });
+            return;
+          } else if (err) {
+            sendJsonResponse(res, 400, err);
+            return;
+          }
+
+          //add prediction outcome to provided day:
+          if (req.body.day) {
+            userMonth.predictedWinners[req.body.day].outcome = req.body.outcome || null;
+          } else {
+            sendJsonResponse(res, 404, {
+              message: 'no day provided'
+            });
+          }
+
+          //save userMonth and send JSON response:
+          userMonth.save(function (err, userMonth) {
+            if (err) {
+              sendJsonResponse(res, 400, err);
+            } else {
+              sendJsonResponse(res, 200, userMonth);
+            }
+          });
+        }
+    );
+  } else {
+    sendJsonResponse(res, 404, {
+      message: 'No userMonthId provided'
+    });
+  }
 };
 
 /* DELETE a userMonth */

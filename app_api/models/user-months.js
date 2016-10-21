@@ -1,10 +1,9 @@
 var mongoose = require('mongoose');
 
-//data for single day's prediction:
+//data for single day's prediction (outcome="success", "failure", or null):
 var predictionSchema = new mongoose.Schema({
   teamName: {type: String, default: null},
-  isSuccess: {type: Boolean, default: false},
-  isFailure: {type: Boolean, default: false},
+  outcome: {type: String, default: null}
 });
 
 //tracks predicted winners by day of month
