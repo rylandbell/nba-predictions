@@ -10,7 +10,7 @@ const api = ({predictedWinners, visibleDate, activeMonth, goToDate}) => {
   const rows = [];
   for (var i = 1; i<=daysInMonth; i++){
     rows.push(
-      <PredictionsSummaryRow predictedWinners={predictedWinners} visibleDate={visibleDate} activeMonth={activeMonth} goToDate={goToDate} dayOfMonth={i} key={i}/>
+      <PredictionsSummaryRow userPrediction={predictedWinners[i]} visibleDate={visibleDate} activeMonth={activeMonth} goToDate={goToDate} dayOfMonth={i} key={i}/>
     )
   }
 

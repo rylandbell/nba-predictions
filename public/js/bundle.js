@@ -49409,7 +49409,7 @@
 
 	  var rows = [];
 	  for (var i = 1; i <= daysInMonth; i++) {
-	    rows.push(_react2.default.createElement(_predictionsSummaryRow2.default, { predictedWinners: predictedWinners, visibleDate: visibleDate, activeMonth: activeMonth, goToDate: goToDate, dayOfMonth: i, key: i }));
+	    rows.push(_react2.default.createElement(_predictionsSummaryRow2.default, { userPrediction: predictedWinners[i], visibleDate: visibleDate, activeMonth: activeMonth, goToDate: goToDate, dayOfMonth: i, key: i }));
 	  }
 
 	  return _react2.default.createElement(
@@ -49460,7 +49460,20 @@
 	  },
 	  render: function render() {
 	    var isActive = this.props.dayOfMonth == moment(this.props.visibleDate).format('D') ? 'active' : '';
-	    if (this.props.predictedWinners && this.props.predictedWinners[1]) {
+	    var outcomeString = '';
+	    var outcomeClass = '';
+
+	    if (this.props.userPrediction) {
+	      if (this.props.userPrediction.outcome === 'success') {
+	        outcomeString = 'W';
+	        outcomeClass = 'text-success';
+	      } else if (this.props.userPrediction.outcome === 'failure') {
+	        outcomeString = 'L';
+	        outcomeClass = 'text-danger';
+	      }
+	    }
+
+	    if (this.props.userPrediction) {
 	      return _react2.default.createElement(
 	        'tr',
 	        { onClick: this.handleClick, className: isActive },
@@ -49472,9 +49485,13 @@
 	        _react2.default.createElement(
 	          'td',
 	          { className: 'team-col' },
-	          this.props.predictedWinners[this.props.dayOfMonth].teamName ? this.props.predictedWinners[this.props.dayOfMonth].teamName : '-'
+	          this.props.userPrediction.teamName ? this.props.userPrediction.teamName : '-'
 	        ),
-	        _react2.default.createElement('td', { className: 'outcome-col' })
+	        _react2.default.createElement(
+	          'td',
+	          { className: "outcome-col " + outcomeClass },
+	          outcomeString
+	        )
 	      );
 	    } else {
 	      return null;
