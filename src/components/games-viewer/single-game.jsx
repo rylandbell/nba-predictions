@@ -7,18 +7,6 @@ import GameStatus from './game-status.jsx';
 
 const api = ({gameData, predictedWinner, isSendingPrediction, eligibleTeams, addPrediction, removePrediction}) => {
   
-  //color the panel border appropriately:
-  // var panelType = 'panel-default';
-  // if (gameData.roadTeam.teamName === predictedWinner || gameData.homeTeam.teamName === predictedWinner) {
-  //   panelType = 'panel-primary';
-  // }
-  // if ((gameData.roadTeam.isWinner && gameData.roadTeam.teamName === predictedWinner) || (gameData.homeTeam.isWinner && gameData.homeTeam.teamName === predictedWinner)) {
-  //   panelType = 'panel-success';
-  // }
-  // if ((gameData.roadTeam.isLoser && gameData.roadTeam.teamName === predictedWinner) || (gameData.homeTeam.isLoser && gameData.homeTeam.teamName === predictedWinner)) {
-  //   panelType = 'panel-danger';
-  // }
-
   return (
     <div className="col-xs-12 col-md-6">
       <div className={'panel panel-default game-panel'}>

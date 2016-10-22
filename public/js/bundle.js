@@ -48622,18 +48622,6 @@
 	  var removePrediction = _ref.removePrediction;
 
 
-	  //color the panel border appropriately:
-	  // var panelType = 'panel-default';
-	  // if (gameData.roadTeam.teamName === predictedWinner || gameData.homeTeam.teamName === predictedWinner) {
-	  //   panelType = 'panel-primary';
-	  // }
-	  // if ((gameData.roadTeam.isWinner && gameData.roadTeam.teamName === predictedWinner) || (gameData.homeTeam.isWinner && gameData.homeTeam.teamName === predictedWinner)) {
-	  //   panelType = 'panel-success';
-	  // }
-	  // if ((gameData.roadTeam.isLoser && gameData.roadTeam.teamName === predictedWinner) || (gameData.homeTeam.isLoser && gameData.homeTeam.teamName === predictedWinner)) {
-	  //   panelType = 'panel-danger';
-	  // }
-
 	  return _react2.default.createElement(
 	    'div',
 	    { className: 'col-xs-12 col-md-6' },
@@ -48696,12 +48684,11 @@
 	    }
 	  },
 	  render: function render() {
+	    console.log('props: ', this.props);
 	    var isChosen = this.props.predictedWinner.teamName === this.props.teamName;
 	    var isEligible = _lodash2.default.includes(this.props.eligibleTeams, this.props.teamName);
-	    // const successfulPrediction = this.props.teamData.isWinner && isChosen;
-	    // const failedPrediction = this.props.teamData.isLoser && isChosen;    
-	    var successfulPrediction = false;
-	    var failedPrediction = false;
+	    var successfulPrediction = isChosen && this.props.predictedWinner.outcome === 'success';
+	    var failedPrediction = isChosen && this.props.predictedWinner.outcome === 'failure';
 
 	    var clickable = isEligible || this.props.predictedWinner.teamName === this.props.teamName;
 
@@ -48725,8 +48712,6 @@
 	    );
 	  }
 	});
-
-	// <img src={'/images/logos/'+this.props.teamName+'.png'} className="logo"/>
 
 	exports.default = api;
 

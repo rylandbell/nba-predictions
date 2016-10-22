@@ -20,12 +20,11 @@ const api = React.createClass({
     }
   },
   render: function () {
+    console.log('props: ', this.props);
     const isChosen = this.props.predictedWinner.teamName === this.props.teamName;
-    const isEligible = _.includes(this.props.eligibleTeams, this.props.teamName);
-    // const successfulPrediction = this.props.teamData.isWinner && isChosen;
-    // const failedPrediction = this.props.teamData.isLoser && isChosen;    
-    const successfulPrediction = false;
-    const failedPrediction = false; 
+    const isEligible = _.includes(this.props.eligibleTeams, this.props.teamName);  
+    const successfulPrediction = (isChosen && this.props.predictedWinner.outcome === 'success');
+    const failedPrediction = (isChosen && this.props.predictedWinner.outcome === 'failure'); 
 
     const clickable = isEligible || this.props.predictedWinner.teamName === this.props.teamName;
 
@@ -41,7 +40,5 @@ const api = React.createClass({
     );
   }
 });
-
-// <img src={'/images/logos/'+this.props.teamName+'.png'} className="logo"/>
 
 export default api;
