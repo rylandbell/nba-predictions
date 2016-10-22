@@ -84,3 +84,7 @@
 .ineligible-team .logo {
   opacity: 0.2;
 }
+
+.game-status-outcome {
+  margin: 5px 0 0 0;
+}

@@ -20,7 +20,6 @@ const api = React.createClass({
     }
   },
   render: function () {
-    console.log('props: ', this.props);
     const isChosen = this.props.predictedWinner.teamName === this.props.teamName;
     const isEligible = _.includes(this.props.eligibleTeams, this.props.teamName);  
     const successfulPrediction = (isChosen && this.props.predictedWinner.outcome === 'success');

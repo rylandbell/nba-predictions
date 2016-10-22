@@ -13,7 +13,7 @@ const api = ({gameData, predictedWinner, isSendingPrediction, eligibleTeams, add
         <div className="panel-body">
           <div className={'game-container ' + (gameData.gameStatus.hasStarted ? '':'game-not-started')}>
             <GameTeam gameData={gameData} teamName={gameData.roadTeam} predictedWinner={predictedWinner} isSendingPrediction={isSendingPrediction} eligibleTeams = {eligibleTeams} homeVsRoad={'roadTeam'} addPrediction={addPrediction} removePrediction={removePrediction}/>
-            <GameStatus statusData={gameData.gameStatus} roadData={gameData.roadTeam} homeData={gameData.homeTeam}/>
+            <GameStatus statusData={gameData.gameStatus} roadTeam={gameData.roadTeam} homeTeam={gameData.homeTeam} predictedWinner={predictedWinner}/>
             <GameTeam gameData={gameData} teamName={gameData.homeTeam} predictedWinner={predictedWinner} isSendingPrediction={isSendingPrediction} eligibleTeams = {eligibleTeams} homeVsRoad={'homeTeam'} addPrediction={addPrediction} removePrediction={removePrediction}/>
           </div>
         </div>

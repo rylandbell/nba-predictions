@@ -48635,7 +48635,7 @@
 	          'div',
 	          { className: 'game-container ' + (gameData.gameStatus.hasStarted ? '' : 'game-not-started') },
 	          _react2.default.createElement(_gameTeam2.default, { gameData: gameData, teamName: gameData.roadTeam, predictedWinner: predictedWinner, isSendingPrediction: isSendingPrediction, eligibleTeams: eligibleTeams, homeVsRoad: 'roadTeam', addPrediction: addPrediction, removePrediction: removePrediction }),
-	          _react2.default.createElement(_gameStatus2.default, { statusData: gameData.gameStatus, roadData: gameData.roadTeam, homeData: gameData.homeTeam }),
+	          _react2.default.createElement(_gameStatus2.default, { statusData: gameData.gameStatus, roadTeam: gameData.roadTeam, homeTeam: gameData.homeTeam, predictedWinner: predictedWinner }),
 	          _react2.default.createElement(_gameTeam2.default, { gameData: gameData, teamName: gameData.homeTeam, predictedWinner: predictedWinner, isSendingPrediction: isSendingPrediction, eligibleTeams: eligibleTeams, homeVsRoad: 'homeTeam', addPrediction: addPrediction, removePrediction: removePrediction })
 	        )
 	      )
@@ -48684,7 +48684,6 @@
 	    }
 	  },
 	  render: function render() {
-	    console.log('props: ', this.props);
 	    var isChosen = this.props.predictedWinner.teamName === this.props.teamName;
 	    var isEligible = _lodash2.default.includes(this.props.eligibleTeams, this.props.teamName);
 	    var successfulPrediction = isChosen && this.props.predictedWinner.outcome === 'success';
@@ -48733,9 +48732,15 @@
 
 	var api = function api(_ref) {
 	  var statusData = _ref.statusData;
+	  var roadTeam = _ref.roadTeam;
+	  var homeTeam = _ref.homeTeam;
+	  var predictedWinner = _ref.predictedWinner;
 
+	  console.log(roadTeam, homeTeam, predictedWinner);
 	  var scoreString;
 	  var progressString;
+	  var outcomeString = '';
+	  var outcomeClass = '';
 
 	  //set scoreString to game score or start time
 	  if (statusData.hasStarted) {
@@ -48753,6 +48758,17 @@
 	    }
 	  }
 
+	  // set outcomeString to display "success" or "failure" appropriately
+	  if (predictedWinner.teamName === homeTeam || predictedWinner.teamName === roadTeam) {
+	    if (predictedWinner.outcome === 'success') {
+	      outcomeString = 'W';
+	      outcomeClass = 'text-success';
+	    } else if (predictedWinner.outcome === 'failure') {
+	      outcomeString = 'L';
+	      outcomeClass = 'text-danger';
+	    }
+	  }
+
 	  return _react2.default.createElement(
 	    'div',
 	    { className: 'game-item game-status' },
@@ -48765,6 +48781,11 @@
 	      'small',
 	      { className: 'game-status-progress' },
 	      progressString
+	    ),
+	    _react2.default.createElement(
+	      'h3',
+	      { className: "game-status-outcome text-success " + outcomeClass },
+	      outcomeString
 	    )
 	  );
 	};
