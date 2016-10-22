@@ -1,75 +1,105 @@
 'use strict';
-// node -e 'require("./server_scripts/manage-user-data.js").update("2016-10-18")'
-// require('../app_api/models/db');
-const Helper = require('./helper.js');
-// const mongoose = require('mongoose');
-// const UserMonthModel = mongoose.model('UserMonth');
 
-const determinePredictionOutcome = function(dailyGamesData, userDay) {
+//takes a day of dailyGamesData, and a single day of a single userMonth
+const determinePredictionOutcome = function(dailyGamesData, userDay, userMonthId) {
 
-  //did the user make a prediction for today?
+  // did the user make a prediction for today?
   if(userDay.teamName){
-    const userTeam === userDay.teamName;
+    const userTeam = userDay.teamName;
+    let result = {
+      _id: userMonthId
+    };
 
-    //find the game with the prediction
-    dailyGamesData.gameSummaries.filter(
-      game => (game.homeTeam.teamName === userTeam || game.roadTeam.teamName === userTeam)
-    ).forEach(
-      game => {
-        if(game.homeTeam.teamName === userTeam && game.homeTeam.isWinner) {
-          return true;
-        } else if (game.)}
+    //compare the prediction against the actual outcome of each game:
+    dailyGamesData.gameSummaries.forEach(game => {
+      if (userTeam === game.winner) {
+        result.outcome = 'success';
+      } else if (userTeam === game.loser) {
+        result.outcome = 'failure';
       }
-    )
+    });
+    return result;
   } else {
     return null;
   }
-}
-
-
+};
 
 //get all userMonths for a given month (returns promise)
-const getUserMonths = function (month){
-  // var filter = {
-  //   month: month
-  // };
-  // return UserMonthModel
-  //   .find(filter)
-  //   .exec(function (err, userMonthArray) {
-  //     if (!userMonthArray) {
-  //       return [];
-  //     } else if (err) {
-  //       console.log("Error:",err);
-  //       return [];
-  //     }
-  //     return userMonthArray;
-  //   });
+const getUserMonths = function (date){
+  const month = date.substring(0,7);
+  const url = 'http://localhost:3000/api/userMonth/all/'+month;
+  
+  const newRequest = {
+    method: 'GET',
+  };
+  
+  return fetch(url,newRequest)
+    .then(response => response.json())
 }
 
 //get dailyGamesData, by date (returns promise)
 const getDailyGamesData = function(date){
-
+  const month = date.substring(0,7);
+  const url = 'http://localhost:3000/api/dailyGamesData/'+month;
+  
+  const newRequest = {
+    method: 'GET',
+  };
+  
+  return fetch(url,newRequest)
+    .then(response => response.json())
 }
 
+//post a result to the API:
+const postResult = function (result, dateNumber) {
+  const userMonthId = result._id;
+  const url = 'http://localhost:3000/api/userMonth/' + userMonthId;
+
+  const newRequest = {
+    method: 'PUT',
+  };
+
+  const bodyData = {
+    day: dateNumber,
+    outcome: result.outcome
+  };
+
+  newRequest.body = JSON.stringify(bodyData);
+  newRequest.headers = new Headers;
+  newRequest.headers.append('Content-Type', 'application/json');
+
+  return fetch(url,newRequest)
+    .then(response => response.json())
+};
+
 module.exports.markResults = function(date){
-  //    query my DB to receive ALL userMonths for given month
-  //    simultaneously, get dailyGamesData for given date
+  const dateNumber = parseInt(date.substring(8,10));
+
+  //get a month of games data, and all userMonths for the given month:
   Promise.all([
-    getUserMonths(date.substring(0,7)),
-    getDailyGamesData(date)
-  ]).then((results) => {
-    let dateNumber = parseInt(date.substring(8,10));
-    let userDays = result[0]
-      .map(userMonth => ({
-        data: userMonth.predictedWinners[dateNumber]
-        id: userMonth._id
-      }));
+    getDailyGamesData(date), 
+    getUserMonths(date)
+  ])
 
-    let dailyGamesData = result[1];
+  //take each user's prediction data for the given date (along with the game outcome data), and run through determinePredictionOutcome function:
+    .then(responses => 
+      Promise.all(responses[1].map(userMonth => {
+        return determinePredictionOutcome(responses[0][dateNumber-1], userMonth.predictedWinners[dateNumber], userMonth._id)
+      }
+      ))
+    )
 
-    userDays.forEach(userDay => determinePredictionOutcome(dailyGamesData,userDay.data));
-  }).catch((error) => {
-  throw error
-  })
-  //    send update requests to my API individually
+  //send results from determinePredictionOutcome to API
+    .then(results => {
+      results.forEach(result => {
+        if(result){
+          postResult(result, dateNumber)
+        }
+      })
+    })
+
+  //finally, send any marked outcomes back to the API:
+    // .then
+    .catch(response => console.log('error in markResults function: ', response));
+
 };

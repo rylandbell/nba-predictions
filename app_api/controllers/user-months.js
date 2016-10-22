@@ -116,7 +116,7 @@ module.exports.userMonthReadAllByMonth = function (req, res) {
         return;
       }
 
-      responseBody.userMonthArray = userMonthArray;
+      responseBody = userMonthArray;
 
       sendJsonResponse(res, 200, responseBody);
     });
