@@ -40,7 +40,7 @@ const api = ({statusData, roadTeam, homeTeam, predictedWinner}) => {
     <div className="game-item game-status">
       <h5 className="game-status-score">{scoreString}</h5>
       <small className="game-status-progress">{progressString}</small>
-      <h3 className={"game-status-outcome text-success " + outcomeClass}>{outcomeString}</h3>
+      <h3 className={"game-status-outcome " + outcomeClass}>{outcomeString}</h3>
     </div>
   );
 };

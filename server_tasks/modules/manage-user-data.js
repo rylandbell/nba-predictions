@@ -1,5 +1,10 @@
 'use strict';
 
+let server = 'http://localhost:3000';
+if (process.env.NODE_ENV === 'production') {
+  server = 'https://frozen-retreat-57000';
+}
+
 //takes a day of dailyGamesData, and a single day of a single userMonth
 const determinePredictionOutcome = function(dailyGamesData, userDay, userMonthId) {
 
@@ -27,7 +32,7 @@ const determinePredictionOutcome = function(dailyGamesData, userDay, userMonthId
 //get all userMonths for a given month (returns promise)
 const getUserMonths = function (date){
   const month = date.substring(0,7);
-  const url = 'http://localhost:3000/api/userMonth/all/'+month;
+  const url = server+'/api/userMonth/all/'+month;
   
   const newRequest = {
     method: 'GET',
@@ -40,7 +45,7 @@ const getUserMonths = function (date){
 //get dailyGamesData, by date (returns promise)
 const getDailyGamesData = function(date){
   const month = date.substring(0,7);
-  const url = 'http://localhost:3000/api/dailyGamesData/'+month;
+  const url = server+'/api/dailyGamesData/'+month;
   
   const newRequest = {
     method: 'GET',
@@ -53,7 +58,7 @@ const getDailyGamesData = function(date){
 //post a result to the API:
 const postResult = function (result, dateNumber) {
   const userMonthId = result._id;
-  const url = 'http://localhost:3000/api/userMonth/' + userMonthId;
+  const url = server+'/api/userMonth/' + userMonthId;
 
   const newRequest = {
     method: 'PUT',

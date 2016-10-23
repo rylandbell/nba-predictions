@@ -48784,7 +48784,7 @@
 	    ),
 	    _react2.default.createElement(
 	      'h3',
-	      { className: "game-status-outcome text-success " + outcomeClass },
+	      { className: "game-status-outcome " + outcomeClass },
 	      outcomeString
 	    )
 	  );
