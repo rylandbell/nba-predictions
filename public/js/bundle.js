@@ -76,7 +76,7 @@
 
 	var _actionCreators2 = _interopRequireDefault(_actionCreators);
 
-	var _helper = __webpack_require__(509);
+	var _helper = __webpack_require__(507);
 
 	var _helper2 = _interopRequireDefault(_helper);
 
@@ -9178,14 +9178,6 @@
 	  var source = null;
 
 	  if (config != null) {
-	    if (process.env.NODE_ENV !== 'production') {
-	      process.env.NODE_ENV !== 'production' ? warning(
-	      /* eslint-disable no-proto */
-	      config.__proto__ == null || config.__proto__ === Object.prototype,
-	      /* eslint-enable no-proto */
-	      'React.createElement(...): Expected props argument to be a plain object. ' + 'Properties defined in its prototype chain will be ignored.') : void 0;
-	    }
-
 	    if (hasValidRef(config)) {
 	      ref = config.ref;
 	    }
@@ -9286,14 +9278,6 @@
 	  var owner = element._owner;
 
 	  if (config != null) {
-	    if (process.env.NODE_ENV !== 'production') {
-	      process.env.NODE_ENV !== 'production' ? warning(
-	      /* eslint-disable no-proto */
-	      config.__proto__ == null || config.__proto__ === Object.prototype,
-	      /* eslint-enable no-proto */
-	      'React.cloneElement(...): Expected props argument to be a plain object. ' + 'Properties defined in its prototype chain will be ignored.') : void 0;
-	    }
-
 	    if (hasValidRef(config)) {
 	      // Silently steal the ref from the parent.
 	      ref = config.ref;
@@ -12327,7 +12311,7 @@
 
 	'use strict';
 
-	module.exports = '15.3.1';
+	module.exports = '15.3.2';
 
 /***/ },
 /* 331 */
@@ -14976,8 +14960,10 @@
 	function getFallbackBeforeInputChars(topLevelType, nativeEvent) {
 	  // If we are currently composing (IME) and using a fallback to do so,
 	  // try to extract the composed characters from the fallback object.
+	  // If composition event is available, we extract a string only at
+	  // compositionevent, otherwise extract it at fallback events.
 	  if (currentComposition) {
-	    if (topLevelType === topLevelTypes.topCompositionEnd || isFallbackCompositionEnd(topLevelType, nativeEvent)) {
+	    if (topLevelType === topLevelTypes.topCompositionEnd || !canUseCompositionEvent && isFallbackCompositionEnd(topLevelType, nativeEvent)) {
 	      var chars = currentComposition.getData();
 	      FallbackCompositionState.release(currentComposition);
 	      currentComposition = null;
@@ -16586,7 +16572,8 @@
 
 	    if (event.preventDefault) {
 	      event.preventDefault();
-	    } else {
+	    } else if (typeof event.returnValue !== 'unknown') {
+	      // eslint-disable-line valid-typeof
 	      event.returnValue = false;
 	    }
 	    this.isDefaultPrevented = emptyFunction.thatReturnsTrue;
@@ -16843,7 +16830,7 @@
 	var doesChangeEventBubble = false;
 	if (ExecutionEnvironment.canUseDOM) {
 	  // See `handleChange` comment below
-	  doesChangeEventBubble = isEventSupported('change') && (!('documentMode' in document) || document.documentMode > 8);
+	  doesChangeEventBubble = isEventSupported('change') && (!document.documentMode || document.documentMode > 8);
 	}
 
 	function manualDispatchChangeEvent(nativeEvent) {
@@ -16909,7 +16896,7 @@
 	  // deleting text, so we ignore its input events.
 	  // IE10+ fire input events to often, such when a placeholder
 	  // changes or when an input with a placeholder is focused.
-	  isInputEventSupported = isEventSupported('input') && (!('documentMode' in document) || document.documentMode > 11);
+	  isInputEventSupported = isEventSupported('input') && (!document.documentMode || document.documentMode > 11);
 	}
 
 	/**
@@ -18138,12 +18125,6 @@
 	    endLifeCycleTimer(debugID, timerType);
 	    emitEvent('onEndLifeCycleTimer', debugID, timerType);
 	  },
-	  onError: function (debugID) {
-	    if (currentTimerDebugID != null) {
-	      endLifeCycleTimer(currentTimerDebugID, currentTimerType);
-	    }
-	    emitEvent('onError', debugID);
-	  },
 	  onBeginProcessingChildContext: function () {
 	    emitEvent('onBeginProcessingChildContext');
 	  },
@@ -19217,6 +19198,8 @@
 	    allowFullScreen: HAS_BOOLEAN_VALUE,
 	    allowTransparency: 0,
 	    alt: 0,
+	    // specifies target context for links with `preload` type
+	    as: 0,
 	    async: HAS_BOOLEAN_VALUE,
 	    autoComplete: 0,
 	    // autoFocus is polyfilled/normalized by AutoFocusUtils
@@ -19297,6 +19280,7 @@
 	    optimum: 0,
 	    pattern: 0,
 	    placeholder: 0,
+	    playsInline: HAS_BOOLEAN_VALUE,
 	    poster: 0,
 	    preload: 0,
 	    profile: 0,
@@ -19819,9 +19803,9 @@
 	  if (node.namespaceURI === DOMNamespaces.svg && !('innerHTML' in node)) {
 	    reusableSVGContainer = reusableSVGContainer || document.createElement('div');
 	    reusableSVGContainer.innerHTML = '<svg>' + html + '</svg>';
-	    var newNodes = reusableSVGContainer.firstChild.childNodes;
-	    for (var i = 0; i < newNodes.length; i++) {
-	      node.appendChild(newNodes[i]);
+	    var svgNode = reusableSVGContainer.firstChild;
+	    while (svgNode.firstChild) {
+	      node.appendChild(svgNode.firstChild);
 	    }
 	  } else {
 	    node.innerHTML = html;
@@ -20749,9 +20733,9 @@
 	  ReactDOMOption.postMountWrapper(inst);
 	}
 
-	var setContentChildForInstrumentation = emptyFunction;
+	var setAndValidateContentChildDev = emptyFunction;
 	if (process.env.NODE_ENV !== 'production') {
-	  setContentChildForInstrumentation = function (content) {
+	  setAndValidateContentChildDev = function (content) {
 	    var hasExistingContent = this._contentDebugID != null;
 	    var debugID = this._debugID;
 	    // This ID represents the inlined child that has no backing instance:
@@ -20765,6 +20749,7 @@
 	      return;
 	    }
 
+	    validateDOMNesting(null, String(content), this, this._ancestorInfo);
 	    this._contentDebugID = contentDebugID;
 	    if (hasExistingContent) {
 	      ReactInstrumentation.debugTool.onBeforeUpdateComponent(contentDebugID, content);
@@ -20939,7 +20924,7 @@
 	  this._flags = 0;
 	  if (process.env.NODE_ENV !== 'production') {
 	    this._ancestorInfo = null;
-	    setContentChildForInstrumentation.call(this, null);
+	    setAndValidateContentChildDev.call(this, null);
 	  }
 	}
 
@@ -21039,7 +21024,7 @@
 	      if (parentInfo) {
 	        // parentInfo should always be present except for the top-level
 	        // component when server rendering
-	        validateDOMNesting(this._tag, this, parentInfo);
+	        validateDOMNesting(this._tag, null, this, parentInfo);
 	      }
 	      this._ancestorInfo = validateDOMNesting.updatedAncestorInfo(parentInfo, this._tag, this);
 	    }
@@ -21208,7 +21193,7 @@
 	        // TODO: Validate that text is allowed as a child of this node
 	        ret = escapeTextContentForBrowser(contentToUse);
 	        if (process.env.NODE_ENV !== 'production') {
-	          setContentChildForInstrumentation.call(this, contentToUse);
+	          setAndValidateContentChildDev.call(this, contentToUse);
 	        }
 	      } else if (childrenToUse != null) {
 	        var mountImages = this.mountChildren(childrenToUse, transaction, context);
@@ -21245,7 +21230,7 @@
 	      if (contentToUse != null) {
 	        // TODO: Validate that text is allowed as a child of this node
 	        if (process.env.NODE_ENV !== 'production') {
-	          setContentChildForInstrumentation.call(this, contentToUse);
+	          setAndValidateContentChildDev.call(this, contentToUse);
 	        }
 	        DOMLazyTree.queueText(lazyTree, contentToUse);
 	      } else if (childrenToUse != null) {
@@ -21477,7 +21462,7 @@
 	      if (lastContent !== nextContent) {
 	        this.updateTextContent('' + nextContent);
 	        if (process.env.NODE_ENV !== 'production') {
-	          setContentChildForInstrumentation.call(this, nextContent);
+	          setAndValidateContentChildDev.call(this, nextContent);
 	        }
 	      }
 	    } else if (nextHtml != null) {
@@ -21489,7 +21474,7 @@
 	      }
 	    } else if (nextChildren != null) {
 	      if (process.env.NODE_ENV !== 'production') {
-	        setContentChildForInstrumentation.call(this, null);
+	        setAndValidateContentChildDev.call(this, null);
 	      }
 
 	      this.updateChildren(nextChildren, transaction, context);
@@ -21544,7 +21529,7 @@
 	    this._wrapperState = null;
 
 	    if (process.env.NODE_ENV !== 'production') {
-	      setContentChildForInstrumentation.call(this, null);
+	      setAndValidateContentChildDev.call(this, null);
 	    }
 	  },
 
@@ -22817,6 +22802,19 @@
 	  },
 
 	  /**
+	   * Protect against document.createEvent() returning null
+	   * Some popup blocker extensions appear to do this:
+	   * https://github.com/facebook/react/issues/6887
+	   */
+	  supportsEventPageXY: function () {
+	    if (!document.createEvent) {
+	      return false;
+	    }
+	    var ev = document.createEvent('MouseEvent');
+	    return ev != null && 'pageX' in ev;
+	  },
+
+	  /**
 	   * Listens to window scroll and resize events. We cache scroll values so that
 	   * application code can access them without triggering reflows.
 	   *
@@ -22829,7 +22827,7 @@
 	   */
 	  ensureScrollValueMonitoring: function () {
 	    if (hasEventPageXY === undefined) {
-	      hasEventPageXY = document.createEvent && 'pageX' in document.createEvent('MouseEvent');
+	      hasEventPageXY = ReactBrowserEventEmitter.supportsEventPageXY();
 	    }
 	    if (!hasEventPageXY && !isMonitoringScrollValue) {
 	      var refresh = ViewportMetrics.refreshScrollValues;
@@ -23115,7 +23113,7 @@
 
 	function isControlled(props) {
 	  var usesChecked = props.type === 'checkbox' || props.type === 'radio';
-	  return usesChecked ? props.checked !== undefined : props.value !== undefined;
+	  return usesChecked ? props.checked != null : props.value != null;
 	}
 
 	/**
@@ -24888,34 +24886,29 @@
 	  }
 	}
 
-	function invokeComponentDidMountWithTimer() {
-	  var publicInstance = this._instance;
-	  if (this._debugID !== 0) {
-	    ReactInstrumentation.debugTool.onBeginLifeCycleTimer(this._debugID, 'componentDidMount');
-	  }
-	  publicInstance.componentDidMount();
-	  if (this._debugID !== 0) {
-	    ReactInstrumentation.debugTool.onEndLifeCycleTimer(this._debugID, 'componentDidMount');
-	  }
-	}
-
-	function invokeComponentDidUpdateWithTimer(prevProps, prevState, prevContext) {
-	  var publicInstance = this._instance;
-	  if (this._debugID !== 0) {
-	    ReactInstrumentation.debugTool.onBeginLifeCycleTimer(this._debugID, 'componentDidUpdate');
-	  }
-	  publicInstance.componentDidUpdate(prevProps, prevState, prevContext);
-	  if (this._debugID !== 0) {
-	    ReactInstrumentation.debugTool.onEndLifeCycleTimer(this._debugID, 'componentDidUpdate');
-	  }
-	}
-
 	function shouldConstruct(Component) {
 	  return !!(Component.prototype && Component.prototype.isReactComponent);
 	}
 
 	function isPureComponent(Component) {
 	  return !!(Component.prototype && Component.prototype.isPureReactComponent);
+	}
+
+	// Separated into a function to contain deoptimizations caused by try/finally.
+	function measureLifeCyclePerf(fn, debugID, timerType) {
+	  if (debugID === 0) {
+	    // Top-level wrappers (see ReactMount) and empty components (see
+	    // ReactDOMEmptyComponent) are invisible to hooks and devtools.
+	    // Both are implementation details that should go away in the future.
+	    return fn();
+	  }
+
+	  ReactInstrumentation.debugTool.onBeginLifeCycleTimer(debugID, timerType);
+	  try {
+	    return fn();
+	  } finally {
+	    ReactInstrumentation.debugTool.onEndLifeCycleTimer(debugID, timerType);
+	  }
 	}
 
 	/**
@@ -25009,6 +25002,8 @@
 	   * @internal
 	   */
 	  mountComponent: function (transaction, hostParent, hostContainerInfo, context) {
+	    var _this = this;
+
 	    this._context = context;
 	    this._mountOrder = nextMountID++;
 	    this._hostParent = hostParent;
@@ -25098,7 +25093,11 @@
 
 	    if (inst.componentDidMount) {
 	      if (process.env.NODE_ENV !== 'production') {
-	        transaction.getReactMountReady().enqueue(invokeComponentDidMountWithTimer, this);
+	        transaction.getReactMountReady().enqueue(function () {
+	          measureLifeCyclePerf(function () {
+	            return inst.componentDidMount();
+	          }, _this._debugID, 'componentDidMount');
+	        });
 	      } else {
 	        transaction.getReactMountReady().enqueue(inst.componentDidMount, inst);
 	      }
@@ -25122,35 +25121,26 @@
 
 	  _constructComponentWithoutOwner: function (doConstruct, publicProps, publicContext, updateQueue) {
 	    var Component = this._currentElement.type;
-	    var instanceOrElement;
+
 	    if (doConstruct) {
 	      if (process.env.NODE_ENV !== 'production') {
-	        if (this._debugID !== 0) {
-	          ReactInstrumentation.debugTool.onBeginLifeCycleTimer(this._debugID, 'ctor');
-	        }
-	      }
-	      instanceOrElement = new Component(publicProps, publicContext, updateQueue);
-	      if (process.env.NODE_ENV !== 'production') {
-	        if (this._debugID !== 0) {
-	          ReactInstrumentation.debugTool.onEndLifeCycleTimer(this._debugID, 'ctor');
-	        }
-	      }
-	    } else {
-	      // This can still be an instance in case of factory components
-	      // but we'll count this as time spent rendering as the more common case.
-	      if (process.env.NODE_ENV !== 'production') {
-	        if (this._debugID !== 0) {
-	          ReactInstrumentation.debugTool.onBeginLifeCycleTimer(this._debugID, 'render');
-	        }
-	      }
-	      instanceOrElement = Component(publicProps, publicContext, updateQueue);
-	      if (process.env.NODE_ENV !== 'production') {
-	        if (this._debugID !== 0) {
-	          ReactInstrumentation.debugTool.onEndLifeCycleTimer(this._debugID, 'render');
-	        }
+	        return measureLifeCyclePerf(function () {
+	          return new Component(publicProps, publicContext, updateQueue);
+	        }, this._debugID, 'ctor');
+	      } else {
+	        return new Component(publicProps, publicContext, updateQueue);
 	      }
 	    }
-	    return instanceOrElement;
+
+	    // This can still be an instance in case of factory components
+	    // but we'll count this as time spent rendering as the more common case.
+	    if (process.env.NODE_ENV !== 'production') {
+	      return measureLifeCyclePerf(function () {
+	        return Component(publicProps, publicContext, updateQueue);
+	      }, this._debugID, 'render');
+	    } else {
+	      return Component(publicProps, publicContext, updateQueue);
+	    }
 	  },
 
 	  performInitialMountWithErrorHandling: function (renderedElement, hostParent, hostContainerInfo, transaction, context) {
@@ -25159,11 +25149,6 @@
 	    try {
 	      markup = this.performInitialMount(renderedElement, hostParent, hostContainerInfo, transaction, context);
 	    } catch (e) {
-	      if (process.env.NODE_ENV !== 'production') {
-	        if (this._debugID !== 0) {
-	          ReactInstrumentation.debugTool.onError();
-	        }
-	      }
 	      // Roll back to checkpoint, handle error (which may add items to the transaction), and take a new checkpoint
 	      transaction.rollback(checkpoint);
 	      this._instance.unstable_handleError(e);
@@ -25184,17 +25169,19 @@
 
 	  performInitialMount: function (renderedElement, hostParent, hostContainerInfo, transaction, context) {
 	    var inst = this._instance;
+
+	    var debugID = 0;
+	    if (process.env.NODE_ENV !== 'production') {
+	      debugID = this._debugID;
+	    }
+
 	    if (inst.componentWillMount) {
 	      if (process.env.NODE_ENV !== 'production') {
-	        if (this._debugID !== 0) {
-	          ReactInstrumentation.debugTool.onBeginLifeCycleTimer(this._debugID, 'componentWillMount');
-	        }
-	      }
-	      inst.componentWillMount();
-	      if (process.env.NODE_ENV !== 'production') {
-	        if (this._debugID !== 0) {
-	          ReactInstrumentation.debugTool.onEndLifeCycleTimer(this._debugID, 'componentWillMount');
-	        }
+	        measureLifeCyclePerf(function () {
+	          return inst.componentWillMount();
+	        }, debugID, 'componentWillMount');
+	      } else {
+	        inst.componentWillMount();
 	      }
 	      // When mounting, calls to `setState` by `componentWillMount` will set
 	      // `this._pendingStateQueue` without triggering a re-render.
@@ -25214,15 +25201,12 @@
 	    );
 	    this._renderedComponent = child;
 
-	    var selfDebugID = 0;
-	    if (process.env.NODE_ENV !== 'production') {
-	      selfDebugID = this._debugID;
-	    }
-	    var markup = ReactReconciler.mountComponent(child, transaction, hostParent, hostContainerInfo, this._processChildContext(context), selfDebugID);
+	    var markup = ReactReconciler.mountComponent(child, transaction, hostParent, hostContainerInfo, this._processChildContext(context), debugID);
 
 	    if (process.env.NODE_ENV !== 'production') {
-	      if (this._debugID !== 0) {
-	        ReactInstrumentation.debugTool.onSetChildren(this._debugID, child._debugID !== 0 ? [child._debugID] : []);
+	      if (debugID !== 0) {
+	        var childDebugIDs = child._debugID !== 0 ? [child._debugID] : [];
+	        ReactInstrumentation.debugTool.onSetChildren(debugID, childDebugIDs);
 	      }
 	    }
 
@@ -25243,24 +25227,22 @@
 	    if (!this._renderedComponent) {
 	      return;
 	    }
+
 	    var inst = this._instance;
 
 	    if (inst.componentWillUnmount && !inst._calledComponentWillUnmount) {
 	      inst._calledComponentWillUnmount = true;
-	      if (process.env.NODE_ENV !== 'production') {
-	        if (this._debugID !== 0) {
-	          ReactInstrumentation.debugTool.onBeginLifeCycleTimer(this._debugID, 'componentWillUnmount');
-	        }
-	      }
+
 	      if (safely) {
 	        var name = this.getName() + '.componentWillUnmount()';
 	        ReactErrorUtils.invokeGuardedCallback(name, inst.componentWillUnmount.bind(inst));
 	      } else {
-	        inst.componentWillUnmount();
-	      }
-	      if (process.env.NODE_ENV !== 'production') {
-	        if (this._debugID !== 0) {
-	          ReactInstrumentation.debugTool.onEndLifeCycleTimer(this._debugID, 'componentWillUnmount');
+	        if (process.env.NODE_ENV !== 'production') {
+	          measureLifeCyclePerf(function () {
+	            return inst.componentWillUnmount();
+	          }, this._debugID, 'componentWillUnmount');
+	        } else {
+	          inst.componentWillUnmount();
 	        }
 	      }
 	    }
@@ -25347,13 +25329,21 @@
 	  _processChildContext: function (currentContext) {
 	    var Component = this._currentElement.type;
 	    var inst = this._instance;
-	    if (process.env.NODE_ENV !== 'production') {
-	      ReactInstrumentation.debugTool.onBeginProcessingChildContext();
+	    var childContext;
+
+	    if (inst.getChildContext) {
+	      if (process.env.NODE_ENV !== 'production') {
+	        ReactInstrumentation.debugTool.onBeginProcessingChildContext();
+	        try {
+	          childContext = inst.getChildContext();
+	        } finally {
+	          ReactInstrumentation.debugTool.onEndProcessingChildContext();
+	        }
+	      } else {
+	        childContext = inst.getChildContext();
+	      }
 	    }
-	    var childContext = inst.getChildContext && inst.getChildContext();
-	    if (process.env.NODE_ENV !== 'production') {
-	      ReactInstrumentation.debugTool.onEndProcessingChildContext();
-	    }
+
 	    if (childContext) {
 	      !(typeof Component.childContextTypes === 'object') ? process.env.NODE_ENV !== 'production' ? invariant(false, '%s.getChildContext(): childContextTypes must be defined in order to use getChildContext().', this.getName() || 'ReactCompositeComponent') : _prodInvariant('107', this.getName() || 'ReactCompositeComponent') : void 0;
 	      if (process.env.NODE_ENV !== 'production') {
@@ -25448,15 +25438,11 @@
 	    // immediately reconciled instead of waiting for the next batch.
 	    if (willReceive && inst.componentWillReceiveProps) {
 	      if (process.env.NODE_ENV !== 'production') {
-	        if (this._debugID !== 0) {
-	          ReactInstrumentation.debugTool.onBeginLifeCycleTimer(this._debugID, 'componentWillReceiveProps');
-	        }
-	      }
-	      inst.componentWillReceiveProps(nextProps, nextContext);
-	      if (process.env.NODE_ENV !== 'production') {
-	        if (this._debugID !== 0) {
-	          ReactInstrumentation.debugTool.onEndLifeCycleTimer(this._debugID, 'componentWillReceiveProps');
-	        }
+	        measureLifeCyclePerf(function () {
+	          return inst.componentWillReceiveProps(nextProps, nextContext);
+	        }, this._debugID, 'componentWillReceiveProps');
+	      } else {
+	        inst.componentWillReceiveProps(nextProps, nextContext);
 	      }
 	    }
 
@@ -25466,15 +25452,11 @@
 	    if (!this._pendingForceUpdate) {
 	      if (inst.shouldComponentUpdate) {
 	        if (process.env.NODE_ENV !== 'production') {
-	          if (this._debugID !== 0) {
-	            ReactInstrumentation.debugTool.onBeginLifeCycleTimer(this._debugID, 'shouldComponentUpdate');
-	          }
-	        }
-	        shouldUpdate = inst.shouldComponentUpdate(nextProps, nextState, nextContext);
-	        if (process.env.NODE_ENV !== 'production') {
-	          if (this._debugID !== 0) {
-	            ReactInstrumentation.debugTool.onEndLifeCycleTimer(this._debugID, 'shouldComponentUpdate');
-	          }
+	          shouldUpdate = measureLifeCyclePerf(function () {
+	            return inst.shouldComponentUpdate(nextProps, nextState, nextContext);
+	          }, this._debugID, 'shouldComponentUpdate');
+	        } else {
+	          shouldUpdate = inst.shouldComponentUpdate(nextProps, nextState, nextContext);
 	        }
 	      } else {
 	        if (this._compositeType === CompositeTypes.PureClass) {
@@ -25540,6 +25522,8 @@
 	   * @private
 	   */
 	  _performComponentUpdate: function (nextElement, nextProps, nextState, nextContext, transaction, unmaskedContext) {
+	    var _this2 = this;
+
 	    var inst = this._instance;
 
 	    var hasComponentDidUpdate = Boolean(inst.componentDidUpdate);
@@ -25554,15 +25538,11 @@
 
 	    if (inst.componentWillUpdate) {
 	      if (process.env.NODE_ENV !== 'production') {
-	        if (this._debugID !== 0) {
-	          ReactInstrumentation.debugTool.onBeginLifeCycleTimer(this._debugID, 'componentWillUpdate');
-	        }
-	      }
-	      inst.componentWillUpdate(nextProps, nextState, nextContext);
-	      if (process.env.NODE_ENV !== 'production') {
-	        if (this._debugID !== 0) {
-	          ReactInstrumentation.debugTool.onEndLifeCycleTimer(this._debugID, 'componentWillUpdate');
-	        }
+	        measureLifeCyclePerf(function () {
+	          return inst.componentWillUpdate(nextProps, nextState, nextContext);
+	        }, this._debugID, 'componentWillUpdate');
+	      } else {
+	        inst.componentWillUpdate(nextProps, nextState, nextContext);
 	      }
 	    }
 
@@ -25576,7 +25556,9 @@
 
 	    if (hasComponentDidUpdate) {
 	      if (process.env.NODE_ENV !== 'production') {
-	        transaction.getReactMountReady().enqueue(invokeComponentDidUpdateWithTimer.bind(this, prevProps, prevState, prevContext), this);
+	        transaction.getReactMountReady().enqueue(function () {
+	          measureLifeCyclePerf(inst.componentDidUpdate.bind(inst, prevProps, prevState, prevContext), _this2._debugID, 'componentDidUpdate');
+	        });
 	      } else {
 	        transaction.getReactMountReady().enqueue(inst.componentDidUpdate.bind(inst, prevProps, prevState, prevContext), inst);
 	      }
@@ -25593,6 +25575,12 @@
 	    var prevComponentInstance = this._renderedComponent;
 	    var prevRenderedElement = prevComponentInstance._currentElement;
 	    var nextRenderedElement = this._renderValidatedComponent();
+
+	    var debugID = 0;
+	    if (process.env.NODE_ENV !== 'production') {
+	      debugID = this._debugID;
+	    }
+
 	    if (shouldUpdateReactComponent(prevRenderedElement, nextRenderedElement)) {
 	      ReactReconciler.receiveComponent(prevComponentInstance, nextRenderedElement, transaction, this._processChildContext(context));
 	    } else {
@@ -25605,15 +25593,12 @@
 	      );
 	      this._renderedComponent = child;
 
-	      var selfDebugID = 0;
-	      if (process.env.NODE_ENV !== 'production') {
-	        selfDebugID = this._debugID;
-	      }
-	      var nextMarkup = ReactReconciler.mountComponent(child, transaction, this._hostParent, this._hostContainerInfo, this._processChildContext(context), selfDebugID);
+	      var nextMarkup = ReactReconciler.mountComponent(child, transaction, this._hostParent, this._hostContainerInfo, this._processChildContext(context), debugID);
 
 	      if (process.env.NODE_ENV !== 'production') {
-	        if (this._debugID !== 0) {
-	          ReactInstrumentation.debugTool.onSetChildren(this._debugID, child._debugID !== 0 ? [child._debugID] : []);
+	        if (debugID !== 0) {
+	          var childDebugIDs = child._debugID !== 0 ? [child._debugID] : [];
+	          ReactInstrumentation.debugTool.onSetChildren(debugID, childDebugIDs);
 	        }
 	      }
 
@@ -25635,17 +25620,14 @@
 	   */
 	  _renderValidatedComponentWithoutOwnerOrContext: function () {
 	    var inst = this._instance;
+	    var renderedComponent;
 
 	    if (process.env.NODE_ENV !== 'production') {
-	      if (this._debugID !== 0) {
-	        ReactInstrumentation.debugTool.onBeginLifeCycleTimer(this._debugID, 'render');
-	      }
-	    }
-	    var renderedComponent = inst.render();
-	    if (process.env.NODE_ENV !== 'production') {
-	      if (this._debugID !== 0) {
-	        ReactInstrumentation.debugTool.onEndLifeCycleTimer(this._debugID, 'render');
-	      }
+	      renderedComponent = measureLifeCyclePerf(function () {
+	        return inst.render();
+	      }, this._debugID, 'render');
+	    } else {
+	      renderedComponent = inst.render();
 	    }
 
 	    if (process.env.NODE_ENV !== 'production') {
@@ -25696,7 +25678,7 @@
 	    var publicComponentInstance = component.getPublicInstance();
 	    if (process.env.NODE_ENV !== 'production') {
 	      var componentName = component && component.getName ? component.getName() : 'a component';
-	      process.env.NODE_ENV !== 'production' ? warning(publicComponentInstance != null, 'Stateless function components cannot be given refs ' + '(See ref "%s" in %s created by %s). ' + 'Attempts to access this ref will fail.', ref, componentName, this.getName()) : void 0;
+	      process.env.NODE_ENV !== 'production' ? warning(publicComponentInstance != null || component._compositeType !== CompositeTypes.StatelessFunctional, 'Stateless function components cannot be given refs ' + '(See ref "%s" in %s created by %s). ' + 'Attempts to access this ref will fail.', ref, componentName, this.getName()) : void 0;
 	    }
 	    var refs = inst.refs === emptyObject ? inst.refs = {} : inst.refs;
 	    refs[ref] = publicComponentInstance;
@@ -25833,7 +25815,8 @@
 	  if (x === y) {
 	    // Steps 1-5, 7-10
 	    // Steps 6.b-6.e: +0 != -0
-	    return x !== 0 || 1 / x === 1 / y;
+	    // Added the nonzero y check to make Flow happy, but it is redundant
+	    return x !== 0 || y !== 0 || 1 / x === 1 / y;
 	  } else {
 	    // Step 6.a: NaN == NaN
 	    return x !== x && y !== y;
@@ -26887,10 +26870,15 @@
 
 	  var didWarn = {};
 
-	  validateDOMNesting = function (childTag, childInstance, ancestorInfo) {
+	  validateDOMNesting = function (childTag, childText, childInstance, ancestorInfo) {
 	    ancestorInfo = ancestorInfo || emptyAncestorInfo;
 	    var parentInfo = ancestorInfo.current;
 	    var parentTag = parentInfo && parentInfo.tag;
+
+	    if (childText != null) {
+	      process.env.NODE_ENV !== 'production' ? warning(childTag == null, 'validateDOMNesting: when childText is passed, childTag should be null') : void 0;
+	      childTag = '#text';
+	    }
 
 	    var invalidParent = isTagValidWithParent(childTag, parentTag) ? null : parentInfo;
 	    var invalidAncestor = invalidParent ? null : findInvalidAncestorForTag(childTag, ancestorInfo);
@@ -26939,7 +26927,15 @@
 	      didWarn[warnKey] = true;
 
 	      var tagDisplayName = childTag;
-	      if (childTag !== '#text') {
+	      var whitespaceInfo = '';
+	      if (childTag === '#text') {
+	        if (/\S/.test(childText)) {
+	          tagDisplayName = 'Text nodes';
+	        } else {
+	          tagDisplayName = 'Whitespace text nodes';
+	          whitespaceInfo = ' Make sure you don\'t have any extra whitespace between tags on ' + 'each line of your source code.';
+	        }
+	      } else {
 	        tagDisplayName = '<' + childTag + '>';
 	      }
 
@@ -26948,7 +26944,7 @@
 	        if (ancestorTag === 'table' && childTag === 'tr') {
 	          info += ' Add a <tbody> to your code to match the DOM tree generated by ' + 'the browser.';
 	        }
-	        process.env.NODE_ENV !== 'production' ? warning(false, 'validateDOMNesting(...): %s cannot appear as a child of <%s>. ' + 'See %s.%s', tagDisplayName, ancestorTag, ownerInfo, info) : void 0;
+	        process.env.NODE_ENV !== 'production' ? warning(false, 'validateDOMNesting(...): %s cannot appear as a child of <%s>.%s ' + 'See %s.%s', tagDisplayName, ancestorTag, whitespaceInfo, ownerInfo, info) : void 0;
 	      } else {
 	        process.env.NODE_ENV !== 'production' ? warning(false, 'validateDOMNesting(...): %s cannot appear as a descendant of ' + '<%s>. See %s.', tagDisplayName, ancestorTag, ownerInfo) : void 0;
 	      }
@@ -27255,7 +27251,7 @@
 	      if (parentInfo) {
 	        // parentInfo should always be present except for the top-level
 	        // component when server rendering
-	        validateDOMNesting('#text', this, parentInfo);
+	        validateDOMNesting(null, this._stringText, this, parentInfo);
 	      }
 	    }
 
@@ -28848,7 +28844,7 @@
 	      bubbled: keyOf({ onSelect: null }),
 	      captured: keyOf({ onSelectCapture: null })
 	    },
-	    dependencies: [topLevelTypes.topBlur, topLevelTypes.topContextMenu, topLevelTypes.topFocus, topLevelTypes.topKeyDown, topLevelTypes.topMouseDown, topLevelTypes.topMouseUp, topLevelTypes.topSelectionChange]
+	    dependencies: [topLevelTypes.topBlur, topLevelTypes.topContextMenu, topLevelTypes.topFocus, topLevelTypes.topKeyDown, topLevelTypes.topKeyUp, topLevelTypes.topMouseDown, topLevelTypes.topMouseUp, topLevelTypes.topSelectionChange]
 	  }
 	};
 
@@ -48258,17 +48254,25 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
+	var _reactSAlert = __webpack_require__(525);
+
+	var _reactSAlert2 = _interopRequireDefault(_reactSAlert);
+
 	var _gamesViewerContainer = __webpack_require__(501);
 
 	var _gamesViewerContainer2 = _interopRequireDefault(_gamesViewerContainer);
 
-	var _predictionsSummaryContainer = __webpack_require__(512);
+	var _predictionsSummaryContainer = __webpack_require__(521);
 
 	var _predictionsSummaryContainer2 = _interopRequireDefault(_predictionsSummaryContainer);
 
-	var _statusMessage = __webpack_require__(515);
+	var _statusMessage = __webpack_require__(524);
 
 	var _statusMessage2 = _interopRequireDefault(_statusMessage);
+
+	var _alertTest = __webpack_require__(534);
+
+	var _alertTest2 = _interopRequireDefault(_alertTest);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -48286,7 +48290,9 @@
 	      'div',
 	      { className: 'row ' + (this.props.reduxState.isSendingPrediction ? 'send-waiting' : '') },
 	      _react2.default.createElement(_gamesViewerContainer2.default, { reduxState: this.props.reduxState }),
-	      _react2.default.createElement(_predictionsSummaryContainer2.default, { reduxState: this.props.reduxState })
+	      _react2.default.createElement(_predictionsSummaryContainer2.default, { reduxState: this.props.reduxState }),
+	      _react2.default.createElement(_reactSAlert2.default, null),
+	      _react2.default.createElement(_alertTest2.default, null)
 	    );
 	  }
 	});
@@ -48313,7 +48319,7 @@
 
 	var _gamesViewer2 = _interopRequireDefault(_gamesViewer);
 
-	var _helper = __webpack_require__(509);
+	var _helper = __webpack_require__(507);
 
 	var _helper2 = _interopRequireDefault(_helper);
 
@@ -48520,7 +48526,7 @@
 
 	var _singleDayGameList2 = _interopRequireDefault(_singleDayGameList);
 
-	var _dayPicker = __webpack_require__(508);
+	var _dayPicker = __webpack_require__(520);
 
 	var _dayPicker2 = _interopRequireDefault(_dayPicker);
 
@@ -48611,7 +48617,7 @@
 
 	var _gameTeam2 = _interopRequireDefault(_gameTeam);
 
-	var _gameStatus = __webpack_require__(507);
+	var _gameStatus = __webpack_require__(510);
 
 	var _gameStatus2 = _interopRequireDefault(_gameStatus);
 
@@ -48667,7 +48673,7 @@
 
 	var _lodash2 = _interopRequireDefault(_lodash);
 
-	var _helper = __webpack_require__(509);
+	var _helper = __webpack_require__(507);
 
 	var _helper2 = _interopRequireDefault(_helper);
 
@@ -48729,133 +48735,13 @@
 
 	'use strict';
 
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _react = __webpack_require__(300);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var api = function api(_ref) {
-	  var statusData = _ref.statusData;
-	  var roadTeam = _ref.roadTeam;
-	  var homeTeam = _ref.homeTeam;
-	  var predictedWinner = _ref.predictedWinner;
-
-	  var scoreString;
-	  var progressString;
-	  var outcomeString = '';
-	  var outcomeClass = '';
-
-	  //set scoreString to game score or start time
-	  if (statusData.hasStarted) {
-	    scoreString = statusData.roadScore + ' - ' + statusData.homeScore;
-	  } else {
-	    scoreString = statusData.startTime;
-	  }
-
-	  // set progressString to Final or In Progress (maybe eventually better precision than In Progress)
-	  if (statusData.hasStarted) {
-	    if (statusData.isFinal) {
-	      progressString = 'Final';
-	    } else {
-	      progressString = 'In Progress';
-	    }
-	  }
-
-	  // set outcomeString to display "success" or "failure" appropriately
-	  if (predictedWinner.teamName === homeTeam || predictedWinner.teamName === roadTeam) {
-	    if (predictedWinner.outcome === 'success') {
-	      outcomeString = 'W';
-	      outcomeClass = 'text-success';
-	    } else if (predictedWinner.outcome === 'failure') {
-	      outcomeString = 'L';
-	      outcomeClass = 'text-danger';
-	    }
-	  }
-
-	  return _react2.default.createElement(
-	    'div',
-	    { className: 'game-item game-status' },
-	    _react2.default.createElement(
-	      'h5',
-	      { className: 'game-status-score' },
-	      scoreString
-	    ),
-	    _react2.default.createElement(
-	      'small',
-	      { className: 'game-status-progress' },
-	      progressString
-	    ),
-	    _react2.default.createElement(
-	      'h3',
-	      { className: "game-status-outcome " + outcomeClass },
-	      outcomeString
-	    )
-	  );
-	};
-
-	exports.default = api;
-
-/***/ },
-/* 508 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _react = __webpack_require__(300);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var api = function api(_ref) {
-	  var visibleDate = _ref.visibleDate;
-	  var dayForward = _ref.dayForward;
-	  var dayBack = _ref.dayBack;
-	  return _react2.default.createElement(
-	    'div',
-	    { className: 'row' },
-	    _react2.default.createElement(
-	      'div',
-	      { className: 'day-picker-container' },
-	      _react2.default.createElement('span', { onClick: dayBack, className: 'day-picker-item glyphicon glyphicon-menu-left' }),
-	      _react2.default.createElement(
-	        'div',
-	        { className: 'day-picker-item date-display' },
-	        _react2.default.createElement(
-	          'h3',
-	          null,
-	          moment(visibleDate).format('dddd, MMM D')
-	        )
-	      ),
-	      _react2.default.createElement('span', { onClick: dayForward, className: 'day-picker-item glyphicon glyphicon-menu-right' })
-	    )
-	  );
-	};
-
-	exports.default = api;
-
-/***/ },
-/* 509 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
 	// import React from 'react';
 
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
 
-	var _isomorphicFetch = __webpack_require__(510);
+	var _isomorphicFetch = __webpack_require__(508);
 
 	var _isomorphicFetch2 = _interopRequireDefault(_isomorphicFetch);
 
@@ -48900,19 +48786,19 @@
 	};exports.default = api;
 
 /***/ },
-/* 510 */
+/* 508 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// the whatwg-fetch polyfill installs the fetch() function
 	// on the global object (window or self)
 	//
 	// Return that as the export for use in Webpack, Browserify etc.
-	__webpack_require__(511);
+	__webpack_require__(509);
 	module.exports = self.fetch.bind(self);
 
 
 /***/ },
-/* 511 */
+/* 509 */
 /***/ function(module, exports) {
 
 	(function(self) {
@@ -49351,7 +49237,136 @@
 
 
 /***/ },
-/* 512 */
+/* 510 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(300);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var api = function api(_ref) {
+	  var statusData = _ref.statusData;
+	  var roadTeam = _ref.roadTeam;
+	  var homeTeam = _ref.homeTeam;
+	  var predictedWinner = _ref.predictedWinner;
+
+	  var scoreString;
+	  var progressString;
+	  var outcomeString = '';
+	  var outcomeClass = '';
+
+	  //set scoreString to game score or start time
+	  if (statusData.hasStarted) {
+	    scoreString = statusData.roadScore + ' - ' + statusData.homeScore;
+	  } else {
+	    scoreString = statusData.startTime;
+	  }
+
+	  // set progressString to Final or In Progress (maybe eventually better precision than In Progress)
+	  if (statusData.hasStarted) {
+	    if (statusData.isFinal) {
+	      progressString = 'Final';
+	    } else {
+	      progressString = 'In Progress';
+	    }
+	  }
+
+	  // set outcomeString to display "success" or "failure" appropriately
+	  if (predictedWinner.teamName === homeTeam || predictedWinner.teamName === roadTeam) {
+	    if (predictedWinner.outcome === 'success') {
+	      outcomeString = 'W';
+	      outcomeClass = 'text-success';
+	    } else if (predictedWinner.outcome === 'failure') {
+	      outcomeString = 'L';
+	      outcomeClass = 'text-danger';
+	    }
+	  }
+
+	  return _react2.default.createElement(
+	    'div',
+	    { className: 'game-item game-status' },
+	    _react2.default.createElement(
+	      'h5',
+	      { className: 'game-status-score' },
+	      scoreString
+	    ),
+	    _react2.default.createElement(
+	      'small',
+	      { className: 'game-status-progress' },
+	      progressString
+	    ),
+	    _react2.default.createElement(
+	      'h3',
+	      { className: "game-status-outcome " + outcomeClass },
+	      outcomeString
+	    )
+	  );
+	};
+
+	exports.default = api;
+
+/***/ },
+/* 511 */,
+/* 512 */,
+/* 513 */,
+/* 514 */,
+/* 515 */,
+/* 516 */,
+/* 517 */,
+/* 518 */,
+/* 519 */,
+/* 520 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(300);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var api = function api(_ref) {
+	  var visibleDate = _ref.visibleDate;
+	  var dayForward = _ref.dayForward;
+	  var dayBack = _ref.dayBack;
+	  return _react2.default.createElement(
+	    'div',
+	    { className: 'row' },
+	    _react2.default.createElement(
+	      'div',
+	      { className: 'day-picker-container' },
+	      _react2.default.createElement('span', { onClick: dayBack, className: 'day-picker-item glyphicon glyphicon-menu-left' }),
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'day-picker-item date-display' },
+	        _react2.default.createElement(
+	          'h3',
+	          null,
+	          moment(visibleDate).format('dddd, MMM D')
+	        )
+	      ),
+	      _react2.default.createElement('span', { onClick: dayForward, className: 'day-picker-item glyphicon glyphicon-menu-right' })
+	    )
+	  );
+	};
+
+	exports.default = api;
+
+/***/ },
+/* 521 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -49366,7 +49381,7 @@
 
 	var _actionCreators2 = _interopRequireDefault(_actionCreators);
 
-	var _predictionsSummary = __webpack_require__(513);
+	var _predictionsSummary = __webpack_require__(522);
 
 	var _predictionsSummary2 = _interopRequireDefault(_predictionsSummary);
 
@@ -49393,7 +49408,7 @@
 	exports.default = api;
 
 /***/ },
-/* 513 */
+/* 522 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -49406,7 +49421,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _predictionsSummaryRow = __webpack_require__(514);
+	var _predictionsSummaryRow = __webpack_require__(523);
 
 	var _predictionsSummaryRow2 = _interopRequireDefault(_predictionsSummaryRow);
 
@@ -49450,7 +49465,7 @@
 	// {eligibleTeams.map((team, index) => <PredictionsSummaryRow predictedWinners={predictedWinners} date={index} key={index}/>)}
 
 /***/ },
-/* 514 */
+/* 523 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -49516,7 +49531,7 @@
 	exports.default = api;
 
 /***/ },
-/* 515 */
+/* 524 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -49550,6 +49565,1120 @@
 	};
 
 	exports.default = api;
+
+/***/ },
+/* 525 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__(526);
+
+/***/ },
+/* 526 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
+	    if (true) {
+	        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports, __webpack_require__(300), __webpack_require__(527), __webpack_require__(529), __webpack_require__(528), __webpack_require__(531)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	    } else if (typeof exports !== "undefined") {
+	        factory(exports, require('react'), require('./SAlertContent'), require('./s-alert-parts/s-alert-store'), require('./s-alert-parts/s-alert-tools'), require('./s-alert-parts/s-alert-data-prep'));
+	    } else {
+	        var mod = {
+	            exports: {}
+	        };
+	        factory(mod.exports, global.react, global.SAlertContent, global.sAlertStore, global.sAlertTools, global.sAlertDataPrep);
+	        global.SAlert = mod.exports;
+	    }
+	})(this, function (exports, _react, _SAlertContent, _sAlertStore, _sAlertTools, _sAlertDataPrep) {
+	    'use strict';
+
+	    Object.defineProperty(exports, "__esModule", {
+	        value: true
+	    });
+
+	    var _react2 = _interopRequireDefault(_react);
+
+	    var _SAlertContent2 = _interopRequireDefault(_SAlertContent);
+
+	    var _sAlertStore2 = _interopRequireDefault(_sAlertStore);
+
+	    var _sAlertTools2 = _interopRequireDefault(_sAlertTools);
+
+	    var _sAlertDataPrep2 = _interopRequireDefault(_sAlertDataPrep);
+
+	    function _interopRequireDefault(obj) {
+	        return obj && obj.__esModule ? obj : {
+	            default: obj
+	        };
+	    }
+
+	    function _classCallCheck(instance, Constructor) {
+	        if (!(instance instanceof Constructor)) {
+	            throw new TypeError("Cannot call a class as a function");
+	        }
+	    }
+
+	    var _createClass = function () {
+	        function defineProperties(target, props) {
+	            for (var i = 0; i < props.length; i++) {
+	                var descriptor = props[i];
+	                descriptor.enumerable = descriptor.enumerable || false;
+	                descriptor.configurable = true;
+	                if ("value" in descriptor) descriptor.writable = true;
+	                Object.defineProperty(target, descriptor.key, descriptor);
+	            }
+	        }
+
+	        return function (Constructor, protoProps, staticProps) {
+	            if (protoProps) defineProperties(Constructor.prototype, protoProps);
+	            if (staticProps) defineProperties(Constructor, staticProps);
+	            return Constructor;
+	        };
+	    }();
+
+	    function _possibleConstructorReturn(self, call) {
+	        if (!self) {
+	            throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+	        }
+
+	        return call && (typeof call === "object" || typeof call === "function") ? call : self;
+	    }
+
+	    function _inherits(subClass, superClass) {
+	        if (typeof superClass !== "function" && superClass !== null) {
+	            throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
+	        }
+
+	        subClass.prototype = Object.create(superClass && superClass.prototype, {
+	            constructor: {
+	                value: subClass,
+	                enumerable: false,
+	                writable: true,
+	                configurable: true
+	            }
+	        });
+	        if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
+	    }
+
+	    var insertFunc = function insertFunc(msg, data, condition) {
+	        var id = _sAlertTools2.default.randomId();
+	        _sAlertStore2.default.dispatch({
+	            type: 'INSERT',
+	            data: Object.assign({}, data, {
+	                id: id,
+	                condition: condition,
+	                message: msg
+	            })
+	        });
+	        return id;
+	    };
+
+	    var SAlert = function (_React$Component) {
+	        _inherits(SAlert, _React$Component);
+
+	        function SAlert(props) {
+	            _classCallCheck(this, SAlert);
+
+	            var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(SAlert).call(this, props));
+
+	            _this.state = {
+	                dataRight: [],
+	                dataLeft: [],
+	                dataTop: [],
+	                dataBottom: []
+	            };
+	            return _this;
+	        }
+
+	        _createClass(SAlert, [{
+	            key: 'componentDidMount',
+	            value: function componentDidMount() {
+	                var _this2 = this;
+
+	                var storeStateLeft = void 0;
+	                var storeStateRight = void 0;
+	                var storeStateTop = void 0;
+	                var storeStateBottom = void 0;
+
+	                var addToStoreRight = function addToStoreRight() {
+	                    var length = void 0;
+	                    storeStateRight = (0, _sAlertDataPrep2.default)('right') || [];
+	                    length = storeStateRight.length;
+	                    if (_this2.props.stack && _this2.props.stack.limit && length > _this2.props.stack.limit) {
+	                        var id = storeStateRight[0].id;
+	                        _sAlertStore2.default.dispatch({ type: 'REMOVE', data: { id: id } });
+	                        storeStateRight = (0, _sAlertDataPrep2.default)('right') || [];
+	                    }
+	                    _this2.setState({ dataRight: storeStateRight });
+	                };
+	                this.unsubStoreRight = _sAlertStore2.default.subscribe(addToStoreRight);
+
+	                var addToStoreLeft = function addToStoreLeft() {
+	                    var length = void 0;
+	                    storeStateLeft = (0, _sAlertDataPrep2.default)('left') || [];
+	                    length = storeStateLeft.length;
+	                    if (_this2.props.stack && _this2.props.stack.limit && length > _this2.props.stack.limit) {
+	                        var id = storeStateLeft[0].id;
+	                        _sAlertStore2.default.dispatch({ type: 'REMOVE', data: { id: id } });
+	                        storeStateLeft = (0, _sAlertDataPrep2.default)('left') || [];
+	                    }
+	                    _this2.setState({ dataLeft: storeStateLeft });
+	                };
+	                this.unsubStoreLeft = _sAlertStore2.default.subscribe(addToStoreLeft);
+
+	                var addToStoreTop = function addToStoreTop() {
+	                    var length = void 0;
+	                    storeStateTop = (0, _sAlertDataPrep2.default)('full-top') || [];
+	                    length = storeStateTop.length;
+	                    if (_this2.props.stack && _this2.props.stack.limit && length > _this2.props.stack.limit) {
+	                        var id = storeStateTop[0].id;
+	                        _sAlertStore2.default.dispatch({ type: 'REMOVE', data: { id: id } });
+	                        storeStateTop = (0, _sAlertDataPrep2.default)('full-top') || [];
+	                    }
+	                    _this2.setState({ dataTop: storeStateTop });
+	                };
+	                this.unsubStoreTop = _sAlertStore2.default.subscribe(addToStoreTop);
+
+	                var addToStoreBottom = function addToStoreBottom() {
+	                    var length = void 0;
+	                    storeStateBottom = (0, _sAlertDataPrep2.default)('full-bottom') || [];
+	                    length = storeStateBottom.length;
+	                    if (_this2.props.stack && _this2.props.stack.limit && length > _this2.props.stack.limit) {
+	                        var id = storeStateBottom[0].id;
+	                        _sAlertStore2.default.dispatch({ type: 'REMOVE', data: { id: id } });
+	                        storeStateBottom = (0, _sAlertDataPrep2.default)('full-bottom') || [];
+	                    }
+	                    _this2.setState({ dataBottom: storeStateBottom });
+	                };
+	                this.unsubStoreBottom = _sAlertStore2.default.subscribe(addToStoreBottom);
+
+	                // set up global config from global SAlert props
+	                // only stuff needed for getAlertData
+	                var globalConfig = {
+	                    contentTemplate: this.props.contentTemplate,
+	                    offset: this.props.offset,
+	                    message: this.props.message,
+	                    stack: this.props.stack,
+	                    html: this.props.html,
+	                    customFields: this.props.customFields,
+	                    position: this.props.position || 'top-right'
+	                };
+	                _sAlertTools2.default.setGlobalConfig(globalConfig);
+	            }
+	        }, {
+	            key: 'componentWillUnmount',
+	            value: function componentWillUnmount() {
+	                this.unsubStoreTop();
+	                this.unsubStoreBottom();
+	                this.unsubStoreLeft();
+	                this.unsubStoreRight();
+	            }
+	        }, {
+	            key: 'render',
+	            value: function render() {
+	                var _this3 = this;
+
+	                var mapFunc = function mapFunc(alert, index) {
+	                    var customKey = 'alert-key-' + alert.id + '-' + alert.position;
+	                    var id = alert.id;
+	                    var condition = _sAlertTools2.default.returnFirstDefined(alert.condition, 'info');
+	                    var message = _sAlertTools2.default.returnFirstDefined(alert.message, _this3.props.message, '');
+	                    var position = _sAlertTools2.default.returnFirstDefined(alert.position, _this3.props.position, 'top-right');
+	                    var offset = _sAlertTools2.default.returnFirstDefined(alert.offset, _this3.props.offset, 0);
+	                    var effect = _sAlertTools2.default.returnFirstDefined(alert.effect, _this3.props.effect);
+	                    var boxPosition = alert.boxPosition;
+	                    var beep = _sAlertTools2.default.returnFirstDefined(alert.beep, _this3.props.beep, false);
+	                    var timeout = _sAlertTools2.default.returnFirstDefined(alert.timeout, _this3.props.timeout, 5000);
+	                    var html = _sAlertTools2.default.returnFirstDefined(alert.html, _this3.props.html);
+	                    var onClose = _sAlertTools2.default.returnFirstDefined(alert.onClose, _this3.props.onClose);
+	                    var onShow = _sAlertTools2.default.returnFirstDefined(alert.onShow, _this3.props.onShow);
+	                    var customFields = _sAlertTools2.default.returnFirstDefined(alert.customFields, _this3.props.customFields);
+	                    var contentTemplate = _this3.props.contentTemplate;
+	                    return _react2.default.createElement(_SAlertContent2.default, {
+	                        key: customKey,
+	                        id: id,
+	                        customFields: customFields,
+	                        condition: condition,
+	                        message: message,
+	                        position: position,
+	                        effect: effect,
+	                        boxPosition: boxPosition,
+	                        beep: beep,
+	                        timeout: timeout,
+	                        html: html,
+	                        onClose: onClose,
+	                        onShow: onShow,
+	                        contentTemplate: contentTemplate });
+	                };
+	                var sAlertElemsRight = this.state.dataRight.map(mapFunc);
+	                var sAlertElemsLeft = this.state.dataLeft.map(mapFunc);
+	                var sAlertElemsTop = this.state.dataTop.map(mapFunc);
+	                var sAlertElemsBottom = this.state.dataBottom.map(mapFunc);
+	                return _react2.default.createElement(
+	                    'div',
+	                    { className: 's-alert-wrapper' },
+	                    sAlertElemsRight,
+	                    sAlertElemsLeft,
+	                    sAlertElemsTop,
+	                    sAlertElemsBottom
+	                );
+	            }
+	        }], [{
+	            key: 'info',
+	            value: function info(msg, data) {
+	                return insertFunc(msg, data, 'info');
+	            }
+	        }, {
+	            key: 'error',
+	            value: function error(msg, data) {
+	                return insertFunc(msg, data, 'error');
+	            }
+	        }, {
+	            key: 'warning',
+	            value: function warning(msg, data) {
+	                return insertFunc(msg, data, 'warning');
+	            }
+	        }, {
+	            key: 'success',
+	            value: function success(msg, data) {
+	                return insertFunc(msg, data, 'success');
+	            }
+	        }, {
+	            key: 'close',
+	            value: function close(id) {
+	                _sAlertStore2.default.dispatch({ type: 'REMOVE', data: { id: id } });
+	            }
+	        }, {
+	            key: 'closeAll',
+	            value: function closeAll() {
+	                _sAlertStore2.default.dispatch({ type: 'REMOVEALL' });
+	            }
+	        }]);
+
+	        return SAlert;
+	    }(_react2.default.Component);
+
+	    SAlert.propTypes = {
+	        message: _react2.default.PropTypes.string,
+	        position: _react2.default.PropTypes.string,
+	        offset: _react2.default.PropTypes.number,
+	        stack: _react2.default.PropTypes.oneOfType([_react2.default.PropTypes.bool, _react2.default.PropTypes.object]),
+	        effect: _react2.default.PropTypes.string,
+	        beep: _react2.default.PropTypes.oneOfType([_react2.default.PropTypes.string, _react2.default.PropTypes.object, _react2.default.PropTypes.bool]),
+	        timeout: _react2.default.PropTypes.oneOfType([_react2.default.PropTypes.oneOf(['none']), _react2.default.PropTypes.number]),
+	        html: _react2.default.PropTypes.bool,
+	        onClose: _react2.default.PropTypes.func,
+	        onShow: _react2.default.PropTypes.func,
+	        customFields: _react2.default.PropTypes.object,
+	        contentTemplate: _react2.default.PropTypes.func
+	    };
+
+	    exports.default = SAlert;
+	});
+
+/***/ },
+/* 527 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
+	    if (true) {
+	        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports, __webpack_require__(300), __webpack_require__(359), __webpack_require__(528), __webpack_require__(529), __webpack_require__(530)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	    } else if (typeof exports !== "undefined") {
+	        factory(exports, require('react'), require('react-dom'), require('./s-alert-parts/s-alert-tools'), require('./s-alert-parts/s-alert-store'), require('./SAlertContentTmpl'));
+	    } else {
+	        var mod = {
+	            exports: {}
+	        };
+	        factory(mod.exports, global.react, global.reactDom, global.sAlertTools, global.sAlertStore, global.SAlertContentTmpl);
+	        global.SAlertContent = mod.exports;
+	    }
+	})(this, function (exports, _react, _reactDom, _sAlertTools, _sAlertStore, _SAlertContentTmpl) {
+	    'use strict';
+
+	    Object.defineProperty(exports, "__esModule", {
+	        value: true
+	    });
+
+	    var _react2 = _interopRequireDefault(_react);
+
+	    var _reactDom2 = _interopRequireDefault(_reactDom);
+
+	    var _sAlertTools2 = _interopRequireDefault(_sAlertTools);
+
+	    var _sAlertStore2 = _interopRequireDefault(_sAlertStore);
+
+	    var _SAlertContentTmpl2 = _interopRequireDefault(_SAlertContentTmpl);
+
+	    function _interopRequireDefault(obj) {
+	        return obj && obj.__esModule ? obj : {
+	            default: obj
+	        };
+	    }
+
+	    var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
+	        return typeof obj;
+	    } : function (obj) {
+	        return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj;
+	    };
+
+	    function _classCallCheck(instance, Constructor) {
+	        if (!(instance instanceof Constructor)) {
+	            throw new TypeError("Cannot call a class as a function");
+	        }
+	    }
+
+	    var _createClass = function () {
+	        function defineProperties(target, props) {
+	            for (var i = 0; i < props.length; i++) {
+	                var descriptor = props[i];
+	                descriptor.enumerable = descriptor.enumerable || false;
+	                descriptor.configurable = true;
+	                if ("value" in descriptor) descriptor.writable = true;
+	                Object.defineProperty(target, descriptor.key, descriptor);
+	            }
+	        }
+
+	        return function (Constructor, protoProps, staticProps) {
+	            if (protoProps) defineProperties(Constructor.prototype, protoProps);
+	            if (staticProps) defineProperties(Constructor, staticProps);
+	            return Constructor;
+	        };
+	    }();
+
+	    function _possibleConstructorReturn(self, call) {
+	        if (!self) {
+	            throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+	        }
+
+	        return call && (typeof call === "object" || typeof call === "function") ? call : self;
+	    }
+
+	    function _inherits(subClass, superClass) {
+	        if (typeof superClass !== "function" && superClass !== null) {
+	            throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
+	        }
+
+	        subClass.prototype = Object.create(superClass && superClass.prototype, {
+	            constructor: {
+	                value: subClass,
+	                enumerable: false,
+	                writable: true,
+	                configurable: true
+	            }
+	        });
+	        if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
+	    }
+
+	    var SAlertContent = function (_React$Component) {
+	        _inherits(SAlertContent, _React$Component);
+
+	        function SAlertContent(props) {
+	            _classCallCheck(this, SAlertContent);
+
+	            return _possibleConstructorReturn(this, Object.getPrototypeOf(SAlertContent).call(this, props));
+	        }
+
+	        _createClass(SAlertContent, [{
+	            key: 'handleCloseAlert',
+	            value: function handleCloseAlert() {
+	                var closingTimeout = void 0;
+	                var alertId = this.props.id;
+	                var currentAlertElem = _reactDom2.default.findDOMNode(this);
+	                var animationClose = function animationClose() {
+	                    currentAlertElem.style.display = 'none';
+	                    _sAlertStore2.default.dispatch({ type: 'REMOVE', data: { id: alertId } });
+	                    clearTimeout(closingTimeout);
+	                };
+	                if (document.hidden || document.webkitHidden || !currentAlertElem.classList.contains('s-alert-is-effect')) {
+	                    _sAlertStore2.default.dispatch({ type: 'REMOVE', data: { id: alertId } });
+	                } else {
+	                    currentAlertElem.classList.remove('s-alert-show');
+	                    closingTimeout = setTimeout(function () {
+	                        currentAlertElem.classList.add('s-alert-hide');
+	                    }, 100);
+	                    currentAlertElem.removeEventListener('webkitAnimationEnd', animationClose, false);
+	                    currentAlertElem.removeEventListener('animationend', animationClose, false);
+	                    currentAlertElem.addEventListener('webkitAnimationEnd', animationClose, false);
+	                    currentAlertElem.addEventListener('animationend', animationClose, false);
+	                }
+	                // stop audio when closing
+	                this.alertAudio && this.alertAudio.load();
+	            }
+	        }, {
+	            key: 'componentWillMount',
+	            value: function componentWillMount() {
+	                var beep = this.props.beep;
+	                var condition = this.props.condition;
+	                if (beep && typeof beep === 'string') {
+	                    this.alertAudio = new Audio(beep);
+	                    this.alertAudio.load();
+	                    this.alertAudio.play();
+	                }
+	                if (beep && (typeof beep === 'undefined' ? 'undefined' : _typeof(beep)) === 'object' && condition === 'info') {
+	                    this.alertAudio = new Audio(beep.info);
+	                    this.alertAudio.load();
+	                    this.alertAudio.play();
+	                }
+	                if (beep && (typeof beep === 'undefined' ? 'undefined' : _typeof(beep)) === 'object' && condition === 'error') {
+	                    this.alertAudio = new Audio(beep.error);
+	                    this.alertAudio.load();
+	                    this.alertAudio.play();
+	                }
+	                if (beep && (typeof beep === 'undefined' ? 'undefined' : _typeof(beep)) === 'object' && condition === 'success') {
+	                    this.alertAudio = new Audio(beep.success);
+	                    this.alertAudio.load();
+	                    this.alertAudio.play();
+	                }
+	                if (beep && (typeof beep === 'undefined' ? 'undefined' : _typeof(beep)) === 'object' && condition === 'warning') {
+	                    this.alertAudio = new Audio(beep.warning);
+	                    this.alertAudio.load();
+	                    this.alertAudio.play();
+	                }
+	            }
+	        }, {
+	            key: 'componentDidMount',
+	            value: function componentDidMount() {
+	                var _this2 = this;
+
+	                if (typeof this.props.timeout === 'number') {
+	                    this.closeTimer = setTimeout(function () {
+	                        _this2.handleCloseAlert();
+	                    }, this.props.timeout);
+	                }
+	                if (this.props.onShow) {
+	                    this.props.onShow();
+	                }
+	            }
+	        }, {
+	            key: 'componentWillUnmount',
+	            value: function componentWillUnmount() {
+	                if (this.closeTimer) {
+	                    clearTimeout(this.closeTimer);
+	                }
+	                if (this.props.onClose) {
+	                    this.props.onClose();
+	                }
+	            }
+	        }, {
+	            key: 'render',
+	            value: function render() {
+	                var classNames = 's-alert-box s-alert-' + this.props.condition + ' s-alert-' + this.props.position + ' ' + (this.props.effect ? 's-alert-is-effect s-alert-effect-' + this.props.effect : '') + ' s-alert-show';
+	                var message = this.props.html ? _react2.default.createElement('span', { dangerouslySetInnerHTML: { __html: this.props.message } }) : this.props.message;
+	                var styles = this.props.boxPosition ? _sAlertTools2.default.styleToObj(this.props.boxPosition) : {};
+	                var id = this.props.id;
+	                var handleClose = this.handleCloseAlert.bind(this);
+	                var contentTemplate = this.props.contentTemplate || _SAlertContentTmpl2.default;
+	                var customFields = this.props.customFields || {};
+
+	                return _react2.default.createElement(contentTemplate, { classNames: classNames, id: id, styles: styles, message: message, handleClose: handleClose, customFields: customFields });
+	            }
+	        }]);
+
+	        return SAlertContent;
+	    }(_react2.default.Component);
+
+	    SAlertContent.propTypes = {
+	        condition: _react2.default.PropTypes.string.isRequired,
+	        message: _react2.default.PropTypes.string.isRequired,
+	        position: _react2.default.PropTypes.string.isRequired,
+	        boxPosition: _react2.default.PropTypes.string,
+	        id: _react2.default.PropTypes.string.isRequired,
+	        effect: _react2.default.PropTypes.string,
+	        beep: _react2.default.PropTypes.oneOfType([_react2.default.PropTypes.string, _react2.default.PropTypes.object, _react2.default.PropTypes.bool]),
+	        timeout: _react2.default.PropTypes.oneOfType([_react2.default.PropTypes.oneOf(['none']), _react2.default.PropTypes.number]),
+	        html: _react2.default.PropTypes.bool,
+	        onClose: _react2.default.PropTypes.func,
+	        onShow: _react2.default.PropTypes.func,
+	        customFields: _react2.default.PropTypes.object,
+	        contentTemplate: _react2.default.PropTypes.func
+	    };
+
+	    exports.default = SAlertContent;
+	});
+
+/***/ },
+/* 528 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
+	    if (true) {
+	        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	    } else if (typeof exports !== "undefined") {
+	        factory(exports);
+	    } else {
+	        var mod = {
+	            exports: {}
+	        };
+	        factory(mod.exports);
+	        global.sAlertTools = mod.exports;
+	    }
+	})(this, function (exports) {
+	    'use strict';
+
+	    Object.defineProperty(exports, "__esModule", {
+	        value: true
+	    });
+
+	    var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
+	        return typeof obj;
+	    } : function (obj) {
+	        return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj;
+	    };
+
+	    var actualGlobalConfig = void 0;
+
+	    var sAlertTools = {
+	        randomId: function randomId() {
+	            return Math.random().toString(36).split('.')[1];
+	        },
+	        returnFirstDefined: function returnFirstDefined() {
+	            var value = void 0;
+	            var i = void 0;
+
+	            for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+	                args[_key] = arguments[_key];
+	            }
+
+	            for (i = 0; i < args.length; i++) {
+	                if (typeof args[i] !== 'undefined') {
+	                    value = args[i];
+	                    break;
+	                }
+	            }
+	            return value;
+	        },
+	        styleToObj: function styleToObj(input) {
+	            var result = {},
+	                i = void 0,
+	                entry = void 0,
+	                attributes = input && input.split(';').filter(Boolean);
+
+	            for (i = 0; i < attributes.length; i++) {
+	                entry = attributes[i].split(':');
+	                result[entry.splice(0, 1)[0].trim()] = entry.join(':').trim();
+	            }
+	            return result;
+	        },
+	        setGlobalConfig: function setGlobalConfig(config) {
+	            if ((typeof config === 'undefined' ? 'undefined' : _typeof(config)) === 'object') {
+	                actualGlobalConfig = config;
+	            }
+	        },
+	        getGlobalConfig: function getGlobalConfig() {
+	            return actualGlobalConfig;
+	        }
+	    };
+
+	    exports.default = sAlertTools;
+	});
+
+/***/ },
+/* 529 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
+	    if (true) {
+	        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	    } else if (typeof exports !== "undefined") {
+	        factory(exports);
+	    } else {
+	        var mod = {
+	            exports: {}
+	        };
+	        factory(mod.exports);
+	        global.sAlertStore = mod.exports;
+	    }
+	})(this, function (exports) {
+	    'use strict';
+
+	    Object.defineProperty(exports, "__esModule", {
+	        value: true
+	    });
+
+	    function _toConsumableArray(arr) {
+	        if (Array.isArray(arr)) {
+	            for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) {
+	                arr2[i] = arr[i];
+	            }
+
+	            return arr2;
+	        } else {
+	            return Array.from(arr);
+	        }
+	    }
+
+	    // custom simple store based on a awesome Redux library https://github.com/rackt/redux
+
+	    var createSAlertStore = function createSAlertStore(reducer) {
+	        var state = void 0;
+	        var listeners = [];
+	        var getState = function getState() {
+	            return state;
+	        };
+	        var dispatch = function dispatch(action) {
+	            state = reducer(state, action);
+	            listeners.forEach(function (listener) {
+	                return listener();
+	            });
+	        };
+	        var subscribe = function subscribe(listener) {
+	            listeners.push(listener);
+	            return function () {
+	                listeners = listeners.filter(function (l) {
+	                    return l !== listener;
+	                });
+	            };
+	        };
+	        dispatch({});
+	        return {
+	            getState: getState, dispatch: dispatch, subscribe: subscribe
+	        };
+	    };
+
+	    var insert = function insert(state, action) {
+	        return [].concat(_toConsumableArray(state), [action.data]);
+	    };
+
+	    var remove = function remove(state, action) {
+	        var elemToRemoveArray = state.slice().filter(function (item) {
+	            return item.id === action.data.id;
+	        });
+	        if (Array.isArray(elemToRemoveArray)) {
+	            var elemToRemoveIndex = state.indexOf(elemToRemoveArray[0]);
+	            return [].concat(_toConsumableArray(state.slice(0, elemToRemoveIndex)), _toConsumableArray(state.slice(elemToRemoveIndex + 1)));
+	        }
+	        return state;
+	    };
+
+	    var alertsReducer = function alertsReducer() {
+	        var state = arguments.length <= 0 || arguments[0] === undefined ? [] : arguments[0];
+	        var action = arguments[1];
+
+	        switch (action.type) {
+	            case 'INSERT':
+	                return insert(state, action);
+	            case 'REMOVE':
+	                return remove(state, action);
+	            case 'REMOVEALL':
+	                return [];
+	            default:
+	                return state;
+	        }
+	    };
+
+	    var sAlertStore = createSAlertStore(alertsReducer);
+
+	    exports.default = sAlertStore;
+	});
+
+/***/ },
+/* 530 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
+	    if (true) {
+	        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports, __webpack_require__(300)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	    } else if (typeof exports !== "undefined") {
+	        factory(exports, require('react'));
+	    } else {
+	        var mod = {
+	            exports: {}
+	        };
+	        factory(mod.exports, global.react);
+	        global.SAlertContentTmpl = mod.exports;
+	    }
+	})(this, function (exports, _react) {
+	    'use strict';
+
+	    Object.defineProperty(exports, "__esModule", {
+	        value: true
+	    });
+
+	    var _react2 = _interopRequireDefault(_react);
+
+	    function _interopRequireDefault(obj) {
+	        return obj && obj.__esModule ? obj : {
+	            default: obj
+	        };
+	    }
+
+	    function _classCallCheck(instance, Constructor) {
+	        if (!(instance instanceof Constructor)) {
+	            throw new TypeError("Cannot call a class as a function");
+	        }
+	    }
+
+	    var _createClass = function () {
+	        function defineProperties(target, props) {
+	            for (var i = 0; i < props.length; i++) {
+	                var descriptor = props[i];
+	                descriptor.enumerable = descriptor.enumerable || false;
+	                descriptor.configurable = true;
+	                if ("value" in descriptor) descriptor.writable = true;
+	                Object.defineProperty(target, descriptor.key, descriptor);
+	            }
+	        }
+
+	        return function (Constructor, protoProps, staticProps) {
+	            if (protoProps) defineProperties(Constructor.prototype, protoProps);
+	            if (staticProps) defineProperties(Constructor, staticProps);
+	            return Constructor;
+	        };
+	    }();
+
+	    function _possibleConstructorReturn(self, call) {
+	        if (!self) {
+	            throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+	        }
+
+	        return call && (typeof call === "object" || typeof call === "function") ? call : self;
+	    }
+
+	    function _inherits(subClass, superClass) {
+	        if (typeof superClass !== "function" && superClass !== null) {
+	            throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
+	        }
+
+	        subClass.prototype = Object.create(superClass && superClass.prototype, {
+	            constructor: {
+	                value: subClass,
+	                enumerable: false,
+	                writable: true,
+	                configurable: true
+	            }
+	        });
+	        if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
+	    }
+
+	    var SAlertContentTmpl = function (_React$Component) {
+	        _inherits(SAlertContentTmpl, _React$Component);
+
+	        function SAlertContentTmpl(props) {
+	            _classCallCheck(this, SAlertContentTmpl);
+
+	            return _possibleConstructorReturn(this, Object.getPrototypeOf(SAlertContentTmpl).call(this, props));
+	        }
+
+	        _createClass(SAlertContentTmpl, [{
+	            key: 'render',
+	            value: function render() {
+	                return _react2.default.createElement(
+	                    'div',
+	                    { className: this.props.classNames, id: this.props.id, style: this.props.styles },
+	                    _react2.default.createElement(
+	                        'div',
+	                        { className: 's-alert-box-inner' },
+	                        this.props.message
+	                    ),
+	                    _react2.default.createElement('span', { className: 's-alert-close', onClick: this.props.handleClose })
+	                );
+	            }
+	        }]);
+
+	        return SAlertContentTmpl;
+	    }(_react2.default.Component);
+
+	    SAlertContentTmpl.propTypes = {
+	        id: _react2.default.PropTypes.string.isRequired,
+	        classNames: _react2.default.PropTypes.string.isRequired,
+	        styles: _react2.default.PropTypes.object.isRequired,
+	        message: _react2.default.PropTypes.oneOfType([_react2.default.PropTypes.string, _react2.default.PropTypes.object]).isRequired,
+	        handleClose: _react2.default.PropTypes.func.isRequired,
+	        customFields: _react2.default.PropTypes.object
+	    };
+
+	    exports.default = SAlertContentTmpl;
+	});
+
+/***/ },
+/* 531 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
+	    if (true) {
+	        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports, __webpack_require__(300), __webpack_require__(359), __webpack_require__(527), __webpack_require__(529), __webpack_require__(528)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	    } else if (typeof exports !== "undefined") {
+	        factory(exports, require('react'), require('react-dom'), require('../SAlertContent'), require('./s-alert-store'), require('./s-alert-tools'));
+	    } else {
+	        var mod = {
+	            exports: {}
+	        };
+	        factory(mod.exports, global.react, global.reactDom, global.SAlertContent, global.sAlertStore, global.sAlertTools);
+	        global.sAlertDataPrep = mod.exports;
+	    }
+	})(this, function (exports, _react, _reactDom, _SAlertContent, _sAlertStore, _sAlertTools) {
+	    'use strict';
+
+	    Object.defineProperty(exports, "__esModule", {
+	        value: true
+	    });
+
+	    var _react2 = _interopRequireDefault(_react);
+
+	    var _reactDom2 = _interopRequireDefault(_reactDom);
+
+	    var _SAlertContent2 = _interopRequireDefault(_SAlertContent);
+
+	    var _sAlertStore2 = _interopRequireDefault(_sAlertStore);
+
+	    var _sAlertTools2 = _interopRequireDefault(_sAlertTools);
+
+	    function _interopRequireDefault(obj) {
+	        return obj && obj.__esModule ? obj : {
+	            default: obj
+	        };
+	    }
+
+	    var getAlertData = function getAlertData(sAlertPosition) {
+	        var positionTop = 0;
+	        var positionBottom = 0;
+	        var padding = 0;
+	        var alerts = {};
+	        var style = void 0;
+	        var docElement = void 0;
+	        var sAlertBoxHeight = void 0;
+	        var positionTypeTop = void 0;
+	        var positionTypeBottom = void 0;
+	        var checkFirst = function checkFirst(type, objId) {
+	            var collectionOfType = sAlertCollection.filter(function (obj) {
+	                return obj.position === type || sAlertGlobalConfig.position === type;
+	            });
+	            return collectionOfType && collectionOfType[0].id === objId;
+	        };
+	        var positionFunc = function positionFunc(position, positionType, alert, docElement, sAlertBoxHeight, reactComponent) {
+	            padding = aStack.spacing || parseInt(getComputedStyle(_reactDom2.default.findDOMNode(reactComponent))[positionType]);
+	            if (checkFirst(aPosition, alert.id) && aOffset) {
+	                position = 0;
+	                position = position + parseInt(aOffset);
+	            }
+	            if (checkFirst(aPosition, alert.id) && aStack.spacing) {
+	                position = position;
+	            } else {
+	                position = position + parseInt(padding);
+	            }
+	            style = positionType + ': ' + position + 'px;';
+	            position = position + sAlertBoxHeight;
+	            return position;
+	        };
+
+	        var sAlertGlobalConfig = _sAlertTools2.default.getGlobalConfig();
+	        var aStack = void 0;
+	        var aContentTemplate = void 0;
+	        var aOffset = void 0;
+	        var aMessage = void 0;
+	        var aHtml = void 0;
+	        var aCustomFields = void 0;
+	        var aPosition = void 0;
+
+	        var query = {};
+	        if (sAlertPosition === 'left') {
+	            query = function query(item) {
+	                return item.position === 'top-left' || item.position === 'bottom-left' || !item.position && (sAlertGlobalConfig.position === 'top-left' || sAlertGlobalConfig.position === 'bottom-left');
+	            };
+	        }
+	        if (sAlertPosition === 'right') {
+	            query = function query(item) {
+	                return item.position === 'top-right' || item.position === 'bottom-right' || !item.position && (sAlertGlobalConfig.position === 'top-right' || sAlertGlobalConfig.position === 'bottom-right');
+	            };
+	        }
+	        if (sAlertPosition === 'full-top') {
+	            query = function query(item) {
+	                return item.position === 'top' || !item.position && sAlertGlobalConfig.position === 'top';
+	            };
+	        }
+	        if (sAlertPosition === 'full-bottom') {
+	            query = function query(item) {
+	                return item.position === 'bottom' || !item.position && sAlertGlobalConfig.position === 'bottom';
+	            };
+	        }
+
+	        var currentState = _sAlertStore2.default.getState();
+	        var sAlertCollection = currentState.slice().filter(query);
+
+	        return sAlertCollection.map(function (alert) {
+	            aStack = sAlertGlobalConfig.stack;
+	            aContentTemplate = sAlertGlobalConfig.contentTemplate;
+	            aOffset = _sAlertTools2.default.returnFirstDefined(alert.offset, sAlertGlobalConfig.offset);
+	            aMessage = _sAlertTools2.default.returnFirstDefined(alert.message, sAlertGlobalConfig.message);
+	            aHtml = _sAlertTools2.default.returnFirstDefined(alert.html, sAlertGlobalConfig.html);
+	            aCustomFields = _sAlertTools2.default.returnFirstDefined(alert.customFields, sAlertGlobalConfig.customFields);
+	            aPosition = _sAlertTools2.default.returnFirstDefined(alert.position, sAlertGlobalConfig.position);
+	            positionTypeTop = aPosition && /top/g.test(aPosition);
+	            positionTypeBottom = aPosition && /bottom/g.test(aPosition);
+	            if (aStack) {
+	                // checking alert box height - needed to calculate position
+	                docElement = document.createElement('div');
+	                docElement.classList.add('s-alert-box-height');
+
+	                // mock element, needed for positions calculations
+	                var reactElement = _react2.default.createElement(_SAlertContent2.default, {
+	                    key: _sAlertTools2.default.randomId(),
+	                    id: _sAlertTools2.default.randomId(),
+	                    condition: alert.condition,
+	                    message: aMessage,
+	                    position: aPosition,
+	                    effect: alert.effect,
+	                    boxPosition: alert.boxPosition,
+	                    beep: false,
+	                    timeout: 'none',
+	                    html: aHtml,
+	                    contentTemplate: aContentTemplate,
+	                    customFields: aCustomFields
+	                });
+	                var reactComponent = _reactDom2.default.render(reactElement, docElement);
+
+	                document.body.appendChild(docElement);
+	                sAlertBoxHeight = parseInt(getComputedStyle(_reactDom2.default.findDOMNode(reactComponent))['height']);
+	                if (positionTypeTop) {
+	                    positionTop = positionFunc(positionTop, 'top', alert, docElement, sAlertBoxHeight, reactComponent);
+	                }
+	                if (positionTypeBottom) {
+	                    positionBottom = positionFunc(positionBottom, 'bottom', alert, docElement, sAlertBoxHeight, reactComponent);
+	                }
+	                var sAlertComputedStyle = getComputedStyle(_reactDom2.default.findDOMNode(reactComponent));
+	                if (sAlertPosition === 'left') {
+	                    style = style + 'left: ' + (aStack.spacing || parseInt(sAlertComputedStyle.left)) + 'px;';
+	                }
+	                if (sAlertPosition === 'right') {
+	                    style = style + 'right: ' + (aStack.spacing || parseInt(sAlertComputedStyle.right)) + 'px;';
+	                }
+	                alerts = Object.assign({}, alert, { boxPosition: style });
+	                _reactDom2.default.unmountComponentAtNode(docElement);
+	                docElement.parentNode.removeChild(docElement);
+	            } else if (aOffset && positionTypeTop) {
+	                alerts = Object.assign({}, alert, { boxPosition: 'top: ' + parseInt(aOffset) + 'px;' });
+	            } else if (aOffset && positionTypeBottom) {
+	                alerts = Object.assign({}, alert, { boxPosition: 'bottom: ' + parseInt(aOffset) + 'px;' });
+	            } else {
+	                alerts = alert;
+	            }
+	            return alerts;
+	        });
+	    };
+
+	    exports.default = getAlertData;
+	});
+
+/***/ },
+/* 532 */,
+/* 533 */,
+/* 534 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(300);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactSAlert = __webpack_require__(525);
+
+	var _reactSAlert2 = _interopRequireDefault(_reactSAlert);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } //http://react-s-alert.jsdemo.be/
+
+	var Home = function (_React$Component) {
+	  _inherits(Home, _React$Component);
+
+	  function Home() {
+	    _classCallCheck(this, Home);
+
+	    return _possibleConstructorReturn(this, (Home.__proto__ || Object.getPrototypeOf(Home)).apply(this, arguments));
+	  }
+
+	  _createClass(Home, [{
+	    key: 'handleClick1',
+	    value: function handleClick1(e) {
+	      e.preventDefault();
+	      _reactSAlert2.default.error('Whoops, that game has already started! Predictions can only be submitted for games before they begin.', {
+	        position: 'bottom',
+	        effect: 'flip',
+	        onShow: function onShow() {
+	          console.log('aye!');
+	        },
+	        beep: true,
+	        timeout: 5000,
+	        offset: 0
+	      });
+	    }
+	  }, {
+	    key: 'handleClick2',
+	    value: function handleClick2(e) {
+	      e.preventDefault();
+	      _reactSAlert2.default.info('Test message 2', {
+	        position: 'bottom-left',
+	        effect: 'bouncyflip',
+	        timeout: 'none'
+	      });
+	    }
+	  }, {
+	    key: 'handleClick3',
+	    value: function handleClick3(e) {
+	      e.preventDefault();
+	      _reactSAlert2.default.error('Test message 3', {
+	        position: 'bottom-right',
+	        effect: 'slide',
+	        timeout: 'none'
+	      });
+	    }
+	  }, {
+	    key: 'handleCloseAll',
+	    value: function handleCloseAll(e) {
+	      e.preventDefault();
+	      _reactSAlert2.default.closeAll();
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(
+	          'div',
+	          null,
+	          _react2.default.createElement(
+	            'a',
+	            { href: '#', onClick: this.handleClick1 },
+	            'Click 1'
+	          ),
+	          ' |',
+	          _react2.default.createElement(
+	            'a',
+	            { href: '#', onClick: this.handleClick2 },
+	            'Click 2'
+	          ),
+	          ' |',
+	          _react2.default.createElement(
+	            'a',
+	            { href: '#', onClick: this.handleClick3 },
+	            'Click 3'
+	          ),
+	          ' |',
+	          _react2.default.createElement(
+	            'a',
+	            { href: '#', onClick: this.handleCloseAll },
+	            'Close All'
+	          )
+	        )
+	      );
+	    }
+	  }]);
+
+	  return Home;
+	}(_react2.default.Component);
+
+	exports.default = Home;
 
 /***/ }
 /******/ ]);

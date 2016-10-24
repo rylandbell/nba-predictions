@@ -3,6 +3,8 @@
 @import 'status-message.css';
 @import 'predictions-summary.css';
 @import 'logo-sprites.css';
+@import 's-alert-default.css';
+@import './s-alert-css-effects/flip.css';
 
 body {
   padding-top: 70px;
