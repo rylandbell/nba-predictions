@@ -3,7 +3,6 @@
 import React from 'react';
 
 const api = ({statusData, roadTeam, homeTeam, predictedWinner}) => {
-  console.log(roadTeam, homeTeam, predictedWinner);
   var scoreString;
   var progressString;
   var outcomeString = '';

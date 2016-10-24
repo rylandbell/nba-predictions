@@ -28,7 +28,8 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 
       //update the database:
       const body = {};
-      body[gameDay] = teamName;
+      body.dayNumber = gameDay;
+      body.teamName = teamName;
 
       Helper.myFetch(
         '/api/userMonth/' + ownProps.reduxState.activeMonth + '/predictedWinners',
@@ -52,7 +53,8 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
       //update the database:
       const body = {};
       const gameDay = moment(gameDate).format('D');
-      body[gameDay] = null;
+      body.dayNumber = gameDay;
+      body.teamName = null;
 
       Helper.myFetch(
         '/api/userMonth/' + ownProps.reduxState.activeMonth + '/predictedWinners',

@@ -5,7 +5,7 @@ var ctrlMain = require('../controllers/main');
 // GET
 router.get('/', ctrlMain.landingPage);
 router.get('/month/:month', ctrlMain.predictionsPage);
-router.get('/mock-ups', ctrlMain.pageMockups);
+router.get('/how-to-play', ctrlMain.howToPlay);
 router.get('/login', ctrlMain.login);
 router.get('/new-month/:month', ctrlMain.newUserMonth);
 

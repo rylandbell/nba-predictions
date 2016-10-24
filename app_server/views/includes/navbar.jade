@@ -8,9 +8,16 @@ nav.navbar.navbar-default.navbar-fixed-top
         span.icon-bar
         span.icon-bar
       a.navbar-brand(href='/') Home
+      ul.nav.navbar-nav
+        li.active
+          a(href='/how-to-play')
+            | How to Play 
     // Collect the nav links, forms, and other content for toggling
     #bs-example-navbar-collapse-1.collapse.navbar-collapse
       ul.nav.navbar-nav.navbar-right
+        li.active
+          a(href='https://goo.gl/forms/iWjt8lWwQ815G77Y2' target='_blank')
+            | Feedback Form
         -if(showSignOut)
           li
             a(href='/login') Sign Out

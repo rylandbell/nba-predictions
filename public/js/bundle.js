@@ -48343,7 +48343,8 @@
 
 	      //update the database:
 	      var body = {};
-	      body[gameDay] = teamName;
+	      body.dayNumber = gameDay;
+	      body.teamName = teamName;
 
 	      _helper2.default.myFetch('/api/userMonth/' + ownProps.reduxState.activeMonth + '/predictedWinners', 'PUT', body, function (response) {
 	        dispatch(_actionCreators2.default.sendPredictionSuccess(response));
@@ -48360,7 +48361,8 @@
 	      //update the database:
 	      var body = {};
 	      var gameDay = moment(gameDate).format('D');
-	      body[gameDay] = null;
+	      body.dayNumber = gameDay;
+	      body.teamName = null;
 
 	      _helper2.default.myFetch('/api/userMonth/' + ownProps.reduxState.activeMonth + '/predictedWinners', 'PUT', body, function (response) {
 	        dispatch(_actionCreators2.default.sendPredictionSuccess(response));
@@ -48534,7 +48536,7 @@
 	  var dayBack = _ref.dayBack;
 	  return _react2.default.createElement(
 	    'div',
-	    { className: 'col-xs-9 col-sm-8 col-md-9' },
+	    { className: 'col-xs-12 col-sm-8 col-md-9' },
 	    _react2.default.createElement(_dayPicker2.default, { visibleDate: visibleDate, dayForward: dayForward, dayBack: dayBack }),
 	    _react2.default.createElement(_singleDayGameList2.default, { gamesByDay: gamesByDay, eligibleTeams: eligibleTeams, isSendingPrediction: isSendingPrediction, predictedWinners: predictedWinners, visibleDate: visibleDate, addPrediction: addPrediction, removePrediction: removePrediction })
 	  );
@@ -48736,7 +48738,6 @@
 	  var homeTeam = _ref.homeTeam;
 	  var predictedWinner = _ref.predictedWinner;
 
-	  console.log(roadTeam, homeTeam, predictedWinner);
 	  var scoreString;
 	  var progressString;
 	  var outcomeString = '';
@@ -49414,7 +49415,7 @@
 
 	  return _react2.default.createElement(
 	    'div',
-	    { className: 'col-xs-3 col-sm-3 col-md-2 col-sm-offset-1 col-md-offset-1' },
+	    { className: 'col-xs-12 col-sm-3 col-md-2 col-sm-offset-1 col-md-offset-1' },
 	    _react2.default.createElement(
 	      'div',
 	      { className: 'text-center lead' },

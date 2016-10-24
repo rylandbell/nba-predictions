@@ -8,30 +8,6 @@ body {
   padding-top: 70px;
 }
 
-/*layout*/
-// html, body, .full-height {
-// 	height: 100%;
-// }
-
-// .body-block {
-// 	padding-top: 10px;
-// }
-
-// .container-body, .container-navbar {
-// 	width: 100%;
-// 	max-width: 1300px;
-// }
-
-// .container-body {
-// 	min-height: 79vh;
-// }
-
-
-
-// .panel-body {
-// 	padding: 10px;
-// }
-
 .send-waiting, .send-waiting * {
   cursor: progress !important;
 }
@@ -89,4 +65,8 @@ body {
 /*~~~~~~~~~~~~~~~*/
 .remaining-teams-table * {
   text-align: center;
+}
+
+.how-to-play {
+  font-size: 2em;
 }

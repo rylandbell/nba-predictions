@@ -141,7 +141,7 @@ module.exports.userMonthCreate = function (req, res) {
   });
 };
 
-//  PUT update the predictedWinners list
+//  PUT make a prediction
 module.exports.predictedWinnersUpdate = function (req, res) {
   getOwnerData(req, res, function (req, res, owner) {
     if (!req.params.month) {
@@ -161,6 +161,8 @@ module.exports.predictedWinnersUpdate = function (req, res) {
       .select('predictedWinners')
       .exec(
         function (err, userMonth) {
+
+          //check for basic errors:
           if (!userMonth) {
             sendJsonResponse(res, 404, {
               message: 'userMonth not found'
@@ -171,17 +173,23 @@ module.exports.predictedWinnersUpdate = function (req, res) {
             return;
           }
 
-          //the key is a number from 1-31; there's only one, but since I don't know what it will be ahead of time, I run through this loop:
-          for (var key in req.body) {
-            if (req.body.hasOwnProperty(key)) {
-              if (req.body[key] === 'null') {
-                userMonth[0].predictedWinners[key].teamName = null;
-              } else {
-                userMonth[0].predictedWinners[key].teamName = req.body[key];
-              }
-            }
-          }
+          //add the prediction data from req:
+          var dayNumber = req.body.dayNumber;
+          var predictedWinner = req.body.teamName || null;
 
+          console.log('predictedWinner', predictedWinner);
+
+          if (predictedWinner) {
+            console.log('trying to add prediction: ', predictedWinner);
+            userMonth[0].predictedWinners[dayNumber].teamName = predictedWinner;
+          } else {
+            console.log('trying to remove prediction', userMonth[0].predictedWinners[dayNumber]);
+            userMonth[0].predictedWinners[dayNumber].teamName = null;
+            console.log('boop');
+          }
+          console.log('prediction: ',userMonth[0].predictedWinners[dayNumber]);
+
+          //save the userMonth;
           userMonth[0].save(function (err, userMonth) {
             if (err) {
               sendJsonResponse(res, 400, err);

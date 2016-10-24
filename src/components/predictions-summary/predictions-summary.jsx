@@ -15,7 +15,7 @@ const api = ({predictedWinners, visibleDate, activeMonth, goToDate}) => {
   }
 
   return  (
-    <div className="col-xs-3 col-sm-3 col-md-2 col-sm-offset-1 col-md-offset-1">
+    <div className="col-xs-12 col-sm-3 col-md-2 col-sm-offset-1 col-md-offset-1">
       <div className="text-center lead">
         Predictions Summary
       </div>

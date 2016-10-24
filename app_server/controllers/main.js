@@ -126,9 +126,10 @@ module.exports.predictionsPage = function (req, res, next) {
 };
 
 /* Temp reference page */
-module.exports.pageMockups = function (req, res, next) {
-  res.render('page-mockups', {
-    title: 'Mockup Components',
+module.exports.howToPlay = function (req, res, next) {
+  res.render('how-to-play', {
+    title: 'How to Play',
+    showSignOut: true,
     error: req.query.err
   });
 };
