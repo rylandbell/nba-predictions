@@ -48331,7 +48331,7 @@
 
 	var mapDispatchToProps = function mapDispatchToProps(dispatch, ownProps) {
 	  return {
-	    addPrediction: function addPrediction(gameId, teamName, gameDate) {
+	    addPrediction: function addPrediction(gameId, teamName, gameDate, gameTime) {
 	      //mark previous selection for that day eligible:
 	      var gameDay = moment(gameDate).format('D');
 	      var oldPrediction = ownProps.reduxState.userMonth.predictedWinners[gameDay].teamName;
@@ -48345,6 +48345,7 @@
 	      var body = {};
 	      body.dayNumber = gameDay;
 	      body.teamName = teamName;
+	      body.gameTime = gameTime;
 
 	      _helper2.default.myFetch('/api/userMonth/' + ownProps.reduxState.activeMonth + '/predictedWinners', 'PUT', body, function (response) {
 	        dispatch(_actionCreators2.default.sendPredictionSuccess(response));
@@ -48354,7 +48355,7 @@
 	      });
 	      dispatch(_actionCreators2.default.sendPredictionWaiting());
 	    },
-	    removePrediction: function removePrediction(gameId, teamName, gameDate) {
+	    removePrediction: function removePrediction(gameId, teamName, gameDate, gameTime) {
 	      dispatch(_actionCreators2.default.removePrediction(gameId, gameDate));
 	      dispatch(_actionCreators2.default.markEligible(teamName));
 
@@ -48363,6 +48364,7 @@
 	      var gameDay = moment(gameDate).format('D');
 	      body.dayNumber = gameDay;
 	      body.teamName = null;
+	      body.gameTime = gameTime;
 
 	      _helper2.default.myFetch('/api/userMonth/' + ownProps.reduxState.activeMonth + '/predictedWinners', 'PUT', body, function (response) {
 	        dispatch(_actionCreators2.default.sendPredictionSuccess(response));
@@ -48665,6 +48667,10 @@
 
 	var _lodash2 = _interopRequireDefault(_lodash);
 
+	var _helper = __webpack_require__(509);
+
+	var _helper2 = _interopRequireDefault(_helper);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var api = _react2.default.createClass({
@@ -48677,10 +48683,11 @@
 	      var isEligible = _lodash2.default.includes(this.props.eligibleTeams, this.props.teamName);
 	      var isChosen = this.props.predictedWinner.teamName === this.props.teamName;
 	      if ((isEligible || isChosen) && !this.props.gameData.gameStatus.hasStarted) {
+	        var gameTime = _helper2.default.getDateTime(this.props.gameData.gameDate, this.props.gameData.gameStatus.startTime);
 	        if (isChosen) {
-	          this.props.removePrediction(this.props.gameData.gameId, this.props.teamName, this.props.gameData.gameDate);
+	          this.props.removePrediction(this.props.gameData.gameId, this.props.teamName, this.props.gameData.gameDate, gameTime);
 	        } else {
-	          this.props.addPrediction(this.props.gameData.gameId, this.props.teamName, this.props.gameData.gameDate);
+	          this.props.addPrediction(this.props.gameData.gameId, this.props.teamName, this.props.gameData.gameDate, gameTime);
 	        }
 	      }
 	    }
@@ -48884,6 +48891,11 @@
 	    }).catch(function (response) {
 	      return failureCallback(response);
 	    });
+	  },
+
+	  //takes a date formatted like '2016-11-15' and a time string formatted like '4:30 pm ET';
+	  getDateTime: function getDateTime(dateString, timeString) {
+	    return moment(dateString + ' ' + timeString, 'YYYY-MM-DD h:mm a').format();
 	  }
 	};exports.default = api;
 

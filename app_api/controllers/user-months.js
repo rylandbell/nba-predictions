@@ -1,4 +1,8 @@
+'use strict';
+
 var mongoose = require('mongoose');
+var moment = require('moment-timezone');
+
 var UserMonthModel = mongoose.model('UserMonth');
 var UserModel = mongoose.model('User');
 
@@ -141,8 +145,28 @@ module.exports.userMonthCreate = function (req, res) {
   });
 };
 
+const verifyPredictionTime = function (gameTime) {
+
+  //create moment in East time zone, from gameTime:
+  let gameMoment = moment.tz(gameTime, 'YYYY-MM-DD h:mm a', 'America/New_York');
+  
+  //create moment from local time, then translate to ETC moment:
+  let nowMoment = moment().tz('America/New_York');
+
+  return gameMoment.isAfter(nowMoment);
+}
+
 //  PUT make a prediction
 module.exports.predictedWinnersUpdate = function (req, res) {
+  
+  //reject the prediction if the game has already started:
+  if (!verifyPredictionTime(req.body.gameTime)){
+    sendJsonResponse(res, 400, {
+      message: 'This game\'s scheduled start time has already passed, so no more predictions are allowed.'
+    });
+    return;
+  }
+
   getOwnerData(req, res, function (req, res, owner) {
     if (!req.params.month) {
       sendJsonResponse(res, 404, {
@@ -177,17 +201,11 @@ module.exports.predictedWinnersUpdate = function (req, res) {
           var dayNumber = req.body.dayNumber;
           var predictedWinner = req.body.teamName || null;
 
-          console.log('predictedWinner', predictedWinner);
-
           if (predictedWinner) {
-            console.log('trying to add prediction: ', predictedWinner);
             userMonth[0].predictedWinners[dayNumber].teamName = predictedWinner;
           } else {
-            console.log('trying to remove prediction', userMonth[0].predictedWinners[dayNumber]);
             userMonth[0].predictedWinners[dayNumber].teamName = null;
-            console.log('boop');
           }
-          console.log('prediction: ',userMonth[0].predictedWinners[dayNumber]);
 
           //save the userMonth;
           userMonth[0].save(function (err, userMonth) {
@@ -273,3 +291,4 @@ module.exports.userMonthDelete = function (req, res) {
     });
   }
 };
+

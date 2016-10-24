@@ -2,6 +2,7 @@
 
 import React from 'react';
 import _ from 'lodash';
+import Helper from '../../helper.js';
 
 const api = React.createClass({
   handleClick: function () {
@@ -11,10 +12,11 @@ const api = React.createClass({
       const isEligible = _.includes(this.props.eligibleTeams, this.props.teamName);
       const isChosen = this.props.predictedWinner.teamName === this.props.teamName;
       if((isEligible || isChosen) && !this.props.gameData.gameStatus.hasStarted){
+        let gameTime = Helper.getDateTime(this.props.gameData.gameDate, this.props.gameData.gameStatus.startTime);
         if(isChosen) {
-          this.props.removePrediction(this.props.gameData.gameId, this.props.teamName, this.props.gameData.gameDate);
+          this.props.removePrediction(this.props.gameData.gameId, this.props.teamName, this.props.gameData.gameDate, gameTime);
         } else {
-          this.props.addPrediction(this.props.gameData.gameId, this.props.teamName, this.props.gameData.gameDate);
+          this.props.addPrediction(this.props.gameData.gameId, this.props.teamName, this.props.gameData.gameDate, gameTime);
         }
       }
     }

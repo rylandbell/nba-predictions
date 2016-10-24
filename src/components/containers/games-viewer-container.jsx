@@ -16,7 +16,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   addPrediction:
-    (gameId, teamName, gameDate)=>{
+    (gameId, teamName, gameDate, gameTime) => {
       //mark previous selection for that day eligible:
       const gameDay = moment(gameDate).format('D');
       const oldPrediction = ownProps.reduxState.userMonth.predictedWinners[gameDay].teamName;
@@ -30,6 +30,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
       const body = {};
       body.dayNumber = gameDay;
       body.teamName = teamName;
+      body.gameTime = gameTime;
 
       Helper.myFetch(
         '/api/userMonth/' + ownProps.reduxState.activeMonth + '/predictedWinners',
@@ -46,7 +47,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
       dispatch(ActionCreator.sendPredictionWaiting());
     },
   removePrediction:
-    (gameId, teamName, gameDate)=>{
+    (gameId, teamName, gameDate, gameTime) => {
       dispatch(ActionCreator.removePrediction(gameId, gameDate));
       dispatch(ActionCreator.markEligible(teamName));
 
@@ -55,6 +56,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
       const gameDay = moment(gameDate).format('D');
       body.dayNumber = gameDay;
       body.teamName = null;
+      body.gameTime = gameTime;
 
       Helper.myFetch(
         '/api/userMonth/' + ownProps.reduxState.activeMonth + '/predictedWinners',
