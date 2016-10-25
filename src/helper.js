@@ -3,6 +3,22 @@
 // import React from 'react';
 import fetch from 'isomorphic-fetch';
 
+function handleErrors(response) {
+  // if (!response.ok) {
+  //   // response
+  //   //   .json()
+  //   //   .then(x => {console.log('gonna throw: '); throw Error(x.message)});
+  //   throw Error(response);
+  // } else {
+  //   return response;
+  // }
+  if (response.ok) {
+    return response;
+  } else {
+    throw response;
+  }
+}
+
 const api = {
   myFetch: function(url, method, bodyData, successCallback, failureCallback){
     //Create headers with authorization token stored in cookie:
@@ -27,9 +43,16 @@ const api = {
     }
     
     fetch(url,newRequest)
+      // .then(response => response.json())
+      .then(response => handleErrors(response))
       .then(response => response.json())
       .then(response => successCallback(response))
-      .catch(response => failureCallback(response));
+      .catch(response => {
+        response
+          .json()
+          .then(response => {failureCallback(response)})
+          .catch(err => {console.log(err)})
+      });
   },
 
   //takes a date formatted like '2016-11-15' and a time string formatted like '4:30 pm ET';

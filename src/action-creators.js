@@ -48,8 +48,9 @@ const api = {
     }
   ),
 
-  sendPredictionSuccess: () => (
+  sendPredictionSuccess: (response) => (
     {
+      response: response,
       type: 'SEND_PREDICTION_SUCCESS'
     }
   ),

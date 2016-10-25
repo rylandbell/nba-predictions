@@ -7,37 +7,6 @@ import _ from 'lodash';
 
 const teams = ['ATL', 'BKN', 'BOS', 'CHA', 'CHI', 'CLE', 'DAL', 'DEN', 'DET', 'GSW', 'HOU', 'IND', 'LAC', 'LAL', 'MEM', 'MIA', 'MIL', 'MIN', 'NOP', 'NYK', 'OKC', 'ORL', 'PHI', 'PHX', 'POR', 'SAC', 'SAS', 'TOR', 'UTA', 'WAS'];
 
-const showError = (state = false, action) => {
-  switch(action.type){
-    case 'REQUEST_USER_MONTH_FAILURE':
-      return true;
-    case 'REQUEST_GAME_DATA_FAILURE':
-      return true;
-    case 'SEND_PREDICTION_FAILURE':
-      return true;
-    default:
-      return state;
-  }
-};
-
-const message = (state = '', action) => {
-  switch(action.type){
-    case 'REQUEST_USER_MONTH_FAILURE':
-      return 'Invalid month: Unable to find userMonth object.';
-    case 'REQUEST_GAME_DATA_FAILURE':
-      return 'Invalid month: Unable to find gameData object.';
-    case 'SEND_PREDICTION_FAILURE':
-      return 'Latest prediction was not successfully sent.'
-    default:
-      return state;
-  }
-};
-
-const errorMessage = Redux.combineReducers({
-  showError,
-  message
-});
-
 const isFetchingPredictions = (state = false, action) => {
   switch(action.type){
     case 'REQUEST_USER_MONTH_WAITING':
@@ -144,19 +113,21 @@ const predictedWinners = (state = {}, action) => {
   switch(action.type){
     case 'RECEIVE_USER_MONTH':
       return Object.assign({},action.response.userMonth.predictedWinners);
-    case 'ADD_PREDICTION': {
-      const date = moment(action.gameDate).format('D');
-      const team = action.teamName;
-      const update = {};
-      update[date] = Object.assign({}, state[date], {teamName: team});
-      return Object.assign({}, state, update);
-    }
-    case 'REMOVE_PREDICTION': {
-      const date = moment(action.gameDate).format('D');
-      const update = {};
-      update[date] = Object.assign({}, state[date], {teamName: null});
-      return Object.assign({}, state, update);
-    }
+    case 'SEND_PREDICTION_SUCCESS':
+      return Object.assign({}, action.response.predictedWinners);
+    // case 'ADD_PREDICTION': {
+    //   const date = moment(action.gameDate).format('D');
+    //   const team = action.teamName;
+    //   const update = {};
+    //   update[date] = Object.assign({}, state[date], {teamName: team});
+    //   return Object.assign({}, state, update);
+    // }
+    // case 'REMOVE_PREDICTION': {
+    //   const date = moment(action.gameDate).format('D');
+    //   const update = {};
+    //   update[date] = Object.assign({}, state[date], {teamName: null});
+    //   return Object.assign({}, state, update);
+    // }
     default:
       return state;
   }
@@ -179,7 +150,6 @@ const gamesByDay = (state = [], action) => {
 
 const api = {
   app: Redux.combineReducers({
-    errorMessage,
     isFetchingGameData,
     isFetchingPredictions,
     isSendingPrediction,

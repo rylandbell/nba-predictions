@@ -6,6 +6,7 @@ import { Provider } from 'react-redux';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import * as Redux from 'redux';
+import Alert from 'react-s-alert';
 
 import Reducers from './reducers.js';
 import PredictionsPage from './components/predictions-page.jsx';
@@ -20,43 +21,60 @@ render();
 function render() {
   ReactDOM.render(
     <Provider store={store}>
-      <PredictionsPage 
-        reduxState={store.getState()}
-        getUserMonthData = {
-          (month) => {
-            Helper.myFetch(
-              '/api/userMonth/'+month,
-              'GET',
-              {},
-              (response => {
-                store.dispatch(ActionCreator.receiveUserMonth(response));
-              }),
-              (response => {
-                store.dispatch(ActionCreator.requestUserMonthFailure());
-                console.log(store.getState());
-                console.log('Failed to fetch userMonth', response);
-              })
-            );
-            store.dispatch(ActionCreator.requestUserMonthWaiting());
+      <div>
+        <PredictionsPage 
+          reduxState={store.getState()}
+          getUserMonthData = {
+            (month) => {
+              Helper.myFetch(
+                '/api/userMonth/'+month,
+                'GET',
+                {},
+                (response => {
+                  store.dispatch(ActionCreator.receiveUserMonth(response));
+                }),
+                (response => {
+                  store.dispatch(ActionCreator.requestUserMonthFailure());
+                  console.log(store.getState());
+                  console.log('Failed to fetch userMonth', response);
+                })
+              );
+              store.dispatch(ActionCreator.requestUserMonthWaiting());
+            }
           }
-        }
-        getGameData = {
-          (month) => {
-            Helper.myFetch(
-              '/api/dailyGamesData/'+month,
-              'GET',
-              {},
-              (response => {
-                store.dispatch(ActionCreator.receiveGameData(response));
-              }),
-              (response => {
-                store.dispatch(ActionCreator.requestGameDataFailure());
-                console.log('Failed to fetch gameData', response);
-              })
-            );
-            store.dispatch(ActionCreator.requestGameDataWaiting());
+          getGameData = {
+            (month) => {
+              Helper.myFetch(
+                '/api/dailyGamesData/'+month,
+                'GET',
+                {},
+                (response => {
+                  store.dispatch(ActionCreator.receiveGameData(response));
+                }),
+                (response => {
+                  store.dispatch(ActionCreator.requestGameDataFailure());
+                  console.log('Failed to fetch gameData', response);
+                })
+              );
+              store.dispatch(ActionCreator.requestGameDataWaiting());
+            }
           }
-        } />
+          showAlert = {
+            (type, msg, options) => {
+              const defaultOptions = {
+                position: 'top',
+                effect: 'stackslide',
+                beep: false,
+                timeout: 8000,
+                offset: 0
+              };
+              options = Object.assign({}, defaultOptions, options);
+              Alert[type](msg, options);
+            }
+          }
+        />
+        <Alert />
+      </div>
     </Provider>,
     document.getElementById('app-root')
   );

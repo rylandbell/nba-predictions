@@ -48,6 +48,8 @@
 
 	//babel-polyfill will polyfill ES6 features, specifically Promises for fetch
 
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 	__webpack_require__(1);
 
 	var _reactRedux = __webpack_require__(298);
@@ -64,19 +66,23 @@
 
 	var Redux = _interopRequireWildcard(_redux);
 
-	var _reducers = __webpack_require__(497);
+	var _reactSAlert = __webpack_require__(497);
+
+	var _reactSAlert2 = _interopRequireDefault(_reactSAlert);
+
+	var _reducers = __webpack_require__(504);
 
 	var _reducers2 = _interopRequireDefault(_reducers);
 
-	var _predictionsPage = __webpack_require__(500);
+	var _predictionsPage = __webpack_require__(507);
 
 	var _predictionsPage2 = _interopRequireDefault(_predictionsPage);
 
-	var _actionCreators = __webpack_require__(502);
+	var _actionCreators = __webpack_require__(509);
 
 	var _actionCreators2 = _interopRequireDefault(_actionCreators);
 
-	var _helper = __webpack_require__(507);
+	var _helper = __webpack_require__(514);
 
 	var _helper2 = _interopRequireDefault(_helper);
 
@@ -93,27 +99,44 @@
 	  _reactDom2.default.render(_react2.default.createElement(
 	    _reactRedux.Provider,
 	    { store: store },
-	    _react2.default.createElement(_predictionsPage2.default, {
-	      reduxState: store.getState(),
-	      getUserMonthData: function getUserMonthData(month) {
-	        _helper2.default.myFetch('/api/userMonth/' + month, 'GET', {}, function (response) {
-	          store.dispatch(_actionCreators2.default.receiveUserMonth(response));
-	        }, function (response) {
-	          store.dispatch(_actionCreators2.default.requestUserMonthFailure());
-	          console.log(store.getState());
-	          console.log('Failed to fetch userMonth', response);
-	        });
-	        store.dispatch(_actionCreators2.default.requestUserMonthWaiting());
-	      },
-	      getGameData: function getGameData(month) {
-	        _helper2.default.myFetch('/api/dailyGamesData/' + month, 'GET', {}, function (response) {
-	          store.dispatch(_actionCreators2.default.receiveGameData(response));
-	        }, function (response) {
-	          store.dispatch(_actionCreators2.default.requestGameDataFailure());
-	          console.log('Failed to fetch gameData', response);
-	        });
-	        store.dispatch(_actionCreators2.default.requestGameDataWaiting());
-	      } })
+	    _react2.default.createElement(
+	      'div',
+	      null,
+	      _react2.default.createElement(_predictionsPage2.default, {
+	        reduxState: store.getState(),
+	        getUserMonthData: function getUserMonthData(month) {
+	          _helper2.default.myFetch('/api/userMonth/' + month, 'GET', {}, function (response) {
+	            store.dispatch(_actionCreators2.default.receiveUserMonth(response));
+	          }, function (response) {
+	            store.dispatch(_actionCreators2.default.requestUserMonthFailure());
+	            console.log(store.getState());
+	            console.log('Failed to fetch userMonth', response);
+	          });
+	          store.dispatch(_actionCreators2.default.requestUserMonthWaiting());
+	        },
+	        getGameData: function getGameData(month) {
+	          _helper2.default.myFetch('/api/dailyGamesData/' + month, 'GET', {}, function (response) {
+	            store.dispatch(_actionCreators2.default.receiveGameData(response));
+	          }, function (response) {
+	            store.dispatch(_actionCreators2.default.requestGameDataFailure());
+	            console.log('Failed to fetch gameData', response);
+	          });
+	          store.dispatch(_actionCreators2.default.requestGameDataWaiting());
+	        },
+	        showAlert: function showAlert(type, msg, options) {
+	          var defaultOptions = {
+	            position: 'top',
+	            effect: 'stackslide',
+	            beep: false,
+	            timeout: 8000,
+	            offset: 0
+	          };
+	          options = _extends({}, defaultOptions, options);
+	          _reactSAlert2.default[type](msg, options);
+	        }
+	      }),
+	      _react2.default.createElement(_reactSAlert2.default, null)
+	    )
 	  ), document.getElementById('app-root'));
 	}
 
@@ -31219,6 +31242,998 @@
 /* 497 */
 /***/ function(module, exports, __webpack_require__) {
 
+	module.exports = __webpack_require__(498);
+
+/***/ },
+/* 498 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
+	    if (true) {
+	        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports, __webpack_require__(300), __webpack_require__(499), __webpack_require__(501), __webpack_require__(500), __webpack_require__(503)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	    } else if (typeof exports !== "undefined") {
+	        factory(exports, require('react'), require('./SAlertContent'), require('./s-alert-parts/s-alert-store'), require('./s-alert-parts/s-alert-tools'), require('./s-alert-parts/s-alert-data-prep'));
+	    } else {
+	        var mod = {
+	            exports: {}
+	        };
+	        factory(mod.exports, global.react, global.SAlertContent, global.sAlertStore, global.sAlertTools, global.sAlertDataPrep);
+	        global.SAlert = mod.exports;
+	    }
+	})(this, function (exports, _react, _SAlertContent, _sAlertStore, _sAlertTools, _sAlertDataPrep) {
+	    'use strict';
+
+	    Object.defineProperty(exports, "__esModule", {
+	        value: true
+	    });
+
+	    var _react2 = _interopRequireDefault(_react);
+
+	    var _SAlertContent2 = _interopRequireDefault(_SAlertContent);
+
+	    var _sAlertStore2 = _interopRequireDefault(_sAlertStore);
+
+	    var _sAlertTools2 = _interopRequireDefault(_sAlertTools);
+
+	    var _sAlertDataPrep2 = _interopRequireDefault(_sAlertDataPrep);
+
+	    function _interopRequireDefault(obj) {
+	        return obj && obj.__esModule ? obj : {
+	            default: obj
+	        };
+	    }
+
+	    function _classCallCheck(instance, Constructor) {
+	        if (!(instance instanceof Constructor)) {
+	            throw new TypeError("Cannot call a class as a function");
+	        }
+	    }
+
+	    var _createClass = function () {
+	        function defineProperties(target, props) {
+	            for (var i = 0; i < props.length; i++) {
+	                var descriptor = props[i];
+	                descriptor.enumerable = descriptor.enumerable || false;
+	                descriptor.configurable = true;
+	                if ("value" in descriptor) descriptor.writable = true;
+	                Object.defineProperty(target, descriptor.key, descriptor);
+	            }
+	        }
+
+	        return function (Constructor, protoProps, staticProps) {
+	            if (protoProps) defineProperties(Constructor.prototype, protoProps);
+	            if (staticProps) defineProperties(Constructor, staticProps);
+	            return Constructor;
+	        };
+	    }();
+
+	    function _possibleConstructorReturn(self, call) {
+	        if (!self) {
+	            throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+	        }
+
+	        return call && (typeof call === "object" || typeof call === "function") ? call : self;
+	    }
+
+	    function _inherits(subClass, superClass) {
+	        if (typeof superClass !== "function" && superClass !== null) {
+	            throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
+	        }
+
+	        subClass.prototype = Object.create(superClass && superClass.prototype, {
+	            constructor: {
+	                value: subClass,
+	                enumerable: false,
+	                writable: true,
+	                configurable: true
+	            }
+	        });
+	        if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
+	    }
+
+	    var insertFunc = function insertFunc(msg, data, condition) {
+	        var id = _sAlertTools2.default.randomId();
+	        _sAlertStore2.default.dispatch({
+	            type: 'INSERT',
+	            data: Object.assign({}, data, {
+	                id: id,
+	                condition: condition,
+	                message: msg
+	            })
+	        });
+	        return id;
+	    };
+
+	    var SAlert = function (_React$Component) {
+	        _inherits(SAlert, _React$Component);
+
+	        function SAlert(props) {
+	            _classCallCheck(this, SAlert);
+
+	            var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(SAlert).call(this, props));
+
+	            _this.state = {
+	                dataRight: [],
+	                dataLeft: [],
+	                dataTop: [],
+	                dataBottom: []
+	            };
+	            return _this;
+	        }
+
+	        _createClass(SAlert, [{
+	            key: 'componentDidMount',
+	            value: function componentDidMount() {
+	                var _this2 = this;
+
+	                var storeStateLeft = void 0;
+	                var storeStateRight = void 0;
+	                var storeStateTop = void 0;
+	                var storeStateBottom = void 0;
+
+	                var addToStoreRight = function addToStoreRight() {
+	                    var length = void 0;
+	                    storeStateRight = (0, _sAlertDataPrep2.default)('right') || [];
+	                    length = storeStateRight.length;
+	                    if (_this2.props.stack && _this2.props.stack.limit && length > _this2.props.stack.limit) {
+	                        var id = storeStateRight[0].id;
+	                        _sAlertStore2.default.dispatch({ type: 'REMOVE', data: { id: id } });
+	                        storeStateRight = (0, _sAlertDataPrep2.default)('right') || [];
+	                    }
+	                    _this2.setState({ dataRight: storeStateRight });
+	                };
+	                this.unsubStoreRight = _sAlertStore2.default.subscribe(addToStoreRight);
+
+	                var addToStoreLeft = function addToStoreLeft() {
+	                    var length = void 0;
+	                    storeStateLeft = (0, _sAlertDataPrep2.default)('left') || [];
+	                    length = storeStateLeft.length;
+	                    if (_this2.props.stack && _this2.props.stack.limit && length > _this2.props.stack.limit) {
+	                        var id = storeStateLeft[0].id;
+	                        _sAlertStore2.default.dispatch({ type: 'REMOVE', data: { id: id } });
+	                        storeStateLeft = (0, _sAlertDataPrep2.default)('left') || [];
+	                    }
+	                    _this2.setState({ dataLeft: storeStateLeft });
+	                };
+	                this.unsubStoreLeft = _sAlertStore2.default.subscribe(addToStoreLeft);
+
+	                var addToStoreTop = function addToStoreTop() {
+	                    var length = void 0;
+	                    storeStateTop = (0, _sAlertDataPrep2.default)('full-top') || [];
+	                    length = storeStateTop.length;
+	                    if (_this2.props.stack && _this2.props.stack.limit && length > _this2.props.stack.limit) {
+	                        var id = storeStateTop[0].id;
+	                        _sAlertStore2.default.dispatch({ type: 'REMOVE', data: { id: id } });
+	                        storeStateTop = (0, _sAlertDataPrep2.default)('full-top') || [];
+	                    }
+	                    _this2.setState({ dataTop: storeStateTop });
+	                };
+	                this.unsubStoreTop = _sAlertStore2.default.subscribe(addToStoreTop);
+
+	                var addToStoreBottom = function addToStoreBottom() {
+	                    var length = void 0;
+	                    storeStateBottom = (0, _sAlertDataPrep2.default)('full-bottom') || [];
+	                    length = storeStateBottom.length;
+	                    if (_this2.props.stack && _this2.props.stack.limit && length > _this2.props.stack.limit) {
+	                        var id = storeStateBottom[0].id;
+	                        _sAlertStore2.default.dispatch({ type: 'REMOVE', data: { id: id } });
+	                        storeStateBottom = (0, _sAlertDataPrep2.default)('full-bottom') || [];
+	                    }
+	                    _this2.setState({ dataBottom: storeStateBottom });
+	                };
+	                this.unsubStoreBottom = _sAlertStore2.default.subscribe(addToStoreBottom);
+
+	                // set up global config from global SAlert props
+	                // only stuff needed for getAlertData
+	                var globalConfig = {
+	                    contentTemplate: this.props.contentTemplate,
+	                    offset: this.props.offset,
+	                    message: this.props.message,
+	                    stack: this.props.stack,
+	                    html: this.props.html,
+	                    customFields: this.props.customFields,
+	                    position: this.props.position || 'top-right'
+	                };
+	                _sAlertTools2.default.setGlobalConfig(globalConfig);
+	            }
+	        }, {
+	            key: 'componentWillUnmount',
+	            value: function componentWillUnmount() {
+	                this.unsubStoreTop();
+	                this.unsubStoreBottom();
+	                this.unsubStoreLeft();
+	                this.unsubStoreRight();
+	            }
+	        }, {
+	            key: 'render',
+	            value: function render() {
+	                var _this3 = this;
+
+	                var mapFunc = function mapFunc(alert, index) {
+	                    var customKey = 'alert-key-' + alert.id + '-' + alert.position;
+	                    var id = alert.id;
+	                    var condition = _sAlertTools2.default.returnFirstDefined(alert.condition, 'info');
+	                    var message = _sAlertTools2.default.returnFirstDefined(alert.message, _this3.props.message, '');
+	                    var position = _sAlertTools2.default.returnFirstDefined(alert.position, _this3.props.position, 'top-right');
+	                    var offset = _sAlertTools2.default.returnFirstDefined(alert.offset, _this3.props.offset, 0);
+	                    var effect = _sAlertTools2.default.returnFirstDefined(alert.effect, _this3.props.effect);
+	                    var boxPosition = alert.boxPosition;
+	                    var beep = _sAlertTools2.default.returnFirstDefined(alert.beep, _this3.props.beep, false);
+	                    var timeout = _sAlertTools2.default.returnFirstDefined(alert.timeout, _this3.props.timeout, 5000);
+	                    var html = _sAlertTools2.default.returnFirstDefined(alert.html, _this3.props.html);
+	                    var onClose = _sAlertTools2.default.returnFirstDefined(alert.onClose, _this3.props.onClose);
+	                    var onShow = _sAlertTools2.default.returnFirstDefined(alert.onShow, _this3.props.onShow);
+	                    var customFields = _sAlertTools2.default.returnFirstDefined(alert.customFields, _this3.props.customFields);
+	                    var contentTemplate = _this3.props.contentTemplate;
+	                    return _react2.default.createElement(_SAlertContent2.default, {
+	                        key: customKey,
+	                        id: id,
+	                        customFields: customFields,
+	                        condition: condition,
+	                        message: message,
+	                        position: position,
+	                        effect: effect,
+	                        boxPosition: boxPosition,
+	                        beep: beep,
+	                        timeout: timeout,
+	                        html: html,
+	                        onClose: onClose,
+	                        onShow: onShow,
+	                        contentTemplate: contentTemplate });
+	                };
+	                var sAlertElemsRight = this.state.dataRight.map(mapFunc);
+	                var sAlertElemsLeft = this.state.dataLeft.map(mapFunc);
+	                var sAlertElemsTop = this.state.dataTop.map(mapFunc);
+	                var sAlertElemsBottom = this.state.dataBottom.map(mapFunc);
+	                return _react2.default.createElement(
+	                    'div',
+	                    { className: 's-alert-wrapper' },
+	                    sAlertElemsRight,
+	                    sAlertElemsLeft,
+	                    sAlertElemsTop,
+	                    sAlertElemsBottom
+	                );
+	            }
+	        }], [{
+	            key: 'info',
+	            value: function info(msg, data) {
+	                return insertFunc(msg, data, 'info');
+	            }
+	        }, {
+	            key: 'error',
+	            value: function error(msg, data) {
+	                return insertFunc(msg, data, 'error');
+	            }
+	        }, {
+	            key: 'warning',
+	            value: function warning(msg, data) {
+	                return insertFunc(msg, data, 'warning');
+	            }
+	        }, {
+	            key: 'success',
+	            value: function success(msg, data) {
+	                return insertFunc(msg, data, 'success');
+	            }
+	        }, {
+	            key: 'close',
+	            value: function close(id) {
+	                _sAlertStore2.default.dispatch({ type: 'REMOVE', data: { id: id } });
+	            }
+	        }, {
+	            key: 'closeAll',
+	            value: function closeAll() {
+	                _sAlertStore2.default.dispatch({ type: 'REMOVEALL' });
+	            }
+	        }]);
+
+	        return SAlert;
+	    }(_react2.default.Component);
+
+	    SAlert.propTypes = {
+	        message: _react2.default.PropTypes.string,
+	        position: _react2.default.PropTypes.string,
+	        offset: _react2.default.PropTypes.number,
+	        stack: _react2.default.PropTypes.oneOfType([_react2.default.PropTypes.bool, _react2.default.PropTypes.object]),
+	        effect: _react2.default.PropTypes.string,
+	        beep: _react2.default.PropTypes.oneOfType([_react2.default.PropTypes.string, _react2.default.PropTypes.object, _react2.default.PropTypes.bool]),
+	        timeout: _react2.default.PropTypes.oneOfType([_react2.default.PropTypes.oneOf(['none']), _react2.default.PropTypes.number]),
+	        html: _react2.default.PropTypes.bool,
+	        onClose: _react2.default.PropTypes.func,
+	        onShow: _react2.default.PropTypes.func,
+	        customFields: _react2.default.PropTypes.object,
+	        contentTemplate: _react2.default.PropTypes.func
+	    };
+
+	    exports.default = SAlert;
+	});
+
+/***/ },
+/* 499 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
+	    if (true) {
+	        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports, __webpack_require__(300), __webpack_require__(359), __webpack_require__(500), __webpack_require__(501), __webpack_require__(502)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	    } else if (typeof exports !== "undefined") {
+	        factory(exports, require('react'), require('react-dom'), require('./s-alert-parts/s-alert-tools'), require('./s-alert-parts/s-alert-store'), require('./SAlertContentTmpl'));
+	    } else {
+	        var mod = {
+	            exports: {}
+	        };
+	        factory(mod.exports, global.react, global.reactDom, global.sAlertTools, global.sAlertStore, global.SAlertContentTmpl);
+	        global.SAlertContent = mod.exports;
+	    }
+	})(this, function (exports, _react, _reactDom, _sAlertTools, _sAlertStore, _SAlertContentTmpl) {
+	    'use strict';
+
+	    Object.defineProperty(exports, "__esModule", {
+	        value: true
+	    });
+
+	    var _react2 = _interopRequireDefault(_react);
+
+	    var _reactDom2 = _interopRequireDefault(_reactDom);
+
+	    var _sAlertTools2 = _interopRequireDefault(_sAlertTools);
+
+	    var _sAlertStore2 = _interopRequireDefault(_sAlertStore);
+
+	    var _SAlertContentTmpl2 = _interopRequireDefault(_SAlertContentTmpl);
+
+	    function _interopRequireDefault(obj) {
+	        return obj && obj.__esModule ? obj : {
+	            default: obj
+	        };
+	    }
+
+	    var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
+	        return typeof obj;
+	    } : function (obj) {
+	        return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj;
+	    };
+
+	    function _classCallCheck(instance, Constructor) {
+	        if (!(instance instanceof Constructor)) {
+	            throw new TypeError("Cannot call a class as a function");
+	        }
+	    }
+
+	    var _createClass = function () {
+	        function defineProperties(target, props) {
+	            for (var i = 0; i < props.length; i++) {
+	                var descriptor = props[i];
+	                descriptor.enumerable = descriptor.enumerable || false;
+	                descriptor.configurable = true;
+	                if ("value" in descriptor) descriptor.writable = true;
+	                Object.defineProperty(target, descriptor.key, descriptor);
+	            }
+	        }
+
+	        return function (Constructor, protoProps, staticProps) {
+	            if (protoProps) defineProperties(Constructor.prototype, protoProps);
+	            if (staticProps) defineProperties(Constructor, staticProps);
+	            return Constructor;
+	        };
+	    }();
+
+	    function _possibleConstructorReturn(self, call) {
+	        if (!self) {
+	            throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+	        }
+
+	        return call && (typeof call === "object" || typeof call === "function") ? call : self;
+	    }
+
+	    function _inherits(subClass, superClass) {
+	        if (typeof superClass !== "function" && superClass !== null) {
+	            throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
+	        }
+
+	        subClass.prototype = Object.create(superClass && superClass.prototype, {
+	            constructor: {
+	                value: subClass,
+	                enumerable: false,
+	                writable: true,
+	                configurable: true
+	            }
+	        });
+	        if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
+	    }
+
+	    var SAlertContent = function (_React$Component) {
+	        _inherits(SAlertContent, _React$Component);
+
+	        function SAlertContent(props) {
+	            _classCallCheck(this, SAlertContent);
+
+	            return _possibleConstructorReturn(this, Object.getPrototypeOf(SAlertContent).call(this, props));
+	        }
+
+	        _createClass(SAlertContent, [{
+	            key: 'handleCloseAlert',
+	            value: function handleCloseAlert() {
+	                var closingTimeout = void 0;
+	                var alertId = this.props.id;
+	                var currentAlertElem = _reactDom2.default.findDOMNode(this);
+	                var animationClose = function animationClose() {
+	                    currentAlertElem.style.display = 'none';
+	                    _sAlertStore2.default.dispatch({ type: 'REMOVE', data: { id: alertId } });
+	                    clearTimeout(closingTimeout);
+	                };
+	                if (document.hidden || document.webkitHidden || !currentAlertElem.classList.contains('s-alert-is-effect')) {
+	                    _sAlertStore2.default.dispatch({ type: 'REMOVE', data: { id: alertId } });
+	                } else {
+	                    currentAlertElem.classList.remove('s-alert-show');
+	                    closingTimeout = setTimeout(function () {
+	                        currentAlertElem.classList.add('s-alert-hide');
+	                    }, 100);
+	                    currentAlertElem.removeEventListener('webkitAnimationEnd', animationClose, false);
+	                    currentAlertElem.removeEventListener('animationend', animationClose, false);
+	                    currentAlertElem.addEventListener('webkitAnimationEnd', animationClose, false);
+	                    currentAlertElem.addEventListener('animationend', animationClose, false);
+	                }
+	                // stop audio when closing
+	                this.alertAudio && this.alertAudio.load();
+	            }
+	        }, {
+	            key: 'componentWillMount',
+	            value: function componentWillMount() {
+	                var beep = this.props.beep;
+	                var condition = this.props.condition;
+	                if (beep && typeof beep === 'string') {
+	                    this.alertAudio = new Audio(beep);
+	                    this.alertAudio.load();
+	                    this.alertAudio.play();
+	                }
+	                if (beep && (typeof beep === 'undefined' ? 'undefined' : _typeof(beep)) === 'object' && condition === 'info') {
+	                    this.alertAudio = new Audio(beep.info);
+	                    this.alertAudio.load();
+	                    this.alertAudio.play();
+	                }
+	                if (beep && (typeof beep === 'undefined' ? 'undefined' : _typeof(beep)) === 'object' && condition === 'error') {
+	                    this.alertAudio = new Audio(beep.error);
+	                    this.alertAudio.load();
+	                    this.alertAudio.play();
+	                }
+	                if (beep && (typeof beep === 'undefined' ? 'undefined' : _typeof(beep)) === 'object' && condition === 'success') {
+	                    this.alertAudio = new Audio(beep.success);
+	                    this.alertAudio.load();
+	                    this.alertAudio.play();
+	                }
+	                if (beep && (typeof beep === 'undefined' ? 'undefined' : _typeof(beep)) === 'object' && condition === 'warning') {
+	                    this.alertAudio = new Audio(beep.warning);
+	                    this.alertAudio.load();
+	                    this.alertAudio.play();
+	                }
+	            }
+	        }, {
+	            key: 'componentDidMount',
+	            value: function componentDidMount() {
+	                var _this2 = this;
+
+	                if (typeof this.props.timeout === 'number') {
+	                    this.closeTimer = setTimeout(function () {
+	                        _this2.handleCloseAlert();
+	                    }, this.props.timeout);
+	                }
+	                if (this.props.onShow) {
+	                    this.props.onShow();
+	                }
+	            }
+	        }, {
+	            key: 'componentWillUnmount',
+	            value: function componentWillUnmount() {
+	                if (this.closeTimer) {
+	                    clearTimeout(this.closeTimer);
+	                }
+	                if (this.props.onClose) {
+	                    this.props.onClose();
+	                }
+	            }
+	        }, {
+	            key: 'render',
+	            value: function render() {
+	                var classNames = 's-alert-box s-alert-' + this.props.condition + ' s-alert-' + this.props.position + ' ' + (this.props.effect ? 's-alert-is-effect s-alert-effect-' + this.props.effect : '') + ' s-alert-show';
+	                var message = this.props.html ? _react2.default.createElement('span', { dangerouslySetInnerHTML: { __html: this.props.message } }) : this.props.message;
+	                var styles = this.props.boxPosition ? _sAlertTools2.default.styleToObj(this.props.boxPosition) : {};
+	                var id = this.props.id;
+	                var handleClose = this.handleCloseAlert.bind(this);
+	                var contentTemplate = this.props.contentTemplate || _SAlertContentTmpl2.default;
+	                var customFields = this.props.customFields || {};
+
+	                return _react2.default.createElement(contentTemplate, { classNames: classNames, id: id, styles: styles, message: message, handleClose: handleClose, customFields: customFields });
+	            }
+	        }]);
+
+	        return SAlertContent;
+	    }(_react2.default.Component);
+
+	    SAlertContent.propTypes = {
+	        condition: _react2.default.PropTypes.string.isRequired,
+	        message: _react2.default.PropTypes.string.isRequired,
+	        position: _react2.default.PropTypes.string.isRequired,
+	        boxPosition: _react2.default.PropTypes.string,
+	        id: _react2.default.PropTypes.string.isRequired,
+	        effect: _react2.default.PropTypes.string,
+	        beep: _react2.default.PropTypes.oneOfType([_react2.default.PropTypes.string, _react2.default.PropTypes.object, _react2.default.PropTypes.bool]),
+	        timeout: _react2.default.PropTypes.oneOfType([_react2.default.PropTypes.oneOf(['none']), _react2.default.PropTypes.number]),
+	        html: _react2.default.PropTypes.bool,
+	        onClose: _react2.default.PropTypes.func,
+	        onShow: _react2.default.PropTypes.func,
+	        customFields: _react2.default.PropTypes.object,
+	        contentTemplate: _react2.default.PropTypes.func
+	    };
+
+	    exports.default = SAlertContent;
+	});
+
+/***/ },
+/* 500 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
+	    if (true) {
+	        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	    } else if (typeof exports !== "undefined") {
+	        factory(exports);
+	    } else {
+	        var mod = {
+	            exports: {}
+	        };
+	        factory(mod.exports);
+	        global.sAlertTools = mod.exports;
+	    }
+	})(this, function (exports) {
+	    'use strict';
+
+	    Object.defineProperty(exports, "__esModule", {
+	        value: true
+	    });
+
+	    var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
+	        return typeof obj;
+	    } : function (obj) {
+	        return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj;
+	    };
+
+	    var actualGlobalConfig = void 0;
+
+	    var sAlertTools = {
+	        randomId: function randomId() {
+	            return Math.random().toString(36).split('.')[1];
+	        },
+	        returnFirstDefined: function returnFirstDefined() {
+	            var value = void 0;
+	            var i = void 0;
+
+	            for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+	                args[_key] = arguments[_key];
+	            }
+
+	            for (i = 0; i < args.length; i++) {
+	                if (typeof args[i] !== 'undefined') {
+	                    value = args[i];
+	                    break;
+	                }
+	            }
+	            return value;
+	        },
+	        styleToObj: function styleToObj(input) {
+	            var result = {},
+	                i = void 0,
+	                entry = void 0,
+	                attributes = input && input.split(';').filter(Boolean);
+
+	            for (i = 0; i < attributes.length; i++) {
+	                entry = attributes[i].split(':');
+	                result[entry.splice(0, 1)[0].trim()] = entry.join(':').trim();
+	            }
+	            return result;
+	        },
+	        setGlobalConfig: function setGlobalConfig(config) {
+	            if ((typeof config === 'undefined' ? 'undefined' : _typeof(config)) === 'object') {
+	                actualGlobalConfig = config;
+	            }
+	        },
+	        getGlobalConfig: function getGlobalConfig() {
+	            return actualGlobalConfig;
+	        }
+	    };
+
+	    exports.default = sAlertTools;
+	});
+
+/***/ },
+/* 501 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
+	    if (true) {
+	        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	    } else if (typeof exports !== "undefined") {
+	        factory(exports);
+	    } else {
+	        var mod = {
+	            exports: {}
+	        };
+	        factory(mod.exports);
+	        global.sAlertStore = mod.exports;
+	    }
+	})(this, function (exports) {
+	    'use strict';
+
+	    Object.defineProperty(exports, "__esModule", {
+	        value: true
+	    });
+
+	    function _toConsumableArray(arr) {
+	        if (Array.isArray(arr)) {
+	            for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) {
+	                arr2[i] = arr[i];
+	            }
+
+	            return arr2;
+	        } else {
+	            return Array.from(arr);
+	        }
+	    }
+
+	    // custom simple store based on a awesome Redux library https://github.com/rackt/redux
+
+	    var createSAlertStore = function createSAlertStore(reducer) {
+	        var state = void 0;
+	        var listeners = [];
+	        var getState = function getState() {
+	            return state;
+	        };
+	        var dispatch = function dispatch(action) {
+	            state = reducer(state, action);
+	            listeners.forEach(function (listener) {
+	                return listener();
+	            });
+	        };
+	        var subscribe = function subscribe(listener) {
+	            listeners.push(listener);
+	            return function () {
+	                listeners = listeners.filter(function (l) {
+	                    return l !== listener;
+	                });
+	            };
+	        };
+	        dispatch({});
+	        return {
+	            getState: getState, dispatch: dispatch, subscribe: subscribe
+	        };
+	    };
+
+	    var insert = function insert(state, action) {
+	        return [].concat(_toConsumableArray(state), [action.data]);
+	    };
+
+	    var remove = function remove(state, action) {
+	        var elemToRemoveArray = state.slice().filter(function (item) {
+	            return item.id === action.data.id;
+	        });
+	        if (Array.isArray(elemToRemoveArray)) {
+	            var elemToRemoveIndex = state.indexOf(elemToRemoveArray[0]);
+	            return [].concat(_toConsumableArray(state.slice(0, elemToRemoveIndex)), _toConsumableArray(state.slice(elemToRemoveIndex + 1)));
+	        }
+	        return state;
+	    };
+
+	    var alertsReducer = function alertsReducer() {
+	        var state = arguments.length <= 0 || arguments[0] === undefined ? [] : arguments[0];
+	        var action = arguments[1];
+
+	        switch (action.type) {
+	            case 'INSERT':
+	                return insert(state, action);
+	            case 'REMOVE':
+	                return remove(state, action);
+	            case 'REMOVEALL':
+	                return [];
+	            default:
+	                return state;
+	        }
+	    };
+
+	    var sAlertStore = createSAlertStore(alertsReducer);
+
+	    exports.default = sAlertStore;
+	});
+
+/***/ },
+/* 502 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
+	    if (true) {
+	        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports, __webpack_require__(300)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	    } else if (typeof exports !== "undefined") {
+	        factory(exports, require('react'));
+	    } else {
+	        var mod = {
+	            exports: {}
+	        };
+	        factory(mod.exports, global.react);
+	        global.SAlertContentTmpl = mod.exports;
+	    }
+	})(this, function (exports, _react) {
+	    'use strict';
+
+	    Object.defineProperty(exports, "__esModule", {
+	        value: true
+	    });
+
+	    var _react2 = _interopRequireDefault(_react);
+
+	    function _interopRequireDefault(obj) {
+	        return obj && obj.__esModule ? obj : {
+	            default: obj
+	        };
+	    }
+
+	    function _classCallCheck(instance, Constructor) {
+	        if (!(instance instanceof Constructor)) {
+	            throw new TypeError("Cannot call a class as a function");
+	        }
+	    }
+
+	    var _createClass = function () {
+	        function defineProperties(target, props) {
+	            for (var i = 0; i < props.length; i++) {
+	                var descriptor = props[i];
+	                descriptor.enumerable = descriptor.enumerable || false;
+	                descriptor.configurable = true;
+	                if ("value" in descriptor) descriptor.writable = true;
+	                Object.defineProperty(target, descriptor.key, descriptor);
+	            }
+	        }
+
+	        return function (Constructor, protoProps, staticProps) {
+	            if (protoProps) defineProperties(Constructor.prototype, protoProps);
+	            if (staticProps) defineProperties(Constructor, staticProps);
+	            return Constructor;
+	        };
+	    }();
+
+	    function _possibleConstructorReturn(self, call) {
+	        if (!self) {
+	            throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+	        }
+
+	        return call && (typeof call === "object" || typeof call === "function") ? call : self;
+	    }
+
+	    function _inherits(subClass, superClass) {
+	        if (typeof superClass !== "function" && superClass !== null) {
+	            throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
+	        }
+
+	        subClass.prototype = Object.create(superClass && superClass.prototype, {
+	            constructor: {
+	                value: subClass,
+	                enumerable: false,
+	                writable: true,
+	                configurable: true
+	            }
+	        });
+	        if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
+	    }
+
+	    var SAlertContentTmpl = function (_React$Component) {
+	        _inherits(SAlertContentTmpl, _React$Component);
+
+	        function SAlertContentTmpl(props) {
+	            _classCallCheck(this, SAlertContentTmpl);
+
+	            return _possibleConstructorReturn(this, Object.getPrototypeOf(SAlertContentTmpl).call(this, props));
+	        }
+
+	        _createClass(SAlertContentTmpl, [{
+	            key: 'render',
+	            value: function render() {
+	                return _react2.default.createElement(
+	                    'div',
+	                    { className: this.props.classNames, id: this.props.id, style: this.props.styles },
+	                    _react2.default.createElement(
+	                        'div',
+	                        { className: 's-alert-box-inner' },
+	                        this.props.message
+	                    ),
+	                    _react2.default.createElement('span', { className: 's-alert-close', onClick: this.props.handleClose })
+	                );
+	            }
+	        }]);
+
+	        return SAlertContentTmpl;
+	    }(_react2.default.Component);
+
+	    SAlertContentTmpl.propTypes = {
+	        id: _react2.default.PropTypes.string.isRequired,
+	        classNames: _react2.default.PropTypes.string.isRequired,
+	        styles: _react2.default.PropTypes.object.isRequired,
+	        message: _react2.default.PropTypes.oneOfType([_react2.default.PropTypes.string, _react2.default.PropTypes.object]).isRequired,
+	        handleClose: _react2.default.PropTypes.func.isRequired,
+	        customFields: _react2.default.PropTypes.object
+	    };
+
+	    exports.default = SAlertContentTmpl;
+	});
+
+/***/ },
+/* 503 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
+	    if (true) {
+	        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports, __webpack_require__(300), __webpack_require__(359), __webpack_require__(499), __webpack_require__(501), __webpack_require__(500)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	    } else if (typeof exports !== "undefined") {
+	        factory(exports, require('react'), require('react-dom'), require('../SAlertContent'), require('./s-alert-store'), require('./s-alert-tools'));
+	    } else {
+	        var mod = {
+	            exports: {}
+	        };
+	        factory(mod.exports, global.react, global.reactDom, global.SAlertContent, global.sAlertStore, global.sAlertTools);
+	        global.sAlertDataPrep = mod.exports;
+	    }
+	})(this, function (exports, _react, _reactDom, _SAlertContent, _sAlertStore, _sAlertTools) {
+	    'use strict';
+
+	    Object.defineProperty(exports, "__esModule", {
+	        value: true
+	    });
+
+	    var _react2 = _interopRequireDefault(_react);
+
+	    var _reactDom2 = _interopRequireDefault(_reactDom);
+
+	    var _SAlertContent2 = _interopRequireDefault(_SAlertContent);
+
+	    var _sAlertStore2 = _interopRequireDefault(_sAlertStore);
+
+	    var _sAlertTools2 = _interopRequireDefault(_sAlertTools);
+
+	    function _interopRequireDefault(obj) {
+	        return obj && obj.__esModule ? obj : {
+	            default: obj
+	        };
+	    }
+
+	    var getAlertData = function getAlertData(sAlertPosition) {
+	        var positionTop = 0;
+	        var positionBottom = 0;
+	        var padding = 0;
+	        var alerts = {};
+	        var style = void 0;
+	        var docElement = void 0;
+	        var sAlertBoxHeight = void 0;
+	        var positionTypeTop = void 0;
+	        var positionTypeBottom = void 0;
+	        var checkFirst = function checkFirst(type, objId) {
+	            var collectionOfType = sAlertCollection.filter(function (obj) {
+	                return obj.position === type || sAlertGlobalConfig.position === type;
+	            });
+	            return collectionOfType && collectionOfType[0].id === objId;
+	        };
+	        var positionFunc = function positionFunc(position, positionType, alert, docElement, sAlertBoxHeight, reactComponent) {
+	            padding = aStack.spacing || parseInt(getComputedStyle(_reactDom2.default.findDOMNode(reactComponent))[positionType]);
+	            if (checkFirst(aPosition, alert.id) && aOffset) {
+	                position = 0;
+	                position = position + parseInt(aOffset);
+	            }
+	            if (checkFirst(aPosition, alert.id) && aStack.spacing) {
+	                position = position;
+	            } else {
+	                position = position + parseInt(padding);
+	            }
+	            style = positionType + ': ' + position + 'px;';
+	            position = position + sAlertBoxHeight;
+	            return position;
+	        };
+
+	        var sAlertGlobalConfig = _sAlertTools2.default.getGlobalConfig();
+	        var aStack = void 0;
+	        var aContentTemplate = void 0;
+	        var aOffset = void 0;
+	        var aMessage = void 0;
+	        var aHtml = void 0;
+	        var aCustomFields = void 0;
+	        var aPosition = void 0;
+
+	        var query = {};
+	        if (sAlertPosition === 'left') {
+	            query = function query(item) {
+	                return item.position === 'top-left' || item.position === 'bottom-left' || !item.position && (sAlertGlobalConfig.position === 'top-left' || sAlertGlobalConfig.position === 'bottom-left');
+	            };
+	        }
+	        if (sAlertPosition === 'right') {
+	            query = function query(item) {
+	                return item.position === 'top-right' || item.position === 'bottom-right' || !item.position && (sAlertGlobalConfig.position === 'top-right' || sAlertGlobalConfig.position === 'bottom-right');
+	            };
+	        }
+	        if (sAlertPosition === 'full-top') {
+	            query = function query(item) {
+	                return item.position === 'top' || !item.position && sAlertGlobalConfig.position === 'top';
+	            };
+	        }
+	        if (sAlertPosition === 'full-bottom') {
+	            query = function query(item) {
+	                return item.position === 'bottom' || !item.position && sAlertGlobalConfig.position === 'bottom';
+	            };
+	        }
+
+	        var currentState = _sAlertStore2.default.getState();
+	        var sAlertCollection = currentState.slice().filter(query);
+
+	        return sAlertCollection.map(function (alert) {
+	            aStack = sAlertGlobalConfig.stack;
+	            aContentTemplate = sAlertGlobalConfig.contentTemplate;
+	            aOffset = _sAlertTools2.default.returnFirstDefined(alert.offset, sAlertGlobalConfig.offset);
+	            aMessage = _sAlertTools2.default.returnFirstDefined(alert.message, sAlertGlobalConfig.message);
+	            aHtml = _sAlertTools2.default.returnFirstDefined(alert.html, sAlertGlobalConfig.html);
+	            aCustomFields = _sAlertTools2.default.returnFirstDefined(alert.customFields, sAlertGlobalConfig.customFields);
+	            aPosition = _sAlertTools2.default.returnFirstDefined(alert.position, sAlertGlobalConfig.position);
+	            positionTypeTop = aPosition && /top/g.test(aPosition);
+	            positionTypeBottom = aPosition && /bottom/g.test(aPosition);
+	            if (aStack) {
+	                // checking alert box height - needed to calculate position
+	                docElement = document.createElement('div');
+	                docElement.classList.add('s-alert-box-height');
+
+	                // mock element, needed for positions calculations
+	                var reactElement = _react2.default.createElement(_SAlertContent2.default, {
+	                    key: _sAlertTools2.default.randomId(),
+	                    id: _sAlertTools2.default.randomId(),
+	                    condition: alert.condition,
+	                    message: aMessage,
+	                    position: aPosition,
+	                    effect: alert.effect,
+	                    boxPosition: alert.boxPosition,
+	                    beep: false,
+	                    timeout: 'none',
+	                    html: aHtml,
+	                    contentTemplate: aContentTemplate,
+	                    customFields: aCustomFields
+	                });
+	                var reactComponent = _reactDom2.default.render(reactElement, docElement);
+
+	                document.body.appendChild(docElement);
+	                sAlertBoxHeight = parseInt(getComputedStyle(_reactDom2.default.findDOMNode(reactComponent))['height']);
+	                if (positionTypeTop) {
+	                    positionTop = positionFunc(positionTop, 'top', alert, docElement, sAlertBoxHeight, reactComponent);
+	                }
+	                if (positionTypeBottom) {
+	                    positionBottom = positionFunc(positionBottom, 'bottom', alert, docElement, sAlertBoxHeight, reactComponent);
+	                }
+	                var sAlertComputedStyle = getComputedStyle(_reactDom2.default.findDOMNode(reactComponent));
+	                if (sAlertPosition === 'left') {
+	                    style = style + 'left: ' + (aStack.spacing || parseInt(sAlertComputedStyle.left)) + 'px;';
+	                }
+	                if (sAlertPosition === 'right') {
+	                    style = style + 'right: ' + (aStack.spacing || parseInt(sAlertComputedStyle.right)) + 'px;';
+	                }
+	                alerts = Object.assign({}, alert, { boxPosition: style });
+	                _reactDom2.default.unmountComponentAtNode(docElement);
+	                docElement.parentNode.removeChild(docElement);
+	            } else if (aOffset && positionTypeTop) {
+	                alerts = Object.assign({}, alert, { boxPosition: 'top: ' + parseInt(aOffset) + 'px;' });
+	            } else if (aOffset && positionTypeBottom) {
+	                alerts = Object.assign({}, alert, { boxPosition: 'bottom: ' + parseInt(aOffset) + 'px;' });
+	            } else {
+	                alerts = alert;
+	            }
+	            return alerts;
+	        });
+	    };
+
+	    exports.default = getAlertData;
+	});
+
+/***/ },
+/* 504 */
+/***/ function(module, exports, __webpack_require__) {
+
 	// (State shape at bottom of file)
 
 	'use strict';
@@ -31229,7 +32244,7 @@
 
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-	var _lodash = __webpack_require__(498);
+	var _lodash = __webpack_require__(505);
 
 	var _lodash2 = _interopRequireDefault(_lodash);
 
@@ -31239,43 +32254,6 @@
 
 
 	var teams = ['ATL', 'BKN', 'BOS', 'CHA', 'CHI', 'CLE', 'DAL', 'DEN', 'DET', 'GSW', 'HOU', 'IND', 'LAC', 'LAL', 'MEM', 'MIA', 'MIL', 'MIN', 'NOP', 'NYK', 'OKC', 'ORL', 'PHI', 'PHX', 'POR', 'SAC', 'SAS', 'TOR', 'UTA', 'WAS'];
-
-	var showError = function showError() {
-	  var state = arguments.length <= 0 || arguments[0] === undefined ? false : arguments[0];
-	  var action = arguments[1];
-
-	  switch (action.type) {
-	    case 'REQUEST_USER_MONTH_FAILURE':
-	      return true;
-	    case 'REQUEST_GAME_DATA_FAILURE':
-	      return true;
-	    case 'SEND_PREDICTION_FAILURE':
-	      return true;
-	    default:
-	      return state;
-	  }
-	};
-
-	var message = function message() {
-	  var state = arguments.length <= 0 || arguments[0] === undefined ? '' : arguments[0];
-	  var action = arguments[1];
-
-	  switch (action.type) {
-	    case 'REQUEST_USER_MONTH_FAILURE':
-	      return 'Invalid month: Unable to find userMonth object.';
-	    case 'REQUEST_GAME_DATA_FAILURE':
-	      return 'Invalid month: Unable to find gameData object.';
-	    case 'SEND_PREDICTION_FAILURE':
-	      return 'Latest prediction was not successfully sent.';
-	    default:
-	      return state;
-	  }
-	};
-
-	var errorMessage = Redux.combineReducers({
-	  showError: showError,
-	  message: message
-	});
 
 	var isFetchingPredictions = function isFetchingPredictions() {
 	  var state = arguments.length <= 0 || arguments[0] === undefined ? false : arguments[0];
@@ -31409,21 +32387,21 @@
 	  switch (action.type) {
 	    case 'RECEIVE_USER_MONTH':
 	      return _extends({}, action.response.userMonth.predictedWinners);
-	    case 'ADD_PREDICTION':
-	      {
-	        var date = moment(action.gameDate).format('D');
-	        var team = action.teamName;
-	        var update = {};
-	        update[date] = _extends({}, state[date], { teamName: team });
-	        return _extends({}, state, update);
-	      }
-	    case 'REMOVE_PREDICTION':
-	      {
-	        var _date = moment(action.gameDate).format('D');
-	        var _update = {};
-	        _update[_date] = _extends({}, state[_date], { teamName: null });
-	        return _extends({}, state, _update);
-	      }
+	    case 'SEND_PREDICTION_SUCCESS':
+	      return _extends({}, action.response.predictedWinners);
+	    // case 'ADD_PREDICTION': {
+	    //   const date = moment(action.gameDate).format('D');
+	    //   const team = action.teamName;
+	    //   const update = {};
+	    //   update[date] = Object.assign({}, state[date], {teamName: team});
+	    //   return Object.assign({}, state, update);
+	    // }
+	    // case 'REMOVE_PREDICTION': {
+	    //   const date = moment(action.gameDate).format('D');
+	    //   const update = {};
+	    //   update[date] = Object.assign({}, state[date], {teamName: null});
+	    //   return Object.assign({}, state, update);
+	    // }
 	    default:
 	      return state;
 	  }
@@ -31451,7 +32429,6 @@
 
 	var api = {
 	  app: Redux.combineReducers({
-	    errorMessage: errorMessage,
 	    isFetchingGameData: isFetchingGameData,
 	    isFetchingPredictions: isFetchingPredictions,
 	    isSendingPrediction: isSendingPrediction,
@@ -31485,7 +32462,7 @@
 	// }
 
 /***/ },
-/* 498 */
+/* 505 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(global, module) {/**
@@ -48222,10 +49199,10 @@
 	  }
 	}.call(this));
 
-	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(499)(module)))
+	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(506)(module)))
 
 /***/ },
-/* 499 */
+/* 506 */
 /***/ function(module, exports) {
 
 	module.exports = function(module) {
@@ -48241,7 +49218,7 @@
 
 
 /***/ },
-/* 500 */
+/* 507 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -48254,23 +49231,19 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactSAlert = __webpack_require__(525);
-
-	var _reactSAlert2 = _interopRequireDefault(_reactSAlert);
-
-	var _gamesViewerContainer = __webpack_require__(501);
+	var _gamesViewerContainer = __webpack_require__(508);
 
 	var _gamesViewerContainer2 = _interopRequireDefault(_gamesViewerContainer);
 
-	var _predictionsSummaryContainer = __webpack_require__(521);
+	var _predictionsSummaryContainer = __webpack_require__(517);
 
 	var _predictionsSummaryContainer2 = _interopRequireDefault(_predictionsSummaryContainer);
 
-	var _statusMessage = __webpack_require__(524);
+	var _statusMessage = __webpack_require__(520);
 
 	var _statusMessage2 = _interopRequireDefault(_statusMessage);
 
-	var _alertTest = __webpack_require__(534);
+	var _alertTest = __webpack_require__(521);
 
 	var _alertTest2 = _interopRequireDefault(_alertTest);
 
@@ -48285,14 +49258,12 @@
 	  },
 	  render: function render() {
 	    var isLoading = this.props.reduxState.isFetchingPredictions || this.props.reduxState.isFetchingGameData;
-	    var isError = this.props.reduxState.errorMessage.showError;
-	    return isLoading || isError ? _react2.default.createElement(_statusMessage2.default, { messageBold: 'Loading game data...', messageBody: 'Just hang tight.', messageClass: 'info' }) : _react2.default.createElement(
+	    return isLoading ? _react2.default.createElement(_statusMessage2.default, { messageBold: 'Loading game data...', messageBody: 'Just hang tight.', messageClass: 'info' }) : _react2.default.createElement(
 	      'div',
 	      { className: 'row ' + (this.props.reduxState.isSendingPrediction ? 'send-waiting' : '') },
 	      _react2.default.createElement(_gamesViewerContainer2.default, { reduxState: this.props.reduxState }),
 	      _react2.default.createElement(_predictionsSummaryContainer2.default, { reduxState: this.props.reduxState }),
-	      _react2.default.createElement(_reactSAlert2.default, null),
-	      _react2.default.createElement(_alertTest2.default, null)
+	      _react2.default.createElement(_alertTest2.default, { showAlert: this.props.showAlert })
 	    );
 	  }
 	});
@@ -48300,7 +49271,7 @@
 	exports.default = api;
 
 /***/ },
-/* 501 */
+/* 508 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -48311,15 +49282,19 @@
 
 	var _reactRedux = __webpack_require__(298);
 
-	var _actionCreators = __webpack_require__(502);
+	var _reactSAlert = __webpack_require__(497);
+
+	var _reactSAlert2 = _interopRequireDefault(_reactSAlert);
+
+	var _actionCreators = __webpack_require__(509);
 
 	var _actionCreators2 = _interopRequireDefault(_actionCreators);
 
-	var _gamesViewer = __webpack_require__(503);
+	var _gamesViewer = __webpack_require__(510);
 
 	var _gamesViewer2 = _interopRequireDefault(_gamesViewer);
 
-	var _helper = __webpack_require__(507);
+	var _helper = __webpack_require__(514);
 
 	var _helper2 = _interopRequireDefault(_helper);
 
@@ -48357,7 +49332,13 @@
 	        dispatch(_actionCreators2.default.sendPredictionSuccess(response));
 	      }, function (response) {
 	        dispatch(_actionCreators2.default.sendPredictionFailure());
-	        console.log('Failed to post new prediction', response);
+	        _reactSAlert2.default.warning('Error: ' + response.message, {
+	          position: 'bottom',
+	          effect: 'stackslide',
+	          beep: false,
+	          timeout: 8000,
+	          offset: 0
+	        });
 	      });
 	      dispatch(_actionCreators2.default.sendPredictionWaiting());
 	    },
@@ -48376,7 +49357,13 @@
 	        dispatch(_actionCreators2.default.sendPredictionSuccess(response));
 	      }, function (response) {
 	        dispatch(_actionCreators2.default.sendPredictionFailure());
-	        console.log('Failed to post new prediction', response);
+	        _reactSAlert2.default.warning('Error: ' + response.message, {
+	          position: 'bottom',
+	          effect: 'stackslide',
+	          beep: false,
+	          timeout: 8000,
+	          offset: 0
+	        });
 	      });
 	      dispatch(_actionCreators2.default.sendPredictionWaiting());
 	    },
@@ -48394,7 +49381,7 @@
 	exports.default = api;
 
 /***/ },
-/* 502 */
+/* 509 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -48450,8 +49437,9 @@
 	    };
 	  },
 
-	  sendPredictionSuccess: function sendPredictionSuccess() {
+	  sendPredictionSuccess: function sendPredictionSuccess(response) {
 	    return {
+	      response: response,
 	      type: 'SEND_PREDICTION_SUCCESS'
 	    };
 	  },
@@ -48509,7 +49497,7 @@
 	exports.default = api;
 
 /***/ },
-/* 503 */
+/* 510 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -48522,11 +49510,11 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _singleDayGameList = __webpack_require__(504);
+	var _singleDayGameList = __webpack_require__(511);
 
 	var _singleDayGameList2 = _interopRequireDefault(_singleDayGameList);
 
-	var _dayPicker = __webpack_require__(520);
+	var _dayPicker = __webpack_require__(516);
 
 	var _dayPicker2 = _interopRequireDefault(_dayPicker);
 
@@ -48553,7 +49541,7 @@
 	exports.default = api;
 
 /***/ },
-/* 504 */
+/* 511 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -48566,7 +49554,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _singleGame = __webpack_require__(505);
+	var _singleGame = __webpack_require__(512);
 
 	var _singleGame2 = _interopRequireDefault(_singleGame);
 
@@ -48600,7 +49588,7 @@
 	exports.default = api;
 
 /***/ },
-/* 505 */
+/* 512 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -48613,11 +49601,11 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _gameTeam = __webpack_require__(506);
+	var _gameTeam = __webpack_require__(513);
 
 	var _gameTeam2 = _interopRequireDefault(_gameTeam);
 
-	var _gameStatus = __webpack_require__(510);
+	var _gameStatus = __webpack_require__(515);
 
 	var _gameStatus2 = _interopRequireDefault(_gameStatus);
 
@@ -48656,7 +49644,7 @@
 	exports.default = api;
 
 /***/ },
-/* 506 */
+/* 513 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -48669,11 +49657,11 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _lodash = __webpack_require__(498);
+	var _lodash = __webpack_require__(505);
 
 	var _lodash2 = _interopRequireDefault(_lodash);
 
-	var _helper = __webpack_require__(507);
+	var _helper = __webpack_require__(514);
 
 	var _helper2 = _interopRequireDefault(_helper);
 
@@ -48730,7 +49718,7 @@
 	exports.default = api;
 
 /***/ },
-/* 507 */
+/* 514 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -48741,11 +49729,27 @@
 	  value: true
 	});
 
-	var _isomorphicFetch = __webpack_require__(508);
+	var _isomorphicFetch = __webpack_require__(522);
 
 	var _isomorphicFetch2 = _interopRequireDefault(_isomorphicFetch);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function handleErrors(response) {
+	  // if (!response.ok) {
+	  //   // response
+	  //   //   .json()
+	  //   //   .then(x => {console.log('gonna throw: '); throw Error(x.message)});
+	  //   throw Error(response);
+	  // } else {
+	  //   return response;
+	  // }
+	  if (response.ok) {
+	    return response;
+	  } else {
+	    throw response;
+	  }
+	}
 
 	var api = {
 	  myFetch: function myFetch(url, method, bodyData, successCallback, failureCallback) {
@@ -48770,12 +49774,20 @@
 	      newRequest.headers.append('Content-Type', 'application/json');
 	    }
 
-	    (0, _isomorphicFetch2.default)(url, newRequest).then(function (response) {
+	    (0, _isomorphicFetch2.default)(url, newRequest)
+	    // .then(response => response.json())
+	    .then(function (response) {
+	      return handleErrors(response);
+	    }).then(function (response) {
 	      return response.json();
 	    }).then(function (response) {
 	      return successCallback(response);
 	    }).catch(function (response) {
-	      return failureCallback(response);
+	      response.json().then(function (response) {
+	        failureCallback(response);
+	      }).catch(function (err) {
+	        console.log(err);
+	      });
 	    });
 	  },
 
@@ -48783,22 +49795,473 @@
 	  getDateTime: function getDateTime(dateString, timeString) {
 	    return moment(dateString + ' ' + timeString, 'YYYY-MM-DD h:mm a').format();
 	  }
-	};exports.default = api;
+	};
+
+	exports.default = api;
 
 /***/ },
-/* 508 */
+/* 515 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(300);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var api = function api(_ref) {
+	  var statusData = _ref.statusData;
+	  var roadTeam = _ref.roadTeam;
+	  var homeTeam = _ref.homeTeam;
+	  var predictedWinner = _ref.predictedWinner;
+
+	  var scoreString;
+	  var progressString;
+	  var outcomeString = '';
+	  var outcomeClass = '';
+
+	  //set scoreString to game score or start time
+	  if (statusData.hasStarted) {
+	    scoreString = statusData.roadScore + ' - ' + statusData.homeScore;
+	  } else {
+	    scoreString = statusData.startTime;
+	  }
+
+	  // set progressString to Final or In Progress (maybe eventually better precision than In Progress)
+	  if (statusData.hasStarted) {
+	    if (statusData.isFinal) {
+	      progressString = 'Final';
+	    } else {
+	      progressString = 'In Progress';
+	    }
+	  }
+
+	  // set outcomeString to display "success" or "failure" appropriately
+	  if (predictedWinner.teamName === homeTeam || predictedWinner.teamName === roadTeam) {
+	    if (predictedWinner.outcome === 'success') {
+	      outcomeString = 'W';
+	      outcomeClass = 'text-success';
+	    } else if (predictedWinner.outcome === 'failure') {
+	      outcomeString = 'L';
+	      outcomeClass = 'text-danger';
+	    }
+	  }
+
+	  return _react2.default.createElement(
+	    'div',
+	    { className: 'game-item game-status' },
+	    _react2.default.createElement(
+	      'h5',
+	      { className: 'game-status-score' },
+	      scoreString
+	    ),
+	    _react2.default.createElement(
+	      'small',
+	      { className: 'game-status-progress' },
+	      progressString
+	    ),
+	    _react2.default.createElement(
+	      'h3',
+	      { className: "game-status-outcome " + outcomeClass },
+	      outcomeString
+	    )
+	  );
+	};
+
+	exports.default = api;
+
+/***/ },
+/* 516 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(300);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var api = function api(_ref) {
+	  var visibleDate = _ref.visibleDate;
+	  var dayForward = _ref.dayForward;
+	  var dayBack = _ref.dayBack;
+	  return _react2.default.createElement(
+	    'div',
+	    { className: 'row' },
+	    _react2.default.createElement(
+	      'div',
+	      { className: 'day-picker-container' },
+	      _react2.default.createElement('span', { onClick: dayBack, className: 'day-picker-item glyphicon glyphicon-menu-left' }),
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'day-picker-item date-display' },
+	        _react2.default.createElement(
+	          'h3',
+	          null,
+	          moment(visibleDate).format('dddd, MMM D')
+	        )
+	      ),
+	      _react2.default.createElement('span', { onClick: dayForward, className: 'day-picker-item glyphicon glyphicon-menu-right' })
+	    )
+	  );
+	};
+
+	exports.default = api;
+
+/***/ },
+/* 517 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _reactRedux = __webpack_require__(298);
+
+	var _actionCreators = __webpack_require__(509);
+
+	var _actionCreators2 = _interopRequireDefault(_actionCreators);
+
+	var _predictionsSummary = __webpack_require__(518);
+
+	var _predictionsSummary2 = _interopRequireDefault(_predictionsSummary);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var mapStateToProps = function mapStateToProps(state) {
+	  return {
+	    predictedWinners: state.userMonth.predictedWinners,
+	    visibleDate: state.visibleDate,
+	    activeMonth: state.activeMonth
+	  };
+	};
+
+	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+	  return {
+	    goToDate: function goToDate(date) {
+	      dispatch(_actionCreators2.default.goToDate(date));
+	    }
+	  };
+	};
+
+	var api = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_predictionsSummary2.default);
+
+	exports.default = api;
+
+/***/ },
+/* 518 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(300);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _predictionsSummaryRow = __webpack_require__(519);
+
+	var _predictionsSummaryRow2 = _interopRequireDefault(_predictionsSummaryRow);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var api = function api(_ref) {
+	  var predictedWinners = _ref.predictedWinners;
+	  var visibleDate = _ref.visibleDate;
+	  var activeMonth = _ref.activeMonth;
+	  var goToDate = _ref.goToDate;
+
+	  var daysInMonth = moment(activeMonth).daysInMonth();
+
+	  var rows = [];
+	  for (var i = 1; i <= daysInMonth; i++) {
+	    rows.push(_react2.default.createElement(_predictionsSummaryRow2.default, { userPrediction: predictedWinners[i], visibleDate: visibleDate, activeMonth: activeMonth, goToDate: goToDate, dayOfMonth: i, key: i }));
+	  }
+
+	  return _react2.default.createElement(
+	    'div',
+	    { className: 'col-xs-12 col-sm-3 col-md-2 col-sm-offset-1 col-md-offset-1' },
+	    _react2.default.createElement(
+	      'div',
+	      { className: 'text-center lead' },
+	      'Predictions Summary'
+	    ),
+	    _react2.default.createElement(
+	      'table',
+	      { className: 'table table-condensed table-hover predictions-summary' },
+	      _react2.default.createElement(
+	        'tbody',
+	        null,
+	        rows
+	      )
+	    )
+	  );
+	};
+
+	exports.default = api;
+
+	// {eligibleTeams.map((team, index) => <PredictionsSummaryRow predictedWinners={predictedWinners} date={index} key={index}/>)}
+
+/***/ },
+/* 519 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(300);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var api = _react2.default.createClass({
+	  displayName: 'api',
+
+	  handleClick: function handleClick() {
+	    this.props.goToDate(moment(this.props.activeMonth).add(this.props.dayOfMonth - 1, 'days').format('YYYY-MM-DD'));
+	  },
+	  render: function render() {
+	    var isActive = this.props.dayOfMonth == moment(this.props.visibleDate).format('D') ? 'active' : '';
+	    var outcomeString = '';
+	    var outcomeClass = '';
+
+	    if (this.props.userPrediction) {
+	      if (this.props.userPrediction.outcome === 'success') {
+	        outcomeString = 'W';
+	        outcomeClass = 'text-success';
+	      } else if (this.props.userPrediction.outcome === 'failure') {
+	        outcomeString = 'L';
+	        outcomeClass = 'text-danger';
+	      }
+	    }
+
+	    if (this.props.userPrediction) {
+	      return _react2.default.createElement(
+	        'tr',
+	        { onClick: this.handleClick, className: isActive },
+	        _react2.default.createElement(
+	          'td',
+	          { className: 'date-col' },
+	          this.props.activeMonth.substring(5, 7) + '/' + this.props.dayOfMonth
+	        ),
+	        _react2.default.createElement(
+	          'td',
+	          { className: 'team-col' },
+	          this.props.userPrediction.teamName ? this.props.userPrediction.teamName : '-'
+	        ),
+	        _react2.default.createElement(
+	          'td',
+	          { className: "outcome-col " + outcomeClass },
+	          outcomeString
+	        )
+	      );
+	    } else {
+	      return null;
+	    }
+	  }
+
+	});
+
+	exports.default = api;
+
+/***/ },
+/* 520 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(300);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var api = function api(_ref) {
+	  var messageBold = _ref.messageBold;
+	  var messageBody = _ref.messageBody;
+	  var messageClass = _ref.messageClass;
+
+
+	  return _react2.default.createElement(
+	    'div',
+	    { className: 'status-message alert alert-' + messageClass },
+	    _react2.default.createElement(
+	      'strong',
+	      null,
+	      messageBold
+	    ),
+	    '\t' + messageBody
+	  );
+	};
+
+	exports.default = api;
+
+/***/ },
+/* 521 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(300);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactSAlert = __webpack_require__(497);
+
+	var _reactSAlert2 = _interopRequireDefault(_reactSAlert);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } //http://react-s-alert.jsdemo.be/
+
+	var Home = function (_React$Component) {
+	  _inherits(Home, _React$Component);
+
+	  function Home() {
+	    _classCallCheck(this, Home);
+
+	    return _possibleConstructorReturn(this, (Home.__proto__ || Object.getPrototypeOf(Home)).apply(this, arguments));
+	  }
+
+	  _createClass(Home, [{
+	    key: 'handleClick',
+	    value: function handleClick(e) {
+	      e.preventDefault();
+	      console.log(this);
+	      this.props.showAlert('info', 'hey there', {});
+	    }
+	  }, {
+	    key: 'handleClick1',
+	    value: function handleClick1(e) {
+	      e.preventDefault();
+	      _reactSAlert2.default.error('Whoops, that game has already started! Predictions can only be submitted for games before they begin.', {
+	        position: 'bottom',
+	        effect: 'stackslide',
+	        onShow: function onShow() {
+	          console.log('aye!');
+	        },
+	        beep: true,
+	        timeout: 8000,
+	        offset: 0
+	      });
+	    }
+	  }, {
+	    key: 'handleClick2',
+	    value: function handleClick2(e) {
+	      e.preventDefault();
+	      _reactSAlert2.default.info('Loading game data...just sit tight.', {
+	        position: 'top-left',
+	        effect: 'slide',
+	        timeout: 'none',
+	        offset: 50
+	      });
+	    }
+	  }, {
+	    key: 'handleClick3',
+	    value: function handleClick3(e) {
+	      e.preventDefault();
+	      _reactSAlert2.default.error('Test message 3', {
+	        position: 'bottom-right',
+	        effect: 'slide',
+	        timeout: 'none'
+	      });
+	    }
+	  }, {
+	    key: 'handleCloseAll',
+	    value: function handleCloseAll(e) {
+	      e.preventDefault();
+	      _reactSAlert2.default.closeAll();
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(
+	          'div',
+	          null,
+	          _react2.default.createElement(
+	            'a',
+	            { href: '#', onClick: this.handleClick1 },
+	            'Error/Bottom'
+	          ),
+	          ' |',
+	          _react2.default.createElement(
+	            'a',
+	            { href: '#', onClick: this.handleClick2 },
+	            'Data Loading'
+	          ),
+	          ' |',
+	          _react2.default.createElement(
+	            'a',
+	            { href: '#', onClick: this.handleClick },
+	            'Click 3'
+	          ),
+	          ' |',
+	          _react2.default.createElement(
+	            'a',
+	            { href: '#', onClick: this.handleCloseAll },
+	            'Close All'
+	          )
+	        )
+	      );
+	    }
+	  }]);
+
+	  return Home;
+	}(_react2.default.Component);
+
+	exports.default = Home;
+
+/***/ },
+/* 522 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// the whatwg-fetch polyfill installs the fetch() function
 	// on the global object (window or self)
 	//
 	// Return that as the export for use in Webpack, Browserify etc.
-	__webpack_require__(509);
+	__webpack_require__(523);
 	module.exports = self.fetch.bind(self);
 
 
 /***/ },
-/* 509 */
+/* 523 */
 /***/ function(module, exports) {
 
 	(function(self) {
@@ -49235,1450 +50698,6 @@
 	  self.fetch.polyfill = true
 	})(typeof self !== 'undefined' ? self : this);
 
-
-/***/ },
-/* 510 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _react = __webpack_require__(300);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var api = function api(_ref) {
-	  var statusData = _ref.statusData;
-	  var roadTeam = _ref.roadTeam;
-	  var homeTeam = _ref.homeTeam;
-	  var predictedWinner = _ref.predictedWinner;
-
-	  var scoreString;
-	  var progressString;
-	  var outcomeString = '';
-	  var outcomeClass = '';
-
-	  //set scoreString to game score or start time
-	  if (statusData.hasStarted) {
-	    scoreString = statusData.roadScore + ' - ' + statusData.homeScore;
-	  } else {
-	    scoreString = statusData.startTime;
-	  }
-
-	  // set progressString to Final or In Progress (maybe eventually better precision than In Progress)
-	  if (statusData.hasStarted) {
-	    if (statusData.isFinal) {
-	      progressString = 'Final';
-	    } else {
-	      progressString = 'In Progress';
-	    }
-	  }
-
-	  // set outcomeString to display "success" or "failure" appropriately
-	  if (predictedWinner.teamName === homeTeam || predictedWinner.teamName === roadTeam) {
-	    if (predictedWinner.outcome === 'success') {
-	      outcomeString = 'W';
-	      outcomeClass = 'text-success';
-	    } else if (predictedWinner.outcome === 'failure') {
-	      outcomeString = 'L';
-	      outcomeClass = 'text-danger';
-	    }
-	  }
-
-	  return _react2.default.createElement(
-	    'div',
-	    { className: 'game-item game-status' },
-	    _react2.default.createElement(
-	      'h5',
-	      { className: 'game-status-score' },
-	      scoreString
-	    ),
-	    _react2.default.createElement(
-	      'small',
-	      { className: 'game-status-progress' },
-	      progressString
-	    ),
-	    _react2.default.createElement(
-	      'h3',
-	      { className: "game-status-outcome " + outcomeClass },
-	      outcomeString
-	    )
-	  );
-	};
-
-	exports.default = api;
-
-/***/ },
-/* 511 */,
-/* 512 */,
-/* 513 */,
-/* 514 */,
-/* 515 */,
-/* 516 */,
-/* 517 */,
-/* 518 */,
-/* 519 */,
-/* 520 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _react = __webpack_require__(300);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var api = function api(_ref) {
-	  var visibleDate = _ref.visibleDate;
-	  var dayForward = _ref.dayForward;
-	  var dayBack = _ref.dayBack;
-	  return _react2.default.createElement(
-	    'div',
-	    { className: 'row' },
-	    _react2.default.createElement(
-	      'div',
-	      { className: 'day-picker-container' },
-	      _react2.default.createElement('span', { onClick: dayBack, className: 'day-picker-item glyphicon glyphicon-menu-left' }),
-	      _react2.default.createElement(
-	        'div',
-	        { className: 'day-picker-item date-display' },
-	        _react2.default.createElement(
-	          'h3',
-	          null,
-	          moment(visibleDate).format('dddd, MMM D')
-	        )
-	      ),
-	      _react2.default.createElement('span', { onClick: dayForward, className: 'day-picker-item glyphicon glyphicon-menu-right' })
-	    )
-	  );
-	};
-
-	exports.default = api;
-
-/***/ },
-/* 521 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _reactRedux = __webpack_require__(298);
-
-	var _actionCreators = __webpack_require__(502);
-
-	var _actionCreators2 = _interopRequireDefault(_actionCreators);
-
-	var _predictionsSummary = __webpack_require__(522);
-
-	var _predictionsSummary2 = _interopRequireDefault(_predictionsSummary);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var mapStateToProps = function mapStateToProps(state) {
-	  return {
-	    predictedWinners: state.userMonth.predictedWinners,
-	    visibleDate: state.visibleDate,
-	    activeMonth: state.activeMonth
-	  };
-	};
-
-	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
-	  return {
-	    goToDate: function goToDate(date) {
-	      dispatch(_actionCreators2.default.goToDate(date));
-	    }
-	  };
-	};
-
-	var api = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_predictionsSummary2.default);
-
-	exports.default = api;
-
-/***/ },
-/* 522 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _react = __webpack_require__(300);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _predictionsSummaryRow = __webpack_require__(523);
-
-	var _predictionsSummaryRow2 = _interopRequireDefault(_predictionsSummaryRow);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var api = function api(_ref) {
-	  var predictedWinners = _ref.predictedWinners;
-	  var visibleDate = _ref.visibleDate;
-	  var activeMonth = _ref.activeMonth;
-	  var goToDate = _ref.goToDate;
-
-	  var daysInMonth = moment(activeMonth).daysInMonth();
-
-	  var rows = [];
-	  for (var i = 1; i <= daysInMonth; i++) {
-	    rows.push(_react2.default.createElement(_predictionsSummaryRow2.default, { userPrediction: predictedWinners[i], visibleDate: visibleDate, activeMonth: activeMonth, goToDate: goToDate, dayOfMonth: i, key: i }));
-	  }
-
-	  return _react2.default.createElement(
-	    'div',
-	    { className: 'col-xs-12 col-sm-3 col-md-2 col-sm-offset-1 col-md-offset-1' },
-	    _react2.default.createElement(
-	      'div',
-	      { className: 'text-center lead' },
-	      'Predictions Summary'
-	    ),
-	    _react2.default.createElement(
-	      'table',
-	      { className: 'table table-condensed table-hover predictions-summary' },
-	      _react2.default.createElement(
-	        'tbody',
-	        null,
-	        rows
-	      )
-	    )
-	  );
-	};
-
-	exports.default = api;
-
-	// {eligibleTeams.map((team, index) => <PredictionsSummaryRow predictedWinners={predictedWinners} date={index} key={index}/>)}
-
-/***/ },
-/* 523 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _react = __webpack_require__(300);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var api = _react2.default.createClass({
-	  displayName: 'api',
-
-	  handleClick: function handleClick() {
-	    this.props.goToDate(moment(this.props.activeMonth).add(this.props.dayOfMonth - 1, 'days').format('YYYY-MM-DD'));
-	  },
-	  render: function render() {
-	    var isActive = this.props.dayOfMonth == moment(this.props.visibleDate).format('D') ? 'active' : '';
-	    var outcomeString = '';
-	    var outcomeClass = '';
-
-	    if (this.props.userPrediction) {
-	      if (this.props.userPrediction.outcome === 'success') {
-	        outcomeString = 'W';
-	        outcomeClass = 'text-success';
-	      } else if (this.props.userPrediction.outcome === 'failure') {
-	        outcomeString = 'L';
-	        outcomeClass = 'text-danger';
-	      }
-	    }
-
-	    if (this.props.userPrediction) {
-	      return _react2.default.createElement(
-	        'tr',
-	        { onClick: this.handleClick, className: isActive },
-	        _react2.default.createElement(
-	          'td',
-	          { className: 'date-col' },
-	          this.props.activeMonth.substring(5, 7) + '/' + this.props.dayOfMonth
-	        ),
-	        _react2.default.createElement(
-	          'td',
-	          { className: 'team-col' },
-	          this.props.userPrediction.teamName ? this.props.userPrediction.teamName : '-'
-	        ),
-	        _react2.default.createElement(
-	          'td',
-	          { className: "outcome-col " + outcomeClass },
-	          outcomeString
-	        )
-	      );
-	    } else {
-	      return null;
-	    }
-	  }
-
-	});
-
-	exports.default = api;
-
-/***/ },
-/* 524 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _react = __webpack_require__(300);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var api = function api(_ref) {
-	  var messageBold = _ref.messageBold;
-	  var messageBody = _ref.messageBody;
-	  var messageClass = _ref.messageClass;
-
-
-	  return _react2.default.createElement(
-	    'div',
-	    { className: 'status-message alert alert-' + messageClass },
-	    _react2.default.createElement(
-	      'strong',
-	      null,
-	      messageBold
-	    ),
-	    '\t' + messageBody
-	  );
-	};
-
-	exports.default = api;
-
-/***/ },
-/* 525 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = __webpack_require__(526);
-
-/***/ },
-/* 526 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
-	    if (true) {
-	        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports, __webpack_require__(300), __webpack_require__(527), __webpack_require__(529), __webpack_require__(528), __webpack_require__(531)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-	    } else if (typeof exports !== "undefined") {
-	        factory(exports, require('react'), require('./SAlertContent'), require('./s-alert-parts/s-alert-store'), require('./s-alert-parts/s-alert-tools'), require('./s-alert-parts/s-alert-data-prep'));
-	    } else {
-	        var mod = {
-	            exports: {}
-	        };
-	        factory(mod.exports, global.react, global.SAlertContent, global.sAlertStore, global.sAlertTools, global.sAlertDataPrep);
-	        global.SAlert = mod.exports;
-	    }
-	})(this, function (exports, _react, _SAlertContent, _sAlertStore, _sAlertTools, _sAlertDataPrep) {
-	    'use strict';
-
-	    Object.defineProperty(exports, "__esModule", {
-	        value: true
-	    });
-
-	    var _react2 = _interopRequireDefault(_react);
-
-	    var _SAlertContent2 = _interopRequireDefault(_SAlertContent);
-
-	    var _sAlertStore2 = _interopRequireDefault(_sAlertStore);
-
-	    var _sAlertTools2 = _interopRequireDefault(_sAlertTools);
-
-	    var _sAlertDataPrep2 = _interopRequireDefault(_sAlertDataPrep);
-
-	    function _interopRequireDefault(obj) {
-	        return obj && obj.__esModule ? obj : {
-	            default: obj
-	        };
-	    }
-
-	    function _classCallCheck(instance, Constructor) {
-	        if (!(instance instanceof Constructor)) {
-	            throw new TypeError("Cannot call a class as a function");
-	        }
-	    }
-
-	    var _createClass = function () {
-	        function defineProperties(target, props) {
-	            for (var i = 0; i < props.length; i++) {
-	                var descriptor = props[i];
-	                descriptor.enumerable = descriptor.enumerable || false;
-	                descriptor.configurable = true;
-	                if ("value" in descriptor) descriptor.writable = true;
-	                Object.defineProperty(target, descriptor.key, descriptor);
-	            }
-	        }
-
-	        return function (Constructor, protoProps, staticProps) {
-	            if (protoProps) defineProperties(Constructor.prototype, protoProps);
-	            if (staticProps) defineProperties(Constructor, staticProps);
-	            return Constructor;
-	        };
-	    }();
-
-	    function _possibleConstructorReturn(self, call) {
-	        if (!self) {
-	            throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-	        }
-
-	        return call && (typeof call === "object" || typeof call === "function") ? call : self;
-	    }
-
-	    function _inherits(subClass, superClass) {
-	        if (typeof superClass !== "function" && superClass !== null) {
-	            throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
-	        }
-
-	        subClass.prototype = Object.create(superClass && superClass.prototype, {
-	            constructor: {
-	                value: subClass,
-	                enumerable: false,
-	                writable: true,
-	                configurable: true
-	            }
-	        });
-	        if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
-	    }
-
-	    var insertFunc = function insertFunc(msg, data, condition) {
-	        var id = _sAlertTools2.default.randomId();
-	        _sAlertStore2.default.dispatch({
-	            type: 'INSERT',
-	            data: Object.assign({}, data, {
-	                id: id,
-	                condition: condition,
-	                message: msg
-	            })
-	        });
-	        return id;
-	    };
-
-	    var SAlert = function (_React$Component) {
-	        _inherits(SAlert, _React$Component);
-
-	        function SAlert(props) {
-	            _classCallCheck(this, SAlert);
-
-	            var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(SAlert).call(this, props));
-
-	            _this.state = {
-	                dataRight: [],
-	                dataLeft: [],
-	                dataTop: [],
-	                dataBottom: []
-	            };
-	            return _this;
-	        }
-
-	        _createClass(SAlert, [{
-	            key: 'componentDidMount',
-	            value: function componentDidMount() {
-	                var _this2 = this;
-
-	                var storeStateLeft = void 0;
-	                var storeStateRight = void 0;
-	                var storeStateTop = void 0;
-	                var storeStateBottom = void 0;
-
-	                var addToStoreRight = function addToStoreRight() {
-	                    var length = void 0;
-	                    storeStateRight = (0, _sAlertDataPrep2.default)('right') || [];
-	                    length = storeStateRight.length;
-	                    if (_this2.props.stack && _this2.props.stack.limit && length > _this2.props.stack.limit) {
-	                        var id = storeStateRight[0].id;
-	                        _sAlertStore2.default.dispatch({ type: 'REMOVE', data: { id: id } });
-	                        storeStateRight = (0, _sAlertDataPrep2.default)('right') || [];
-	                    }
-	                    _this2.setState({ dataRight: storeStateRight });
-	                };
-	                this.unsubStoreRight = _sAlertStore2.default.subscribe(addToStoreRight);
-
-	                var addToStoreLeft = function addToStoreLeft() {
-	                    var length = void 0;
-	                    storeStateLeft = (0, _sAlertDataPrep2.default)('left') || [];
-	                    length = storeStateLeft.length;
-	                    if (_this2.props.stack && _this2.props.stack.limit && length > _this2.props.stack.limit) {
-	                        var id = storeStateLeft[0].id;
-	                        _sAlertStore2.default.dispatch({ type: 'REMOVE', data: { id: id } });
-	                        storeStateLeft = (0, _sAlertDataPrep2.default)('left') || [];
-	                    }
-	                    _this2.setState({ dataLeft: storeStateLeft });
-	                };
-	                this.unsubStoreLeft = _sAlertStore2.default.subscribe(addToStoreLeft);
-
-	                var addToStoreTop = function addToStoreTop() {
-	                    var length = void 0;
-	                    storeStateTop = (0, _sAlertDataPrep2.default)('full-top') || [];
-	                    length = storeStateTop.length;
-	                    if (_this2.props.stack && _this2.props.stack.limit && length > _this2.props.stack.limit) {
-	                        var id = storeStateTop[0].id;
-	                        _sAlertStore2.default.dispatch({ type: 'REMOVE', data: { id: id } });
-	                        storeStateTop = (0, _sAlertDataPrep2.default)('full-top') || [];
-	                    }
-	                    _this2.setState({ dataTop: storeStateTop });
-	                };
-	                this.unsubStoreTop = _sAlertStore2.default.subscribe(addToStoreTop);
-
-	                var addToStoreBottom = function addToStoreBottom() {
-	                    var length = void 0;
-	                    storeStateBottom = (0, _sAlertDataPrep2.default)('full-bottom') || [];
-	                    length = storeStateBottom.length;
-	                    if (_this2.props.stack && _this2.props.stack.limit && length > _this2.props.stack.limit) {
-	                        var id = storeStateBottom[0].id;
-	                        _sAlertStore2.default.dispatch({ type: 'REMOVE', data: { id: id } });
-	                        storeStateBottom = (0, _sAlertDataPrep2.default)('full-bottom') || [];
-	                    }
-	                    _this2.setState({ dataBottom: storeStateBottom });
-	                };
-	                this.unsubStoreBottom = _sAlertStore2.default.subscribe(addToStoreBottom);
-
-	                // set up global config from global SAlert props
-	                // only stuff needed for getAlertData
-	                var globalConfig = {
-	                    contentTemplate: this.props.contentTemplate,
-	                    offset: this.props.offset,
-	                    message: this.props.message,
-	                    stack: this.props.stack,
-	                    html: this.props.html,
-	                    customFields: this.props.customFields,
-	                    position: this.props.position || 'top-right'
-	                };
-	                _sAlertTools2.default.setGlobalConfig(globalConfig);
-	            }
-	        }, {
-	            key: 'componentWillUnmount',
-	            value: function componentWillUnmount() {
-	                this.unsubStoreTop();
-	                this.unsubStoreBottom();
-	                this.unsubStoreLeft();
-	                this.unsubStoreRight();
-	            }
-	        }, {
-	            key: 'render',
-	            value: function render() {
-	                var _this3 = this;
-
-	                var mapFunc = function mapFunc(alert, index) {
-	                    var customKey = 'alert-key-' + alert.id + '-' + alert.position;
-	                    var id = alert.id;
-	                    var condition = _sAlertTools2.default.returnFirstDefined(alert.condition, 'info');
-	                    var message = _sAlertTools2.default.returnFirstDefined(alert.message, _this3.props.message, '');
-	                    var position = _sAlertTools2.default.returnFirstDefined(alert.position, _this3.props.position, 'top-right');
-	                    var offset = _sAlertTools2.default.returnFirstDefined(alert.offset, _this3.props.offset, 0);
-	                    var effect = _sAlertTools2.default.returnFirstDefined(alert.effect, _this3.props.effect);
-	                    var boxPosition = alert.boxPosition;
-	                    var beep = _sAlertTools2.default.returnFirstDefined(alert.beep, _this3.props.beep, false);
-	                    var timeout = _sAlertTools2.default.returnFirstDefined(alert.timeout, _this3.props.timeout, 5000);
-	                    var html = _sAlertTools2.default.returnFirstDefined(alert.html, _this3.props.html);
-	                    var onClose = _sAlertTools2.default.returnFirstDefined(alert.onClose, _this3.props.onClose);
-	                    var onShow = _sAlertTools2.default.returnFirstDefined(alert.onShow, _this3.props.onShow);
-	                    var customFields = _sAlertTools2.default.returnFirstDefined(alert.customFields, _this3.props.customFields);
-	                    var contentTemplate = _this3.props.contentTemplate;
-	                    return _react2.default.createElement(_SAlertContent2.default, {
-	                        key: customKey,
-	                        id: id,
-	                        customFields: customFields,
-	                        condition: condition,
-	                        message: message,
-	                        position: position,
-	                        effect: effect,
-	                        boxPosition: boxPosition,
-	                        beep: beep,
-	                        timeout: timeout,
-	                        html: html,
-	                        onClose: onClose,
-	                        onShow: onShow,
-	                        contentTemplate: contentTemplate });
-	                };
-	                var sAlertElemsRight = this.state.dataRight.map(mapFunc);
-	                var sAlertElemsLeft = this.state.dataLeft.map(mapFunc);
-	                var sAlertElemsTop = this.state.dataTop.map(mapFunc);
-	                var sAlertElemsBottom = this.state.dataBottom.map(mapFunc);
-	                return _react2.default.createElement(
-	                    'div',
-	                    { className: 's-alert-wrapper' },
-	                    sAlertElemsRight,
-	                    sAlertElemsLeft,
-	                    sAlertElemsTop,
-	                    sAlertElemsBottom
-	                );
-	            }
-	        }], [{
-	            key: 'info',
-	            value: function info(msg, data) {
-	                return insertFunc(msg, data, 'info');
-	            }
-	        }, {
-	            key: 'error',
-	            value: function error(msg, data) {
-	                return insertFunc(msg, data, 'error');
-	            }
-	        }, {
-	            key: 'warning',
-	            value: function warning(msg, data) {
-	                return insertFunc(msg, data, 'warning');
-	            }
-	        }, {
-	            key: 'success',
-	            value: function success(msg, data) {
-	                return insertFunc(msg, data, 'success');
-	            }
-	        }, {
-	            key: 'close',
-	            value: function close(id) {
-	                _sAlertStore2.default.dispatch({ type: 'REMOVE', data: { id: id } });
-	            }
-	        }, {
-	            key: 'closeAll',
-	            value: function closeAll() {
-	                _sAlertStore2.default.dispatch({ type: 'REMOVEALL' });
-	            }
-	        }]);
-
-	        return SAlert;
-	    }(_react2.default.Component);
-
-	    SAlert.propTypes = {
-	        message: _react2.default.PropTypes.string,
-	        position: _react2.default.PropTypes.string,
-	        offset: _react2.default.PropTypes.number,
-	        stack: _react2.default.PropTypes.oneOfType([_react2.default.PropTypes.bool, _react2.default.PropTypes.object]),
-	        effect: _react2.default.PropTypes.string,
-	        beep: _react2.default.PropTypes.oneOfType([_react2.default.PropTypes.string, _react2.default.PropTypes.object, _react2.default.PropTypes.bool]),
-	        timeout: _react2.default.PropTypes.oneOfType([_react2.default.PropTypes.oneOf(['none']), _react2.default.PropTypes.number]),
-	        html: _react2.default.PropTypes.bool,
-	        onClose: _react2.default.PropTypes.func,
-	        onShow: _react2.default.PropTypes.func,
-	        customFields: _react2.default.PropTypes.object,
-	        contentTemplate: _react2.default.PropTypes.func
-	    };
-
-	    exports.default = SAlert;
-	});
-
-/***/ },
-/* 527 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
-	    if (true) {
-	        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports, __webpack_require__(300), __webpack_require__(359), __webpack_require__(528), __webpack_require__(529), __webpack_require__(530)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-	    } else if (typeof exports !== "undefined") {
-	        factory(exports, require('react'), require('react-dom'), require('./s-alert-parts/s-alert-tools'), require('./s-alert-parts/s-alert-store'), require('./SAlertContentTmpl'));
-	    } else {
-	        var mod = {
-	            exports: {}
-	        };
-	        factory(mod.exports, global.react, global.reactDom, global.sAlertTools, global.sAlertStore, global.SAlertContentTmpl);
-	        global.SAlertContent = mod.exports;
-	    }
-	})(this, function (exports, _react, _reactDom, _sAlertTools, _sAlertStore, _SAlertContentTmpl) {
-	    'use strict';
-
-	    Object.defineProperty(exports, "__esModule", {
-	        value: true
-	    });
-
-	    var _react2 = _interopRequireDefault(_react);
-
-	    var _reactDom2 = _interopRequireDefault(_reactDom);
-
-	    var _sAlertTools2 = _interopRequireDefault(_sAlertTools);
-
-	    var _sAlertStore2 = _interopRequireDefault(_sAlertStore);
-
-	    var _SAlertContentTmpl2 = _interopRequireDefault(_SAlertContentTmpl);
-
-	    function _interopRequireDefault(obj) {
-	        return obj && obj.__esModule ? obj : {
-	            default: obj
-	        };
-	    }
-
-	    var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
-	        return typeof obj;
-	    } : function (obj) {
-	        return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj;
-	    };
-
-	    function _classCallCheck(instance, Constructor) {
-	        if (!(instance instanceof Constructor)) {
-	            throw new TypeError("Cannot call a class as a function");
-	        }
-	    }
-
-	    var _createClass = function () {
-	        function defineProperties(target, props) {
-	            for (var i = 0; i < props.length; i++) {
-	                var descriptor = props[i];
-	                descriptor.enumerable = descriptor.enumerable || false;
-	                descriptor.configurable = true;
-	                if ("value" in descriptor) descriptor.writable = true;
-	                Object.defineProperty(target, descriptor.key, descriptor);
-	            }
-	        }
-
-	        return function (Constructor, protoProps, staticProps) {
-	            if (protoProps) defineProperties(Constructor.prototype, protoProps);
-	            if (staticProps) defineProperties(Constructor, staticProps);
-	            return Constructor;
-	        };
-	    }();
-
-	    function _possibleConstructorReturn(self, call) {
-	        if (!self) {
-	            throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-	        }
-
-	        return call && (typeof call === "object" || typeof call === "function") ? call : self;
-	    }
-
-	    function _inherits(subClass, superClass) {
-	        if (typeof superClass !== "function" && superClass !== null) {
-	            throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
-	        }
-
-	        subClass.prototype = Object.create(superClass && superClass.prototype, {
-	            constructor: {
-	                value: subClass,
-	                enumerable: false,
-	                writable: true,
-	                configurable: true
-	            }
-	        });
-	        if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
-	    }
-
-	    var SAlertContent = function (_React$Component) {
-	        _inherits(SAlertContent, _React$Component);
-
-	        function SAlertContent(props) {
-	            _classCallCheck(this, SAlertContent);
-
-	            return _possibleConstructorReturn(this, Object.getPrototypeOf(SAlertContent).call(this, props));
-	        }
-
-	        _createClass(SAlertContent, [{
-	            key: 'handleCloseAlert',
-	            value: function handleCloseAlert() {
-	                var closingTimeout = void 0;
-	                var alertId = this.props.id;
-	                var currentAlertElem = _reactDom2.default.findDOMNode(this);
-	                var animationClose = function animationClose() {
-	                    currentAlertElem.style.display = 'none';
-	                    _sAlertStore2.default.dispatch({ type: 'REMOVE', data: { id: alertId } });
-	                    clearTimeout(closingTimeout);
-	                };
-	                if (document.hidden || document.webkitHidden || !currentAlertElem.classList.contains('s-alert-is-effect')) {
-	                    _sAlertStore2.default.dispatch({ type: 'REMOVE', data: { id: alertId } });
-	                } else {
-	                    currentAlertElem.classList.remove('s-alert-show');
-	                    closingTimeout = setTimeout(function () {
-	                        currentAlertElem.classList.add('s-alert-hide');
-	                    }, 100);
-	                    currentAlertElem.removeEventListener('webkitAnimationEnd', animationClose, false);
-	                    currentAlertElem.removeEventListener('animationend', animationClose, false);
-	                    currentAlertElem.addEventListener('webkitAnimationEnd', animationClose, false);
-	                    currentAlertElem.addEventListener('animationend', animationClose, false);
-	                }
-	                // stop audio when closing
-	                this.alertAudio && this.alertAudio.load();
-	            }
-	        }, {
-	            key: 'componentWillMount',
-	            value: function componentWillMount() {
-	                var beep = this.props.beep;
-	                var condition = this.props.condition;
-	                if (beep && typeof beep === 'string') {
-	                    this.alertAudio = new Audio(beep);
-	                    this.alertAudio.load();
-	                    this.alertAudio.play();
-	                }
-	                if (beep && (typeof beep === 'undefined' ? 'undefined' : _typeof(beep)) === 'object' && condition === 'info') {
-	                    this.alertAudio = new Audio(beep.info);
-	                    this.alertAudio.load();
-	                    this.alertAudio.play();
-	                }
-	                if (beep && (typeof beep === 'undefined' ? 'undefined' : _typeof(beep)) === 'object' && condition === 'error') {
-	                    this.alertAudio = new Audio(beep.error);
-	                    this.alertAudio.load();
-	                    this.alertAudio.play();
-	                }
-	                if (beep && (typeof beep === 'undefined' ? 'undefined' : _typeof(beep)) === 'object' && condition === 'success') {
-	                    this.alertAudio = new Audio(beep.success);
-	                    this.alertAudio.load();
-	                    this.alertAudio.play();
-	                }
-	                if (beep && (typeof beep === 'undefined' ? 'undefined' : _typeof(beep)) === 'object' && condition === 'warning') {
-	                    this.alertAudio = new Audio(beep.warning);
-	                    this.alertAudio.load();
-	                    this.alertAudio.play();
-	                }
-	            }
-	        }, {
-	            key: 'componentDidMount',
-	            value: function componentDidMount() {
-	                var _this2 = this;
-
-	                if (typeof this.props.timeout === 'number') {
-	                    this.closeTimer = setTimeout(function () {
-	                        _this2.handleCloseAlert();
-	                    }, this.props.timeout);
-	                }
-	                if (this.props.onShow) {
-	                    this.props.onShow();
-	                }
-	            }
-	        }, {
-	            key: 'componentWillUnmount',
-	            value: function componentWillUnmount() {
-	                if (this.closeTimer) {
-	                    clearTimeout(this.closeTimer);
-	                }
-	                if (this.props.onClose) {
-	                    this.props.onClose();
-	                }
-	            }
-	        }, {
-	            key: 'render',
-	            value: function render() {
-	                var classNames = 's-alert-box s-alert-' + this.props.condition + ' s-alert-' + this.props.position + ' ' + (this.props.effect ? 's-alert-is-effect s-alert-effect-' + this.props.effect : '') + ' s-alert-show';
-	                var message = this.props.html ? _react2.default.createElement('span', { dangerouslySetInnerHTML: { __html: this.props.message } }) : this.props.message;
-	                var styles = this.props.boxPosition ? _sAlertTools2.default.styleToObj(this.props.boxPosition) : {};
-	                var id = this.props.id;
-	                var handleClose = this.handleCloseAlert.bind(this);
-	                var contentTemplate = this.props.contentTemplate || _SAlertContentTmpl2.default;
-	                var customFields = this.props.customFields || {};
-
-	                return _react2.default.createElement(contentTemplate, { classNames: classNames, id: id, styles: styles, message: message, handleClose: handleClose, customFields: customFields });
-	            }
-	        }]);
-
-	        return SAlertContent;
-	    }(_react2.default.Component);
-
-	    SAlertContent.propTypes = {
-	        condition: _react2.default.PropTypes.string.isRequired,
-	        message: _react2.default.PropTypes.string.isRequired,
-	        position: _react2.default.PropTypes.string.isRequired,
-	        boxPosition: _react2.default.PropTypes.string,
-	        id: _react2.default.PropTypes.string.isRequired,
-	        effect: _react2.default.PropTypes.string,
-	        beep: _react2.default.PropTypes.oneOfType([_react2.default.PropTypes.string, _react2.default.PropTypes.object, _react2.default.PropTypes.bool]),
-	        timeout: _react2.default.PropTypes.oneOfType([_react2.default.PropTypes.oneOf(['none']), _react2.default.PropTypes.number]),
-	        html: _react2.default.PropTypes.bool,
-	        onClose: _react2.default.PropTypes.func,
-	        onShow: _react2.default.PropTypes.func,
-	        customFields: _react2.default.PropTypes.object,
-	        contentTemplate: _react2.default.PropTypes.func
-	    };
-
-	    exports.default = SAlertContent;
-	});
-
-/***/ },
-/* 528 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
-	    if (true) {
-	        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-	    } else if (typeof exports !== "undefined") {
-	        factory(exports);
-	    } else {
-	        var mod = {
-	            exports: {}
-	        };
-	        factory(mod.exports);
-	        global.sAlertTools = mod.exports;
-	    }
-	})(this, function (exports) {
-	    'use strict';
-
-	    Object.defineProperty(exports, "__esModule", {
-	        value: true
-	    });
-
-	    var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
-	        return typeof obj;
-	    } : function (obj) {
-	        return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj;
-	    };
-
-	    var actualGlobalConfig = void 0;
-
-	    var sAlertTools = {
-	        randomId: function randomId() {
-	            return Math.random().toString(36).split('.')[1];
-	        },
-	        returnFirstDefined: function returnFirstDefined() {
-	            var value = void 0;
-	            var i = void 0;
-
-	            for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-	                args[_key] = arguments[_key];
-	            }
-
-	            for (i = 0; i < args.length; i++) {
-	                if (typeof args[i] !== 'undefined') {
-	                    value = args[i];
-	                    break;
-	                }
-	            }
-	            return value;
-	        },
-	        styleToObj: function styleToObj(input) {
-	            var result = {},
-	                i = void 0,
-	                entry = void 0,
-	                attributes = input && input.split(';').filter(Boolean);
-
-	            for (i = 0; i < attributes.length; i++) {
-	                entry = attributes[i].split(':');
-	                result[entry.splice(0, 1)[0].trim()] = entry.join(':').trim();
-	            }
-	            return result;
-	        },
-	        setGlobalConfig: function setGlobalConfig(config) {
-	            if ((typeof config === 'undefined' ? 'undefined' : _typeof(config)) === 'object') {
-	                actualGlobalConfig = config;
-	            }
-	        },
-	        getGlobalConfig: function getGlobalConfig() {
-	            return actualGlobalConfig;
-	        }
-	    };
-
-	    exports.default = sAlertTools;
-	});
-
-/***/ },
-/* 529 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
-	    if (true) {
-	        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-	    } else if (typeof exports !== "undefined") {
-	        factory(exports);
-	    } else {
-	        var mod = {
-	            exports: {}
-	        };
-	        factory(mod.exports);
-	        global.sAlertStore = mod.exports;
-	    }
-	})(this, function (exports) {
-	    'use strict';
-
-	    Object.defineProperty(exports, "__esModule", {
-	        value: true
-	    });
-
-	    function _toConsumableArray(arr) {
-	        if (Array.isArray(arr)) {
-	            for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) {
-	                arr2[i] = arr[i];
-	            }
-
-	            return arr2;
-	        } else {
-	            return Array.from(arr);
-	        }
-	    }
-
-	    // custom simple store based on a awesome Redux library https://github.com/rackt/redux
-
-	    var createSAlertStore = function createSAlertStore(reducer) {
-	        var state = void 0;
-	        var listeners = [];
-	        var getState = function getState() {
-	            return state;
-	        };
-	        var dispatch = function dispatch(action) {
-	            state = reducer(state, action);
-	            listeners.forEach(function (listener) {
-	                return listener();
-	            });
-	        };
-	        var subscribe = function subscribe(listener) {
-	            listeners.push(listener);
-	            return function () {
-	                listeners = listeners.filter(function (l) {
-	                    return l !== listener;
-	                });
-	            };
-	        };
-	        dispatch({});
-	        return {
-	            getState: getState, dispatch: dispatch, subscribe: subscribe
-	        };
-	    };
-
-	    var insert = function insert(state, action) {
-	        return [].concat(_toConsumableArray(state), [action.data]);
-	    };
-
-	    var remove = function remove(state, action) {
-	        var elemToRemoveArray = state.slice().filter(function (item) {
-	            return item.id === action.data.id;
-	        });
-	        if (Array.isArray(elemToRemoveArray)) {
-	            var elemToRemoveIndex = state.indexOf(elemToRemoveArray[0]);
-	            return [].concat(_toConsumableArray(state.slice(0, elemToRemoveIndex)), _toConsumableArray(state.slice(elemToRemoveIndex + 1)));
-	        }
-	        return state;
-	    };
-
-	    var alertsReducer = function alertsReducer() {
-	        var state = arguments.length <= 0 || arguments[0] === undefined ? [] : arguments[0];
-	        var action = arguments[1];
-
-	        switch (action.type) {
-	            case 'INSERT':
-	                return insert(state, action);
-	            case 'REMOVE':
-	                return remove(state, action);
-	            case 'REMOVEALL':
-	                return [];
-	            default:
-	                return state;
-	        }
-	    };
-
-	    var sAlertStore = createSAlertStore(alertsReducer);
-
-	    exports.default = sAlertStore;
-	});
-
-/***/ },
-/* 530 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
-	    if (true) {
-	        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports, __webpack_require__(300)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-	    } else if (typeof exports !== "undefined") {
-	        factory(exports, require('react'));
-	    } else {
-	        var mod = {
-	            exports: {}
-	        };
-	        factory(mod.exports, global.react);
-	        global.SAlertContentTmpl = mod.exports;
-	    }
-	})(this, function (exports, _react) {
-	    'use strict';
-
-	    Object.defineProperty(exports, "__esModule", {
-	        value: true
-	    });
-
-	    var _react2 = _interopRequireDefault(_react);
-
-	    function _interopRequireDefault(obj) {
-	        return obj && obj.__esModule ? obj : {
-	            default: obj
-	        };
-	    }
-
-	    function _classCallCheck(instance, Constructor) {
-	        if (!(instance instanceof Constructor)) {
-	            throw new TypeError("Cannot call a class as a function");
-	        }
-	    }
-
-	    var _createClass = function () {
-	        function defineProperties(target, props) {
-	            for (var i = 0; i < props.length; i++) {
-	                var descriptor = props[i];
-	                descriptor.enumerable = descriptor.enumerable || false;
-	                descriptor.configurable = true;
-	                if ("value" in descriptor) descriptor.writable = true;
-	                Object.defineProperty(target, descriptor.key, descriptor);
-	            }
-	        }
-
-	        return function (Constructor, protoProps, staticProps) {
-	            if (protoProps) defineProperties(Constructor.prototype, protoProps);
-	            if (staticProps) defineProperties(Constructor, staticProps);
-	            return Constructor;
-	        };
-	    }();
-
-	    function _possibleConstructorReturn(self, call) {
-	        if (!self) {
-	            throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-	        }
-
-	        return call && (typeof call === "object" || typeof call === "function") ? call : self;
-	    }
-
-	    function _inherits(subClass, superClass) {
-	        if (typeof superClass !== "function" && superClass !== null) {
-	            throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
-	        }
-
-	        subClass.prototype = Object.create(superClass && superClass.prototype, {
-	            constructor: {
-	                value: subClass,
-	                enumerable: false,
-	                writable: true,
-	                configurable: true
-	            }
-	        });
-	        if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
-	    }
-
-	    var SAlertContentTmpl = function (_React$Component) {
-	        _inherits(SAlertContentTmpl, _React$Component);
-
-	        function SAlertContentTmpl(props) {
-	            _classCallCheck(this, SAlertContentTmpl);
-
-	            return _possibleConstructorReturn(this, Object.getPrototypeOf(SAlertContentTmpl).call(this, props));
-	        }
-
-	        _createClass(SAlertContentTmpl, [{
-	            key: 'render',
-	            value: function render() {
-	                return _react2.default.createElement(
-	                    'div',
-	                    { className: this.props.classNames, id: this.props.id, style: this.props.styles },
-	                    _react2.default.createElement(
-	                        'div',
-	                        { className: 's-alert-box-inner' },
-	                        this.props.message
-	                    ),
-	                    _react2.default.createElement('span', { className: 's-alert-close', onClick: this.props.handleClose })
-	                );
-	            }
-	        }]);
-
-	        return SAlertContentTmpl;
-	    }(_react2.default.Component);
-
-	    SAlertContentTmpl.propTypes = {
-	        id: _react2.default.PropTypes.string.isRequired,
-	        classNames: _react2.default.PropTypes.string.isRequired,
-	        styles: _react2.default.PropTypes.object.isRequired,
-	        message: _react2.default.PropTypes.oneOfType([_react2.default.PropTypes.string, _react2.default.PropTypes.object]).isRequired,
-	        handleClose: _react2.default.PropTypes.func.isRequired,
-	        customFields: _react2.default.PropTypes.object
-	    };
-
-	    exports.default = SAlertContentTmpl;
-	});
-
-/***/ },
-/* 531 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
-	    if (true) {
-	        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports, __webpack_require__(300), __webpack_require__(359), __webpack_require__(527), __webpack_require__(529), __webpack_require__(528)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-	    } else if (typeof exports !== "undefined") {
-	        factory(exports, require('react'), require('react-dom'), require('../SAlertContent'), require('./s-alert-store'), require('./s-alert-tools'));
-	    } else {
-	        var mod = {
-	            exports: {}
-	        };
-	        factory(mod.exports, global.react, global.reactDom, global.SAlertContent, global.sAlertStore, global.sAlertTools);
-	        global.sAlertDataPrep = mod.exports;
-	    }
-	})(this, function (exports, _react, _reactDom, _SAlertContent, _sAlertStore, _sAlertTools) {
-	    'use strict';
-
-	    Object.defineProperty(exports, "__esModule", {
-	        value: true
-	    });
-
-	    var _react2 = _interopRequireDefault(_react);
-
-	    var _reactDom2 = _interopRequireDefault(_reactDom);
-
-	    var _SAlertContent2 = _interopRequireDefault(_SAlertContent);
-
-	    var _sAlertStore2 = _interopRequireDefault(_sAlertStore);
-
-	    var _sAlertTools2 = _interopRequireDefault(_sAlertTools);
-
-	    function _interopRequireDefault(obj) {
-	        return obj && obj.__esModule ? obj : {
-	            default: obj
-	        };
-	    }
-
-	    var getAlertData = function getAlertData(sAlertPosition) {
-	        var positionTop = 0;
-	        var positionBottom = 0;
-	        var padding = 0;
-	        var alerts = {};
-	        var style = void 0;
-	        var docElement = void 0;
-	        var sAlertBoxHeight = void 0;
-	        var positionTypeTop = void 0;
-	        var positionTypeBottom = void 0;
-	        var checkFirst = function checkFirst(type, objId) {
-	            var collectionOfType = sAlertCollection.filter(function (obj) {
-	                return obj.position === type || sAlertGlobalConfig.position === type;
-	            });
-	            return collectionOfType && collectionOfType[0].id === objId;
-	        };
-	        var positionFunc = function positionFunc(position, positionType, alert, docElement, sAlertBoxHeight, reactComponent) {
-	            padding = aStack.spacing || parseInt(getComputedStyle(_reactDom2.default.findDOMNode(reactComponent))[positionType]);
-	            if (checkFirst(aPosition, alert.id) && aOffset) {
-	                position = 0;
-	                position = position + parseInt(aOffset);
-	            }
-	            if (checkFirst(aPosition, alert.id) && aStack.spacing) {
-	                position = position;
-	            } else {
-	                position = position + parseInt(padding);
-	            }
-	            style = positionType + ': ' + position + 'px;';
-	            position = position + sAlertBoxHeight;
-	            return position;
-	        };
-
-	        var sAlertGlobalConfig = _sAlertTools2.default.getGlobalConfig();
-	        var aStack = void 0;
-	        var aContentTemplate = void 0;
-	        var aOffset = void 0;
-	        var aMessage = void 0;
-	        var aHtml = void 0;
-	        var aCustomFields = void 0;
-	        var aPosition = void 0;
-
-	        var query = {};
-	        if (sAlertPosition === 'left') {
-	            query = function query(item) {
-	                return item.position === 'top-left' || item.position === 'bottom-left' || !item.position && (sAlertGlobalConfig.position === 'top-left' || sAlertGlobalConfig.position === 'bottom-left');
-	            };
-	        }
-	        if (sAlertPosition === 'right') {
-	            query = function query(item) {
-	                return item.position === 'top-right' || item.position === 'bottom-right' || !item.position && (sAlertGlobalConfig.position === 'top-right' || sAlertGlobalConfig.position === 'bottom-right');
-	            };
-	        }
-	        if (sAlertPosition === 'full-top') {
-	            query = function query(item) {
-	                return item.position === 'top' || !item.position && sAlertGlobalConfig.position === 'top';
-	            };
-	        }
-	        if (sAlertPosition === 'full-bottom') {
-	            query = function query(item) {
-	                return item.position === 'bottom' || !item.position && sAlertGlobalConfig.position === 'bottom';
-	            };
-	        }
-
-	        var currentState = _sAlertStore2.default.getState();
-	        var sAlertCollection = currentState.slice().filter(query);
-
-	        return sAlertCollection.map(function (alert) {
-	            aStack = sAlertGlobalConfig.stack;
-	            aContentTemplate = sAlertGlobalConfig.contentTemplate;
-	            aOffset = _sAlertTools2.default.returnFirstDefined(alert.offset, sAlertGlobalConfig.offset);
-	            aMessage = _sAlertTools2.default.returnFirstDefined(alert.message, sAlertGlobalConfig.message);
-	            aHtml = _sAlertTools2.default.returnFirstDefined(alert.html, sAlertGlobalConfig.html);
-	            aCustomFields = _sAlertTools2.default.returnFirstDefined(alert.customFields, sAlertGlobalConfig.customFields);
-	            aPosition = _sAlertTools2.default.returnFirstDefined(alert.position, sAlertGlobalConfig.position);
-	            positionTypeTop = aPosition && /top/g.test(aPosition);
-	            positionTypeBottom = aPosition && /bottom/g.test(aPosition);
-	            if (aStack) {
-	                // checking alert box height - needed to calculate position
-	                docElement = document.createElement('div');
-	                docElement.classList.add('s-alert-box-height');
-
-	                // mock element, needed for positions calculations
-	                var reactElement = _react2.default.createElement(_SAlertContent2.default, {
-	                    key: _sAlertTools2.default.randomId(),
-	                    id: _sAlertTools2.default.randomId(),
-	                    condition: alert.condition,
-	                    message: aMessage,
-	                    position: aPosition,
-	                    effect: alert.effect,
-	                    boxPosition: alert.boxPosition,
-	                    beep: false,
-	                    timeout: 'none',
-	                    html: aHtml,
-	                    contentTemplate: aContentTemplate,
-	                    customFields: aCustomFields
-	                });
-	                var reactComponent = _reactDom2.default.render(reactElement, docElement);
-
-	                document.body.appendChild(docElement);
-	                sAlertBoxHeight = parseInt(getComputedStyle(_reactDom2.default.findDOMNode(reactComponent))['height']);
-	                if (positionTypeTop) {
-	                    positionTop = positionFunc(positionTop, 'top', alert, docElement, sAlertBoxHeight, reactComponent);
-	                }
-	                if (positionTypeBottom) {
-	                    positionBottom = positionFunc(positionBottom, 'bottom', alert, docElement, sAlertBoxHeight, reactComponent);
-	                }
-	                var sAlertComputedStyle = getComputedStyle(_reactDom2.default.findDOMNode(reactComponent));
-	                if (sAlertPosition === 'left') {
-	                    style = style + 'left: ' + (aStack.spacing || parseInt(sAlertComputedStyle.left)) + 'px;';
-	                }
-	                if (sAlertPosition === 'right') {
-	                    style = style + 'right: ' + (aStack.spacing || parseInt(sAlertComputedStyle.right)) + 'px;';
-	                }
-	                alerts = Object.assign({}, alert, { boxPosition: style });
-	                _reactDom2.default.unmountComponentAtNode(docElement);
-	                docElement.parentNode.removeChild(docElement);
-	            } else if (aOffset && positionTypeTop) {
-	                alerts = Object.assign({}, alert, { boxPosition: 'top: ' + parseInt(aOffset) + 'px;' });
-	            } else if (aOffset && positionTypeBottom) {
-	                alerts = Object.assign({}, alert, { boxPosition: 'bottom: ' + parseInt(aOffset) + 'px;' });
-	            } else {
-	                alerts = alert;
-	            }
-	            return alerts;
-	        });
-	    };
-
-	    exports.default = getAlertData;
-	});
-
-/***/ },
-/* 532 */,
-/* 533 */,
-/* 534 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	var _react = __webpack_require__(300);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _reactSAlert = __webpack_require__(525);
-
-	var _reactSAlert2 = _interopRequireDefault(_reactSAlert);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } //http://react-s-alert.jsdemo.be/
-
-	var Home = function (_React$Component) {
-	  _inherits(Home, _React$Component);
-
-	  function Home() {
-	    _classCallCheck(this, Home);
-
-	    return _possibleConstructorReturn(this, (Home.__proto__ || Object.getPrototypeOf(Home)).apply(this, arguments));
-	  }
-
-	  _createClass(Home, [{
-	    key: 'handleClick1',
-	    value: function handleClick1(e) {
-	      e.preventDefault();
-	      _reactSAlert2.default.error('Whoops, that game has already started! Predictions can only be submitted for games before they begin.', {
-	        position: 'bottom',
-	        effect: 'flip',
-	        onShow: function onShow() {
-	          console.log('aye!');
-	        },
-	        beep: true,
-	        timeout: 5000,
-	        offset: 0
-	      });
-	    }
-	  }, {
-	    key: 'handleClick2',
-	    value: function handleClick2(e) {
-	      e.preventDefault();
-	      _reactSAlert2.default.info('Test message 2', {
-	        position: 'bottom-left',
-	        effect: 'bouncyflip',
-	        timeout: 'none'
-	      });
-	    }
-	  }, {
-	    key: 'handleClick3',
-	    value: function handleClick3(e) {
-	      e.preventDefault();
-	      _reactSAlert2.default.error('Test message 3', {
-	        position: 'bottom-right',
-	        effect: 'slide',
-	        timeout: 'none'
-	      });
-	    }
-	  }, {
-	    key: 'handleCloseAll',
-	    value: function handleCloseAll(e) {
-	      e.preventDefault();
-	      _reactSAlert2.default.closeAll();
-	    }
-	  }, {
-	    key: 'render',
-	    value: function render() {
-	      return _react2.default.createElement(
-	        'div',
-	        null,
-	        _react2.default.createElement(
-	          'div',
-	          null,
-	          _react2.default.createElement(
-	            'a',
-	            { href: '#', onClick: this.handleClick1 },
-	            'Click 1'
-	          ),
-	          ' |',
-	          _react2.default.createElement(
-	            'a',
-	            { href: '#', onClick: this.handleClick2 },
-	            'Click 2'
-	          ),
-	          ' |',
-	          _react2.default.createElement(
-	            'a',
-	            { href: '#', onClick: this.handleClick3 },
-	            'Click 3'
-	          ),
-	          ' |',
-	          _react2.default.createElement(
-	            'a',
-	            { href: '#', onClick: this.handleCloseAll },
-	            'Close All'
-	          )
-	        )
-	      );
-	    }
-	  }]);
-
-	  return Home;
-	}(_react2.default.Component);
-
-	exports.default = Home;
 
 /***/ }
 /******/ ]);

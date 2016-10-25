@@ -1,6 +1,7 @@
 'use strict';
 
 import { connect } from 'react-redux';
+import Alert from 'react-s-alert';
 
 import ActionCreator from '../../action-creators.js';
 import GamesViewer from '../games-viewer/games-viewer.jsx';
@@ -41,7 +42,15 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
         }),
         (response => {
           dispatch(ActionCreator.sendPredictionFailure());
-          console.log('Failed to post new prediction', response);
+          Alert.warning('Error: ' + response.message,
+            {
+              position: 'bottom',
+              effect: 'stackslide',
+              beep: false,
+              timeout: 8000,
+              offset: 0
+            }
+          );
         })
       );
       dispatch(ActionCreator.sendPredictionWaiting());
@@ -67,7 +76,15 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
         }),
         (response => {
           dispatch(ActionCreator.sendPredictionFailure());
-          console.log('Failed to post new prediction', response);
+          Alert.warning('Error: ' + response.message,
+            {
+              position: 'bottom',
+              effect: 'stackslide',
+              beep: false,
+              timeout: 8000,
+              offset: 0
+            }
+          );
         })
       );
       dispatch(ActionCreator.sendPredictionWaiting());

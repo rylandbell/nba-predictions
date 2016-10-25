@@ -133,7 +133,15 @@
 
 /* conditions */
 
+// cyborg bootswatch theme:
+/*$brand-primary:         #2A9FD6 !default;
+$brand-success:         #77B300 !default;
+$brand-info:            #9933CC !default;
+$brand-warning:         #FF8800 !default;
+$brand-danger:          #CC0000 !default;*/
+
 .s-alert-info {
+    /*background: #9933CC;*/
     background: #00A2D3;
     color: #fff;
 }
@@ -142,11 +150,14 @@
     color: #fff;
 }
 .s-alert-warning {
-    background: #F1C40F;
+    /*background: #F1C40F;*/
+    font-weight: bold;
+    background: #9933CC;
     color: #fff;
 }
 .s-alert-error {
-    background: #E74C3C;
+    background: #CC0000;
+    /*background: #E74C3C;*/
     color: #fff;
 }
 

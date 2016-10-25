@@ -4,7 +4,8 @@
 @import 'predictions-summary.css';
 @import 'logo-sprites.css';
 @import 's-alert-default.css';
-@import './s-alert-css-effects/flip.css';
+@import './s-alert-css-effects/stackslide.css';
+@import './s-alert-css-effects/slide.css';
 
 body {
   padding-top: 70px;

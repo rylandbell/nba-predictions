@@ -158,10 +158,10 @@ const verifyPredictionTime = function (gameTime) {
 
 //  PUT make a prediction
 module.exports.predictedWinnersUpdate = function (req, res) {
-  
+
   //reject the prediction if the game has already started:
   if (!verifyPredictionTime(req.body.gameTime)){
-    sendJsonResponse(res, 400, {
+    sendJsonResponse(res, 403, {
       message: 'This game\'s scheduled start time has already passed, so no more predictions are allowed.'
     });
     return;
