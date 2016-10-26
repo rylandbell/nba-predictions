@@ -162,7 +162,7 @@ module.exports.predictedWinnersUpdate = function (req, res) {
   //reject the prediction if the game has already started:
   if (!verifyPredictionTime(req.body.gameTime)){
     sendJsonResponse(res, 403, {
-      message: 'This game\'s scheduled start time has already passed, so no more predictions are allowed.'
+      message: 'It is too late to update your prediction for this game; its start time has passed.'
     });
     return;
   }

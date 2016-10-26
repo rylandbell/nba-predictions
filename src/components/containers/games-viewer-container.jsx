@@ -18,6 +18,8 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch, ownProps) => ({
   addPrediction:
     (gameId, teamName, gameDate, gameTime) => {
+      Alert.closeAll();
+
       //mark previous selection for that day eligible:
       const gameDay = moment(gameDate).format('D');
       const oldPrediction = ownProps.reduxState.userMonth.predictedWinners[gameDay].teamName;
@@ -57,6 +59,8 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     },
   removePrediction:
     (gameId, teamName, gameDate, gameTime) => {
+      Alert.closeAll();
+
       dispatch(ActionCreator.removePrediction(gameId, gameDate));
       dispatch(ActionCreator.markEligible(teamName));
 
@@ -76,7 +80,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
         }),
         (response => {
           dispatch(ActionCreator.sendPredictionFailure());
-          Alert.warning('Error: ' + response.message,
+          Alert.warning('Whoops: ' + response.message,
             {
               position: 'bottom',
               effect: 'stackslide',

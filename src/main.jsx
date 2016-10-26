@@ -35,8 +35,15 @@ function render() {
                 }),
                 (response => {
                   store.dispatch(ActionCreator.requestUserMonthFailure());
-                  console.log(store.getState());
-                  console.log('Failed to fetch userMonth', response);
+                  Alert.warning('Error: Failed to load user data. ' + response.message,
+                    {
+                      position: 'bottom',
+                      effect: 'stackslide',
+                      beep: false,
+                      timeout: 8000,
+                      offset: 0
+                    }
+                  );
                 })
               );
               store.dispatch(ActionCreator.requestUserMonthWaiting());
@@ -53,7 +60,15 @@ function render() {
                 }),
                 (response => {
                   store.dispatch(ActionCreator.requestGameDataFailure());
-                  console.log('Failed to fetch gameData', response);
+                  Alert.warning('Error: Failed to load game data. ' + response.message,
+                    {
+                      position: 'bottom',
+                      effect: 'stackslide',
+                      beep: false,
+                      timeout: 8000,
+                      offset: 0
+                    }
+                  );
                 })
               );
               store.dispatch(ActionCreator.requestGameDataWaiting());

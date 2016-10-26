@@ -96,14 +96,14 @@ const eligibleTeams = (state = [], action) => {
     case 'RECEIVE_USER_MONTH':
       chosenTeams = _.values(action.response.userMonth.predictedWinners).map(obj=>obj.teamName);
       return _.difference(teams, chosenTeams).sort();
-    case 'MARK_ELIGIBLE':
-      if(action.teamName){
-        return state.concat([action.teamName]).sort();
-      } else {
-        return state;
-      }
-    case 'MARK_INELIGIBLE':
-      return _.without(state,action.teamName).sort();
+    // case 'MARK_ELIGIBLE':
+    //   if(action.teamName){
+    //     return state.concat([action.teamName]).sort();
+    //   } else {
+    //     return state;
+    //   }
+    // case 'MARK_INELIGIBLE':
+    //   return _.without(state,action.teamName).sort();
     default:
       return state;
   }

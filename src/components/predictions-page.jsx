@@ -5,7 +5,6 @@ import React from 'react';
 import GamesViewerContainer from './containers/games-viewer-container.jsx';
 import PredictionsSummaryContainer from './containers/predictions-summary-container.jsx'; 
 import StatusMessage from './status-message.jsx';
-import AlertTest from './alert-test.jsx';
 
 const api = React.createClass({
   componentDidMount: function() {
@@ -21,7 +20,6 @@ const api = React.createClass({
       <div className={'row '+(this.props.reduxState.isSendingPrediction ? 'send-waiting' : '')}>
         <GamesViewerContainer reduxState={this.props.reduxState}/>
         <PredictionsSummaryContainer reduxState={this.props.reduxState}/>
-        <AlertTest showAlert = {this.props.showAlert} />
       </div>)
   }
 });

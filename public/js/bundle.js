@@ -109,8 +109,13 @@
 	            store.dispatch(_actionCreators2.default.receiveUserMonth(response));
 	          }, function (response) {
 	            store.dispatch(_actionCreators2.default.requestUserMonthFailure());
-	            console.log(store.getState());
-	            console.log('Failed to fetch userMonth', response);
+	            _reactSAlert2.default.warning('Error: Failed to load user data. ' + response.message, {
+	              position: 'bottom',
+	              effect: 'stackslide',
+	              beep: false,
+	              timeout: 8000,
+	              offset: 0
+	            });
 	          });
 	          store.dispatch(_actionCreators2.default.requestUserMonthWaiting());
 	        },
@@ -119,7 +124,13 @@
 	            store.dispatch(_actionCreators2.default.receiveGameData(response));
 	          }, function (response) {
 	            store.dispatch(_actionCreators2.default.requestGameDataFailure());
-	            console.log('Failed to fetch gameData', response);
+	            _reactSAlert2.default.warning('Error: Failed to load game data. ' + response.message, {
+	              position: 'bottom',
+	              effect: 'stackslide',
+	              beep: false,
+	              timeout: 8000,
+	              offset: 0
+	            });
 	          });
 	          store.dispatch(_actionCreators2.default.requestGameDataWaiting());
 	        },
@@ -32367,14 +32378,14 @@
 	        return obj.teamName;
 	      });
 	      return _lodash2.default.difference(teams, chosenTeams).sort();
-	    case 'MARK_ELIGIBLE':
-	      if (action.teamName) {
-	        return state.concat([action.teamName]).sort();
-	      } else {
-	        return state;
-	      }
-	    case 'MARK_INELIGIBLE':
-	      return _lodash2.default.without(state, action.teamName).sort();
+	    // case 'MARK_ELIGIBLE':
+	    //   if(action.teamName){
+	    //     return state.concat([action.teamName]).sort();
+	    //   } else {
+	    //     return state;
+	    //   }
+	    // case 'MARK_INELIGIBLE':
+	    //   return _.without(state,action.teamName).sort();
 	    default:
 	      return state;
 	  }
@@ -49243,10 +49254,6 @@
 
 	var _statusMessage2 = _interopRequireDefault(_statusMessage);
 
-	var _alertTest = __webpack_require__(521);
-
-	var _alertTest2 = _interopRequireDefault(_alertTest);
-
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var api = _react2.default.createClass({
@@ -49262,8 +49269,7 @@
 	      'div',
 	      { className: 'row ' + (this.props.reduxState.isSendingPrediction ? 'send-waiting' : '') },
 	      _react2.default.createElement(_gamesViewerContainer2.default, { reduxState: this.props.reduxState }),
-	      _react2.default.createElement(_predictionsSummaryContainer2.default, { reduxState: this.props.reduxState }),
-	      _react2.default.createElement(_alertTest2.default, { showAlert: this.props.showAlert })
+	      _react2.default.createElement(_predictionsSummaryContainer2.default, { reduxState: this.props.reduxState })
 	    );
 	  }
 	});
@@ -49313,6 +49319,8 @@
 	var mapDispatchToProps = function mapDispatchToProps(dispatch, ownProps) {
 	  return {
 	    addPrediction: function addPrediction(gameId, teamName, gameDate, gameTime) {
+	      _reactSAlert2.default.closeAll();
+
 	      //mark previous selection for that day eligible:
 	      var gameDay = moment(gameDate).format('D');
 	      var oldPrediction = ownProps.reduxState.userMonth.predictedWinners[gameDay].teamName;
@@ -49343,6 +49351,8 @@
 	      dispatch(_actionCreators2.default.sendPredictionWaiting());
 	    },
 	    removePrediction: function removePrediction(gameId, teamName, gameDate, gameTime) {
+	      _reactSAlert2.default.closeAll();
+
 	      dispatch(_actionCreators2.default.removePrediction(gameId, gameDate));
 	      dispatch(_actionCreators2.default.markEligible(teamName));
 
@@ -49357,7 +49367,7 @@
 	        dispatch(_actionCreators2.default.sendPredictionSuccess(response));
 	      }, function (response) {
 	        dispatch(_actionCreators2.default.sendPredictionFailure());
-	        _reactSAlert2.default.warning('Error: ' + response.message, {
+	        _reactSAlert2.default.warning('Whoops: ' + response.message, {
 	          position: 'bottom',
 	          effect: 'stackslide',
 	          beep: false,
@@ -50121,134 +50131,7 @@
 	exports.default = api;
 
 /***/ },
-/* 521 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	var _react = __webpack_require__(300);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _reactSAlert = __webpack_require__(497);
-
-	var _reactSAlert2 = _interopRequireDefault(_reactSAlert);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } //http://react-s-alert.jsdemo.be/
-
-	var Home = function (_React$Component) {
-	  _inherits(Home, _React$Component);
-
-	  function Home() {
-	    _classCallCheck(this, Home);
-
-	    return _possibleConstructorReturn(this, (Home.__proto__ || Object.getPrototypeOf(Home)).apply(this, arguments));
-	  }
-
-	  _createClass(Home, [{
-	    key: 'handleClick',
-	    value: function handleClick(e) {
-	      e.preventDefault();
-	      console.log(this);
-	      this.props.showAlert('info', 'hey there', {});
-	    }
-	  }, {
-	    key: 'handleClick1',
-	    value: function handleClick1(e) {
-	      e.preventDefault();
-	      _reactSAlert2.default.error('Whoops, that game has already started! Predictions can only be submitted for games before they begin.', {
-	        position: 'bottom',
-	        effect: 'stackslide',
-	        onShow: function onShow() {
-	          console.log('aye!');
-	        },
-	        beep: true,
-	        timeout: 8000,
-	        offset: 0
-	      });
-	    }
-	  }, {
-	    key: 'handleClick2',
-	    value: function handleClick2(e) {
-	      e.preventDefault();
-	      _reactSAlert2.default.info('Loading game data...just sit tight.', {
-	        position: 'top-left',
-	        effect: 'slide',
-	        timeout: 'none',
-	        offset: 50
-	      });
-	    }
-	  }, {
-	    key: 'handleClick3',
-	    value: function handleClick3(e) {
-	      e.preventDefault();
-	      _reactSAlert2.default.error('Test message 3', {
-	        position: 'bottom-right',
-	        effect: 'slide',
-	        timeout: 'none'
-	      });
-	    }
-	  }, {
-	    key: 'handleCloseAll',
-	    value: function handleCloseAll(e) {
-	      e.preventDefault();
-	      _reactSAlert2.default.closeAll();
-	    }
-	  }, {
-	    key: 'render',
-	    value: function render() {
-	      return _react2.default.createElement(
-	        'div',
-	        null,
-	        _react2.default.createElement(
-	          'div',
-	          null,
-	          _react2.default.createElement(
-	            'a',
-	            { href: '#', onClick: this.handleClick1 },
-	            'Error/Bottom'
-	          ),
-	          ' |',
-	          _react2.default.createElement(
-	            'a',
-	            { href: '#', onClick: this.handleClick2 },
-	            'Data Loading'
-	          ),
-	          ' |',
-	          _react2.default.createElement(
-	            'a',
-	            { href: '#', onClick: this.handleClick },
-	            'Click 3'
-	          ),
-	          ' |',
-	          _react2.default.createElement(
-	            'a',
-	            { href: '#', onClick: this.handleCloseAll },
-	            'Close All'
-	          )
-	        )
-	      );
-	    }
-	  }]);
-
-	  return Home;
-	}(_react2.default.Component);
-
-	exports.default = Home;
-
-/***/ },
+/* 521 */,
 /* 522 */
 /***/ function(module, exports, __webpack_require__) {
 
