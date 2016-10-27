@@ -3,9 +3,10 @@ var moment = require('moment');
 extends ./layouts/layout.jade
 
 block content
-  .lead Choose a month:
+  
   .row
-    .col-xs-3
+    .col-xs-12.col-sm-6.col-md-3
+      .lead.text-center Update My Picks:
       .list-group
         each month in addableUserMonths
           a.list-group-item(href='/new-month/#{month}')
@@ -13,6 +14,44 @@ block content
         each month in existingUserMonths
           a.list-group-item(href='/month/#{month}')
             h5.text-center= moment(month).format('MMMM YYYY')
+    .col-xs-12.col-sm-6.col-md-3.col-md-offset-6
+      .lead.text-center #{moment(month).format('MMMM')+' Standings:'}
+      table.table.standings-table
+        thead
+          tr
+            th Name
+            th.text-center Record
+            th.text-center Today
+        tbody
+          tr
+            td Ryland
+            td.text-center 30-0
+            td.text-center IND
+          tr
+            td Johnny
+            td.text-center 15-15
+            td.text-center OKC
+          tr
+            td Draymond Draymond Green Green
+            td.text-center 0-30
+            td.text-center -
+          tr
+            td Kyrie
+            td.text-center 0-30
+            td.text-center -
+          tr
+            td Steph
+            td.text-center 0-30
+            td.text-center -
+          tr
+            td Dirk
+            td.text-center 0-30
+            td.text-center -
+          tr
+            td LeBron
+            td.text-center 0-30
+            td.text-center -
+      .small.text-center (Updated daily at midnight Pacific time.)
 
 block scripts
   //- script(src='/js/bundle.js') 

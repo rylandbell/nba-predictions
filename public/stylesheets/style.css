@@ -1,14 +1,19 @@
 @import 'single-game.css';
+@import 'standings.css';
 @import 'day-picker.css';
 @import 'status-message.css';
 @import 'predictions-summary.css';
 @import 'logo-sprites.css';
-@import 's-alert-default.css';
-@import './s-alert-css-effects/stackslide.css';
-@import './s-alert-css-effects/slide.css';
+@import '../vendor/s-alert/s-alert-default.css';
+@import '../vendor/s-alert/stackslide.css';
+@import '../vendor/s-alert/slide.css';
 
 body {
   padding-top: 70px;
+}
+
+.container-navbar {
+  max-width: 1250px;
 }
 
 .send-waiting, .send-waiting * {

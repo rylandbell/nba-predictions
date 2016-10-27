@@ -96,6 +96,9 @@ const eligibleTeams = (state = [], action) => {
     case 'RECEIVE_USER_MONTH':
       chosenTeams = _.values(action.response.userMonth.predictedWinners).map(obj=>obj.teamName);
       return _.difference(teams, chosenTeams).sort();
+    case 'SEND_PREDICTION_SUCCESS':
+      chosenTeams = _.values(action.response.predictedWinners).map(obj=>obj.teamName);
+      return _.difference(teams, chosenTeams).sort();
     // case 'MARK_ELIGIBLE':
     //   if(action.teamName){
     //     return state.concat([action.teamName]).sort();

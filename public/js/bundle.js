@@ -32378,6 +32378,11 @@
 	        return obj.teamName;
 	      });
 	      return _lodash2.default.difference(teams, chosenTeams).sort();
+	    case 'SEND_PREDICTION_SUCCESS':
+	      chosenTeams = _lodash2.default.values(action.response.predictedWinners).map(function (obj) {
+	        return obj.teamName;
+	      });
+	      return _lodash2.default.difference(teams, chosenTeams).sort();
 	    // case 'MARK_ELIGIBLE':
 	    //   if(action.teamName){
 	    //     return state.concat([action.teamName]).sort();
