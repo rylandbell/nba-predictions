@@ -54,7 +54,8 @@ var userMonthSchema = new mongoose.Schema({
   standingsData: {
     winCount: {type: Number, default: 0},
     lossCount: {type: Number, default: 0}
-  }
+  },
+  leagueName: {type: String, default: 'alpha'}
 });
 
 //connect this schema to the database. automatically creates a MongoDB collection 'usermonths' based on the supplied parameter 'month'

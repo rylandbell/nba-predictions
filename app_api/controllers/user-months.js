@@ -7,14 +7,61 @@ var _ = require('lodash');
 var UserMonthModel = mongoose.model('UserMonth');
 var UserModel = mongoose.model('User');
 
+//return true if gameTime is after now
+const gameTimeInFuture = function (gameTime) {
+
+  //create moment in East time zone, from gameTime:
+  let gameMoment = moment.tz(gameTime, 'YYYY-MM-DD h:mm a', 'America/New_York');
+  
+  //create moment from local time, then translate to ETC moment:
+  let nowMoment = moment().tz('America/New_York');
+
+  return gameMoment.isAfter(nowMoment);
+}
+
+//redacts all users' predictions for games that haven't yet started
+const  hideFuturePredictions = function (userMonth){
+  const redactedWinners = userMonth.predictedWinners.toObject();
+
+  _.forEach(redactedWinners, 
+    (day, key) => {
+      if(day.teamName && gameTimeInFuture(day.gameTime)){
+        day.teamName = null;
+      }
+    }
+  );
+
+  userMonth.predictedWinners = redactedWinners;
+  return userMonth;
+}
+
+//given a userMonth and an outcome type ('success' or 'failure'), count the number of given outcomes
+const countOutcomes = function (predictedWinners, outcomeType){
+
+  //converts from weird Mongoose object to iterable object:
+  predictedWinners = predictedWinners.toObject();
+
+  return _.reduce(predictedWinners,
+    (sum, day, key) => {
+      if (key === '_id'){
+        return sum;
+      } else {
+        var increase = (day.outcome && day.outcome === outcomeType) ? 1 : 0;
+        return sum + increase;
+      }
+    },
+    0
+  );
+}
+
 //helper function for composing responses as status codes (e.g. 404) with JSON files
-var sendJsonResponse = function (res, status, content) {
+const sendJsonResponse = function (res, status, content) {
   res.status(status);
   res.json(content);
 };
 
 //helper function for getting author data from JWT
-var getOwnerData = function (req, res, callback) {
+const getOwnerData = function (req, res, callback) {
   if (req.payload._id) {
     UserModel
       .findOne({ _id: req.payload._id })
@@ -125,7 +172,36 @@ module.exports.userMonthReadAllByMonth = function (req, res) {
 
       sendJsonResponse(res, 200, responseBody);
     });
-  
+};
+
+//GET all userMonths by month, and hide future predictions
+module.exports.userMonthReadAllPublic = function (req, res) {
+  var filter = {
+    month: req.params.month
+  };
+
+  UserMonthModel
+    .find(filter)
+    .exec(function (err, userMonthArray) {
+      var responseBody = {};
+      
+      if (!userMonthArray) {
+        sendJsonResponse(res, 404, {
+          message: 'No userMonths found'
+        });
+        return;
+      } else if (err) {
+        console.log("Error: ", err);
+        sendJsonResponse(res, 404, err);
+        return;
+      }
+
+      userMonthArray.forEach(userMonth => hideFuturePredictions(userMonth));
+
+      responseBody = userMonthArray;
+
+      sendJsonResponse(res, 200, responseBody);
+    });
 };
 
 /* POST a new userMonth */
@@ -146,22 +222,13 @@ module.exports.userMonthCreate = function (req, res) {
   });
 };
 
-const verifyPredictionTime = function (gameTime) {
 
-  //create moment in East time zone, from gameTime:
-  let gameMoment = moment.tz(gameTime, 'YYYY-MM-DD h:mm a', 'America/New_York');
-  
-  //create moment from local time, then translate to ETC moment:
-  let nowMoment = moment().tz('America/New_York');
-
-  return gameMoment.isAfter(nowMoment);
-}
 
 //  PUT make a prediction
 module.exports.predictedWinnersUpdate = function (req, res) {
 
   //reject the prediction if the game has already started:
-  if (!verifyPredictionTime(req.body.gameTime)){
+  if (!gameTimeInFuture(req.body.gameTime)){
     sendJsonResponse(res, 403, {
       message: 'It\'s too late to update your prediction for this game; its start time has passed.'
     });
@@ -222,25 +289,6 @@ module.exports.predictedWinnersUpdate = function (req, res) {
     );
   });
 };
-
-//given a userMonth and an outcome type ('success' or 'failure'), count the number of given outcomes
-function countOutcomes (predictedWinners, outcomeType){
-
-  //converts from weird Mongoose object to iterable object:
-  predictedWinners = predictedWinners.toObject();
-
-  return _.reduce(predictedWinners,
-    (sum, day, key) => {
-      if (key === '_id'){
-        return sum;
-      } else {
-        var increase = (day.outcome && day.outcome === outcomeType) ? 1 : 0;
-        return sum + increase;
-      }
-    },
-    0
-  );
-}
 
 /* PUT mark a prediction as success or failure */
 module.exports.outcomeUpdate = function (req, res) {
