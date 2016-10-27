@@ -210,6 +210,7 @@ module.exports.userMonthCreate = function (req, res) {
     UserMonthModel.create({
       month: req.body.month,
       ownerId: owner._id,
+      ownerDisplayName: owner.displayName,
       predictedWinners: {}
     }, function (err, userMonth) {
       if (err) {
