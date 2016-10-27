@@ -44,7 +44,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
         }),
         (response => {
           dispatch(ActionCreator.sendPredictionFailure());
-          Alert.warning('Error: ' + response.message,
+          Alert.warning('Whoops: ' + response.message,
             {
               position: 'bottom',
               effect: 'stackslide',

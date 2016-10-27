@@ -6,7 +6,7 @@ var predictionSchema = new mongoose.Schema({
   outcome: {type: String, default: null},
 
   //2016-11-19T19:30:00Z  (use east coast time);
-  startTime: {type: String, default: null}
+  gameTime: {type: String, default: null}
 });
 
 //tracks predicted winners by day of month
@@ -50,7 +50,11 @@ var userMonthSchema = new mongoose.Schema({
   //e.g. 2016-09
   month: { type: String, required: true },
   ownerId: { type: String, required: true },
-  predictedWinners: {type: predictedWinnersSchema, default: predictedWinnersSchema}
+  predictedWinners: {type: predictedWinnersSchema, default: predictedWinnersSchema},
+  standingsData: {
+    winCount: {type: Number, default: 0},
+    lossCount: {type: Number, default: 0}
+  }
 });
 
 //connect this schema to the database. automatically creates a MongoDB collection 'usermonths' based on the supplied parameter 'month'

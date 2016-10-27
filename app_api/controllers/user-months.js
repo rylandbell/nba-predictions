@@ -2,6 +2,7 @@
 
 var mongoose = require('mongoose');
 var moment = require('moment-timezone');
+var _ = require('lodash');
 
 var UserMonthModel = mongoose.model('UserMonth');
 var UserModel = mongoose.model('User');
@@ -162,7 +163,7 @@ module.exports.predictedWinnersUpdate = function (req, res) {
   //reject the prediction if the game has already started:
   if (!verifyPredictionTime(req.body.gameTime)){
     sendJsonResponse(res, 403, {
-      message: 'It is too late to update your prediction for this game; its start time has passed.'
+      message: 'It\'s too late to update your prediction for this game; its start time has passed.'
     });
     return;
   }
@@ -199,6 +200,7 @@ module.exports.predictedWinnersUpdate = function (req, res) {
 
           //add the prediction data from req:
           var dayNumber = req.body.dayNumber;
+          var gameTime = req.body.gameTime;
           var predictedWinner = req.body.teamName || null;
 
           if (predictedWinner) {
@@ -206,6 +208,7 @@ module.exports.predictedWinnersUpdate = function (req, res) {
           } else {
             userMonth[0].predictedWinners[dayNumber].teamName = null;
           }
+          userMonth[0].predictedWinners[dayNumber].gameTime = gameTime;
 
           //save the userMonth;
           userMonth[0].save(function (err, userMonth) {
@@ -220,6 +223,25 @@ module.exports.predictedWinnersUpdate = function (req, res) {
   });
 };
 
+//given a userMonth and an outcome type ('success' or 'failure'), count the number of given outcomes
+function countOutcomes (predictedWinners, outcomeType){
+
+  //converts from weird Mongoose object to iterable object:
+  predictedWinners = predictedWinners.toObject();
+
+  return _.reduce(predictedWinners,
+    (sum, day, key) => {
+      if (key === '_id'){
+        return sum;
+      } else {
+        var increase = (day.outcome && day.outcome === outcomeType) ? 1 : 0;
+        return sum + increase;
+      }
+    },
+    0
+  );
+}
+
 /* PUT mark a prediction as success or failure */
 module.exports.outcomeUpdate = function (req, res) {
   var userMonthId = req.params.userMonthId;
@@ -229,7 +251,6 @@ module.exports.outcomeUpdate = function (req, res) {
       .select('predictedWinners')
       .exec(
         function (err, userMonth) {
-          
           //catch basic errors:
           if (!userMonth) {
             sendJsonResponse(res, 404, {
@@ -249,6 +270,10 @@ module.exports.outcomeUpdate = function (req, res) {
               message: 'no day provided'
             });
           }
+
+          //update standingsData:
+          userMonth.standingsData.winCount = countOutcomes(userMonth.predictedWinners,'success');
+          userMonth.standingsData.lossCount = countOutcomes(userMonth.predictedWinners,'failure');
 
           //save userMonth and send JSON response:
           userMonth.save(function (err, userMonth) {

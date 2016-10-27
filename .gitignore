@@ -1,0 +1,17 @@
+# Dependency directory
+node_modules
+
+#Environment variables
+.env
+
+#credentials
+credentials.js
+
+#console logs
+logs
+
+#testing
+public/qa
+public/vendor/qa
+
+.DS_Store

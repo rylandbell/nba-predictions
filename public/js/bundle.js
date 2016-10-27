@@ -49340,7 +49340,7 @@
 	        dispatch(_actionCreators2.default.sendPredictionSuccess(response));
 	      }, function (response) {
 	        dispatch(_actionCreators2.default.sendPredictionFailure());
-	        _reactSAlert2.default.warning('Error: ' + response.message, {
+	        _reactSAlert2.default.warning('Whoops: ' + response.message, {
 	          position: 'bottom',
 	          effect: 'stackslide',
 	          beep: false,
