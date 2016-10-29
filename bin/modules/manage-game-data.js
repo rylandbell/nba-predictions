@@ -11,7 +11,7 @@ const Helper = require('./helper.js');
 console.log('NODE_ENV', process.env.NODE_ENV);
 var server = 'http://localhost:3000';
 if (process.env.NODE_ENV === 'production') {
-  server = 'https://frozen-retreat-57000';
+  server = 'https://frozen-retreat-57000.herokuapp.com';
 }
 console.log('server ', server);
 
