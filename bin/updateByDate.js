@@ -1,11 +1,11 @@
 'use strict';
 
-console.log('Task ran at ', moment().format('YYYY-MM-DD kk:mm'));
-
 const moment = require('moment');
 
 const GameData = require('./modules/manage-game-data.js');
 const UserData = require('./modules/manage-user-data.js');
+
+console.log('updateByDate ran at ', moment().format('YYYY-MM-DD kk:mm'));
 
 const today = moment().format('YYYY-MM-DD');
 const yesterday = moment(today).subtract(1,'days').format('YYYY-MM-DD');
