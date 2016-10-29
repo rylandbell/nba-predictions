@@ -1,0 +1,13 @@
+.navbar {
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.container-navbar {
+  /*max-width: 1250px;*/
+}
+
+#login-form .form-group, #login-form button {
+  margin-left: 15px;
+}
+

@@ -1,3 +1,5 @@
+'use strict';
+
 var request = require('request');
 var moment = require('moment');
 var _ = require('lodash');
@@ -108,6 +110,40 @@ module.exports.landingPage = function (req, res, next) {
   request(requestOptions, function (err, apiResponse, body) {
     if (apiResponse.statusCode === 200) {
       renderLandingPage(req, res, body);
+    } else {
+      _showError(req, res, apiResponse);
+    }
+  });
+};
+
+var renderStandingsPage = function (req, res, responseBody) {
+
+  //sort returned userMonths by winCount
+  responseBody.sort(
+    (userA,userB) => userB.standingsData.winCount - userA.standingsData.winCount
+  );
+
+  res.render('standings', {
+    title: 'standings',
+    showSignOut: true,
+    error: req.query.err,
+    userData: responseBody,
+    moment: moment
+  });
+};
+
+/* GET standings page */
+module.exports.standings = function (req, res, next) {
+  var path = '/api/userMonth/all-public/'+req.params.month;
+  var requestOptions = {
+    url: apiOptions.server + path,
+    method: 'GET',
+    json: req.cookies,
+    qs: {}
+  };
+  request(requestOptions, function (err, apiResponse, body) {
+    if (apiResponse.statusCode === 200) {
+      renderStandingsPage(req, res, body);
     } else {
       _showError(req, res, apiResponse);
     }

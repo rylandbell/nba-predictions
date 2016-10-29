@@ -1,0 +1,18 @@
+body {
+  background: url('../images/floor-1600.jpg');
+  background-repeat: no-repeat;
+  background-color: #060606;
+  background-position: center top;
+}
+
+@media(min-width: 1600px) {
+  body {
+    background-position: center top;
+  }
+}
+
+@media (max-width: 500px) {
+  .thumbnails {
+    display: none;
+  }
+}

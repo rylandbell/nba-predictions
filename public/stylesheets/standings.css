@@ -1,7 +1,7 @@
 .standings-table td, .standings-table th {
-  // text-align: center;
+  text-align: center;
 }
 
 .standings-table {
-  background-color: #060606;
+  // background-color: #060606;
 }

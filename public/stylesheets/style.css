@@ -3,50 +3,42 @@
 @import 'day-picker.css';
 @import 'status-message.css';
 @import 'predictions-summary.css';
+@import 'navbar.css';
 @import 'logo-sprites.css';
 @import '../vendor/s-alert/s-alert-default.css';
 @import '../vendor/s-alert/stackslide.css';
 @import '../vendor/s-alert/slide.css';
 
 body {
-  padding-top: 70px;
+  padding-top: 80px;
 }
 
-.container-navbar {
-  max-width: 1250px;
+.jumbotron {
+  padding-bottom: 30px;
+  padding-top: 20px;
+  opacity: 0.9;
+}
+
+.thumbnails {
+  padding-left: 15px;
+  padding-right: 15px;
+  border-radius: 5px;
+  background-color: black;
+  opacity: 0.75;
+};
+
+.panel-default {
+  color: #fff;
 }
 
 .send-waiting, .send-waiting * {
   cursor: progress !important;
 }
 
-/*~~~~~~~~~~~~~~~~~~~~~~*/
-
-.horiz-teams-table .selected {
-  // border: 1px solid #2A9FD6;
-  box-shadow: 0 0 0.2em 0.2em #2A9FD6 inset;
-}
-
-.horiz-teams-table .player-win {
-  // border: 1px solid #77B300;
-  box-shadow: 0 0 0.2em 0.2em #77B300 inset;
-}
-
-.horiz-teams-table .player-loss {
-  // border: 1px solid #77B300;
-  box-shadow: 0 0 0.3em 0.2em #CC0000 inset;
-}
-
-.horiz-teams-table {
-  border-spacing: 5px;
-}
-
-.horiz-teams-table * {
+.panel-title {
   text-align: center;
-}
-
-.gap {
-  background-color: #060606;
+  font-size: 1.4em;
+  color: #fff;
 }
 
 /*~~~~~~~~~~~~~~~~*/
@@ -77,4 +69,8 @@ body {
 
 .how-to-play {
   font-size: 2em;
+}
+
+.btn-caption {
+  margin-top: 8px;
 }

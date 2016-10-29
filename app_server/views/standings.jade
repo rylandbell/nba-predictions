@@ -1,0 +1,35 @@
+extends ./layouts/layout.jade
+
+block content
+  .row
+    .col-xs-12.col-md-8.col-md-offset-2
+      table.table
+        thead
+          tr
+            th Name
+            th.text-center Wins
+            th.text-center Losses
+            th.text-center Today's Pick
+            th.text-center Yesterday's Pick
+        tbody
+          -var today = moment().format('D')
+          each userMonth in userData
+            tr
+              td= userMonth.ownerDisplayName
+              td.text-center= userMonth.standingsData.winCount
+              td.text-center= userMonth.standingsData.lossCount
+              if (userMonth.predictedWinners[today].outcome === 'success')
+                td.text-center.text-success= userMonth.predictedWinners[today].teamName
+              else if (userMonth.predictedWinners[today].outcome === 'failure')
+                td.text-center.text-danger= userMonth.predictedWinners[today].teamName
+              else
+                td.text-center= userMonth.predictedWinners[today].teamName
+              if (today>1)
+                if (userMonth.predictedWinners[today-1].outcome === 'success')
+                  td.text-center.text-success= userMonth.predictedWinners[today-1].teamName
+                else if (userMonth.predictedWinners[today-1].outcome === 'failure')
+                  td.text-center.text-danger= userMonth.predictedWinners[today-1].teamName
+                else
+                  td.text-center= userMonth.predictedWinners[today-1].teamName
+              else
+                td.text-center j
