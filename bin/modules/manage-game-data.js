@@ -8,12 +8,10 @@ const moment = require('moment');
 const Nba = require('./get-nba-data.js');
 const Helper = require('./helper.js');
 
-console.log('NODE_ENV', process.env.NODE_ENV);
 var server = 'http://localhost:3000';
 if (process.env.NODE_ENV === 'production') {
   server = 'https://frozen-retreat-57000.herokuapp.com';
 }
-console.log('server ', server);
 
 //creates or updates dailyGamesData object in database
 const updateGameData = function(url, method, data, successCallback, failureCallback){
