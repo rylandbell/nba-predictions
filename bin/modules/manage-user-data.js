@@ -2,7 +2,7 @@
 
 let server = 'http://localhost:3000';
 if (process.env.NODE_ENV === 'production') {
-  server = 'https://frozen-retreat-57000';
+  server = 'https://frozen-retreat-57000.herokuapp.com';
 }
 
 //takes a day of dailyGamesData, and a single day of a single userMonth
