@@ -25,10 +25,20 @@ body {
   border-radius: 5px;
   background-color: black;
   opacity: 0.75;
-};
+}
 
 .panel-default {
   color: #fff;
+}
+
+.panel-black {
+  background-color: #060606;
+
+}
+
+.list-group-item {
+  background-color: #060606;
+  border-color: #060606;
 }
 
 .send-waiting, .send-waiting * {
