@@ -20,6 +20,8 @@ const gameTimeInFuture = function (gameTime) {
   let nowMoment = moment().tz('America/New_York');
   console.log('local time to ET: ', gameTime);
 
+  console.log('gameTimeInFuture will return ', gameMoment.isAfter(nowMoment));
+
   return gameMoment.isAfter(nowMoment);
 }
 
@@ -277,10 +279,11 @@ module.exports.predictedWinnersUpdate = function (req, res) {
           //reject the prediction if the existing pick has already started:
           console.log('predictedWinners: ',userMonth[0].predictedWinners[dayNumber]);
           if (!gameTimeInFuture(userMonth[0].predictedWinners[dayNumber].gameTime)){
-            sendJsonResponse(res, 403, {
-              message: 'It\'s too late to update your prediction; the start time has passed.'
-            });
-            return;
+            console.log('Would have prevented pick')
+            // sendJsonResponse(res, 403, {
+            //   message: 'It\'s too late to update your prediction; the start time has passed.'
+            // });
+            // return;
           }
 
           //add the prediction data from req:
