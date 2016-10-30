@@ -228,7 +228,7 @@ module.exports.userMonthCreate = function (req, res) {
 //  PUT make a prediction
 module.exports.predictedWinnersUpdate = function (req, res) {
 
-  //reject the prediction if the game has already started:
+  //reject the prediction if the new game has already started:
   if (!gameTimeInFuture(req.body.gameTime)){
     sendJsonResponse(res, 403, {
       message: 'It\'s too late to update your prediction for this game; its start time has passed.'
@@ -266,17 +266,27 @@ module.exports.predictedWinnersUpdate = function (req, res) {
             return;
           }
 
-          //add the prediction data from req:
           var dayNumber = req.body.dayNumber;
           var gameTime = req.body.gameTime;
           var predictedWinner = req.body.teamName || null;
 
+          //reject the prediction if the existing pick has already started:
+          console.log('predictedWinners: ',userMonth[0].predictedWinners[dayNumber]);
+          if (!gameTimeInFuture(userMonth[0].predictedWinners[dayNumber].gameTime)){
+            sendJsonResponse(res, 403, {
+              message: 'It\'s too late to update your prediction; the start time has passed.'
+            });
+            return;
+          }
+
+          //add the prediction data from req:
           if (predictedWinner) {
             userMonth[0].predictedWinners[dayNumber].teamName = predictedWinner;
+            userMonth[0].predictedWinners[dayNumber].gameTime = gameTime;
           } else {
             userMonth[0].predictedWinners[dayNumber].teamName = null;
+            userMonth[0].predictedWinners[dayNumber].gameTime = null;
           }
-          userMonth[0].predictedWinners[dayNumber].gameTime = gameTime;
 
           //save the userMonth;
           userMonth[0].save(function (err, userMonth) {
@@ -365,4 +375,3 @@ module.exports.userMonthDelete = function (req, res) {
     });
   }
 };
-
