@@ -16,15 +16,17 @@ block content
             each month in existingUserMonths
               a.list-group-item(href='/month/#{month}')
                 h5.text-center= moment(month).format('MMMM')
-      if (existingUserMonths && existingUserMonths.length>0)
-        .panel.panel-default
-          .panel-heading
-            .panel-title Standings
-          .panel-body.panel-black
+      .panel.panel-default
+        .panel-heading
+          .panel-title Standings
+        .panel-body.panel-black
+          if (existingUserMonths && existingUserMonths.length>0)
             .list-group
               each month in existingUserMonths
                 a.list-group-item(href='/standings/#{month}')
                   h5.text-center= moment(month).format('MMMM')
+          else
+            p Once you make some picks, you'll be added to the monthly standings and a link will appear here. 
       .panel.panel-default
         .panel-heading
           .panel-title Known Issues
