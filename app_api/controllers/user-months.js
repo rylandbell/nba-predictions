@@ -277,13 +277,14 @@ module.exports.predictedWinnersUpdate = function (req, res) {
           var predictedWinner = req.body.teamName || null;
 
           //reject the prediction if the existing pick has already started:
-          console.log('predictedWinners: ',userMonth[0].predictedWinners[dayNumber]);
-          if (!gameTimeInFuture(userMonth[0].predictedWinners[dayNumber].gameTime)){
-            console.log('Would have prevented pick')
-            // sendJsonResponse(res, 403, {
-            //   message: 'It\'s too late to update your prediction; the start time has passed.'
-            // });
-            // return;
+          if(userMonth[0].predictedWinners[dayNumber].gameTime){
+            if (!gameTimeInFuture(userMonth[0].predictedWinners[dayNumber].gameTime)){
+              console.log('Would have prevented pick')
+              // sendJsonResponse(res, 403, {
+              //   message: 'It\'s too late to update your prediction; the start time has passed.'
+              // });
+              // return;
+            }
           }
 
           //add the prediction data from req:
