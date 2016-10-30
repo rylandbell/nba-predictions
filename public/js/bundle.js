@@ -32321,7 +32321,11 @@
 
 	  switch (action.type) {
 	    case 'SET_ACTIVE_MONTH':
-	      return action.month + '-01';
+	      var day = 1;
+	      if (moment().format('YYYY-MM') === action.month) {
+	        day = moment().format('DD');
+	      }
+	      return action.month + '-' + day;
 	    case 'GO_TO_DATE':
 	      return action.date;
 	    case 'DAY_FORWARD':
