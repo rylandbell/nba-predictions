@@ -12,13 +12,13 @@ passport.use(new LocalStrategy({
 
       if (!user) {
         return done(null, false, {
-          message: 'Incorrect username.'
+          message: 'Unknown username. New users can sign up via the blue "Sign Me Up" button below.'
         });
       }
 
       if (!user.validPassword(password)) {
         return done(null, false, {
-          message: 'Incorrect password.'
+          message: 'Incorrect password. Please try again.'
         });
       }
 
