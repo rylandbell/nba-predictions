@@ -45,12 +45,12 @@ const isSendingPrediction = (state = false, action) => {
       return state;
   }
 };
-
 //user-selected date:
 const visibleDate = (state = '', action) => {
+  var day, nextDay, previousDay;
   switch(action.type){
     case 'SET_ACTIVE_MONTH':
-      let day = 1;
+      day = 1;
       if(moment().format('YYYY-MM') === action.month){
         day = moment().format('DD');
       }
@@ -58,14 +58,14 @@ const visibleDate = (state = '', action) => {
     case 'GO_TO_DATE':
       return action.date;
     case 'DAY_FORWARD':
-      var nextDay = moment(state).add(1, 'days').format('YYYY-MM-DD');
+      nextDay = moment(state).add(1, 'days').format('YYYY-MM-DD');
       if (moment(nextDay).format('MM') === moment(state).format('MM')){
         return nextDay;
       } else {
         return state
       }
     case 'DAY_BACK':
-      var previousDay = moment(state).subtract(1, 'days').format('YYYY-MM-DD');
+      previousDay = moment(state).subtract(1, 'days').format('YYYY-MM-DD');
       if (moment(previousDay).format('MM') === moment(state).format('MM')){
         return previousDay;
       } else {

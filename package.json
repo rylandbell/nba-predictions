@@ -51,8 +51,6 @@
     "babel-preset-react": "^6.11.1",
     "babel-register": "^6.11.6",
     "babelify": "^7.3.0",
-    "browserify": "^13.1.0",
-    "browserify-shim": "^3.8.12",
     "chai": "^3.5.0",
     "deep-freeze": "0.0.1",
     "eslint": "^2.13.1",
@@ -124,18 +122,5 @@
       "react/display-name": 0,
       "no-console": 0
     }
-  },
-  "browserify": {
-    "transform": [
-      "browserify-shim"
-    ]
-  },
-  "browserify-shim": {
-    "jquery": "$",
-    "three": "global:THREE"
-  },
-  "browser": {
-    "moment": "./src/vendor/moment.min.js",
-    "jquery": "./src/vendor/jquery-1.11.1.min.js"
   }
 }

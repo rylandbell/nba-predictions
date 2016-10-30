@@ -194,10 +194,10 @@ module.exports.newUserMonth = function (req, res, next) {
 // GET login page
 var renderLoginView = function (req, res, body) {
   var message;
-  if (body) {
+  if (body && body.message) {
     message = body.message;
   }
-
+  console.log('rendering with message: ', message);
   res
     .clearCookie('token')
     .render('login', {
@@ -249,6 +249,7 @@ module.exports.registerNew = function (req, res, next) {
       res.cookie('token', apiResponse.body.token, cookieOptions);
       res.redirect('/');
     } else if (apiResponse.statusCode === 400 || apiResponse.statusCode === 401) {
+      console.log('failed registration: ', body.message)
       renderLoginView(req, res, apiResponse.body);
     } else {
       _showError(req, res, apiResponse);

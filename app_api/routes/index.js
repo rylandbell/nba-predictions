@@ -25,7 +25,7 @@ var ctrlAuth = require('../controllers/authentication');
 router.get('/userMonth/:month', auth, ctrlUserMonths.userMonthReadOne);
 router.get('/userMonth', auth, ctrlUserMonths.userMonthReadAllForUser);
 router.get('/userMonth/all/:month', ctrlUserMonths.userMonthReadAllByMonth);
-router.get('/userMonth/all-public/:month', ctrlUserMonths.userMonthReadAllPublic);
+router.get('/userMonth/all-public/:month', auth, ctrlUserMonths.userMonthReadAllPublic);
 router.post('/userMonth', auth, ctrlUserMonths.userMonthCreate);
 router.delete('/userMonth/:userMonthId', auth, ctrlUserMonths.userMonthDelete);
 

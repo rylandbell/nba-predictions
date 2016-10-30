@@ -1,12 +1,22 @@
+// require('dotenv').config({silent:true});
 const webpack = require('webpack');
 const path = require('path');
- 
+// console.log(process.env);
+
 const PATHS = {
   app: './src/main.jsx',
   dist: path.join(__dirname, './public/js')
 };
  
 module.exports = {
+  devtool: 'cheap-module-source-map',
+  plugins: [
+    new webpack.DefinePlugin({
+      'process.env': {
+        'NODE_ENV': JSON.stringify('production')
+      }
+    })
+  ],
   entry: {
     javascript: PATHS.app
   },
@@ -15,9 +25,6 @@ module.exports = {
     publicPath: '/',
     filename: 'bundle.js'
   },
-  // devServer: {
-  //   contentBase: PATHS.dist
-  // },
   eslint: {
     emitWarning: true
   },
@@ -30,10 +37,6 @@ module.exports = {
       }
     ],
     loaders: [
-      // {
-      //   test: /\.html$/,
-      //   loader: "file?name=[name].[ext]"
-      // },
       {
         test: /\.jsx?$/,
         exclude: /node_modules/,
