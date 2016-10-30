@@ -10,11 +10,15 @@ var UserModel = mongoose.model('User');
 //return true if gameTime is after now
 const gameTimeInFuture = function (gameTime) {
 
+  console.log('gameTimeInFuture gameTime: ', gameTime);
   //create moment in East time zone, from gameTime:
   let gameMoment = moment.tz(gameTime, 'YYYY-MM-DD h:mm a', 'America/New_York');
+  console.log('gameTimeInFuture ET gameTime: ', gameTime);
+
   
   //create moment from local time, then translate to ETC moment:
   let nowMoment = moment().tz('America/New_York');
+  console.log('local time to ET: ', gameTime);
 
   return gameMoment.isAfter(nowMoment);
 }
