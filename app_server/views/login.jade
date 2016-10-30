@@ -47,22 +47,29 @@ block content
         .modal-body
           form#register-form.form(action='/register', method='post', role='form')
             .row
-              .col-xs-12
+              .col-xs-12.col-md-6
                 .form-group
-                  label Username: &nbsp;
+                  label Login ID: &nbsp;
                   input.form-control(type='text' name='username' autocomplete='off' required)
                 .form-group
-                  label Password: &nbsp;
-                  input.form-control(type='password' name='password' required)
-                .form-group
-                  label Display Name: &nbsp;
+                  label Display Name (visible to others): &nbsp;
                   input.form-control(type='text' name='displayName' autocomplete='off' maxlength='20' required)
                 .form-group
                   label Email (optional, but requested for testers): &nbsp;
                   input.form-control(type='email' name='email' autocomplete='off')
+              .col-xs-12.col-md-6
+                .form-group
+                  label Password: &nbsp;
+                  input#password.form-control(type='password' name='password' required)
+                .form-group
+                  label Confirm Password &nbsp;
+                  input#confirm-password.form-control(type='password' name='cofirm-password' required)
+                .alert.alert-info(role='alert')
+                  .glyphicon.glyphicon-info-sign
+                  |&nbsp; Don't lose your password. I don't have an account recovery system in place yet.
                                     
         .modal-footer
           button.btn.btn-default.btn-primary(type='submit' form='register-form') Submit
 
-//- block scripts
-//-   script(src='/javascripts/login.js')
+block scripts
+  script(src='/js/validation.js')
