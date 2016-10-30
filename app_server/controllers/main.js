@@ -1,7 +1,7 @@
 'use strict';
 
 var request = require('request');
-var moment = require('moment');
+var moment = require('moment-timezone');
 var _ = require('lodash');
 
 var apiOptions = {
@@ -89,7 +89,7 @@ var renderLandingPage = function (req, res, responseBody) {
   addableUserMonths.sort().reverse();
 
   res.render('landing-page', {
-    title: 'NBA Survivor',
+    title: 'Home',
     existingUserMonths: existingUserMonths,
     addableUserMonths: addableUserMonths,
     showSignOut: true,
@@ -124,7 +124,7 @@ var renderStandingsPage = function (req, res, responseBody) {
   );
 
   res.render('standings', {
-    title: 'standings',
+    title: 'Standings',
     showSignOut: true,
     error: req.query.err,
     userData: responseBody,
@@ -154,7 +154,7 @@ module.exports.standings = function (req, res, next) {
 module.exports.predictionsPage = function (req, res, next) {
   var prettyDate = moment(req.params.month).format('MMM YYYY');
   res.render('predictions-page', {
-    title: 'Predictions: ' + prettyDate,
+    title: 'My Picks: ' + prettyDate,
     month: req.params.month,
     showSignOut: true,
     error: req.query.err

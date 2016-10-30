@@ -4,15 +4,15 @@ block content
   .row
     .col-xs-12.col-md-8.col-md-offset-2
       table.table
+        -var today = moment().tz('America/Los_Angeles').format('D')
         thead
           tr
             th Name
             th.text-center Wins
             th.text-center Losses
-            th.text-center Today's Pick
-            th.text-center Yesterday's Pick
+            th.text-center Today's Pick (#{moment().tz('America/Los_Angeles').format('M/D')})
+            th.text-center Yesterday's Pick (#{moment().subtract(1,'days').tz('America/Los_Angeles').format('M/D')})
         tbody
-          -var today = moment().format('D')
           each userMonth in userData
             tr
               td= userMonth.ownerDisplayName
@@ -32,4 +32,5 @@ block content
                 else
                   td.text-center= userMonth.predictedWinners[today-1].teamName
               else
-                td.text-center 
+                td.text-center N/A
+      .text-center Picks appear in the standings as soon as the game begins.
