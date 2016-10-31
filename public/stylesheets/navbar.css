@@ -3,6 +3,10 @@
   padding-bottom: 5px;
 }
 
+#navbar-collapse-1 form {
+  width: 100%;
+}
+
 .container-navbar {
   /*max-width: 1250px;*/
 }

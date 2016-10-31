@@ -94,7 +94,7 @@ var renderLandingPage = function (req, res, responseBody) {
     title: 'Home',
     existingUserMonths: existingUserMonths,
     addableUserMonths: addableUserMonths,
-    showSignOut: true,
+    loggedIn: true,
     error: req.query.err,
     moment: moment
   });
@@ -127,7 +127,7 @@ var renderStandingsPage = function (req, res, responseBody) {
 
   res.render('standings', {
     title: 'Standings',
-    showSignOut: true,
+    loggedIn: true,
     error: req.query.err,
     userData: responseBody,
     moment: moment
@@ -162,7 +162,7 @@ module.exports.predictionsPage = function (req, res, next) {
   res.render('predictions-page', {
     title: 'My Picks: ' + prettyDate,
     month: req.params.month,
-    showSignOut: true,
+    loggedIn: true,
     error: req.query.err
   });
 };
@@ -171,7 +171,7 @@ module.exports.predictionsPage = function (req, res, next) {
 module.exports.howToPlay = function (req, res, next) {
   res.render('how-to-play', {
     title: 'How to Play',
-    showSignOut: true,
+    loggedIn: true,
     error: req.query.err
   });
 };
@@ -209,7 +209,7 @@ var renderLoginView = function (req, res, body) {
     .clearCookie('token')
     .render('login', {
       title: 'Login Page',
-      showSignOut: false,
+      loggedIn: false,
       message: message
     });
 };
