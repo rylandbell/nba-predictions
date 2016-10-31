@@ -4,6 +4,8 @@ var request = require('request');
 var moment = require('moment-timezone');
 var _ = require('lodash');
 
+var updateData = require('../../bin/updateDataFunction.js');
+
 var apiOptions = {
   server: 'http://localhost:3000'
 };
@@ -150,8 +152,12 @@ module.exports.standings = function (req, res, next) {
   });
 };
 
+var throttledUpdateData = _.throttle(updateData, 60000, {leading: true});
+
 /* GET predictions page */
 module.exports.predictionsPage = function (req, res, next) {
+  throttledUpdateData();
+
   var prettyDate = moment(req.params.month).format('MMM YYYY');
   res.render('predictions-page', {
     title: 'My Picks: ' + prettyDate,
@@ -235,6 +241,7 @@ module.exports.submitCredentials = function (req, res, next) {
 };
 
 module.exports.registerNew = function (req, res, next) {
+  console.log('registerNew called');  
   var path = '/api/register';
   var requestOptions = {
     url: apiOptions.server + path,
@@ -249,7 +256,7 @@ module.exports.registerNew = function (req, res, next) {
       res.cookie('token', apiResponse.body.token, cookieOptions);
       res.redirect('/');
     } else if (apiResponse.statusCode === 400 || apiResponse.statusCode === 401) {
-      console.log('failed registration: ', body.message)
+      console.log('failed registration: ', body.message);
       renderLoginView(req, res, apiResponse.body);
     } else {
       _showError(req, res, apiResponse);
