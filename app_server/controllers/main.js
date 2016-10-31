@@ -122,7 +122,7 @@ var renderStandingsPage = function (req, res, responseBody) {
 
   //sort returned userMonths by winCount
   responseBody.sort(
-    (userA,userB) => userB.standingsData.winCount - userA.standingsData.winCount
+    (userA, userB) => userB.standingsData.winCount - userA.standingsData.winCount
   );
 
   res.render('standings', {
@@ -136,7 +136,7 @@ var renderStandingsPage = function (req, res, responseBody) {
 
 /* GET standings page */
 module.exports.standings = function (req, res, next) {
-  var path = '/api/userMonth/all-public/'+req.params.month;
+  var path = '/api/userMonth/all-public/' + req.params.month;
   var requestOptions = {
     url: apiOptions.server + path,
     method: 'GET',
@@ -152,7 +152,7 @@ module.exports.standings = function (req, res, next) {
   });
 };
 
-var throttledUpdateData = _.throttle(updateData, 60000, {leading: true});
+var throttledUpdateData = _.throttle(updateData, 60000, { leading: true });
 
 /* GET predictions page */
 module.exports.predictionsPage = function (req, res, next) {
@@ -203,6 +203,7 @@ var renderLoginView = function (req, res, body) {
   if (body && body.message) {
     message = body.message;
   }
+
   console.log('rendering with message: ', message);
   res
     .clearCookie('token')
@@ -241,7 +242,7 @@ module.exports.submitCredentials = function (req, res, next) {
 };
 
 module.exports.registerNew = function (req, res, next) {
-  console.log('registerNew called');  
+  console.log('registerNew called');
   var path = '/api/register';
   var requestOptions = {
     url: apiOptions.server + path,
@@ -258,6 +259,7 @@ module.exports.registerNew = function (req, res, next) {
     } else if (apiResponse.statusCode === 400 || apiResponse.statusCode === 401) {
       console.log('failed registration: ', body.message);
       renderLoginView(req, res, apiResponse.body);
+      return;
     } else {
       _showError(req, res, apiResponse);
     }

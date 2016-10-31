@@ -61,7 +61,7 @@ module.exports.dailyGamesDataUpdate = function (req, res) {
       console.log('error in controller');
       sendJsonResponse(res, 400, err);
       return;
-    } else if (!dailyGamesData) { 
+    } else if (!dailyGamesData) {
       sendJsonResponse(res, 404, {
         message: 'date not found'
       });

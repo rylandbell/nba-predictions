@@ -50,8 +50,8 @@ const api = {
       .catch(response => {
         response
           .json()
-          .then(response => {failureCallback(response)})
-          .catch(err => {console.log(err)})
+          .then(response => {failureCallback(response);})
+          .catch(err => {console.log(err);});
       });
   },
 

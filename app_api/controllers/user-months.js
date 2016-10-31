@@ -11,11 +11,11 @@ var UserModel = mongoose.model('User');
 const gameTimeInFuture = function (gameTime) {
 
   console.log('gameTimeInFuture gameTime: ', gameTime);
+
   //create moment in East time zone, from gameTime:
   let gameMoment = moment.tz(gameTime, 'YYYY-MM-DD h:mm a', 'America/New_York');
   console.log('gameTimeInFuture ET gameTime: ', gameTime);
 
-  
   //create moment from local time, then translate to ETC moment:
   let nowMoment = moment().tz('America/New_York');
   console.log('local time to ET: ', gameTime);
@@ -23,15 +23,15 @@ const gameTimeInFuture = function (gameTime) {
   console.log('gameTimeInFuture will return ', gameMoment.isAfter(nowMoment));
 
   return gameMoment.isAfter(nowMoment);
-}
+};
 
 //redacts all users' predictions for games that haven't yet started
-const  hideFuturePredictions = function (userMonth){
+const  hideFuturePredictions = function (userMonth) {
   const redactedWinners = userMonth.predictedWinners.toObject();
 
-  _.forEach(redactedWinners, 
+  _.forEach(redactedWinners,
     (day, key) => {
-      if(day.teamName && gameTimeInFuture(day.gameTime)){
+      if (day.teamName && gameTimeInFuture(day.gameTime)) {
         day.teamName = null;
       }
     }
@@ -39,26 +39,27 @@ const  hideFuturePredictions = function (userMonth){
 
   userMonth.predictedWinners = redactedWinners;
   return userMonth;
-}
+};
 
 //given a userMonth and an outcome type ('success' or 'failure'), count the number of given outcomes
-const countOutcomes = function (predictedWinners, outcomeType){
+const countOutcomes = function (predictedWinners, outcomeType) {
 
   //converts from weird Mongoose object to iterable object:
   predictedWinners = predictedWinners.toObject();
 
   return _.reduce(predictedWinners,
     (sum, day, key) => {
-      if (key === '_id'){
+      if (key === '_id') {
         return sum;
       } else {
-        var increase = (day.outcome && day.outcome === outcomeType) ? 1 : 0;
+        var increase = day.outcome && day.outcome === outcomeType ? 1 : 0;
         return sum + increase;
       }
     },
+
     0
   );
-}
+};
 
 //helper function for composing responses as status codes (e.g. 404) with JSON files
 const sendJsonResponse = function (res, status, content) {
@@ -162,14 +163,14 @@ module.exports.userMonthReadAllByMonth = function (req, res) {
     .find(filter)
     .exec(function (err, userMonthArray) {
       var responseBody = {};
-      
+
       if (!userMonthArray) {
         sendJsonResponse(res, 404, {
           message: 'No userMonths found'
         });
         return;
       } else if (err) {
-        console.log("Error: ", err);
+        console.log('Error: ', err);
         sendJsonResponse(res, 404, err);
         return;
       }
@@ -190,14 +191,14 @@ module.exports.userMonthReadAllPublic = function (req, res) {
     .find(filter)
     .exec(function (err, userMonthArray) {
       var responseBody = {};
-      
+
       if (!userMonthArray) {
         sendJsonResponse(res, 404, {
           message: 'No userMonths found'
         });
         return;
       } else if (err) {
-        console.log("Error: ", err);
+        console.log('Error: ', err);
         sendJsonResponse(res, 404, err);
         return;
       }
@@ -229,13 +230,11 @@ module.exports.userMonthCreate = function (req, res) {
   });
 };
 
-
-
 //  PUT make a prediction
 module.exports.predictedWinnersUpdate = function (req, res) {
 
   //reject the prediction if the new game has already started:
-  if (!gameTimeInFuture(req.body.gameTime)){
+  if (!gameTimeInFuture(req.body.gameTime)) {
     sendJsonResponse(res, 403, {
       message: 'It\'s too late to update your prediction for this game; its start time has passed.'
     });
@@ -277,8 +276,8 @@ module.exports.predictedWinnersUpdate = function (req, res) {
           var predictedWinner = req.body.teamName || null;
 
           //reject the prediction if the existing pick has already started:
-          if(userMonth[0].predictedWinners[dayNumber].gameTime){
-            if (!gameTimeInFuture(userMonth[0].predictedWinners[dayNumber].gameTime)){
+          if (userMonth[0].predictedWinners[dayNumber].gameTime) {
+            if (!gameTimeInFuture(userMonth[0].predictedWinners[dayNumber].gameTime)) {
               sendJsonResponse(res, 403, {
                 message: 'It\'s too late to update your prediction; the start time has passed.'
               });
@@ -317,6 +316,7 @@ module.exports.outcomeUpdate = function (req, res) {
       .select('predictedWinners')
       .exec(
         function (err, userMonth) {
+
           //catch basic errors:
           if (!userMonth) {
             sendJsonResponse(res, 404, {
@@ -338,8 +338,8 @@ module.exports.outcomeUpdate = function (req, res) {
           }
 
           //update standingsData:
-          userMonth.standingsData.winCount = countOutcomes(userMonth.predictedWinners,'success');
-          userMonth.standingsData.lossCount = countOutcomes(userMonth.predictedWinners,'failure');
+          userMonth.standingsData.winCount = countOutcomes(userMonth.predictedWinners, 'success');
+          userMonth.standingsData.lossCount = countOutcomes(userMonth.predictedWinners, 'failure');
 
           //save userMonth and send JSON response:
           userMonth.save(function (err, userMonth) {
@@ -371,6 +371,7 @@ module.exports.userMonthDelete = function (req, res) {
             sendJsonResponse(res, 404, err);
             return;
           }
+
           console.log('userMonth id ' + userMonthId + ' deleted');
           sendJsonResponse(res, 204, null);
           return;

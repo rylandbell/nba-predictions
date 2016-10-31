@@ -16,10 +16,10 @@ var gameStatusSchema = new mongoose.Schema({
 var gameSummarySchema = new mongoose.Schema({
   gameId: { type: String, required: true },
   gameDate: { type: String, required: true },
-  winner: {type: String, default: null},
-  loser: {type: String, default: null},
-  roadTeam: {type: String, required: true},
-  homeTeam: {type: String, required: true},
+  winner: { type: String, default: null },
+  loser: { type: String, default: null },
+  roadTeam: { type: String, required: true },
+  homeTeam: { type: String, required: true },
   gameStatus: gameStatusSchema,
 });
 

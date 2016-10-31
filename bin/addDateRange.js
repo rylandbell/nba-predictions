@@ -10,16 +10,17 @@ const addDateRange = (startDate, numberOfDays) => {
 
   //timer spreads out the NBA.com calls so it doesn't look like a DDOS:
   const timer = setInterval(
-    function(){
+    function () {
       currentDate = moment(startDate).add(counter, 'days').format('YYYY-MM-DD');
       GameData.addSingleDate(currentDate);
       counter++;
-      if(counter >= numberOfDays) {
+      if (counter >= numberOfDays) {
         clearInterval(timer);
         return;
-      }    
-    }, 
-  1000);
-}
+      }
+    },
 
-addDateRange(process.argv[2],process.argv[3]);
+  1000);
+};
+
+addDateRange(process.argv[2], process.argv[3]);

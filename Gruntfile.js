@@ -1,15 +1,11 @@
 module.exports = function (grunt) {
 
   //pure javascript:
-  var nodePaths = ['app_server/**/*.js', 'app_api/**/*.js'];
-  var browserPaths = ['src/**/*.js'];
-  var jsPaths = nodePaths.concat(browserPaths);
-  jsPaths.push('Gruntfile.js');
+  var nodePaths = ['app_server/**/*.js', 'app_api/**/*.js', 'bin/**/*.js'];
+  nodePaths.push('Gruntfile.js');
 
   //JSX paths:
   var jsxPaths = ['src/**/*.jsx'];
-
-  var esPaths = jsPaths.concat(jsxPaths);
 
   //Jade paths:
   var jadePaths = ['app_server/views/**/*.jade'];
@@ -18,26 +14,16 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-jscs');
   grunt.loadNpmTasks('grunt-puglint');
-  grunt.loadNpmTasks('grunt-eslint');
-  grunt.loadNpmTasks('grunt-browserify');
-  grunt.loadNpmTasks('grunt-contrib-watch');
-  grunt.loadNpmTasks('grunt-contrib-uglify');
 
   //configure plugins
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
-    eslint: {
-      target: ['grunt-test.js'],
-      options: {
-        configFile: '.eslintrc.json'
-      }
-    },
     jshint: {
       options: {
 
         //environments:
-        browser: true,
-        jquery: true,
+        browser: false,
+        jquery: false,
         devel: true,
         node: true,
 
@@ -50,6 +36,8 @@ module.exports = function (grunt) {
         globals: {
           Modernizr: false,
           gapi: false,
+          fetch: false,
+          Headers: false,
           google: false,
           define: false,
           requirejs: false
@@ -61,7 +49,6 @@ module.exports = function (grunt) {
         undef: true,
         unused: 'vars'
       },
-      browser: browserPaths,
       node: {
         options: {
           node: true,
@@ -88,7 +75,7 @@ module.exports = function (grunt) {
       },
       autoFix: {
         files: {
-          src: jsPaths,
+          src: nodePaths,
         },
         options: {
           fix: true,
@@ -120,7 +107,7 @@ module.exports = function (grunt) {
       },
       showErrors: {
         files: {
-          src: jsPaths,
+          src: nodePaths,
         },
         options: {
           preset: 'airbnb',
@@ -146,52 +133,10 @@ module.exports = function (grunt) {
         },
         src: jadePaths
       }
-    },
-    browserify: {
-      bundle: {
-        src: ['src/main.jsx'],
-        dest: './public/javascripts/bundle.js',
-        options: {
-          transform: ['babelify'],
-          external: ['react', 'react-dom', 'redux', 'react-redux', 'react-thunk', 'babel-polyfill', 'isomorphic-fetch']
-        }
-      },
-      watch: {
-        src: ['src/main.jsx'],
-        dest: './public/javascripts/bundle.js',
-        options: {
-          transform: ['babelify'],
-          external: ['react', 'react-dom', 'redux', 'react-redux', 'react-thunk', 'babel-polyfill', 'isomorphic-fetch'],
-          watch: true,
-          keepAlive: true
-        }
-      },
-      vendor: {
-        src: [],
-        dest: './public/javascripts/vendor.js',
-        options: {
-          require: ['react', 'react-dom', 'redux', 'react-redux', 'redux-thunk', 'babel-polyfill', 'isomorphic-fetch']
-        }
-      },
-    },
-    uglify: {
-      bundle: {
-        files: {
-          './public/javascripts/bundle.min.js': './public/javascripts/bundle.js',
-        }
-      },
-      vendor: {
-        files: {
-          './public/javascripts/vendor-react.min.js': './public/javascripts/vendor-react.js'
-        }
-      }
     }
   });
 
   //register tasks:
   grunt.registerTask('default', []);
-  grunt.registerTask('lint', ['jshint', 'jscs:autoFix', 'jscs:showErrors', 'puglint', 'eslint']);
-  grunt.registerTask('build', ['browserify:bundle']);
-  grunt.registerTask('build-vendor', ['browserify:vendor']);
-  grunt.registerTask('build-watch', ['browserify:watch']);
+  grunt.registerTask('lint', ['jshint', 'jscs:autoFix', 'jscs:showErrors', 'puglint']);
 };

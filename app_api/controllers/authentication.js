@@ -27,6 +27,7 @@ module.exports.register = function (req, res) {
     var token;
     if (err) {
       if (err.code === 11000) {
+        console.log('11000 error: ', err);
         sendJsonResponse(res, 400, {
           message: 'That username is already taken. Try something else.'
         });
