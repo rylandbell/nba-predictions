@@ -7,7 +7,7 @@ if (process.env.NODE_ENV === 'production') {
 
 //takes a day of dailyGamesData, and a single day of a single userMonth
 const determinePredictionOutcome = function (dailyGamesData, userDay, userMonthId) {
-
+  console.log('dailyGamesData: ', dailyGamesData);
   // did the user make a prediction for today?
   if (userDay.teamName) {
     const userTeam = userDay.teamName;
@@ -82,7 +82,9 @@ const postResult = function (result, dateNumber) {
 };
 
 module.exports.markResults = function (date) {
+  console.log('markResults date = ', date);
   const dateNumber = parseInt(date.substring(8, 10));
+  console.log('markResults dateNumber = ', dateNumber);
 
   //get a month of games data, and all userMonths for the given month:
   Promise.all([
@@ -91,10 +93,11 @@ module.exports.markResults = function (date) {
   ])
 
   //take each user's prediction data for the given date (along with the game outcome data), and run through determinePredictionOutcome function:
-    .then(responses =>
-      Promise.all(responses[1].map(userMonth =>
+    .then(responses => {
+      console.log('dailyGamesData: ', responses[0]);
+      return Promise.all(responses[1].map(userMonth =>
         determinePredictionOutcome(responses[0][dateNumber - 1], userMonth.predictedWinners[dateNumber], userMonth._id)
-      ))
+      ))}
     )
 
   //send results from determinePredictionOutcome to API
