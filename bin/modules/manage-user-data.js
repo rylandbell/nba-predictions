@@ -17,9 +17,13 @@ const determinePredictionOutcome = function (dailyGamesData, userDay, userMonthI
 
     //compare the prediction against the actual outcome of each game:
     dailyGamesData.gameSummaries.forEach(game => {
+      console.log('userTeam: ', userTeam);
+      console.log('game.winner: ', game.winner);
       if (userTeam === game.winner) {
+        console.log('marking success');
         result.outcome = 'success';
       } else if (userTeam === game.loser) {
+        console.log('marking failure');
         result.outcome = 'failure';
       }
     });
