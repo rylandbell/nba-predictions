@@ -1,5 +1,7 @@
 'use strict';
 
+const _ = require('lodash');
+
 let server = 'http://localhost:3000';
 if (process.env.NODE_ENV === 'production') {
   server = 'https://frozen-retreat-57000.herokuapp.com';
@@ -94,9 +96,10 @@ module.exports.markResults = function (date) {
 
   //take each user's prediction data for the given date (along with the game outcome data), and run through determinePredictionOutcome function:
     .then(responses => {
-      console.log('dailyGamesData: ', responses[0]);
+      // console.log('dailyGamesData: ', responses[0]);
+      const activeDayGamesData = responses[0].filter(dayOfData => dayOfData.date === date);
       return Promise.all(responses[1].map(userMonth =>
-        determinePredictionOutcome(responses[0][dateNumber - 1], userMonth.predictedWinners[dateNumber], userMonth._id)
+        determinePredictionOutcome(activeDayGamesData[0], userMonth.predictedWinners[dateNumber], userMonth._id)
       ))}
     )
 
