@@ -67,7 +67,7 @@ var _showError = function (req, res, apiResponse, err, body) {
   });
 };
 
-var renderLandingPage = function (req, res, responseBody) {
+var renderDashboard = function (req, res, responseBody) {
 
   //get month names ('2016-10' format) from API results
   var existingUserMonths = [];
@@ -76,21 +76,24 @@ var renderLandingPage = function (req, res, responseBody) {
   });
   existingUserMonths.sort().reverse();
 
-  //check if current, next month already have userMonths; if not, send them to view to create links to add them
+  //check if current month already have userMonths; if not, send it to view to create links to add them
   var addableUserMonths = [];
   var currentMonth = moment().format('YYYY-MM');
   if (!_.includes(existingUserMonths, currentMonth)) {
     addableUserMonths.push(currentMonth);
   }
 
-  var nextMonth = moment().add(1, 'months').format('YYYY-MM');
-  if (!_.includes(existingUserMonths, nextMonth)) {
-    addableUserMonths.push(nextMonth);
+  //If it's at least the 27th of the month, check if next month already have userMonths; if not, send it to view to create links to add them
+  if(moment().format('D') > 26) {
+    var nextMonth = moment().add(1, 'months').format('YYYY-MM');
+    if (!_.includes(existingUserMonths, nextMonth)) {
+      addableUserMonths.push(nextMonth);
+    }
   }
 
   addableUserMonths.sort().reverse();
 
-  res.render('landing-page', {
+  res.render('dashboard', {
     title: 'Home',
     existingUserMonths: existingUserMonths,
     addableUserMonths: addableUserMonths,
@@ -100,8 +103,8 @@ var renderLandingPage = function (req, res, responseBody) {
   });
 };
 
-/* GET logged-in landing page */
-module.exports.landingPage = function (req, res, next) {
+/* GET dashboard page */
+module.exports.dashboard = function (req, res, next) {
   var path = '/api/userMonth';
   var requestOptions = {
     url: apiOptions.server + path,
@@ -111,7 +114,7 @@ module.exports.landingPage = function (req, res, next) {
   };
   request(requestOptions, function (err, apiResponse, body) {
     if (apiResponse.statusCode === 200) {
-      renderLandingPage(req, res, body);
+      renderDashboard(req, res, body);
     } else {
       _showError(req, res, apiResponse);
     }
