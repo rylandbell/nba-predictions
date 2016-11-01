@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 import Alert from 'react-s-alert';
 
 import ActionCreator from '../../action-creators.js';
-import GamesViewer from '../games-viewer/games-viewer.jsx';
 import Helper from '../../helper.js';
+import DailyPicks from '../monthly-picks/daily-picks/daily-picks.jsx';
 
 const mapStateToProps = (state) => ({
   visibleDate: state.visibleDate,
@@ -106,6 +106,6 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 const api = connect(
   mapStateToProps,
   mapDispatchToProps
-)(GamesViewer);
+)(DailyPicks);
 
 export default api;

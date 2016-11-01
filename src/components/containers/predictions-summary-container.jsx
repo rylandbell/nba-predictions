@@ -3,7 +3,7 @@
 import { connect } from 'react-redux';
 import ActionCreator from '../../action-creators.js';
 
-import PredictionsSummary from '../predictions-summary/predictions-summary.jsx';
+import PredictionsSummary from '../monthly-picks/predictions-summary/predictions-summary.jsx';
 
 const mapStateToProps = (state) => ({
   predictedWinners: state.userMonth.predictedWinners,

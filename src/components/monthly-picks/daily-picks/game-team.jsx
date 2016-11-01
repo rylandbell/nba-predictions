@@ -2,7 +2,7 @@
 
 import React from 'react';
 import _ from 'lodash';
-import Helper from '../../helper.js';
+import Helper from '../../../helper.js';
 
 const api = React.createClass({
   handleClick: function () {
