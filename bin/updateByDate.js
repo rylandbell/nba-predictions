@@ -20,12 +20,12 @@ if (process.argv.length>2){
   const today = moment().subtract(9, 'hours').format('YYYY-MM-DD');
 
   //run updateData on yesterday's games for redundancy
-  // const yesterday = moment(today).subtract(1, 'days').format('YYYY-MM-DD');
+  const yesterday = moment(today).subtract(1, 'days').format('YYYY-MM-DD');
 
   //run updateData on tomorrow's games to catch schedule changes
   const tomorrow = moment(today).add(1, 'days').format('YYYY-MM-DD');
 
-  // updateGameAndUserData(yesterday);
+  updateGameAndUserData(yesterday);
   updateGameAndUserData(today);
   updateGameAndUserData(tomorrow);
 }
