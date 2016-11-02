@@ -6,6 +6,9 @@ var _ = require('lodash');
 
 var updateData = require('../../bin/updateDataFunction.js');
 
+//don't run updateData more than once per minute:
+var throttledUpdateData = _.throttle(updateData, 60000, { leading: true });
+
 var apiOptions = {
   server: 'http://localhost:3000'
 };
@@ -105,6 +108,8 @@ var renderDashboard = function (req, res, responseBody) {
 
 /* GET dashboard page */
 module.exports.dashboard = function (req, res, next) {
+  throttledUpdateData();
+
   var path = '/api/userMonth';
   var requestOptions = {
     url: apiOptions.server + path,
@@ -139,6 +144,8 @@ var renderStandingsPage = function (req, res, responseBody) {
 
 /* GET standings page */
 module.exports.standings = function (req, res, next) {
+  throttledUpdateData();
+
   var path = '/api/userMonth/all-public/' + req.params.month;
   var requestOptions = {
     url: apiOptions.server + path,
@@ -154,8 +161,6 @@ module.exports.standings = function (req, res, next) {
     }
   });
 };
-
-var throttledUpdateData = _.throttle(updateData, 60000, { leading: true });
 
 /* GET predictions page */
 module.exports.predictionsPage = function (req, res, next) {

@@ -12,9 +12,6 @@ import Alert from 'react-s-alert';
 
 import Reducers from './reducers.js';
 import MonthlyPicksContainer from './components/containers/monthly-picks-container.jsx';
-// import TestComp from './test-comp.jsx';
-// import ActionCreator from './action-creators.js';
-// import Helper from './helper.js';
 
 const store = Redux.createStore(Reducers.app);
 store.dispatch({type:'SET_ACTIVE_MONTH', month: activeMonth});
@@ -26,7 +23,7 @@ function render() {
     <Provider store={store}>
       <div>
         <Router history={hashHistory}>
-          <Route path="/:day" component={MonthlyPicksContainer} />
+          <Route path="/" component={MonthlyPicksContainer} />
         </Router>
         <Alert />
       </div>

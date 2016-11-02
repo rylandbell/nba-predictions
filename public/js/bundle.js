@@ -74,17 +74,13 @@
 
 	var _reducers2 = _interopRequireDefault(_reducers);
 
-	var _monthlyPicksContainer = __webpack_require__(581);
+	var _monthlyPicksContainer = __webpack_require__(554);
 
 	var _monthlyPicksContainer2 = _interopRequireDefault(_monthlyPicksContainer);
 
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	// import TestComp from './test-comp.jsx';
-	// import ActionCreator from './action-creators.js';
-	// import Helper from './helper.js';
 
 	var store = Redux.createStore(_reducers2.default.app);
 	store.dispatch({ type: 'SET_ACTIVE_MONTH', month: activeMonth });
@@ -101,7 +97,7 @@
 	      _react2.default.createElement(
 	        _reactRouter.Router,
 	        { history: _reactRouter.hashHistory },
-	        _react2.default.createElement(_reactRouter.Route, { path: '/:day', component: _monthlyPicksContainer2.default })
+	        _react2.default.createElement(_reactRouter.Route, { path: '/', component: _monthlyPicksContainer2.default })
 	      ),
 	      _react2.default.createElement(_reactSAlert2.default, null)
 	    )
@@ -53166,7 +53162,94 @@
 
 
 /***/ },
-/* 554 */,
+/* 554 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	var _reactRedux = __webpack_require__(459);
+
+	var _reactSAlert = __webpack_require__(544);
+
+	var _reactSAlert2 = _interopRequireDefault(_reactSAlert);
+
+	var _actionCreators = __webpack_require__(555);
+
+	var _actionCreators2 = _interopRequireDefault(_actionCreators);
+
+	var _monthlyPicks = __webpack_require__(556);
+
+	var _monthlyPicks2 = _interopRequireDefault(_monthlyPicks);
+
+	var _helper = __webpack_require__(558);
+
+	var _helper2 = _interopRequireDefault(_helper);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var mapStateToProps = function mapStateToProps(state) {
+	  return {
+	    reduxState: state
+	  };
+	};
+
+	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+	  return {
+	    getUserMonthData: function getUserMonthData(month) {
+	      _helper2.default.myFetch('/api/userMonth/' + month, 'GET', {}, function (response) {
+	        dispatch(_actionCreators2.default.receiveUserMonth(response));
+	      }, function (response) {
+	        dispatch(_actionCreators2.default.requestUserMonthFailure());
+	        _reactSAlert2.default.warning('Error: Failed to load user data. ' + response.message, {
+	          position: 'bottom',
+	          effect: 'stackslide',
+	          beep: false,
+	          timeout: 8000,
+	          offset: 0
+	        });
+	      });
+	      dispatch(_actionCreators2.default.requestUserMonthWaiting());
+	    },
+	    getGameData: function getGameData(month) {
+	      _helper2.default.myFetch('/api/dailyGamesData/' + month, 'GET', {}, function (response) {
+	        dispatch(_actionCreators2.default.receiveGameData(response));
+	      }, function (response) {
+	        dispatch(_actionCreators2.default.requestGameDataFailure());
+	        _reactSAlert2.default.warning('Error: Failed to load game data. ' + response.message, {
+	          position: 'bottom',
+	          effect: 'stackslide',
+	          beep: false,
+	          timeout: 8000,
+	          offset: 0
+	        });
+	      });
+	      dispatch(_actionCreators2.default.requestGameDataWaiting());
+	    },
+	    showAlert: function showAlert(type, msg, options) {
+	      var defaultOptions = {
+	        position: 'top',
+	        effect: 'stackslide',
+	        beep: false,
+	        timeout: 8000,
+	        offset: 0
+	      };
+	      options = _extends({}, defaultOptions, options);
+	      _reactSAlert2.default[type](msg, options);
+	    }
+	  };
+	};
+
+	var api = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_monthlyPicks2.default);
+
+		exports.default = api;
+
+/***/ },
 /* 555 */
 /***/ function(module, exports) {
 
@@ -53288,13 +53371,175 @@
 
 	'use strict';
 
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(298);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _dailyPicksContainer = __webpack_require__(557);
+
+	var _dailyPicksContainer2 = _interopRequireDefault(_dailyPicksContainer);
+
+	var _predictionsSummaryContainer = __webpack_require__(567);
+
+	var _predictionsSummaryContainer2 = _interopRequireDefault(_predictionsSummaryContainer);
+
+	var _statusMessage = __webpack_require__(570);
+
+	var _statusMessage2 = _interopRequireDefault(_statusMessage);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var api = _react2.default.createClass({
+	  displayName: 'api',
+
+	  componentDidMount: function componentDidMount() {
+	    this.props.getUserMonthData(this.props.reduxState.activeMonth);
+	    this.props.getGameData(this.props.reduxState.activeMonth);
+	  },
+	  render: function render() {
+	    var isLoading = this.props.reduxState.isFetchingPredictions || this.props.reduxState.isFetchingGameData;
+	    return isLoading ? _react2.default.createElement(_statusMessage2.default, { messageBold: 'Loading game data...', messageBody: 'Just hang tight.', messageClass: 'info' }) : _react2.default.createElement(
+	      'div',
+	      { className: 'row ' + (this.props.reduxState.isSendingPrediction ? 'send-waiting' : '') },
+	      _react2.default.createElement(_dailyPicksContainer2.default, { reduxState: this.props.reduxState }),
+	      _react2.default.createElement(_predictionsSummaryContainer2.default, { reduxState: this.props.reduxState })
+	    );
+	  }
+	});
+
+		exports.default = api;
+
+/***/ },
+/* 557 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _reactRedux = __webpack_require__(459);
+
+	var _reactSAlert = __webpack_require__(544);
+
+	var _reactSAlert2 = _interopRequireDefault(_reactSAlert);
+
+	var _actionCreators = __webpack_require__(555);
+
+	var _actionCreators2 = _interopRequireDefault(_actionCreators);
+
+	var _helper = __webpack_require__(558);
+
+	var _helper2 = _interopRequireDefault(_helper);
+
+	var _dailyPicks = __webpack_require__(561);
+
+	var _dailyPicks2 = _interopRequireDefault(_dailyPicks);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var mapStateToProps = function mapStateToProps(state) {
+	  return {
+	    visibleDate: state.visibleDate,
+	    predictedWinners: state.userMonth.predictedWinners,
+	    eligibleTeams: state.userMonth.eligibleTeams,
+	    gamesByDay: state.gamesByDay,
+	    isSendingPrediction: state.isSendingPrediction
+	  };
+	};
+
+	var mapDispatchToProps = function mapDispatchToProps(dispatch, ownProps) {
+	  return {
+	    addPrediction: function addPrediction(gameId, teamName, gameDate, gameTime) {
+	      _reactSAlert2.default.closeAll();
+
+	      //mark previous selection for that day eligible:
+	      var gameDay = moment(gameDate).format('D');
+	      var oldPrediction = ownProps.reduxState.userMonth.predictedWinners[gameDay].teamName;
+	      dispatch(_actionCreators2.default.markEligible(oldPrediction));
+
+	      //add new prediction, then mark that team ineligible for rest of month:
+	      dispatch(_actionCreators2.default.addPrediction(gameId, teamName, gameDate));
+	      dispatch(_actionCreators2.default.markIneligible(teamName));
+
+	      //update the database:
+	      var body = {};
+	      body.dayNumber = gameDay;
+	      body.teamName = teamName;
+	      body.gameTime = gameTime;
+
+	      _helper2.default.myFetch('/api/userMonth/' + ownProps.reduxState.activeMonth + '/predictedWinners', 'PUT', body, function (response) {
+	        dispatch(_actionCreators2.default.sendPredictionSuccess(response));
+	      }, function (response) {
+	        dispatch(_actionCreators2.default.sendPredictionFailure());
+	        _reactSAlert2.default.warning('Whoops: ' + response.message, {
+	          position: 'bottom',
+	          effect: 'stackslide',
+	          beep: false,
+	          timeout: 8000,
+	          offset: 0
+	        });
+	      });
+	      dispatch(_actionCreators2.default.sendPredictionWaiting());
+	    },
+	    removePrediction: function removePrediction(gameId, teamName, gameDate, gameTime) {
+	      _reactSAlert2.default.closeAll();
+
+	      dispatch(_actionCreators2.default.removePrediction(gameId, gameDate));
+	      dispatch(_actionCreators2.default.markEligible(teamName));
+
+	      //update the database:
+	      var body = {};
+	      var gameDay = moment(gameDate).format('D');
+	      body.dayNumber = gameDay;
+	      body.teamName = null;
+	      body.gameTime = gameTime;
+
+	      _helper2.default.myFetch('/api/userMonth/' + ownProps.reduxState.activeMonth + '/predictedWinners', 'PUT', body, function (response) {
+	        dispatch(_actionCreators2.default.sendPredictionSuccess(response));
+	      }, function (response) {
+	        dispatch(_actionCreators2.default.sendPredictionFailure());
+	        _reactSAlert2.default.warning('Whoops: ' + response.message, {
+	          position: 'bottom',
+	          effect: 'stackslide',
+	          beep: false,
+	          timeout: 8000,
+	          offset: 0
+	        });
+	      });
+	      dispatch(_actionCreators2.default.sendPredictionWaiting());
+	    },
+	    dayForward: function dayForward() {
+	      dispatch(_actionCreators2.default.dayForward());
+	    },
+	    dayBack: function dayBack() {
+	      dispatch(_actionCreators2.default.dayBack());
+	    }
+	  };
+	};
+
+	var api = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_dailyPicks2.default);
+
+		exports.default = api;
+
+/***/ },
+/* 558 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
 	// import React from 'react';
 
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
 
-	var _isomorphicFetch = __webpack_require__(557);
+	var _isomorphicFetch = __webpack_require__(559);
 
 	var _isomorphicFetch2 = _interopRequireDefault(_isomorphicFetch);
 
@@ -53365,19 +53610,19 @@
 		exports.default = api;
 
 /***/ },
-/* 557 */
+/* 559 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// the whatwg-fetch polyfill installs the fetch() function
 	// on the global object (window or self)
 	//
 	// Return that as the export for use in Webpack, Browserify etc.
-	__webpack_require__(558);
+	__webpack_require__(560);
 	module.exports = self.fetch.bind(self);
 
 
 /***/ },
-/* 558 */
+/* 560 */
 /***/ function(module, exports) {
 
 	(function(self) {
@@ -53816,59 +54061,7 @@
 
 
 /***/ },
-/* 559 */,
-/* 560 */,
-/* 561 */,
-/* 562 */,
-/* 563 */,
-/* 564 */,
-/* 565 */,
-/* 566 */,
-/* 567 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _reactRedux = __webpack_require__(459);
-
-	var _actionCreators = __webpack_require__(555);
-
-	var _actionCreators2 = _interopRequireDefault(_actionCreators);
-
-	var _predictionsSummary = __webpack_require__(590);
-
-	var _predictionsSummary2 = _interopRequireDefault(_predictionsSummary);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var mapStateToProps = function mapStateToProps(state) {
-	  return {
-	    predictedWinners: state.userMonth.predictedWinners,
-	    visibleDate: state.visibleDate,
-	    activeMonth: state.activeMonth
-	  };
-	};
-
-	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
-	  return {
-	    goToDate: function goToDate(date) {
-	      dispatch(_actionCreators2.default.goToDate(date));
-	    }
-	  };
-	};
-
-	var api = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_predictionsSummary2.default);
-
-		exports.default = api;
-
-/***/ },
-/* 568 */,
-/* 569 */,
-/* 570 */
+/* 561 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -53881,307 +54074,11 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var api = function api(_ref) {
-	  var messageBold = _ref.messageBold;
-	  var messageBody = _ref.messageBody;
-	  var messageClass = _ref.messageClass;
-
-
-	  return _react2.default.createElement(
-	    'div',
-	    { className: 'status-message alert alert-' + messageClass },
-	    _react2.default.createElement(
-	      'strong',
-	      null,
-	      messageBold
-	    ),
-	    '\t' + messageBody
-	  );
-	};
-
-	exports.default = api;
-
-/***/ },
-/* 571 */,
-/* 572 */,
-/* 573 */,
-/* 574 */,
-/* 575 */,
-/* 576 */,
-/* 577 */,
-/* 578 */,
-/* 579 */,
-/* 580 */,
-/* 581 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-	var _reactRedux = __webpack_require__(459);
-
-	var _reactSAlert = __webpack_require__(544);
-
-	var _reactSAlert2 = _interopRequireDefault(_reactSAlert);
-
-	var _actionCreators = __webpack_require__(555);
-
-	var _actionCreators2 = _interopRequireDefault(_actionCreators);
-
-	var _monthlyPicks = __webpack_require__(582);
-
-	var _monthlyPicks2 = _interopRequireDefault(_monthlyPicks);
-
-	var _helper = __webpack_require__(556);
-
-	var _helper2 = _interopRequireDefault(_helper);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var mapStateToProps = function mapStateToProps(state) {
-	  return {
-	    reduxState: state
-	  };
-	};
-
-	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
-	  return {
-	    getUserMonthData: function getUserMonthData(month) {
-	      _helper2.default.myFetch('/api/userMonth/' + month, 'GET', {}, function (response) {
-	        dispatch(_actionCreators2.default.receiveUserMonth(response));
-	      }, function (response) {
-	        dispatch(_actionCreators2.default.requestUserMonthFailure());
-	        _reactSAlert2.default.warning('Error: Failed to load user data. ' + response.message, {
-	          position: 'bottom',
-	          effect: 'stackslide',
-	          beep: false,
-	          timeout: 8000,
-	          offset: 0
-	        });
-	      });
-	      dispatch(_actionCreators2.default.requestUserMonthWaiting());
-	    },
-	    getGameData: function getGameData(month) {
-	      _helper2.default.myFetch('/api/dailyGamesData/' + month, 'GET', {}, function (response) {
-	        dispatch(_actionCreators2.default.receiveGameData(response));
-	      }, function (response) {
-	        dispatch(_actionCreators2.default.requestGameDataFailure());
-	        _reactSAlert2.default.warning('Error: Failed to load game data. ' + response.message, {
-	          position: 'bottom',
-	          effect: 'stackslide',
-	          beep: false,
-	          timeout: 8000,
-	          offset: 0
-	        });
-	      });
-	      dispatch(_actionCreators2.default.requestGameDataWaiting());
-	    },
-	    showAlert: function showAlert(type, msg, options) {
-	      var defaultOptions = {
-	        position: 'top',
-	        effect: 'stackslide',
-	        beep: false,
-	        timeout: 8000,
-	        offset: 0
-	      };
-	      options = _extends({}, defaultOptions, options);
-	      _reactSAlert2.default[type](msg, options);
-	    }
-	  };
-	};
-
-	var api = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_monthlyPicks2.default);
-
-		exports.default = api;
-
-/***/ },
-/* 582 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _react = __webpack_require__(298);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _dailyPicksContainer = __webpack_require__(583);
-
-	var _dailyPicksContainer2 = _interopRequireDefault(_dailyPicksContainer);
-
-	var _predictionsSummaryContainer = __webpack_require__(567);
-
-	var _predictionsSummaryContainer2 = _interopRequireDefault(_predictionsSummaryContainer);
-
-	var _statusMessage = __webpack_require__(570);
-
-	var _statusMessage2 = _interopRequireDefault(_statusMessage);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var api = _react2.default.createClass({
-	  displayName: 'api',
-
-	  componentDidMount: function componentDidMount() {
-	    this.props.getUserMonthData(this.props.reduxState.activeMonth);
-	    this.props.getGameData(this.props.reduxState.activeMonth);
-	  },
-	  render: function render() {
-	    var isLoading = this.props.reduxState.isFetchingPredictions || this.props.reduxState.isFetchingGameData;
-	    return isLoading ? _react2.default.createElement(_statusMessage2.default, { messageBold: 'Loading game data...', messageBody: 'Just hang tight.', messageClass: 'info' }) : _react2.default.createElement(
-	      'div',
-	      { className: 'row ' + (this.props.reduxState.isSendingPrediction ? 'send-waiting' : '') },
-	      _react2.default.createElement(_dailyPicksContainer2.default, { reduxState: this.props.reduxState }),
-	      _react2.default.createElement(_predictionsSummaryContainer2.default, { reduxState: this.props.reduxState })
-	    );
-	  }
-	});
-
-		exports.default = api;
-
-/***/ },
-/* 583 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _reactRedux = __webpack_require__(459);
-
-	var _reactSAlert = __webpack_require__(544);
-
-	var _reactSAlert2 = _interopRequireDefault(_reactSAlert);
-
-	var _actionCreators = __webpack_require__(555);
-
-	var _actionCreators2 = _interopRequireDefault(_actionCreators);
-
-	var _helper = __webpack_require__(556);
-
-	var _helper2 = _interopRequireDefault(_helper);
-
-	var _dailyPicks = __webpack_require__(584);
-
-	var _dailyPicks2 = _interopRequireDefault(_dailyPicks);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var mapStateToProps = function mapStateToProps(state) {
-	  return {
-	    visibleDate: state.visibleDate,
-	    predictedWinners: state.userMonth.predictedWinners,
-	    eligibleTeams: state.userMonth.eligibleTeams,
-	    gamesByDay: state.gamesByDay,
-	    isSendingPrediction: state.isSendingPrediction
-	  };
-	};
-
-	var mapDispatchToProps = function mapDispatchToProps(dispatch, ownProps) {
-	  return {
-	    addPrediction: function addPrediction(gameId, teamName, gameDate, gameTime) {
-	      _reactSAlert2.default.closeAll();
-
-	      //mark previous selection for that day eligible:
-	      var gameDay = moment(gameDate).format('D');
-	      var oldPrediction = ownProps.reduxState.userMonth.predictedWinners[gameDay].teamName;
-	      dispatch(_actionCreators2.default.markEligible(oldPrediction));
-
-	      //add new prediction, then mark that team ineligible for rest of month:
-	      dispatch(_actionCreators2.default.addPrediction(gameId, teamName, gameDate));
-	      dispatch(_actionCreators2.default.markIneligible(teamName));
-
-	      //update the database:
-	      var body = {};
-	      body.dayNumber = gameDay;
-	      body.teamName = teamName;
-	      body.gameTime = gameTime;
-
-	      _helper2.default.myFetch('/api/userMonth/' + ownProps.reduxState.activeMonth + '/predictedWinners', 'PUT', body, function (response) {
-	        dispatch(_actionCreators2.default.sendPredictionSuccess(response));
-	      }, function (response) {
-	        dispatch(_actionCreators2.default.sendPredictionFailure());
-	        _reactSAlert2.default.warning('Whoops: ' + response.message, {
-	          position: 'bottom',
-	          effect: 'stackslide',
-	          beep: false,
-	          timeout: 8000,
-	          offset: 0
-	        });
-	      });
-	      dispatch(_actionCreators2.default.sendPredictionWaiting());
-	    },
-	    removePrediction: function removePrediction(gameId, teamName, gameDate, gameTime) {
-	      _reactSAlert2.default.closeAll();
-
-	      dispatch(_actionCreators2.default.removePrediction(gameId, gameDate));
-	      dispatch(_actionCreators2.default.markEligible(teamName));
-
-	      //update the database:
-	      var body = {};
-	      var gameDay = moment(gameDate).format('D');
-	      body.dayNumber = gameDay;
-	      body.teamName = null;
-	      body.gameTime = gameTime;
-
-	      _helper2.default.myFetch('/api/userMonth/' + ownProps.reduxState.activeMonth + '/predictedWinners', 'PUT', body, function (response) {
-	        dispatch(_actionCreators2.default.sendPredictionSuccess(response));
-	      }, function (response) {
-	        dispatch(_actionCreators2.default.sendPredictionFailure());
-	        _reactSAlert2.default.warning('Whoops: ' + response.message, {
-	          position: 'bottom',
-	          effect: 'stackslide',
-	          beep: false,
-	          timeout: 8000,
-	          offset: 0
-	        });
-	      });
-	      dispatch(_actionCreators2.default.sendPredictionWaiting());
-	    },
-	    dayForward: function dayForward() {
-	      dispatch(_actionCreators2.default.dayForward());
-	    },
-	    dayBack: function dayBack() {
-	      dispatch(_actionCreators2.default.dayBack());
-	    }
-	  };
-	};
-
-	var api = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_dailyPicks2.default);
-
-		exports.default = api;
-
-/***/ },
-/* 584 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _react = __webpack_require__(298);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _singleDayGameList = __webpack_require__(585);
+	var _singleDayGameList = __webpack_require__(562);
 
 	var _singleDayGameList2 = _interopRequireDefault(_singleDayGameList);
 
-	var _dayPicker = __webpack_require__(589);
+	var _dayPicker = __webpack_require__(566);
 
 	var _dayPicker2 = _interopRequireDefault(_dayPicker);
 
@@ -54213,7 +54110,7 @@
 		exports.default = api;
 
 /***/ },
-/* 585 */
+/* 562 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -54226,7 +54123,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _singleGame = __webpack_require__(586);
+	var _singleGame = __webpack_require__(563);
 
 	var _singleGame2 = _interopRequireDefault(_singleGame);
 
@@ -54260,7 +54157,7 @@
 	exports.default = api;
 
 /***/ },
-/* 586 */
+/* 563 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -54273,11 +54170,11 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _gameTeam = __webpack_require__(587);
+	var _gameTeam = __webpack_require__(564);
 
 	var _gameTeam2 = _interopRequireDefault(_gameTeam);
 
-	var _gameStatus = __webpack_require__(588);
+	var _gameStatus = __webpack_require__(565);
 
 	var _gameStatus2 = _interopRequireDefault(_gameStatus);
 
@@ -54316,7 +54213,7 @@
 	exports.default = api;
 
 /***/ },
-/* 587 */
+/* 564 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -54333,7 +54230,7 @@
 
 	var _lodash2 = _interopRequireDefault(_lodash);
 
-	var _helper = __webpack_require__(556);
+	var _helper = __webpack_require__(558);
 
 	var _helper2 = _interopRequireDefault(_helper);
 
@@ -54390,7 +54287,7 @@
 		exports.default = api;
 
 /***/ },
-/* 588 */
+/* 565 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -54467,7 +54364,7 @@
 	exports.default = api;
 
 /***/ },
-/* 589 */
+/* 566 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -54510,7 +54407,49 @@
 		exports.default = api;
 
 /***/ },
-/* 590 */
+/* 567 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _reactRedux = __webpack_require__(459);
+
+	var _actionCreators = __webpack_require__(555);
+
+	var _actionCreators2 = _interopRequireDefault(_actionCreators);
+
+	var _predictionsSummary = __webpack_require__(568);
+
+	var _predictionsSummary2 = _interopRequireDefault(_predictionsSummary);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var mapStateToProps = function mapStateToProps(state) {
+	  return {
+	    predictedWinners: state.userMonth.predictedWinners,
+	    visibleDate: state.visibleDate,
+	    activeMonth: state.activeMonth
+	  };
+	};
+
+	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+	  return {
+	    goToDate: function goToDate(date) {
+	      dispatch(_actionCreators2.default.goToDate(date));
+	    }
+	  };
+	};
+
+	var api = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_predictionsSummary2.default);
+
+		exports.default = api;
+
+/***/ },
+/* 568 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -54523,7 +54462,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _predictionsSummaryRow = __webpack_require__(591);
+	var _predictionsSummaryRow = __webpack_require__(569);
 
 	var _predictionsSummaryRow2 = _interopRequireDefault(_predictionsSummaryRow);
 
@@ -54567,7 +54506,7 @@
 		// {eligibleTeams.map((team, index) => <PredictionsSummaryRow predictedWinners={predictedWinners} date={index} key={index}/>)}
 
 /***/ },
-/* 591 */
+/* 569 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -54631,6 +54570,42 @@
 	});
 
 		exports.default = api;
+
+/***/ },
+/* 570 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(298);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var api = function api(_ref) {
+	  var messageBold = _ref.messageBold;
+	  var messageBody = _ref.messageBody;
+	  var messageClass = _ref.messageClass;
+
+
+	  return _react2.default.createElement(
+	    'div',
+	    { className: 'status-message alert alert-' + messageClass },
+	    _react2.default.createElement(
+	      'strong',
+	      null,
+	      messageBold
+	    ),
+	    '\t' + messageBody
+	  );
+	};
+
+	exports.default = api;
 
 /***/ }
 /******/ ]);
