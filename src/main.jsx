@@ -7,23 +7,33 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import * as Redux from 'redux';
-import { Router, Route, hashHistory } from 'react-router'
+import { Router, Route, browserHistory } from 'react-router'
 import Alert from 'react-s-alert';
 
 import Reducers from './reducers.js';
+import Helper from './helper.js';
+import ActionCreator from './action-creators.js';
 import MonthlyPicksContainer from './components/containers/monthly-picks-container.jsx';
+import DailyPicksContainer from './components/containers/daily-picks-container.jsx';
 
 const store = Redux.createStore(Reducers.app);
-store.dispatch({type:'SET_ACTIVE_MONTH', month: activeMonth});
 store.subscribe(render);
-render();
+
+//extract date data from URL, pass to Redux store (dateArray has format ['2016-11','9'])
+let dateArray = Helper.parseDateFromPath(browserHistory.getCurrentLocation().pathname);
+
+store.dispatch(ActionCreator.setActiveDate(dateArray[0],dateArray[1]));
+
+browserHistory.listen(location => console.log(location.pathname));
 
 function render() {
   ReactDOM.render(
     <Provider store={store}>
       <div>
-        <Router history={hashHistory}>
-          <Route path="/" component={MonthlyPicksContainer} />
+        <Router history={browserHistory}>
+          <Route path="/app/picks/" component={MonthlyPicksContainer}>
+            <Route path="/app/picks/:month/:day" component = {DailyPicksContainer} />
+          </Route>
         </Router>
         <Alert />
       </div>

@@ -10,6 +10,7 @@ router.get('/login', ctrlMain.login);
 router.get('/register', ctrlMain.login);
 router.get('/standings/:month', ctrlMain.standings);
 router.get('/new-month/:month', ctrlMain.newUserMonth);
+router.get('/app/*', ctrlMain.predictionsPage);
 
 //POST login credentials
 router.post('/login', ctrlMain.submitCredentials);

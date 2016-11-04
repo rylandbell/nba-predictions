@@ -58,6 +58,12 @@ const api = {
   //takes a date formatted like '2016-11-15' and a time string formatted like '4:30 pm ET';
   getDateTime: function(dateString, timeString) {
     return moment(dateString + ' ' + timeString, 'YYYY-MM-DD h:mm a').format();
+  },
+
+  parseDateFromPath: function(path) {
+    return path
+      .split('/')
+      .slice(-2);
   }
 };
 

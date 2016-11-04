@@ -45,32 +45,22 @@ const isSendingPrediction = (state = false, action) => {
       return state;
   }
 };
-//user-selected date:
-const visibleDate = (state = '', action) => {
-  var day, nextDay, previousDay;
+
+//format: 'YYYY-MM-DD'
+const activeDate = (state = '', action) => {
   switch(action.type){
-    case 'SET_ACTIVE_MONTH':
-      day = 1;
-      if(moment().format('YYYY-MM') === action.month){
-        day = moment().format('DD');
-      }
-      return action.month+'-'+day;
-    case 'GO_TO_DATE':
-      return action.date;
-    case 'DAY_FORWARD':
-      nextDay = moment(state).add(1, 'days').format('YYYY-MM-DD');
-      if (moment(nextDay).format('MM') === moment(state).format('MM')){
-        return nextDay;
-      } else {
-        return state
-      }
-    case 'DAY_BACK':
-      previousDay = moment(state).subtract(1, 'days').format('YYYY-MM-DD');
-      if (moment(previousDay).format('MM') === moment(state).format('MM')){
-        return previousDay;
-      } else {
-        return state
-      }
+    case 'SET_ACTIVE_DATE':
+      return action.month + '-' + (action.day >= 10 ? action.day : '0' + action.day);
+    default:
+      return state;
+  }
+};
+
+//format: 'YYYY-MM'
+const activeMonth = (state = '', action) => {
+  switch(action.type){
+    case 'SET_ACTIVE_DATE':
+      return action.month;
     default:
       return state;
   }
@@ -80,15 +70,6 @@ const userMonthId = (state = '', action) => {
   switch(action.type){
     case 'RECEIVE_USER_MONTH':
       return Object.assign({},action.response.userMonth._id);
-    default:
-      return state;
-  }
-};
-
-const activeMonth = (state = '', action) => {
-  switch(action.type){
-    case 'SET_ACTIVE_MONTH':
-      return action.month;
     default:
       return state;
   }
@@ -161,7 +142,7 @@ const api = {
     isFetchingPredictions,
     isSendingPrediction,
     activeMonth,
-    visibleDate,
+    activeDate,
     userMonth,
     gamesByDay
   })
@@ -173,7 +154,7 @@ export default api;
 //   isFetchingGameData,
 //   isFetchingPredictions,
 //   isSendingPrediction,
-//   visibleDate: string,
+//   activeDate: string,
 //   activeMonth: '2016-11',
 //   userMonth: {
 //     userMonthId: string

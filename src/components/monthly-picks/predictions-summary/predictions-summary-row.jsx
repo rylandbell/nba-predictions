@@ -9,7 +9,7 @@ const api = React.createClass({
     );
   },
   render: function () {
-    const isActive = ((this.props.dayOfMonth == moment(this.props.visibleDate).format('D')) ? 'active' : '');
+    const isActive = ((this.props.dayOfMonth == moment(this.props.activeDate).format('D')) ? 'active' : '');
     let outcomeString = '';
     let outcomeClass = '';
     

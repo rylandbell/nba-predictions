@@ -4,13 +4,13 @@ import React from 'react';
 
 import PredictionsSummaryRow from './predictions-summary-row.jsx';
 
-const api = ({predictedWinners, visibleDate, activeMonth, goToDate}) => {
+const api = ({predictedWinners, activeDate, activeMonth, goToDate}) => {
   const daysInMonth = moment(activeMonth).daysInMonth();
   
   const rows = [];
   for (var i = 1; i<=daysInMonth; i++){
     rows.push(
-      <PredictionsSummaryRow userPrediction={predictedWinners[i]} visibleDate={visibleDate} activeMonth={activeMonth} goToDate={goToDate} dayOfMonth={i} key={i}/>
+      <PredictionsSummaryRow userPrediction={predictedWinners[i]} activeDate={activeDate} activeMonth={activeMonth} goToDate={goToDate} dayOfMonth={i} key={i}/>
     )
   }
 

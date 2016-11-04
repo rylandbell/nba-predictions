@@ -7,7 +7,7 @@ import PredictionsSummary from '../monthly-picks/predictions-summary/predictions
 
 const mapStateToProps = (state) => ({
   predictedWinners: state.userMonth.predictedWinners,
-  visibleDate: state.visibleDate,
+  activeDate: state.activeDate,
   activeMonth: state.activeMonth
 });
 

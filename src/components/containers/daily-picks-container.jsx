@@ -8,7 +8,7 @@ import Helper from '../../helper.js';
 import DailyPicks from '../monthly-picks/daily-picks/daily-picks.jsx';
 
 const mapStateToProps = (state) => ({
-  visibleDate: state.visibleDate,
+  activeDate: state.activeDate,
   predictedWinners: state.userMonth.predictedWinners,
   eligibleTeams: state.userMonth.eligibleTeams,
   gamesByDay: state.gamesByDay,

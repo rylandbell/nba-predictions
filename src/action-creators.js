@@ -87,20 +87,11 @@ const api = {
       teamName: teamName
     }
   ),
-  goToDate: (date) => (
+  setActiveDate: (month, day) => (
     {
-      type: 'GO_TO_DATE',
-      date: date
-    }
-  ),
-  dayForward: () => (
-    {
-      type: 'DAY_FORWARD'
-    }
-  ),
-  dayBack: () => (
-    {
-      type: 'DAY_BACK'
+      type: 'SET_ACTIVE_DATE',
+      month: month,
+      day: day
     }
   )
 };
