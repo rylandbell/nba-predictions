@@ -1,12 +1,11 @@
 'use strict';
 
 import React from 'react';
+import { browserHistory } from 'react-router';
 
 const api = React.createClass({
   handleClick: function() {
-    this.props.goToDate(
-      moment(this.props.activeMonth).add(this.props.dayOfMonth-1, 'days').format('YYYY-MM-DD')
-    );
+    browserHistory.push(this.props.dayOfMonth+'');
   },
   render: function () {
     const isActive = ((this.props.dayOfMonth == moment(this.props.activeDate).format('D')) ? 'active' : '');

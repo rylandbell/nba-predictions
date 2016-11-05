@@ -54521,13 +54521,15 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
+	var _reactRouter = __webpack_require__(488);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var api = _react2.default.createClass({
 	  displayName: 'api',
 
 	  handleClick: function handleClick() {
-	    this.props.goToDate(moment(this.props.activeMonth).add(this.props.dayOfMonth - 1, 'days').format('YYYY-MM-DD'));
+	    _reactRouter.browserHistory.push(this.props.dayOfMonth + '');
 	  },
 	  render: function render() {
 	    var isActive = this.props.dayOfMonth == moment(this.props.activeDate).format('D') ? 'active' : '';
