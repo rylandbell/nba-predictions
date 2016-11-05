@@ -20,11 +20,14 @@ const store = Redux.createStore(Reducers.app);
 store.subscribe(render);
 
 //extract date data from URL, pass to Redux store (dateArray has format ['2016-11','9'])
-let dateArray = Helper.parseDateFromPath(browserHistory.getCurrentLocation().pathname);
+const dateToRedux = function () {
+  let dateArray = Helper.parseDateFromPath(window.location.pathname);
+  store.dispatch(ActionCreator.setActiveDate(dateArray[0],dateArray[1]));
+}
 
-store.dispatch(ActionCreator.setActiveDate(dateArray[0],dateArray[1]));
-
-browserHistory.listen(location => console.log(location.pathname));
+//call dateToRedux on initial load, and again whenever the browserHistory updates
+dateToRedux();
+browserHistory.listen(dateToRedux);
 
 function render() {
   ReactDOM.render(

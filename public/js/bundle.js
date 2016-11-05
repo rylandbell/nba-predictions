@@ -98,13 +98,14 @@
 	store.subscribe(render);
 
 	//extract date data from URL, pass to Redux store (dateArray has format ['2016-11','9'])
-	var dateArray = _helper2.default.parseDateFromPath(_reactRouter.browserHistory.getCurrentLocation().pathname);
+	var dateToRedux = function dateToRedux() {
+	  var dateArray = _helper2.default.parseDateFromPath(window.location.pathname);
+	  store.dispatch(_actionCreators2.default.setActiveDate(dateArray[0], dateArray[1]));
+	};
 
-	store.dispatch(_actionCreators2.default.setActiveDate(dateArray[0], dateArray[1]));
-
-	_reactRouter.browserHistory.listen(function (location) {
-	  return console.log(location.pathname);
-	});
+	//call dateToRedux on initial load, and again whenever the browserHistory updates
+	dateToRedux();
+	_reactRouter.browserHistory.listen(dateToRedux);
 
 	function render() {
 	  _reactDom2.default.render(_react2.default.createElement(
@@ -54041,12 +54042,6 @@
 	        });
 	      });
 	      dispatch(_actionCreators2.default.sendPredictionWaiting());
-	    },
-	    dayForward: function dayForward() {
-	      dispatch(_actionCreators2.default.dayForward());
-	    },
-	    dayBack: function dayBack() {
-	      dispatch(_actionCreators2.default.dayBack());
 	    }
 	  };
 	};
@@ -54087,12 +54082,10 @@
 	  var predictedWinners = _ref.predictedWinners;
 	  var addPrediction = _ref.addPrediction;
 	  var removePrediction = _ref.removePrediction;
-	  var dayForward = _ref.dayForward;
-	  var dayBack = _ref.dayBack;
 	  return _react2.default.createElement(
 	    'div',
 	    { className: 'col-xs-12 col-sm-8 col-md-9' },
-	    _react2.default.createElement(_dayPicker2.default, { activeDate: activeDate, dayForward: dayForward, dayBack: dayBack }),
+	    _react2.default.createElement(_dayPicker2.default, { activeDate: activeDate }),
 	    _react2.default.createElement(
 	      'p',
 	      { className: 'text-center day-picker-message' },
@@ -54372,19 +54365,29 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
+	var _reactRouter = __webpack_require__(488);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var api = function api(_ref) {
 	  var activeDate = _ref.activeDate;
-	  var dayForward = _ref.dayForward;
-	  var dayBack = _ref.dayBack;
+
+	  var prevDay = moment(activeDate).subtract(1, 'days').format('D');
+	  var nextDay = moment(activeDate).add(1, 'days').format('D');
+
+	  var isFirstOfMonth = moment(activeDate).format('D') === '1';
+	  var isLastOfMonth = moment(activeDate).format('M') !== moment(activeDate).add(1, 'days').format('M');
 	  return _react2.default.createElement(
 	    'div',
 	    { className: 'row' },
 	    _react2.default.createElement(
 	      'div',
 	      { className: 'day-picker-container' },
-	      _react2.default.createElement('span', { onClick: dayBack, className: 'day-picker-item glyphicon glyphicon-menu-left' }),
+	      isFirstOfMonth ? null : _react2.default.createElement(
+	        _reactRouter.Link,
+	        { to: prevDay },
+	        _react2.default.createElement('span', { className: 'day-picker-item glyphicon glyphicon-menu-left' })
+	      ),
 	      _react2.default.createElement(
 	        'div',
 	        { className: 'day-picker-item date-display' },
@@ -54394,12 +54397,16 @@
 	          moment(activeDate).format('dddd, MMM D')
 	        )
 	      ),
-	      _react2.default.createElement('span', { onClick: dayForward, className: 'day-picker-item glyphicon glyphicon-menu-right' })
+	      isLastOfMonth ? null : _react2.default.createElement(
+	        _reactRouter.Link,
+	        { to: nextDay },
+	        _react2.default.createElement('span', { className: 'day-picker-item glyphicon glyphicon-menu-right' })
+	      )
 	    )
 	  );
 	};
 
-		exports.default = api;
+	exports.default = api;
 
 /***/ },
 /* 567 */

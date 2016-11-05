@@ -92,14 +92,6 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
         })
       );
       dispatch(ActionCreator.sendPredictionWaiting());
-    },
-  dayForward:
-    () => {
-      dispatch(ActionCreator.dayForward());
-    },
-  dayBack:
-    () => {
-      dispatch(ActionCreator.dayBack());
     }
 });
 
