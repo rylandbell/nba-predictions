@@ -4,7 +4,7 @@ import React from 'react';
 
 import SingleGame from './single-game.jsx';
 
-const api = ({activeDate, gamesByDay, predictedWinners, isSendingPrediction, eligibleTeams, addPrediction, removePrediction}) => {
+const api = ({activeDate, gamesByDay, predictedWinners, isSendingPrediction, eligibleTeams, userMonth, activeMonth, addPrediction, removePrediction}) => {
 
   //subtract 1 to go from day-of-month to zero-indexed array position:
   const dayKey = moment(activeDate).format('D')-1;
@@ -14,7 +14,7 @@ const api = ({activeDate, gamesByDay, predictedWinners, isSendingPrediction, eli
         (gamesByDay && gamesByDay[dayKey] && gamesByDay[dayKey].gameSummaries.length>0) ?
           gamesByDay[dayKey].gameSummaries.map(
           (gameData, index) =>
-            <SingleGame gameData={gameData} isSendingPrediction={isSendingPrediction} predictedWinner={predictedWinners[dayKey+1]} eligibleTeams = {eligibleTeams} addPrediction={addPrediction} removePrediction={removePrediction} key={index} />
+            <SingleGame gameData={gameData} isSendingPrediction={isSendingPrediction} predictedWinner={predictedWinners[dayKey+1]} eligibleTeams = {eligibleTeams} userMonth={userMonth} activeMonth={activeMonth} addPrediction={addPrediction} removePrediction={removePrediction} key={index} />
           )
         : <div> Sorry, no games scheduled for today. </div>
       }

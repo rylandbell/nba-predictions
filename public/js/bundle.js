@@ -82,6 +82,10 @@
 
 	var _actionCreators2 = _interopRequireDefault(_actionCreators);
 
+	var _layout = __webpack_require__(574);
+
+	var _layout2 = _interopRequireDefault(_layout);
+
 	var _monthlyPicksContainer = __webpack_require__(557);
 
 	var _monthlyPicksContainer2 = _interopRequireDefault(_monthlyPicksContainer);
@@ -90,12 +94,21 @@
 
 	var _dailyPicksContainer2 = _interopRequireDefault(_dailyPicksContainer);
 
+	var _dashboardPage = __webpack_require__(571);
+
+	var _dashboardPage2 = _interopRequireDefault(_dashboardPage);
+
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var store = Redux.createStore(_reducers2.default.app);
 	store.subscribe(render);
+	// store.subscribe(showStore);
+
+	function showStore() {
+	  console.log('state', store.getState());
+	}
 
 	//extract date data from URL, pass to Redux store (dateArray has format ['2016-11','9'])
 	var dateToRedux = function dateToRedux() {
@@ -119,8 +132,13 @@
 	        { history: _reactRouter.browserHistory },
 	        _react2.default.createElement(
 	          _reactRouter.Route,
-	          { path: '/app/picks/', component: _monthlyPicksContainer2.default },
-	          _react2.default.createElement(_reactRouter.Route, { path: '/app/picks/:month/:day', component: _dailyPicksContainer2.default })
+	          { path: '/app/', component: _layout2.default },
+	          _react2.default.createElement(_reactRouter.IndexRoute, { component: _dashboardPage2.default }),
+	          _react2.default.createElement(
+	            _reactRouter.Route,
+	            { path: '/app/picks', component: _monthlyPicksContainer2.default },
+	            _react2.default.createElement(_reactRouter.Route, { path: '/app/picks/:month/:day', component: _dailyPicksContainer2.default })
+	          )
 	        )
 	      ),
 	      _react2.default.createElement(_reactSAlert2.default, null)
@@ -53978,18 +53996,20 @@
 	    predictedWinners: state.userMonth.predictedWinners,
 	    eligibleTeams: state.userMonth.eligibleTeams,
 	    gamesByDay: state.gamesByDay,
-	    isSendingPrediction: state.isSendingPrediction
+	    isSendingPrediction: state.isSendingPrediction,
+	    userMonth: state.userMonth,
+	    activeMonth: state.activeMonth
 	  };
 	};
 
-	var mapDispatchToProps = function mapDispatchToProps(dispatch, ownProps) {
+	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 	  return {
-	    addPrediction: function addPrediction(gameId, teamName, gameDate, gameTime) {
+	    addPrediction: function addPrediction(gameId, teamName, gameDate, gameTime, userMonth, activeMonth) {
 	      _reactSAlert2.default.closeAll();
 
 	      //mark previous selection for that day eligible:
 	      var gameDay = moment(gameDate).format('D');
-	      var oldPrediction = ownProps.reduxState.userMonth.predictedWinners[gameDay].teamName;
+	      var oldPrediction = userMonth.predictedWinners[gameDay].teamName;
 	      dispatch(_actionCreators2.default.markEligible(oldPrediction));
 
 	      //add new prediction, then mark that team ineligible for rest of month:
@@ -54002,7 +54022,7 @@
 	      body.teamName = teamName;
 	      body.gameTime = gameTime;
 
-	      _helper2.default.myFetch('/api/userMonth/' + ownProps.reduxState.activeMonth + '/predictedWinners', 'PUT', body, function (response) {
+	      _helper2.default.myFetch('/api/userMonth/' + activeMonth + '/predictedWinners', 'PUT', body, function (response) {
 	        dispatch(_actionCreators2.default.sendPredictionSuccess(response));
 	      }, function (response) {
 	        dispatch(_actionCreators2.default.sendPredictionFailure());
@@ -54016,7 +54036,7 @@
 	      });
 	      dispatch(_actionCreators2.default.sendPredictionWaiting());
 	    },
-	    removePrediction: function removePrediction(gameId, teamName, gameDate, gameTime) {
+	    removePrediction: function removePrediction(gameId, teamName, gameDate, gameTime, activeMonth) {
 	      _reactSAlert2.default.closeAll();
 
 	      dispatch(_actionCreators2.default.removePrediction(gameId, gameDate));
@@ -54029,7 +54049,7 @@
 	      body.teamName = null;
 	      body.gameTime = gameTime;
 
-	      _helper2.default.myFetch('/api/userMonth/' + ownProps.reduxState.activeMonth + '/predictedWinners', 'PUT', body, function (response) {
+	      _helper2.default.myFetch('/api/userMonth/' + activeMonth + '/predictedWinners', 'PUT', body, function (response) {
 	        dispatch(_actionCreators2.default.sendPredictionSuccess(response));
 	      }, function (response) {
 	        dispatch(_actionCreators2.default.sendPredictionFailure());
@@ -54080,6 +54100,8 @@
 	  var eligibleTeams = _ref.eligibleTeams;
 	  var isSendingPrediction = _ref.isSendingPrediction;
 	  var predictedWinners = _ref.predictedWinners;
+	  var userMonth = _ref.userMonth;
+	  var activeMonth = _ref.activeMonth;
 	  var addPrediction = _ref.addPrediction;
 	  var removePrediction = _ref.removePrediction;
 	  return _react2.default.createElement(
@@ -54091,7 +54113,7 @@
 	      { className: 'text-center day-picker-message' },
 	      '(Home teams are displayed on the right.)'
 	    ),
-	    _react2.default.createElement(_singleDayGameList2.default, { gamesByDay: gamesByDay, eligibleTeams: eligibleTeams, isSendingPrediction: isSendingPrediction, predictedWinners: predictedWinners, activeDate: activeDate, addPrediction: addPrediction, removePrediction: removePrediction })
+	    _react2.default.createElement(_singleDayGameList2.default, { gamesByDay: gamesByDay, eligibleTeams: eligibleTeams, isSendingPrediction: isSendingPrediction, predictedWinners: predictedWinners, activeDate: activeDate, userMonth: userMonth, activeMonth: activeMonth, addPrediction: addPrediction, removePrediction: removePrediction })
 	  );
 	};
 
@@ -54123,6 +54145,8 @@
 	  var predictedWinners = _ref.predictedWinners;
 	  var isSendingPrediction = _ref.isSendingPrediction;
 	  var eligibleTeams = _ref.eligibleTeams;
+	  var userMonth = _ref.userMonth;
+	  var activeMonth = _ref.activeMonth;
 	  var addPrediction = _ref.addPrediction;
 	  var removePrediction = _ref.removePrediction;
 
@@ -54133,7 +54157,7 @@
 	    'div',
 	    { className: 'row' },
 	    gamesByDay && gamesByDay[dayKey] && gamesByDay[dayKey].gameSummaries.length > 0 ? gamesByDay[dayKey].gameSummaries.map(function (gameData, index) {
-	      return _react2.default.createElement(_singleGame2.default, { gameData: gameData, isSendingPrediction: isSendingPrediction, predictedWinner: predictedWinners[dayKey + 1], eligibleTeams: eligibleTeams, addPrediction: addPrediction, removePrediction: removePrediction, key: index });
+	      return _react2.default.createElement(_singleGame2.default, { gameData: gameData, isSendingPrediction: isSendingPrediction, predictedWinner: predictedWinners[dayKey + 1], eligibleTeams: eligibleTeams, userMonth: userMonth, activeMonth: activeMonth, addPrediction: addPrediction, removePrediction: removePrediction, key: index });
 	    }) : _react2.default.createElement(
 	      'div',
 	      null,
@@ -54173,6 +54197,8 @@
 	  var predictedWinner = _ref.predictedWinner;
 	  var isSendingPrediction = _ref.isSendingPrediction;
 	  var eligibleTeams = _ref.eligibleTeams;
+	  var userMonth = _ref.userMonth;
+	  var activeMonth = _ref.activeMonth;
 	  var addPrediction = _ref.addPrediction;
 	  var removePrediction = _ref.removePrediction;
 
@@ -54189,9 +54215,9 @@
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'game-container ' + (gameData.gameStatus.hasStarted ? '' : 'game-not-started') },
-	          _react2.default.createElement(_gameTeam2.default, { gameData: gameData, teamName: gameData.roadTeam, predictedWinner: predictedWinner, isSendingPrediction: isSendingPrediction, eligibleTeams: eligibleTeams, homeVsRoad: 'roadTeam', addPrediction: addPrediction, removePrediction: removePrediction }),
+	          _react2.default.createElement(_gameTeam2.default, { gameData: gameData, teamName: gameData.roadTeam, predictedWinner: predictedWinner, isSendingPrediction: isSendingPrediction, eligibleTeams: eligibleTeams, homeVsRoad: 'roadTeam', userMonth: userMonth, activeMonth: activeMonth, addPrediction: addPrediction, removePrediction: removePrediction }),
 	          _react2.default.createElement(_gameStatus2.default, { statusData: gameData.gameStatus, roadTeam: gameData.roadTeam, homeTeam: gameData.homeTeam, predictedWinner: predictedWinner }),
-	          _react2.default.createElement(_gameTeam2.default, { gameData: gameData, teamName: gameData.homeTeam, predictedWinner: predictedWinner, isSendingPrediction: isSendingPrediction, eligibleTeams: eligibleTeams, homeVsRoad: 'homeTeam', addPrediction: addPrediction, removePrediction: removePrediction })
+	          _react2.default.createElement(_gameTeam2.default, { gameData: gameData, teamName: gameData.homeTeam, predictedWinner: predictedWinner, isSendingPrediction: isSendingPrediction, eligibleTeams: eligibleTeams, homeVsRoad: 'homeTeam', userMonth: userMonth, activeMonth: activeMonth, addPrediction: addPrediction, removePrediction: removePrediction })
 	        )
 	      )
 	    )
@@ -54236,9 +54262,9 @@
 	      if ((isEligible || isChosen) && !this.props.gameData.gameStatus.hasStarted) {
 	        var gameTime = _helper2.default.getDateTime(this.props.gameData.gameDate, this.props.gameData.gameStatus.startTime);
 	        if (isChosen) {
-	          this.props.removePrediction(this.props.gameData.gameId, this.props.teamName, this.props.gameData.gameDate, gameTime);
+	          this.props.removePrediction(this.props.gameData.gameId, this.props.teamName, this.props.gameData.gameDate, gameTime, this.props.activeMonth);
 	        } else {
-	          this.props.addPrediction(this.props.gameData.gameId, this.props.teamName, this.props.gameData.gameDate, gameTime);
+	          this.props.addPrediction(this.props.gameData.gameId, this.props.teamName, this.props.gameData.gameDate, gameTime, this.props.userMonth, this.props.activeMonth);
 	        }
 	      }
 	    }
@@ -54610,6 +54636,330 @@
 	};
 
 	exports.default = api;
+
+/***/ },
+/* 571 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(298);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _picksWidget = __webpack_require__(572);
+
+	var _picksWidget2 = _interopRequireDefault(_picksWidget);
+
+	var _outcomesWidget = __webpack_require__(573);
+
+	var _outcomesWidget2 = _interopRequireDefault(_outcomesWidget);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	// import PredictionsSummaryContainer from '../containers/predictions-summary-container.jsx'; 
+	// import StatusMessage from '../status-message.jsx';
+
+	var api = _react2.default.createClass({
+	  displayName: 'api',
+
+	  componentDidMount: function componentDidMount() {
+	    // this.props.getUserMonthData(this.props.reduxState.activeMonth);
+	    // this.props.getGameData(this.props.reduxState.activeMonth);
+	  },
+	  render: function render() {
+	    return _react2.default.createElement(
+	      'div',
+	      { className: 'row' },
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'col-xs-12 col-sm-5 col-md-4 col-lg-3' },
+	        _react2.default.createElement(_picksWidget2.default, null),
+	        _react2.default.createElement(_outcomesWidget2.default, null)
+	      ),
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'col-xs-12 col-sm-7 col-md-8 col-lg-9' },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'jumbotron' },
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'panel-boody' },
+	            _react2.default.createElement(
+	              'h4',
+	              null,
+	              'Something goes here?'
+	            )
+	          )
+	        )
+	      )
+	    );
+	  }
+	});
+
+		exports.default = api;
+
+/***/ },
+/* 572 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(298);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactRouter = __webpack_require__(488);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var PicksWidget = function PicksWidget() {
+	  return _react2.default.createElement(
+	    'div',
+	    { className: 'panel panel-primary' },
+	    _react2.default.createElement(
+	      'div',
+	      { className: 'panel-heading' },
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'panel-title' },
+	        'My Picks'
+	      )
+	    ),
+	    _react2.default.createElement(
+	      'div',
+	      { className: 'panel-body panel-black' },
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'list-group' },
+	        _react2.default.createElement(
+	          _reactRouter.Link,
+	          { to: 'picks/2016-11/1' },
+	          _react2.default.createElement(
+	            'h5',
+	            { className: 'text-center' },
+	            'November'
+	          )
+	        )
+	      )
+	    )
+	  );
+	};
+
+		exports.default = PicksWidget;
+
+/***/ },
+/* 573 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(298);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var PicksWidget = function PicksWidget() {
+	  return _react2.default.createElement(
+	    'div',
+	    { className: 'panel panel-default' },
+	    _react2.default.createElement(
+	      'div',
+	      { className: 'panel-heading' },
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'panel-title' },
+	        'Standings'
+	      )
+	    ),
+	    _react2.default.createElement(
+	      'div',
+	      { className: 'panel-body panel-black' },
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'list-group' },
+	        _react2.default.createElement(
+	          'a',
+	          { href: '/standings/2016-11', className: 'list-group-item' },
+	          _react2.default.createElement(
+	            'h5',
+	            { className: 'text-center' },
+	            'November'
+	          )
+	        )
+	      )
+	    )
+	  );
+	};
+
+		exports.default = PicksWidget;
+
+/***/ },
+/* 574 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(298);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactRouter = __webpack_require__(488);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	// const Layout = React.createClass({
+	//   componentWillReceiveProps: function(newProps) {
+	//     // this.setState(this.getState(newProps));
+	//     console.log(newProps);
+	//   },
+	//   render: function () {
+	//     return (
+	//       <div>
+	//         <div className="container-fluid">
+	//           <nav className="navbar navbar-default navbar-fixed-top">
+	//             <div className="container-fluid container-navbar">
+	//               <div className="navbar-header">
+	//                 <button type="button" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false" className="navbar-toggle collapsed"><span className="sr-only">Toggle navigation</span><span className="icon-bar"></span><span className="icon-bar"></span><span className="icon-bar"></span></button><a href="/" className="navbar-brand">Home</a>
+	//                 <ul className="nav navbar-nav">
+	//                 </ul>
+	//               </div>
+	//               <div id="navbar-collapse-1" className="collapse navbar-collapse">
+	//                 <ul className="nav navbar-nav navbar-right">
+	//                   <li><Link to="/app/">How to Play </Link></li>
+	//                   <li><a href="https://goo.gl/forms/iWjt8lWwQ815G77Y2" target="_blank">Feedback Form</a></li>
+	//                   <li><a href="/login">Sign Out</a></li>
+	//                 </ul>
+	//               </div>
+	//             </div>
+	//           </nav>
+	//         </div>
+	//         <div className="main">
+	//           <div className="container container-body">
+	//             <div className="row">
+	//               <div className="col-xs-12">
+	//                 {this.props.children}
+	//               </div>
+	//             </div>
+	//           </div>
+	//         </div>
+	//       </div>
+	//     );
+	//   }
+	// });
+
+	var LayoutOld = function LayoutOld(props) {
+	  return _react2.default.createElement(
+	    'div',
+	    null,
+	    _react2.default.createElement(
+	      'div',
+	      { className: 'container-fluid' },
+	      _react2.default.createElement(
+	        'nav',
+	        { className: 'navbar navbar-default navbar-fixed-top' },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'container-fluid container-navbar' },
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'navbar-header' },
+	            _react2.default.createElement(
+	              'button',
+	              { type: 'button', 'data-toggle': 'collapse', 'data-target': '#navbar-collapse-1', 'aria-expanded': 'false', className: 'navbar-toggle collapsed' },
+	              _react2.default.createElement(
+	                'span',
+	                { className: 'sr-only' },
+	                'Toggle navigation'
+	              ),
+	              _react2.default.createElement('span', { className: 'icon-bar' }),
+	              _react2.default.createElement('span', { className: 'icon-bar' }),
+	              _react2.default.createElement('span', { className: 'icon-bar' })
+	            ),
+	            _react2.default.createElement(
+	              'a',
+	              { href: '/', className: 'navbar-brand' },
+	              'Home'
+	            ),
+	            _react2.default.createElement('ul', { className: 'nav navbar-nav' })
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { id: 'navbar-collapse-1', className: 'collapse navbar-collapse' },
+	            _react2.default.createElement(
+	              'ul',
+	              { className: 'nav navbar-nav navbar-right' },
+	              _react2.default.createElement(
+	                'li',
+	                null,
+	                _react2.default.createElement(
+	                  _reactRouter.Link,
+	                  { to: '/app/' },
+	                  'How to Play '
+	                )
+	              ),
+	              _react2.default.createElement(
+	                'li',
+	                null,
+	                _react2.default.createElement(
+	                  'a',
+	                  { href: 'https://goo.gl/forms/iWjt8lWwQ815G77Y2', target: '_blank' },
+	                  'Feedback Form'
+	                )
+	              ),
+	              _react2.default.createElement(
+	                'li',
+	                null,
+	                _react2.default.createElement(
+	                  'a',
+	                  { href: '/login' },
+	                  'Sign Out'
+	                )
+	              )
+	            )
+	          )
+	        )
+	      )
+	    ),
+	    _react2.default.createElement(
+	      'div',
+	      { className: 'main' },
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'container container-body' },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'row' },
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'col-xs-12' },
+	            props.children
+	          )
+	        )
+	      )
+	    )
+	  );
+	};
+
+	exports.default = LayoutOld;
 
 /***/ }
 /******/ ]);

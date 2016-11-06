@@ -12,17 +12,19 @@ const mapStateToProps = (state) => ({
   predictedWinners: state.userMonth.predictedWinners,
   eligibleTeams: state.userMonth.eligibleTeams,
   gamesByDay: state.gamesByDay,
-  isSendingPrediction: state.isSendingPrediction
+  isSendingPrediction: state.isSendingPrediction,
+  userMonth: state.userMonth,
+  activeMonth: state.activeMonth
 });
 
-const mapDispatchToProps = (dispatch, ownProps) => ({
+const mapDispatchToProps = (dispatch) => ({
   addPrediction:
-    (gameId, teamName, gameDate, gameTime) => {
+    (gameId, teamName, gameDate, gameTime, userMonth, activeMonth) => {
       Alert.closeAll();
 
       //mark previous selection for that day eligible:
       const gameDay = moment(gameDate).format('D');
-      const oldPrediction = ownProps.reduxState.userMonth.predictedWinners[gameDay].teamName;
+      const oldPrediction = userMonth.predictedWinners[gameDay].teamName;
       dispatch(ActionCreator.markEligible(oldPrediction));
 
       //add new prediction, then mark that team ineligible for rest of month:
@@ -36,7 +38,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
       body.gameTime = gameTime;
 
       Helper.myFetch(
-        '/api/userMonth/' + ownProps.reduxState.activeMonth + '/predictedWinners',
+        '/api/userMonth/' + activeMonth + '/predictedWinners',
         'PUT',
         body,
         (response => {
@@ -58,7 +60,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
       dispatch(ActionCreator.sendPredictionWaiting());
     },
   removePrediction:
-    (gameId, teamName, gameDate, gameTime) => {
+    (gameId, teamName, gameDate, gameTime, activeMonth) => {
       Alert.closeAll();
 
       dispatch(ActionCreator.removePrediction(gameId, gameDate));
@@ -72,7 +74,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
       body.gameTime = gameTime;
 
       Helper.myFetch(
-        '/api/userMonth/' + ownProps.reduxState.activeMonth + '/predictedWinners',
+        '/api/userMonth/' + activeMonth + '/predictedWinners',
         'PUT',
         body,
         (response => {
