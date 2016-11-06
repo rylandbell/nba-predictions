@@ -4,7 +4,7 @@ import React from 'react';
 
 import SingleGame from './single-game.jsx';
 
-const api = ({activeDate, gamesByDay, predictedWinners, isSendingPrediction, eligibleTeams, userMonth, activeMonth, addPrediction, removePrediction}) => {
+const SingleDayGameList = ({activeDate, gamesByDay, predictedWinners, isSendingPrediction, eligibleTeams, userMonth, activeMonth, addPrediction, removePrediction}) => {
 
   //subtract 1 to go from day-of-month to zero-indexed array position:
   const dayKey = moment(activeDate).format('D')-1;
@@ -22,4 +22,4 @@ const api = ({activeDate, gamesByDay, predictedWinners, isSendingPrediction, eli
   );
 };
 
-export default api;
+export default SingleDayGameList;

@@ -4,7 +4,7 @@ import React from 'react';
 
 import PredictionsSummaryRow from './predictions-summary-row.jsx';
 
-const api = ({predictedWinners, activeDate, activeMonth, goToDate}) => {
+const PredictionsSummary = ({predictedWinners, activeDate, activeMonth, goToDate}) => {
   const daysInMonth = moment(activeMonth).daysInMonth();
   
   const rows = [];
@@ -28,6 +28,6 @@ const api = ({predictedWinners, activeDate, activeMonth, goToDate}) => {
   );
 }
 
-export default api;
+export default PredictionsSummary;
 
 // {eligibleTeams.map((team, index) => <PredictionsSummaryRow predictedWinners={predictedWinners} date={index} key={index}/>)}

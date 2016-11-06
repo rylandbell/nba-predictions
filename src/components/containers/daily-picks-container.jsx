@@ -97,9 +97,9 @@ const mapDispatchToProps = (dispatch) => ({
     }
 });
 
-const api = connect(
+const DailyPicksContainer = connect(
   mapStateToProps,
   mapDispatchToProps
 )(DailyPicks);
 
-export default api;
+export default DailyPicksContainer;

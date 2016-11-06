@@ -5,7 +5,7 @@ import React from 'react';
 import SingleDayGameList from './single-day-game-list.jsx';
 import DayPicker from './day-picker.jsx';
 
-const api = ({activeDate, gamesByDay, eligibleTeams, isSendingPrediction, predictedWinners, userMonth, activeMonth, addPrediction, removePrediction}) => (
+const DailyPicks = ({activeDate, gamesByDay, eligibleTeams, isSendingPrediction, predictedWinners, userMonth, activeMonth, addPrediction, removePrediction}) => (
   <div className="col-xs-12 col-sm-8 col-md-9">
     <DayPicker activeDate={activeDate} />
     <p className="text-center day-picker-message">
@@ -15,4 +15,4 @@ const api = ({activeDate, gamesByDay, eligibleTeams, isSendingPrediction, predic
   </div>
 );
 
-export default api;
+export default DailyPicks;

@@ -43,7 +43,7 @@ import { Link } from 'react-router';
 //   }
 // });
 
-const LayoutOld = (props) => {
+const LayoutComponent = (props) => {
 return (
   <div>
     <div className="container-fluid">
@@ -77,4 +77,4 @@ return (
 );
 }
 
-export default LayoutOld;
+export default LayoutComponent;

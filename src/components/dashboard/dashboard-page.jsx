@@ -7,7 +7,7 @@ import OutcomesWidget from './outcomes-widget.jsx';
 // import PredictionsSummaryContainer from '../containers/predictions-summary-container.jsx'; 
 // import StatusMessage from '../status-message.jsx';
 
-const api = React.createClass({
+const DashboardPage = React.createClass({
   componentDidMount: function() {
     // this.props.getUserMonthData(this.props.reduxState.activeMonth);
     // this.props.getGameData(this.props.reduxState.activeMonth);
@@ -31,4 +31,4 @@ const api = React.createClass({
   }
 });
 
-export default api;
+export default DashboardPage;

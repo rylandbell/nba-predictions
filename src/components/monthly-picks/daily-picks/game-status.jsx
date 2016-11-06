@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-const api = ({statusData, roadTeam, homeTeam, predictedWinner}) => {
+const GameStatus = ({statusData, roadTeam, homeTeam, predictedWinner}) => {
   var scoreString;
   var progressString;
   var outcomeString = '';
@@ -44,4 +44,4 @@ const api = ({statusData, roadTeam, homeTeam, predictedWinner}) => {
   );
 };
 
-export default api;
+export default GameStatus;

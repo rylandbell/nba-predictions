@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-const PicksWidget = () => (
+const OutcomesWidget = () => (
   <div className="panel panel-default">
     <div className="panel-heading">
       <div className="panel-title">Standings</div>
@@ -17,4 +17,4 @@ const PicksWidget = () => (
   </div>
 );
 
-export default PicksWidget;
+export default OutcomesWidget;

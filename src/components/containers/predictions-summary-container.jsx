@@ -17,9 +17,9 @@ const mapDispatchToProps = (dispatch) => ({
   }
 });
 
-const api = connect(
+const PredictionsSummaryContainer = connect(
   mapStateToProps,
   mapDispatchToProps
 )(PredictionsSummary);
 
-export default api;
+export default PredictionsSummaryContainer;

@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-const api = ({messageBold, messageBody, messageClass}) => {
+const StatusMessage = ({messageBold, messageBody, messageClass}) => {
 
   return (
     <div className={'status-message alert alert-'+messageClass}>
@@ -14,4 +14,4 @@ const api = ({messageBold, messageBody, messageClass}) => {
   );
 };
 
-export default api;
+export default StatusMessage;

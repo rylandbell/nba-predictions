@@ -4,7 +4,7 @@ import React from 'react';
 import _ from 'lodash';
 import Helper from '../../../helper.js';
 
-const api = React.createClass({
+const GameTeam = React.createClass({
   handleClick: function () {
     if(this.props.isSendingPrediction){
       return
@@ -42,4 +42,4 @@ const api = React.createClass({
   }
 });
 
-export default api;
+export default GameTeam;

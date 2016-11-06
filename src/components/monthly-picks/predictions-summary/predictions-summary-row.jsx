@@ -3,7 +3,7 @@
 import React from 'react';
 import { browserHistory } from 'react-router';
 
-const api = React.createClass({
+const PredictionsSummaryRow = React.createClass({
   handleClick: function() {
     browserHistory.push(this.props.dayOfMonth+'');
   },
@@ -38,4 +38,4 @@ const api = React.createClass({
 });
 
 
-export default api;
+export default PredictionsSummaryRow;

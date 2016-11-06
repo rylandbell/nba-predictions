@@ -74,9 +74,9 @@ const mapDispatchToProps = dispatch => ({
     }
 });
 
-const api = connect(
+const MonthlyPicksContainer = connect(
   mapStateToProps,
   mapDispatchToProps
 )(MonthlyPicks);
 
-export default api;
+export default MonthlyPicksContainer;

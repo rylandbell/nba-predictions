@@ -5,7 +5,7 @@ import React from 'react';
 import GameTeam from './game-team.jsx';
 import GameStatus from './game-status.jsx';
 
-const api = ({gameData, predictedWinner, isSendingPrediction, eligibleTeams, userMonth, activeMonth, addPrediction, removePrediction}) => {
+const SingleGame = ({gameData, predictedWinner, isSendingPrediction, eligibleTeams, userMonth, activeMonth, addPrediction, removePrediction}) => {
   
   return (
     <div className="col-xs-12 col-md-6">
@@ -22,4 +22,4 @@ const api = ({gameData, predictedWinner, isSendingPrediction, eligibleTeams, use
   );
 };
 
-export default api;
+export default SingleGame;

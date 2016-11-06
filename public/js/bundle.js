@@ -53805,9 +53805,9 @@
 	  };
 	};
 
-	var api = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_monthlyPicks2.default);
+	var MonthlyPicksContainer = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_monthlyPicks2.default);
 
-		exports.default = api;
+		exports.default = MonthlyPicksContainer;
 
 /***/ },
 /* 558 */
@@ -53940,8 +53940,8 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var api = _react2.default.createClass({
-	  displayName: 'api',
+	var MonthlyPicksPage = _react2.default.createClass({
+	  displayName: 'MonthlyPicksPage',
 
 	  componentDidMount: function componentDidMount() {
 	    this.props.getUserMonthData(this.props.reduxState.activeMonth);
@@ -53958,7 +53958,7 @@
 	  }
 	});
 
-		exports.default = api;
+		exports.default = MonthlyPicksPage;
 
 /***/ },
 /* 560 */
@@ -54066,9 +54066,9 @@
 	  };
 	};
 
-	var api = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_dailyPicks2.default);
+	var DailyPicksContainer = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_dailyPicks2.default);
 
-		exports.default = api;
+		exports.default = DailyPicksContainer;
 
 /***/ },
 /* 561 */
@@ -54094,7 +54094,7 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var api = function api(_ref) {
+	var DailyPicks = function DailyPicks(_ref) {
 	  var activeDate = _ref.activeDate;
 	  var gamesByDay = _ref.gamesByDay;
 	  var eligibleTeams = _ref.eligibleTeams;
@@ -54117,7 +54117,7 @@
 	  );
 	};
 
-		exports.default = api;
+		exports.default = DailyPicks;
 
 /***/ },
 /* 562 */
@@ -54139,7 +54139,7 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var api = function api(_ref) {
+	var SingleDayGameList = function SingleDayGameList(_ref) {
 	  var activeDate = _ref.activeDate;
 	  var gamesByDay = _ref.gamesByDay;
 	  var predictedWinners = _ref.predictedWinners;
@@ -54166,7 +54166,7 @@
 	  );
 	};
 
-	exports.default = api;
+	exports.default = SingleDayGameList;
 
 /***/ },
 /* 563 */
@@ -54192,7 +54192,7 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var api = function api(_ref) {
+	var SingleGame = function SingleGame(_ref) {
 	  var gameData = _ref.gameData;
 	  var predictedWinner = _ref.predictedWinner;
 	  var isSendingPrediction = _ref.isSendingPrediction;
@@ -54224,7 +54224,7 @@
 	  );
 	};
 
-	exports.default = api;
+	exports.default = SingleGame;
 
 /***/ },
 /* 564 */
@@ -54250,8 +54250,8 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var api = _react2.default.createClass({
-	  displayName: 'api',
+	var GameTeam = _react2.default.createClass({
+	  displayName: 'GameTeam',
 
 	  handleClick: function handleClick() {
 	    if (this.props.isSendingPrediction) {
@@ -54298,7 +54298,7 @@
 	  }
 	});
 
-		exports.default = api;
+		exports.default = GameTeam;
 
 /***/ },
 /* 565 */
@@ -54316,7 +54316,7 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var api = function api(_ref) {
+	var GameStatus = function GameStatus(_ref) {
 	  var statusData = _ref.statusData;
 	  var roadTeam = _ref.roadTeam;
 	  var homeTeam = _ref.homeTeam;
@@ -54375,7 +54375,7 @@
 	  );
 	};
 
-	exports.default = api;
+	exports.default = GameStatus;
 
 /***/ },
 /* 566 */
@@ -54395,7 +54395,7 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var api = function api(_ref) {
+	var DayPicker = function DayPicker(_ref) {
 	  var activeDate = _ref.activeDate;
 
 	  var prevDay = moment(activeDate).subtract(1, 'days').format('D');
@@ -54432,7 +54432,7 @@
 	  );
 	};
 
-	exports.default = api;
+	exports.default = DayPicker;
 
 /***/ },
 /* 567 */
@@ -54472,9 +54472,9 @@
 	  };
 	};
 
-	var api = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_predictionsSummary2.default);
+	var PredictionsSummaryContainer = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_predictionsSummary2.default);
 
-		exports.default = api;
+		exports.default = PredictionsSummaryContainer;
 
 /***/ },
 /* 568 */
@@ -54496,7 +54496,7 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var api = function api(_ref) {
+	var PredictionsSummary = function PredictionsSummary(_ref) {
 	  var predictedWinners = _ref.predictedWinners;
 	  var activeDate = _ref.activeDate;
 	  var activeMonth = _ref.activeMonth;
@@ -54529,7 +54529,7 @@
 	  );
 	};
 
-	exports.default = api;
+	exports.default = PredictionsSummary;
 
 		// {eligibleTeams.map((team, index) => <PredictionsSummaryRow predictedWinners={predictedWinners} date={index} key={index}/>)}
 
@@ -54551,8 +54551,8 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var api = _react2.default.createClass({
-	  displayName: 'api',
+	var PredictionsSummaryRow = _react2.default.createClass({
+	  displayName: 'PredictionsSummaryRow',
 
 	  handleClick: function handleClick() {
 	    _reactRouter.browserHistory.push(this.props.dayOfMonth + '');
@@ -54599,7 +54599,7 @@
 
 	});
 
-		exports.default = api;
+		exports.default = PredictionsSummaryRow;
 
 /***/ },
 /* 570 */
@@ -54617,7 +54617,7 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var api = function api(_ref) {
+	var StatusMessage = function StatusMessage(_ref) {
 	  var messageBold = _ref.messageBold;
 	  var messageBody = _ref.messageBody;
 	  var messageClass = _ref.messageClass;
@@ -54635,7 +54635,7 @@
 	  );
 	};
 
-	exports.default = api;
+	exports.default = StatusMessage;
 
 /***/ },
 /* 571 */
@@ -54664,8 +54664,8 @@
 	// import PredictionsSummaryContainer from '../containers/predictions-summary-container.jsx'; 
 	// import StatusMessage from '../status-message.jsx';
 
-	var api = _react2.default.createClass({
-	  displayName: 'api',
+	var DashboardPage = _react2.default.createClass({
+	  displayName: 'DashboardPage',
 
 	  componentDidMount: function componentDidMount() {
 	    // this.props.getUserMonthData(this.props.reduxState.activeMonth);
@@ -54702,7 +54702,7 @@
 	  }
 	});
 
-		exports.default = api;
+		exports.default = DashboardPage;
 
 /***/ },
 /* 572 */
@@ -54773,7 +54773,7 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var PicksWidget = function PicksWidget() {
+	var OutcomesWidget = function OutcomesWidget() {
 	  return _react2.default.createElement(
 	    'div',
 	    { className: 'panel panel-default' },
@@ -54806,7 +54806,7 @@
 	  );
 	};
 
-		exports.default = PicksWidget;
+		exports.default = OutcomesWidget;
 
 /***/ },
 /* 574 */
@@ -54866,7 +54866,7 @@
 	//   }
 	// });
 
-	var LayoutOld = function LayoutOld(props) {
+	var LayoutComponent = function LayoutComponent(props) {
 	  return _react2.default.createElement(
 	    'div',
 	    null,
@@ -54959,7 +54959,7 @@
 	  );
 	};
 
-	exports.default = LayoutOld;
+	exports.default = LayoutComponent;
 
 /***/ }
 /******/ ]);

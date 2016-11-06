@@ -3,7 +3,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 
-const api = ({activeDate}) => {
+const DayPicker = ({activeDate}) => {
   const prevDay = moment(activeDate).subtract(1,'days').format('D');
   const nextDay = moment(activeDate).add(1,'days').format('D');
 
@@ -33,4 +33,4 @@ const api = ({activeDate}) => {
   );
 };
 
-export default api;
+export default DayPicker;
