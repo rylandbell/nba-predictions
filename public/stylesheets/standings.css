@@ -1,7 +1,25 @@
-.standings-table td, .standings-table th {
-  text-align: center;
+.standings-team {
+  padding: 2px;
+  font-size: 1.4em;
+  border-radius: 5px;
+  /*width: 40px;*/
 }
 
-.standings-table {
-  // background-color: #060606;
+.standings-victory-team {
+  box-shadow: 0 0 0.4em 0.1em #77B300;
+
+  /*border: 1px solid #77B300;*/
+}
+
+.standings-defeat-team {
+  box-shadow: 0 0 0.4em 0.1em #CC0000;
+  /*border: 1px solid #CC0000;*/
+}
+
+.standings-table>tbody>tr:hover {
+  cursor: pointer;
+}
+
+.standings-border-rightt {
+  border-right: 1px solid #282828;
 }
