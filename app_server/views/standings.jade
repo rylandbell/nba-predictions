@@ -17,86 +17,28 @@ block content
                       p Player Name
                     th.text-center
                       p W/L Record
-                    //- th.text-center Losses
                     th.text-center
                       p Nov 7
                     th.text-center
                       p Nov 6
-                    //- th.text-center 11/5
                 tbody
                   tr
                     td.standings-border-right
                       h6 Ryland
                     td.text-center
                       h5 8 - 13
-                    //- td.text-center.standings-border-right
-                      h5 13
                     td
                       .standings-victory-team.standings-team.center-block
                         .por.center-block
                     td
                       .standings-defeat-team.standings-team.center-block
                         .gsw.center-block
-                    //- td
-                      .standings-defeat-team.standings-team.center-block
-                        .uta.center-block
                   tr
                     td.standings-border-right
                       h6 Captain Hart
                     td.text-center 
                       h5 7 - 14
-                    //- td.text-center.standings-border-right 
-                      h6 13
-                    td
-                      .standings-team.center-block
-                        .text-center
-                          .glyphicon.glyphicon-minus
-                    td
-                      .standings-victory-team.standings-team.center-block
-                        .phi.center-block
-                    //- td
-                      .standings-defeat-team.standings-team.center-block
-                        .uta.center-block
-                  tr
-                    td.standings-border-right 
-                      h6 Snyder House Rules!!
-                    td.text-center 
-                      h5 7 - 14
-                    //- td.text-center.standings-border-right 
-                      h6 13
-                    td
-                      .standings-team.center-block
-                        .atl.center-block
-                    td
-                      .standings-defeat-team.standings-team.center-block
-                        .gsw.center-block
-                    //- td
-                      .standings-victory-team.standings-team.center-block
-                        .bos.center-block
-                  tr
-                    td.standings-border-right 
-                      h6 Draymond's Kicks
-                    td.text-center 
-                      h5 7 - 14
-                    //- td.text-center.standings-border-right 
-                      h6 13
-                    td
-                      .standings-team.center-block
-                        .text-center
-                          .glyphicon.glyphicon-minus
-                    td
-                      .standings-defeat-team.standings-team.center-block.text-center
-                        .bkn.center-block
-                    //- td
-                      .standings-defeat-team.standings-team.center-block
-                        .uta.center-block
-                  tr
-                    td.standings-border-right 
-                      h6 Pop Greggovich
-                    td.text-center 
-                      h5 7 - 14
-                    //- td.text-center.standings-border-right
-                      h6 13
+
                     td
                       .standings-team.center-block
                         .text-center
@@ -104,59 +46,10 @@ block content
                     td
                       .standings-victory-team.standings-team.center-block
                         .cle.center-block
-                    //- td
-                      .standings-defeat-team.standings-team.center-block
-                        .phx.center-block
-                  tr
-                    td.standings-border-right 
-                      h6 LaMarc Gasoldridge
-                    td.text-center 
-                      h5 7 - 14
-                    //- td.text-center.standings-border-right 
-                      h6 13
-                    td
-                      .standings-team.center-block
-                        .cle.center-block
-                    td
-                      .standings-defeat-team.standings-team.center-block
-                        .gsw.center-block
-                    //- td
-                      .standings-victory-team.standings-team.center-block
-                        .sas.center-block
+                  
             .small.text-center Today's picks appear in the standings as soon as the picked game begins.        
       .col-xs-12.col-sm-6
         .panel
           .panel-body
             .text-center.lead Click on a player to view all of their picks for the month.        
-
-      //- table.table
-      //-   -var today = moment().tz('America/Los_Angeles').format('D')
-      //-   thead
-      //-     tr
-      //-       th Name
-      //-       th.text-center Wins
-      //-       th.text-center Losses
-      //-       th.text-center Today's Pick (#{moment().tz('America/Los_Angeles').format('M/D')})
-      //-       th.text-center Yesterday's Pick (#{moment().subtract(1,'days').tz('America/Los_Angeles').format('M/D')})
-      //-   tbody
-      //-     each userMonth in userData
-      //-       tr
-      //-         td= userMonth.ownerDisplayName
-      //-         td.text-center= userMonth.standingsData.winCount
-      //-         td.text-center= userMonth.standingsData.lossCount
-      //-         if (userMonth.predictedWinners[today].outcome === 'success')
-      //-           td.text-center.text-success= userMonth.predictedWinners[today].teamName
-      //-         else if (userMonth.predictedWinners[today].outcome === 'failure')
-      //-           td.text-center.text-danger= userMonth.predictedWinners[today].teamName
-      //-         else
-      //-           td.text-center= userMonth.predictedWinners[today].teamName
-      //-         if (today>1)
-      //-           if (userMonth.predictedWinners[today-1].outcome === 'success')
-      //-             td.text-center.text-success= userMonth.predictedWinners[today-1].teamName
-      //-           else if (userMonth.predictedWinners[today-1].outcome === 'failure')
-      //-             td.text-center.text-danger= userMonth.predictedWinners[today-1].teamName
-      //-           else
-      //-             td.text-center= userMonth.predictedWinners[today-1].teamName
-      //-         else
-      //-           td.text-center N/A
       

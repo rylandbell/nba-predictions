@@ -78,23 +78,23 @@
 
 	var _helper2 = _interopRequireDefault(_helper);
 
-	var _actionCreators = __webpack_require__(558);
+	var _actionCreators = __webpack_require__(557);
 
 	var _actionCreators2 = _interopRequireDefault(_actionCreators);
 
-	var _layout = __webpack_require__(574);
+	var _layout = __webpack_require__(558);
 
 	var _layout2 = _interopRequireDefault(_layout);
 
-	var _monthlyPicksContainer = __webpack_require__(557);
+	var _monthlyPicksContainer = __webpack_require__(560);
 
 	var _monthlyPicksContainer2 = _interopRequireDefault(_monthlyPicksContainer);
 
-	var _dailyPicksContainer = __webpack_require__(560);
+	var _dailyPicksContainer = __webpack_require__(566);
 
 	var _dailyPicksContainer2 = _interopRequireDefault(_dailyPicksContainer);
 
-	var _dashboardPage = __webpack_require__(571);
+	var _dashboardPage = __webpack_require__(573);
 
 	var _dashboardPage2 = _interopRequireDefault(_dashboardPage);
 
@@ -104,11 +104,6 @@
 
 	var store = Redux.createStore(_reducers2.default.app);
 	store.subscribe(render);
-	// store.subscribe(showStore);
-
-	function showStore() {
-	  console.log('state', store.getState());
-	}
 
 	//extract date data from URL, pass to Redux store (dateArray has format ['2016-11','9'])
 	var dateToRedux = function dateToRedux() {
@@ -36264,6 +36259,22 @@
 	  }
 	};
 
+	var isFetchingStandingsData = function isFetchingStandingsData() {
+	  var state = arguments.length <= 0 || arguments[0] === undefined ? false : arguments[0];
+	  var action = arguments[1];
+
+	  switch (action.type) {
+	    case 'REQUEST_STANDINGS_DATA_WAITING':
+	      return true;
+	    case 'RECEIVE_STANDINGS_DATA':
+	      return false;
+	    case 'REQUEST_STANDINGS_DATA_FAILURE':
+	      return false;
+	    default:
+	      return state;
+	  }
+	};
+
 	var isSendingPrediction = function isSendingPrediction() {
 	  var state = arguments.length <= 0 || arguments[0] === undefined ? false : arguments[0];
 	  var action = arguments[1];
@@ -36394,9 +36405,26 @@
 	  }
 	};
 
+	var standingsData = function standingsData() {
+	  var state = arguments.length <= 0 || arguments[0] === undefined ? [] : arguments[0];
+	  var action = arguments[1];
+
+	  switch (action.type) {
+	    case 'RECEIVE_STANDINGS_DATA':
+	      // return action.response;
+	      return _lodash2.default.sortBy(action.response, [function (obj) {
+	        return obj.standingsData.winCount;
+	      }]).reverse();
+	    default:
+	      return state;
+	  }
+	};
+
 	var api = {
 	  app: Redux.combineReducers({
+	    standingsData: standingsData,
 	    isFetchingGameData: isFetchingGameData,
+	    isFetchingStandingsData: isFetchingStandingsData,
 	    isFetchingPredictions: isFetchingPredictions,
 	    isSendingPrediction: isSendingPrediction,
 	    activeMonth: activeMonth,
@@ -53723,94 +53751,6 @@
 
 /***/ },
 /* 557 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-	var _reactRedux = __webpack_require__(459);
-
-	var _reactSAlert = __webpack_require__(544);
-
-	var _reactSAlert2 = _interopRequireDefault(_reactSAlert);
-
-	var _actionCreators = __webpack_require__(558);
-
-	var _actionCreators2 = _interopRequireDefault(_actionCreators);
-
-	var _monthlyPicks = __webpack_require__(559);
-
-	var _monthlyPicks2 = _interopRequireDefault(_monthlyPicks);
-
-	var _helper = __webpack_require__(554);
-
-	var _helper2 = _interopRequireDefault(_helper);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var mapStateToProps = function mapStateToProps(state) {
-	  return {
-	    reduxState: state
-	  };
-	};
-
-	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
-	  return {
-	    getUserMonthData: function getUserMonthData(month) {
-	      _helper2.default.myFetch('/api/userMonth/' + month, 'GET', {}, function (response) {
-	        dispatch(_actionCreators2.default.receiveUserMonth(response));
-	      }, function (response) {
-	        dispatch(_actionCreators2.default.requestUserMonthFailure());
-	        _reactSAlert2.default.warning('Error: Failed to load user data. ' + response.message, {
-	          position: 'bottom',
-	          effect: 'stackslide',
-	          beep: false,
-	          timeout: 8000,
-	          offset: 0
-	        });
-	      });
-	      dispatch(_actionCreators2.default.requestUserMonthWaiting());
-	    },
-	    getGameData: function getGameData(month) {
-	      _helper2.default.myFetch('/api/dailyGamesData/' + month, 'GET', {}, function (response) {
-	        dispatch(_actionCreators2.default.receiveGameData(response));
-	      }, function (response) {
-	        dispatch(_actionCreators2.default.requestGameDataFailure());
-	        _reactSAlert2.default.warning('Error: Failed to load game data. ' + response.message, {
-	          position: 'bottom',
-	          effect: 'stackslide',
-	          beep: false,
-	          timeout: 8000,
-	          offset: 0
-	        });
-	      });
-	      dispatch(_actionCreators2.default.requestGameDataWaiting());
-	    },
-	    showAlert: function showAlert(type, msg, options) {
-	      var defaultOptions = {
-	        position: 'top',
-	        effect: 'stackslide',
-	        beep: false,
-	        timeout: 8000,
-	        offset: 0
-	      };
-	      options = _extends({}, defaultOptions, options);
-	      _reactSAlert2.default[type](msg, options);
-	    }
-	  };
-	};
-
-	var MonthlyPicksContainer = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_monthlyPicks2.default);
-
-		exports.default = MonthlyPicksContainer;
-
-/***/ },
-/* 558 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -53820,7 +53760,7 @@
 	});
 	var api = {
 
-	  //GET initial data:
+	  //GET initial monthly picks data:
 	  requestUserMonthWaiting: function requestUserMonthWaiting() {
 	    return {
 	      type: 'REQUEST_USER_MONTH_WAITING'
@@ -53856,6 +53796,26 @@
 	  requestGameDataFailure: function requestGameDataFailure() {
 	    return {
 	      type: 'REQUEST_GAME_DATA_FAILURE'
+	    };
+	  },
+
+	  //GET standings data
+	  requestStandingsDataWaiting: function requestStandingsDataWaiting() {
+	    return {
+	      type: 'REQUEST_STANDINGS_DATA_WAITING'
+	    };
+	  },
+
+	  receiveStandingsData: function receiveStandingsData(response) {
+	    return {
+	      type: 'RECEIVE_STANDINGS_DATA',
+	      response: response
+	    };
+	  },
+
+	  requestStandingsDataFailure: function requestStandingsDataFailure() {
+	    return {
+	      type: 'REQUEST_STANDINGS_DATA_FAILURE'
 	    };
 	  },
 
@@ -53917,7 +53877,7 @@
 		exports.default = api;
 
 /***/ },
-/* 559 */
+/* 558 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -53930,899 +53890,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _predictionsSummaryContainer = __webpack_require__(567);
-
-	var _predictionsSummaryContainer2 = _interopRequireDefault(_predictionsSummaryContainer);
-
-	var _statusMessage = __webpack_require__(570);
-
-	var _statusMessage2 = _interopRequireDefault(_statusMessage);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var MonthlyPicksPage = _react2.default.createClass({
-	  displayName: 'MonthlyPicksPage',
-
-	  componentDidMount: function componentDidMount() {
-	    this.props.getUserMonthData(this.props.reduxState.activeMonth);
-	    this.props.getGameData(this.props.reduxState.activeMonth);
-	  },
-	  render: function render() {
-	    var isLoading = this.props.reduxState.isFetchingPredictions || this.props.reduxState.isFetchingGameData;
-	    return isLoading ? _react2.default.createElement(_statusMessage2.default, { messageBold: 'Loading game data...', messageBody: 'Just hang tight.', messageClass: 'info' }) : _react2.default.createElement(
-	      'div',
-	      { className: 'row ' + (this.props.reduxState.isSendingPrediction ? 'send-waiting' : '') },
-	      this.props.children,
-	      _react2.default.createElement(_predictionsSummaryContainer2.default, { reduxState: this.props.reduxState })
-	    );
-	  }
-	});
-
-		exports.default = MonthlyPicksPage;
-
-/***/ },
-/* 560 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _reactRedux = __webpack_require__(459);
-
-	var _reactSAlert = __webpack_require__(544);
-
-	var _reactSAlert2 = _interopRequireDefault(_reactSAlert);
-
-	var _actionCreators = __webpack_require__(558);
-
-	var _actionCreators2 = _interopRequireDefault(_actionCreators);
-
-	var _helper = __webpack_require__(554);
-
-	var _helper2 = _interopRequireDefault(_helper);
-
-	var _dailyPicks = __webpack_require__(561);
-
-	var _dailyPicks2 = _interopRequireDefault(_dailyPicks);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var mapStateToProps = function mapStateToProps(state) {
-	  return {
-	    activeDate: state.activeDate,
-	    predictedWinners: state.userMonth.predictedWinners,
-	    eligibleTeams: state.userMonth.eligibleTeams,
-	    gamesByDay: state.gamesByDay,
-	    isSendingPrediction: state.isSendingPrediction,
-	    userMonth: state.userMonth,
-	    activeMonth: state.activeMonth
-	  };
-	};
-
-	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
-	  return {
-	    addPrediction: function addPrediction(gameId, teamName, gameDate, gameTime, userMonth, activeMonth) {
-	      _reactSAlert2.default.closeAll();
-
-	      //mark previous selection for that day eligible:
-	      var gameDay = moment(gameDate).format('D');
-	      var oldPrediction = userMonth.predictedWinners[gameDay].teamName;
-	      dispatch(_actionCreators2.default.markEligible(oldPrediction));
-
-	      //add new prediction, then mark that team ineligible for rest of month:
-	      dispatch(_actionCreators2.default.addPrediction(gameId, teamName, gameDate));
-	      dispatch(_actionCreators2.default.markIneligible(teamName));
-
-	      //update the database:
-	      var body = {};
-	      body.dayNumber = gameDay;
-	      body.teamName = teamName;
-	      body.gameTime = gameTime;
-
-	      _helper2.default.myFetch('/api/userMonth/' + activeMonth + '/predictedWinners', 'PUT', body, function (response) {
-	        dispatch(_actionCreators2.default.sendPredictionSuccess(response));
-	      }, function (response) {
-	        dispatch(_actionCreators2.default.sendPredictionFailure());
-	        _reactSAlert2.default.warning('Whoops: ' + response.message, {
-	          position: 'bottom',
-	          effect: 'stackslide',
-	          beep: false,
-	          timeout: 8000,
-	          offset: 0
-	        });
-	      });
-	      dispatch(_actionCreators2.default.sendPredictionWaiting());
-	    },
-	    removePrediction: function removePrediction(gameId, teamName, gameDate, gameTime, activeMonth) {
-	      _reactSAlert2.default.closeAll();
-
-	      dispatch(_actionCreators2.default.removePrediction(gameId, gameDate));
-	      dispatch(_actionCreators2.default.markEligible(teamName));
-
-	      //update the database:
-	      var body = {};
-	      var gameDay = moment(gameDate).format('D');
-	      body.dayNumber = gameDay;
-	      body.teamName = null;
-	      body.gameTime = gameTime;
-
-	      _helper2.default.myFetch('/api/userMonth/' + activeMonth + '/predictedWinners', 'PUT', body, function (response) {
-	        dispatch(_actionCreators2.default.sendPredictionSuccess(response));
-	      }, function (response) {
-	        dispatch(_actionCreators2.default.sendPredictionFailure());
-	        _reactSAlert2.default.warning('Whoops: ' + response.message, {
-	          position: 'bottom',
-	          effect: 'stackslide',
-	          beep: false,
-	          timeout: 8000,
-	          offset: 0
-	        });
-	      });
-	      dispatch(_actionCreators2.default.sendPredictionWaiting());
-	    }
-	  };
-	};
-
-	var DailyPicksContainer = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_dailyPicks2.default);
-
-		exports.default = DailyPicksContainer;
-
-/***/ },
-/* 561 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _react = __webpack_require__(298);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _singleDayGameList = __webpack_require__(562);
-
-	var _singleDayGameList2 = _interopRequireDefault(_singleDayGameList);
-
-	var _dayPicker = __webpack_require__(566);
-
-	var _dayPicker2 = _interopRequireDefault(_dayPicker);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var DailyPicks = function DailyPicks(_ref) {
-	  var activeDate = _ref.activeDate;
-	  var gamesByDay = _ref.gamesByDay;
-	  var eligibleTeams = _ref.eligibleTeams;
-	  var isSendingPrediction = _ref.isSendingPrediction;
-	  var predictedWinners = _ref.predictedWinners;
-	  var userMonth = _ref.userMonth;
-	  var activeMonth = _ref.activeMonth;
-	  var addPrediction = _ref.addPrediction;
-	  var removePrediction = _ref.removePrediction;
-	  return _react2.default.createElement(
-	    'div',
-	    { className: 'col-xs-12 col-sm-8 col-md-9' },
-	    _react2.default.createElement(_dayPicker2.default, { activeDate: activeDate }),
-	    _react2.default.createElement(
-	      'p',
-	      { className: 'text-center day-picker-message' },
-	      '(Home teams are displayed on the right.)'
-	    ),
-	    _react2.default.createElement(_singleDayGameList2.default, { gamesByDay: gamesByDay, eligibleTeams: eligibleTeams, isSendingPrediction: isSendingPrediction, predictedWinners: predictedWinners, activeDate: activeDate, userMonth: userMonth, activeMonth: activeMonth, addPrediction: addPrediction, removePrediction: removePrediction })
-	  );
-	};
-
-		exports.default = DailyPicks;
-
-/***/ },
-/* 562 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _react = __webpack_require__(298);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _singleGame = __webpack_require__(563);
-
-	var _singleGame2 = _interopRequireDefault(_singleGame);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var SingleDayGameList = function SingleDayGameList(_ref) {
-	  var activeDate = _ref.activeDate;
-	  var gamesByDay = _ref.gamesByDay;
-	  var predictedWinners = _ref.predictedWinners;
-	  var isSendingPrediction = _ref.isSendingPrediction;
-	  var eligibleTeams = _ref.eligibleTeams;
-	  var userMonth = _ref.userMonth;
-	  var activeMonth = _ref.activeMonth;
-	  var addPrediction = _ref.addPrediction;
-	  var removePrediction = _ref.removePrediction;
-
-
-	  //subtract 1 to go from day-of-month to zero-indexed array position:
-	  var dayKey = moment(activeDate).format('D') - 1;
-	  return _react2.default.createElement(
-	    'div',
-	    { className: 'row' },
-	    gamesByDay && gamesByDay[dayKey] && gamesByDay[dayKey].gameSummaries.length > 0 ? gamesByDay[dayKey].gameSummaries.map(function (gameData, index) {
-	      return _react2.default.createElement(_singleGame2.default, { gameData: gameData, isSendingPrediction: isSendingPrediction, predictedWinner: predictedWinners[dayKey + 1], eligibleTeams: eligibleTeams, userMonth: userMonth, activeMonth: activeMonth, addPrediction: addPrediction, removePrediction: removePrediction, key: index });
-	    }) : _react2.default.createElement(
-	      'div',
-	      null,
-	      ' Sorry, no games scheduled for today. '
-	    )
-	  );
-	};
-
-	exports.default = SingleDayGameList;
-
-/***/ },
-/* 563 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _react = __webpack_require__(298);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _gameTeam = __webpack_require__(564);
-
-	var _gameTeam2 = _interopRequireDefault(_gameTeam);
-
-	var _gameStatus = __webpack_require__(565);
-
-	var _gameStatus2 = _interopRequireDefault(_gameStatus);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var SingleGame = function SingleGame(_ref) {
-	  var gameData = _ref.gameData;
-	  var predictedWinner = _ref.predictedWinner;
-	  var isSendingPrediction = _ref.isSendingPrediction;
-	  var eligibleTeams = _ref.eligibleTeams;
-	  var userMonth = _ref.userMonth;
-	  var activeMonth = _ref.activeMonth;
-	  var addPrediction = _ref.addPrediction;
-	  var removePrediction = _ref.removePrediction;
-
-
-	  return _react2.default.createElement(
-	    'div',
-	    { className: 'col-xs-12 col-md-6' },
-	    _react2.default.createElement(
-	      'div',
-	      { className: 'panel panel-default game-panel' },
-	      _react2.default.createElement(
-	        'div',
-	        { className: 'panel-body' },
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'game-container ' + (gameData.gameStatus.hasStarted ? '' : 'game-not-started') },
-	          _react2.default.createElement(_gameTeam2.default, { gameData: gameData, teamName: gameData.roadTeam, predictedWinner: predictedWinner, isSendingPrediction: isSendingPrediction, eligibleTeams: eligibleTeams, homeVsRoad: 'roadTeam', userMonth: userMonth, activeMonth: activeMonth, addPrediction: addPrediction, removePrediction: removePrediction }),
-	          _react2.default.createElement(_gameStatus2.default, { statusData: gameData.gameStatus, roadTeam: gameData.roadTeam, homeTeam: gameData.homeTeam, predictedWinner: predictedWinner }),
-	          _react2.default.createElement(_gameTeam2.default, { gameData: gameData, teamName: gameData.homeTeam, predictedWinner: predictedWinner, isSendingPrediction: isSendingPrediction, eligibleTeams: eligibleTeams, homeVsRoad: 'homeTeam', userMonth: userMonth, activeMonth: activeMonth, addPrediction: addPrediction, removePrediction: removePrediction })
-	        )
-	      )
-	    )
-	  );
-	};
-
-	exports.default = SingleGame;
-
-/***/ },
-/* 564 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _react = __webpack_require__(298);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _lodash = __webpack_require__(552);
-
-	var _lodash2 = _interopRequireDefault(_lodash);
-
-	var _helper = __webpack_require__(554);
-
-	var _helper2 = _interopRequireDefault(_helper);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var GameTeam = _react2.default.createClass({
-	  displayName: 'GameTeam',
-
-	  handleClick: function handleClick() {
-	    if (this.props.isSendingPrediction) {
-	      return;
-	    } else {
-	      var isEligible = _lodash2.default.includes(this.props.eligibleTeams, this.props.teamName);
-	      var isChosen = this.props.predictedWinner.teamName === this.props.teamName;
-	      if ((isEligible || isChosen) && !this.props.gameData.gameStatus.hasStarted) {
-	        var gameTime = _helper2.default.getDateTime(this.props.gameData.gameDate, this.props.gameData.gameStatus.startTime);
-	        if (isChosen) {
-	          this.props.removePrediction(this.props.gameData.gameId, this.props.teamName, this.props.gameData.gameDate, gameTime, this.props.activeMonth);
-	        } else {
-	          this.props.addPrediction(this.props.gameData.gameId, this.props.teamName, this.props.gameData.gameDate, gameTime, this.props.userMonth, this.props.activeMonth);
-	        }
-	      }
-	    }
-	  },
-	  render: function render() {
-	    var isChosen = this.props.predictedWinner.teamName === this.props.teamName;
-	    var isEligible = _lodash2.default.includes(this.props.eligibleTeams, this.props.teamName);
-	    var successfulPrediction = isChosen && this.props.predictedWinner.outcome === 'success';
-	    var failedPrediction = isChosen && this.props.predictedWinner.outcome === 'failure';
-
-	    var clickable = isEligible || this.props.predictedWinner.teamName === this.props.teamName;
-
-	    return _react2.default.createElement(
-	      'div',
-	      { className: 'game-item game-team', onClick: this.handleClick },
-	      _react2.default.createElement(
-	        'div',
-	        { className: 'team-container' },
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'team-item team-name ' + (clickable ? 'eligible-team' : 'ineligible-team') + (isChosen ? ' selected-team' : '') + (successfulPrediction ? ' victory-team ' : '') + (failedPrediction ? ' defeat-team ' : '') },
-	          _react2.default.createElement(
-	            'h4',
-	            null,
-	            this.props.teamName
-	          ),
-	          _react2.default.createElement('div', { className: 'logo ' + this.props.teamName.toLowerCase() })
-	        )
-	      )
-	    );
-	  }
-	});
-
-		exports.default = GameTeam;
-
-/***/ },
-/* 565 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _react = __webpack_require__(298);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var GameStatus = function GameStatus(_ref) {
-	  var statusData = _ref.statusData;
-	  var roadTeam = _ref.roadTeam;
-	  var homeTeam = _ref.homeTeam;
-	  var predictedWinner = _ref.predictedWinner;
-
-	  var scoreString;
-	  var progressString;
-	  var outcomeString = '';
-	  var outcomeClass = '';
-
-	  //set scoreString to game score or start time
-	  if (statusData.hasStarted) {
-	    scoreString = statusData.roadScore + ' - ' + statusData.homeScore;
-	  } else {
-	    scoreString = statusData.startTime;
-	  }
-
-	  // set progressString to Final or In Progress (maybe eventually better precision than In Progress)
-	  if (statusData.hasStarted) {
-	    if (statusData.isFinal) {
-	      progressString = 'Final';
-	    } else {
-	      progressString = 'In Progress';
-	    }
-	  }
-
-	  // set outcomeString to display "success" or "failure" appropriately
-	  if (predictedWinner.teamName === homeTeam || predictedWinner.teamName === roadTeam) {
-	    if (predictedWinner.outcome === 'success') {
-	      outcomeString = 'W';
-	      outcomeClass = 'text-success';
-	    } else if (predictedWinner.outcome === 'failure') {
-	      outcomeString = 'L';
-	      outcomeClass = 'text-danger';
-	    }
-	  }
-
-	  return _react2.default.createElement(
-	    'div',
-	    { className: 'game-item game-status' },
-	    _react2.default.createElement(
-	      'h5',
-	      { className: 'game-status-score' },
-	      scoreString
-	    ),
-	    _react2.default.createElement(
-	      'small',
-	      { className: 'game-status-progress' },
-	      progressString
-	    ),
-	    _react2.default.createElement(
-	      'h3',
-	      { className: "game-status-outcome " + outcomeClass },
-	      outcomeString
-	    )
-	  );
-	};
-
-	exports.default = GameStatus;
-
-/***/ },
-/* 566 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _react = __webpack_require__(298);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _reactRouter = __webpack_require__(488);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var DayPicker = function DayPicker(_ref) {
-	  var activeDate = _ref.activeDate;
-
-	  var prevDay = moment(activeDate).subtract(1, 'days').format('D');
-	  var nextDay = moment(activeDate).add(1, 'days').format('D');
-
-	  var isFirstOfMonth = moment(activeDate).format('D') === '1';
-	  var isLastOfMonth = moment(activeDate).format('M') !== moment(activeDate).add(1, 'days').format('M');
-	  return _react2.default.createElement(
-	    'div',
-	    { className: 'row' },
-	    _react2.default.createElement(
-	      'div',
-	      { className: 'day-picker-container' },
-	      isFirstOfMonth ? null : _react2.default.createElement(
-	        _reactRouter.Link,
-	        { to: prevDay },
-	        _react2.default.createElement('span', { className: 'day-picker-item glyphicon glyphicon-menu-left' })
-	      ),
-	      _react2.default.createElement(
-	        'div',
-	        { className: 'day-picker-item date-display' },
-	        _react2.default.createElement(
-	          'h3',
-	          null,
-	          moment(activeDate).format('dddd, MMM D')
-	        )
-	      ),
-	      isLastOfMonth ? null : _react2.default.createElement(
-	        _reactRouter.Link,
-	        { to: nextDay },
-	        _react2.default.createElement('span', { className: 'day-picker-item glyphicon glyphicon-menu-right' })
-	      )
-	    )
-	  );
-	};
-
-	exports.default = DayPicker;
-
-/***/ },
-/* 567 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _reactRedux = __webpack_require__(459);
-
-	var _actionCreators = __webpack_require__(558);
-
-	var _actionCreators2 = _interopRequireDefault(_actionCreators);
-
-	var _predictionsSummary = __webpack_require__(568);
-
-	var _predictionsSummary2 = _interopRequireDefault(_predictionsSummary);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var mapStateToProps = function mapStateToProps(state) {
-	  return {
-	    predictedWinners: state.userMonth.predictedWinners,
-	    activeDate: state.activeDate,
-	    activeMonth: state.activeMonth
-	  };
-	};
-
-	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
-	  return {
-	    goToDate: function goToDate(date) {
-	      dispatch(_actionCreators2.default.goToDate(date));
-	    }
-	  };
-	};
-
-	var PredictionsSummaryContainer = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_predictionsSummary2.default);
-
-		exports.default = PredictionsSummaryContainer;
-
-/***/ },
-/* 568 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _react = __webpack_require__(298);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _predictionsSummaryRow = __webpack_require__(569);
-
-	var _predictionsSummaryRow2 = _interopRequireDefault(_predictionsSummaryRow);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var PredictionsSummary = function PredictionsSummary(_ref) {
-	  var predictedWinners = _ref.predictedWinners;
-	  var activeDate = _ref.activeDate;
-	  var activeMonth = _ref.activeMonth;
-	  var goToDate = _ref.goToDate;
-
-	  var daysInMonth = moment(activeMonth).daysInMonth();
-
-	  var rows = [];
-	  for (var i = 1; i <= daysInMonth; i++) {
-	    rows.push(_react2.default.createElement(_predictionsSummaryRow2.default, { userPrediction: predictedWinners[i], activeDate: activeDate, activeMonth: activeMonth, goToDate: goToDate, dayOfMonth: i, key: i }));
-	  }
-
-	  return _react2.default.createElement(
-	    'div',
-	    { className: 'col-xs-12 col-sm-3 col-md-2 col-sm-offset-1 col-md-offset-1' },
-	    _react2.default.createElement(
-	      'div',
-	      { className: 'text-center lead' },
-	      'Predictions Summary'
-	    ),
-	    _react2.default.createElement(
-	      'table',
-	      { className: 'table table-condensed table-hover predictions-summary' },
-	      _react2.default.createElement(
-	        'tbody',
-	        null,
-	        rows
-	      )
-	    )
-	  );
-	};
-
-	exports.default = PredictionsSummary;
-
-		// {eligibleTeams.map((team, index) => <PredictionsSummaryRow predictedWinners={predictedWinners} date={index} key={index}/>)}
-
-/***/ },
-/* 569 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _react = __webpack_require__(298);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _reactRouter = __webpack_require__(488);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var PredictionsSummaryRow = _react2.default.createClass({
-	  displayName: 'PredictionsSummaryRow',
-
-	  handleClick: function handleClick() {
-	    _reactRouter.browserHistory.push(this.props.dayOfMonth + '');
-	  },
-	  render: function render() {
-	    var isActive = this.props.dayOfMonth == moment(this.props.activeDate).format('D') ? 'active' : '';
-	    var outcomeString = '';
-	    var outcomeClass = '';
-
-	    if (this.props.userPrediction) {
-	      if (this.props.userPrediction.outcome === 'success') {
-	        outcomeString = 'W';
-	        outcomeClass = 'text-success';
-	      } else if (this.props.userPrediction.outcome === 'failure') {
-	        outcomeString = 'L';
-	        outcomeClass = 'text-danger';
-	      }
-	    }
-
-	    if (this.props.userPrediction) {
-	      return _react2.default.createElement(
-	        'tr',
-	        { onClick: this.handleClick, className: isActive },
-	        _react2.default.createElement(
-	          'td',
-	          { className: 'date-col' },
-	          this.props.activeMonth.substring(5, 7) + '/' + this.props.dayOfMonth
-	        ),
-	        _react2.default.createElement(
-	          'td',
-	          { className: 'team-col' },
-	          this.props.userPrediction.teamName ? this.props.userPrediction.teamName : '-'
-	        ),
-	        _react2.default.createElement(
-	          'td',
-	          { className: "outcome-col " + outcomeClass },
-	          outcomeString
-	        )
-	      );
-	    } else {
-	      return null;
-	    }
-	  }
-
-	});
-
-		exports.default = PredictionsSummaryRow;
-
-/***/ },
-/* 570 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _react = __webpack_require__(298);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var StatusMessage = function StatusMessage(_ref) {
-	  var messageBold = _ref.messageBold;
-	  var messageBody = _ref.messageBody;
-	  var messageClass = _ref.messageClass;
-
-
-	  return _react2.default.createElement(
-	    'div',
-	    { className: 'status-message alert alert-' + messageClass },
-	    _react2.default.createElement(
-	      'strong',
-	      null,
-	      messageBold
-	    ),
-	    '\t' + messageBody
-	  );
-	};
-
-	exports.default = StatusMessage;
-
-/***/ },
-/* 571 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _react = __webpack_require__(298);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _picksWidget = __webpack_require__(572);
-
-	var _picksWidget2 = _interopRequireDefault(_picksWidget);
-
-	var _outcomesWidget = __webpack_require__(573);
-
-	var _outcomesWidget2 = _interopRequireDefault(_outcomesWidget);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	// import PredictionsSummaryContainer from '../containers/predictions-summary-container.jsx'; 
-	// import StatusMessage from '../status-message.jsx';
-
-	var DashboardPage = _react2.default.createClass({
-	  displayName: 'DashboardPage',
-
-	  componentDidMount: function componentDidMount() {
-	    // this.props.getUserMonthData(this.props.reduxState.activeMonth);
-	    // this.props.getGameData(this.props.reduxState.activeMonth);
-	  },
-	  render: function render() {
-	    return _react2.default.createElement(
-	      'div',
-	      { className: 'row' },
-	      _react2.default.createElement(
-	        'div',
-	        { className: 'col-xs-12 col-sm-5 col-md-4 col-lg-3' },
-	        _react2.default.createElement(_picksWidget2.default, null),
-	        _react2.default.createElement(_outcomesWidget2.default, null)
-	      ),
-	      _react2.default.createElement(
-	        'div',
-	        { className: 'col-xs-12 col-sm-7 col-md-8 col-lg-9' },
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'jumbotron' },
-	          _react2.default.createElement(
-	            'div',
-	            { className: 'panel-boody' },
-	            _react2.default.createElement(
-	              'h4',
-	              null,
-	              'Something goes here?'
-	            )
-	          )
-	        )
-	      )
-	    );
-	  }
-	});
-
-		exports.default = DashboardPage;
-
-/***/ },
-/* 572 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _react = __webpack_require__(298);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _reactRouter = __webpack_require__(488);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var PicksWidget = function PicksWidget() {
-	  return _react2.default.createElement(
-	    'div',
-	    { className: 'panel panel-primary' },
-	    _react2.default.createElement(
-	      'div',
-	      { className: 'panel-heading' },
-	      _react2.default.createElement(
-	        'div',
-	        { className: 'panel-title' },
-	        'My Picks'
-	      )
-	    ),
-	    _react2.default.createElement(
-	      'div',
-	      { className: 'panel-body panel-black' },
-	      _react2.default.createElement(
-	        'div',
-	        { className: 'list-group' },
-	        _react2.default.createElement(
-	          _reactRouter.Link,
-	          { to: 'picks/2016-11/1' },
-	          _react2.default.createElement(
-	            'h5',
-	            { className: 'text-center' },
-	            'November'
-	          )
-	        )
-	      )
-	    )
-	  );
-	};
-
-		exports.default = PicksWidget;
-
-/***/ },
-/* 573 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _react = __webpack_require__(298);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var OutcomesWidget = function OutcomesWidget() {
-	  return _react2.default.createElement(
-	    'div',
-	    { className: 'panel panel-default' },
-	    _react2.default.createElement(
-	      'div',
-	      { className: 'panel-heading' },
-	      _react2.default.createElement(
-	        'div',
-	        { className: 'panel-title' },
-	        'Standings'
-	      )
-	    ),
-	    _react2.default.createElement(
-	      'div',
-	      { className: 'panel-body panel-black' },
-	      _react2.default.createElement(
-	        'div',
-	        { className: 'list-group' },
-	        _react2.default.createElement(
-	          'a',
-	          { href: '/standings/2016-11', className: 'list-group-item' },
-	          _react2.default.createElement(
-	            'h5',
-	            { className: 'text-center' },
-	            'November'
-	          )
-	        )
-	      )
-	    )
-	  );
-	};
-
-		exports.default = OutcomesWidget;
-
-/***/ },
-/* 574 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _react = __webpack_require__(298);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _navbar = __webpack_require__(575);
+	var _navbar = __webpack_require__(559);
 
 	var _navbar2 = _interopRequireDefault(_navbar);
 
@@ -54831,10 +53899,10 @@
 	var LayoutComponent = _react2.default.createClass({
 	  displayName: 'LayoutComponent',
 
-	  componentWillReceiveProps: function componentWillReceiveProps(newProps) {
-	    // this.setState(this.getState(newProps));
-	    console.log(newProps.children);
-	  },
+	  // componentWillReceiveProps: function(newProps) {
+	  //   this.setState(this.getState(newProps));
+	  //   console.log(newProps.children);
+	  // },
 	  render: function render() {
 	    return _react2.default.createElement(
 	      'div',
@@ -54861,27 +53929,10 @@
 	  }
 	});
 
-	// const LayoutComponent = (props) => {
-	//   return (
-	//     <div>
-	//       <Navbar />
-	//       <div className="main">
-	//         <div className="container container-body">
-	//           <div className="row">
-	//             <div className="col-xs-12">
-	//               {props.children}
-	//             </div>
-	//           </div>
-	//         </div>
-	//       </div>
-	//     </div>
-	//   );
-	// };
-
-	exports.default = LayoutComponent;
+		exports.default = LayoutComponent;
 
 /***/ },
-/* 575 */
+/* 559 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -54993,6 +54044,1158 @@
 	};
 
 	exports.default = Navbar;
+
+/***/ },
+/* 560 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	var _reactRedux = __webpack_require__(459);
+
+	var _reactSAlert = __webpack_require__(544);
+
+	var _reactSAlert2 = _interopRequireDefault(_reactSAlert);
+
+	var _actionCreators = __webpack_require__(557);
+
+	var _actionCreators2 = _interopRequireDefault(_actionCreators);
+
+	var _monthlyPicks = __webpack_require__(561);
+
+	var _monthlyPicks2 = _interopRequireDefault(_monthlyPicks);
+
+	var _helper = __webpack_require__(554);
+
+	var _helper2 = _interopRequireDefault(_helper);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var mapStateToProps = function mapStateToProps(state) {
+	  return {
+	    reduxState: state
+	  };
+	};
+
+	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+	  return {
+	    getUserMonthData: function getUserMonthData(month) {
+	      _helper2.default.myFetch('/api/userMonth/' + month, 'GET', {}, function (response) {
+	        dispatch(_actionCreators2.default.receiveUserMonth(response));
+	      }, function (response) {
+	        dispatch(_actionCreators2.default.requestUserMonthFailure());
+	        _reactSAlert2.default.warning('Error: Failed to load user data. ' + response.message, {
+	          position: 'bottom',
+	          effect: 'stackslide',
+	          beep: false,
+	          timeout: 8000,
+	          offset: 0
+	        });
+	      });
+	      dispatch(_actionCreators2.default.requestUserMonthWaiting());
+	    },
+	    getGameData: function getGameData(month) {
+	      _helper2.default.myFetch('/api/dailyGamesData/' + month, 'GET', {}, function (response) {
+	        dispatch(_actionCreators2.default.receiveGameData(response));
+	      }, function (response) {
+	        dispatch(_actionCreators2.default.requestGameDataFailure());
+	        _reactSAlert2.default.warning('Error: Failed to load game data. ' + response.message, {
+	          position: 'bottom',
+	          effect: 'stackslide',
+	          beep: false,
+	          timeout: 8000,
+	          offset: 0
+	        });
+	      });
+	      dispatch(_actionCreators2.default.requestGameDataWaiting());
+	    },
+	    showAlert: function showAlert(type, msg, options) {
+	      var defaultOptions = {
+	        position: 'top',
+	        effect: 'stackslide',
+	        beep: false,
+	        timeout: 8000,
+	        offset: 0
+	      };
+	      options = _extends({}, defaultOptions, options);
+	      _reactSAlert2.default[type](msg, options);
+	    }
+	  };
+	};
+
+	var MonthlyPicksContainer = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_monthlyPicks2.default);
+
+		exports.default = MonthlyPicksContainer;
+
+/***/ },
+/* 561 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(298);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _predictionsSummaryContainer = __webpack_require__(562);
+
+	var _predictionsSummaryContainer2 = _interopRequireDefault(_predictionsSummaryContainer);
+
+	var _statusMessage = __webpack_require__(565);
+
+	var _statusMessage2 = _interopRequireDefault(_statusMessage);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var MonthlyPicksPage = _react2.default.createClass({
+	  displayName: 'MonthlyPicksPage',
+
+	  componentDidMount: function componentDidMount() {
+	    this.props.getUserMonthData(this.props.reduxState.activeMonth);
+	    this.props.getGameData(this.props.reduxState.activeMonth);
+	  },
+	  render: function render() {
+	    var isLoading = this.props.reduxState.isFetchingPredictions || this.props.reduxState.isFetchingGameData;
+	    return isLoading ? _react2.default.createElement(_statusMessage2.default, { messageBold: 'Loading game data...', messageBody: 'Just hang tight.', messageClass: 'info' }) : _react2.default.createElement(
+	      'div',
+	      { className: 'row ' + (this.props.reduxState.isSendingPrediction ? 'send-waiting' : '') },
+	      this.props.children,
+	      _react2.default.createElement(_predictionsSummaryContainer2.default, { reduxState: this.props.reduxState })
+	    );
+	  }
+	});
+
+		exports.default = MonthlyPicksPage;
+
+/***/ },
+/* 562 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _reactRedux = __webpack_require__(459);
+
+	var _actionCreators = __webpack_require__(557);
+
+	var _actionCreators2 = _interopRequireDefault(_actionCreators);
+
+	var _predictionsSummary = __webpack_require__(563);
+
+	var _predictionsSummary2 = _interopRequireDefault(_predictionsSummary);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var mapStateToProps = function mapStateToProps(state) {
+	  return {
+	    predictedWinners: state.userMonth.predictedWinners,
+	    activeDate: state.activeDate,
+	    activeMonth: state.activeMonth
+	  };
+	};
+
+	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+	  return {
+	    goToDate: function goToDate(date) {
+	      dispatch(_actionCreators2.default.goToDate(date));
+	    }
+	  };
+	};
+
+	var PredictionsSummaryContainer = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_predictionsSummary2.default);
+
+		exports.default = PredictionsSummaryContainer;
+
+/***/ },
+/* 563 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(298);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _predictionsSummaryRow = __webpack_require__(564);
+
+	var _predictionsSummaryRow2 = _interopRequireDefault(_predictionsSummaryRow);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var PredictionsSummary = function PredictionsSummary(_ref) {
+	  var predictedWinners = _ref.predictedWinners;
+	  var activeDate = _ref.activeDate;
+	  var activeMonth = _ref.activeMonth;
+	  var goToDate = _ref.goToDate;
+
+	  var daysInMonth = moment(activeMonth).daysInMonth();
+
+	  var rows = [];
+	  for (var i = 1; i <= daysInMonth; i++) {
+	    rows.push(_react2.default.createElement(_predictionsSummaryRow2.default, { userPrediction: predictedWinners[i], activeDate: activeDate, activeMonth: activeMonth, goToDate: goToDate, dayOfMonth: i, key: i }));
+	  }
+
+	  return _react2.default.createElement(
+	    'div',
+	    { className: 'col-xs-12 col-sm-3 col-md-2 col-sm-offset-1 col-md-offset-1' },
+	    _react2.default.createElement(
+	      'div',
+	      { className: 'text-center lead' },
+	      'Predictions Summary'
+	    ),
+	    _react2.default.createElement(
+	      'table',
+	      { className: 'table table-condensed table-hover predictions-summary' },
+	      _react2.default.createElement(
+	        'tbody',
+	        null,
+	        rows
+	      )
+	    )
+	  );
+	};
+
+	exports.default = PredictionsSummary;
+
+		// {eligibleTeams.map((team, index) => <PredictionsSummaryRow predictedWinners={predictedWinners} date={index} key={index}/>)}
+
+/***/ },
+/* 564 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(298);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactRouter = __webpack_require__(488);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var PredictionsSummaryRow = _react2.default.createClass({
+	  displayName: 'PredictionsSummaryRow',
+
+	  handleClick: function handleClick() {
+	    _reactRouter.browserHistory.push(this.props.dayOfMonth + '');
+	  },
+	  render: function render() {
+	    var isActive = this.props.dayOfMonth == moment(this.props.activeDate).format('D') ? 'active' : '';
+	    var outcomeString = '';
+	    var outcomeClass = '';
+
+	    if (this.props.userPrediction) {
+	      if (this.props.userPrediction.outcome === 'success') {
+	        outcomeString = 'W';
+	        outcomeClass = 'text-success';
+	      } else if (this.props.userPrediction.outcome === 'failure') {
+	        outcomeString = 'L';
+	        outcomeClass = 'text-danger';
+	      }
+	    }
+
+	    if (this.props.userPrediction) {
+	      return _react2.default.createElement(
+	        'tr',
+	        { onClick: this.handleClick, className: isActive },
+	        _react2.default.createElement(
+	          'td',
+	          { className: 'date-col' },
+	          this.props.activeMonth.substring(5, 7) + '/' + this.props.dayOfMonth
+	        ),
+	        _react2.default.createElement(
+	          'td',
+	          { className: 'team-col' },
+	          this.props.userPrediction.teamName ? this.props.userPrediction.teamName : '-'
+	        ),
+	        _react2.default.createElement(
+	          'td',
+	          { className: "outcome-col " + outcomeClass },
+	          outcomeString
+	        )
+	      );
+	    } else {
+	      return null;
+	    }
+	  }
+
+	});
+
+		exports.default = PredictionsSummaryRow;
+
+/***/ },
+/* 565 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(298);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var StatusMessage = function StatusMessage(_ref) {
+	  var messageBold = _ref.messageBold;
+	  var messageBody = _ref.messageBody;
+	  var messageClass = _ref.messageClass;
+
+
+	  return _react2.default.createElement(
+	    'div',
+	    { className: 'status-message alert alert-' + messageClass },
+	    _react2.default.createElement(
+	      'strong',
+	      null,
+	      messageBold
+	    ),
+	    '\t' + messageBody
+	  );
+	};
+
+	exports.default = StatusMessage;
+
+/***/ },
+/* 566 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _reactRedux = __webpack_require__(459);
+
+	var _reactSAlert = __webpack_require__(544);
+
+	var _reactSAlert2 = _interopRequireDefault(_reactSAlert);
+
+	var _actionCreators = __webpack_require__(557);
+
+	var _actionCreators2 = _interopRequireDefault(_actionCreators);
+
+	var _helper = __webpack_require__(554);
+
+	var _helper2 = _interopRequireDefault(_helper);
+
+	var _dailyPicks = __webpack_require__(567);
+
+	var _dailyPicks2 = _interopRequireDefault(_dailyPicks);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var mapStateToProps = function mapStateToProps(state) {
+	  return {
+	    activeDate: state.activeDate,
+	    predictedWinners: state.userMonth.predictedWinners,
+	    eligibleTeams: state.userMonth.eligibleTeams,
+	    gamesByDay: state.gamesByDay,
+	    isSendingPrediction: state.isSendingPrediction,
+	    userMonth: state.userMonth,
+	    activeMonth: state.activeMonth
+	  };
+	};
+
+	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+	  return {
+	    addPrediction: function addPrediction(gameId, teamName, gameDate, gameTime, userMonth, activeMonth) {
+	      _reactSAlert2.default.closeAll();
+
+	      //mark previous selection for that day eligible:
+	      var gameDay = moment(gameDate).format('D');
+	      var oldPrediction = userMonth.predictedWinners[gameDay].teamName;
+	      dispatch(_actionCreators2.default.markEligible(oldPrediction));
+
+	      //add new prediction, then mark that team ineligible for rest of month:
+	      dispatch(_actionCreators2.default.addPrediction(gameId, teamName, gameDate));
+	      dispatch(_actionCreators2.default.markIneligible(teamName));
+
+	      //update the database:
+	      var body = {};
+	      body.dayNumber = gameDay;
+	      body.teamName = teamName;
+	      body.gameTime = gameTime;
+
+	      _helper2.default.myFetch('/api/userMonth/' + activeMonth + '/predictedWinners', 'PUT', body, function (response) {
+	        dispatch(_actionCreators2.default.sendPredictionSuccess(response));
+	      }, function (response) {
+	        dispatch(_actionCreators2.default.sendPredictionFailure());
+	        _reactSAlert2.default.warning('Whoops: ' + response.message, {
+	          position: 'bottom',
+	          effect: 'stackslide',
+	          beep: false,
+	          timeout: 8000,
+	          offset: 0
+	        });
+	      });
+	      dispatch(_actionCreators2.default.sendPredictionWaiting());
+	    },
+	    removePrediction: function removePrediction(gameId, teamName, gameDate, gameTime, activeMonth) {
+	      _reactSAlert2.default.closeAll();
+
+	      dispatch(_actionCreators2.default.removePrediction(gameId, gameDate));
+	      dispatch(_actionCreators2.default.markEligible(teamName));
+
+	      //update the database:
+	      var body = {};
+	      var gameDay = moment(gameDate).format('D');
+	      body.dayNumber = gameDay;
+	      body.teamName = null;
+	      body.gameTime = gameTime;
+
+	      _helper2.default.myFetch('/api/userMonth/' + activeMonth + '/predictedWinners', 'PUT', body, function (response) {
+	        dispatch(_actionCreators2.default.sendPredictionSuccess(response));
+	      }, function (response) {
+	        dispatch(_actionCreators2.default.sendPredictionFailure());
+	        _reactSAlert2.default.warning('Whoops: ' + response.message, {
+	          position: 'bottom',
+	          effect: 'stackslide',
+	          beep: false,
+	          timeout: 8000,
+	          offset: 0
+	        });
+	      });
+	      dispatch(_actionCreators2.default.sendPredictionWaiting());
+	    }
+	  };
+	};
+
+	var DailyPicksContainer = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_dailyPicks2.default);
+
+		exports.default = DailyPicksContainer;
+
+/***/ },
+/* 567 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(298);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _singleDayGameList = __webpack_require__(568);
+
+	var _singleDayGameList2 = _interopRequireDefault(_singleDayGameList);
+
+	var _dayPicker = __webpack_require__(572);
+
+	var _dayPicker2 = _interopRequireDefault(_dayPicker);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var DailyPicks = function DailyPicks(_ref) {
+	  var activeDate = _ref.activeDate;
+	  var gamesByDay = _ref.gamesByDay;
+	  var eligibleTeams = _ref.eligibleTeams;
+	  var isSendingPrediction = _ref.isSendingPrediction;
+	  var predictedWinners = _ref.predictedWinners;
+	  var userMonth = _ref.userMonth;
+	  var activeMonth = _ref.activeMonth;
+	  var addPrediction = _ref.addPrediction;
+	  var removePrediction = _ref.removePrediction;
+	  return _react2.default.createElement(
+	    'div',
+	    { className: 'col-xs-12 col-sm-8 col-md-9' },
+	    _react2.default.createElement(_dayPicker2.default, { activeDate: activeDate }),
+	    _react2.default.createElement(
+	      'p',
+	      { className: 'text-center day-picker-message' },
+	      '(Home teams are displayed on the right.)'
+	    ),
+	    _react2.default.createElement(_singleDayGameList2.default, { gamesByDay: gamesByDay, eligibleTeams: eligibleTeams, isSendingPrediction: isSendingPrediction, predictedWinners: predictedWinners, activeDate: activeDate, userMonth: userMonth, activeMonth: activeMonth, addPrediction: addPrediction, removePrediction: removePrediction })
+	  );
+	};
+
+		exports.default = DailyPicks;
+
+/***/ },
+/* 568 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(298);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _singleGame = __webpack_require__(569);
+
+	var _singleGame2 = _interopRequireDefault(_singleGame);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var SingleDayGameList = function SingleDayGameList(_ref) {
+	  var activeDate = _ref.activeDate;
+	  var gamesByDay = _ref.gamesByDay;
+	  var predictedWinners = _ref.predictedWinners;
+	  var isSendingPrediction = _ref.isSendingPrediction;
+	  var eligibleTeams = _ref.eligibleTeams;
+	  var userMonth = _ref.userMonth;
+	  var activeMonth = _ref.activeMonth;
+	  var addPrediction = _ref.addPrediction;
+	  var removePrediction = _ref.removePrediction;
+
+
+	  //subtract 1 to go from day-of-month to zero-indexed array position:
+	  var dayKey = moment(activeDate).format('D') - 1;
+	  return _react2.default.createElement(
+	    'div',
+	    { className: 'row' },
+	    gamesByDay && gamesByDay[dayKey] && gamesByDay[dayKey].gameSummaries.length > 0 ? gamesByDay[dayKey].gameSummaries.map(function (gameData, index) {
+	      return _react2.default.createElement(_singleGame2.default, { gameData: gameData, isSendingPrediction: isSendingPrediction, predictedWinner: predictedWinners[dayKey + 1], eligibleTeams: eligibleTeams, userMonth: userMonth, activeMonth: activeMonth, addPrediction: addPrediction, removePrediction: removePrediction, key: index });
+	    }) : _react2.default.createElement(
+	      'div',
+	      null,
+	      ' Sorry, no games scheduled for today. '
+	    )
+	  );
+	};
+
+	exports.default = SingleDayGameList;
+
+/***/ },
+/* 569 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(298);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _gameTeam = __webpack_require__(570);
+
+	var _gameTeam2 = _interopRequireDefault(_gameTeam);
+
+	var _gameStatus = __webpack_require__(571);
+
+	var _gameStatus2 = _interopRequireDefault(_gameStatus);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var SingleGame = function SingleGame(_ref) {
+	  var gameData = _ref.gameData;
+	  var predictedWinner = _ref.predictedWinner;
+	  var isSendingPrediction = _ref.isSendingPrediction;
+	  var eligibleTeams = _ref.eligibleTeams;
+	  var userMonth = _ref.userMonth;
+	  var activeMonth = _ref.activeMonth;
+	  var addPrediction = _ref.addPrediction;
+	  var removePrediction = _ref.removePrediction;
+
+
+	  return _react2.default.createElement(
+	    'div',
+	    { className: 'col-xs-12 col-md-6' },
+	    _react2.default.createElement(
+	      'div',
+	      { className: 'panel panel-default game-panel' },
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'panel-body' },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'game-container ' + (gameData.gameStatus.hasStarted ? '' : 'game-not-started') },
+	          _react2.default.createElement(_gameTeam2.default, { gameData: gameData, teamName: gameData.roadTeam, predictedWinner: predictedWinner, isSendingPrediction: isSendingPrediction, eligibleTeams: eligibleTeams, homeVsRoad: 'roadTeam', userMonth: userMonth, activeMonth: activeMonth, addPrediction: addPrediction, removePrediction: removePrediction }),
+	          _react2.default.createElement(_gameStatus2.default, { statusData: gameData.gameStatus, roadTeam: gameData.roadTeam, homeTeam: gameData.homeTeam, predictedWinner: predictedWinner }),
+	          _react2.default.createElement(_gameTeam2.default, { gameData: gameData, teamName: gameData.homeTeam, predictedWinner: predictedWinner, isSendingPrediction: isSendingPrediction, eligibleTeams: eligibleTeams, homeVsRoad: 'homeTeam', userMonth: userMonth, activeMonth: activeMonth, addPrediction: addPrediction, removePrediction: removePrediction })
+	        )
+	      )
+	    )
+	  );
+	};
+
+	exports.default = SingleGame;
+
+/***/ },
+/* 570 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(298);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _lodash = __webpack_require__(552);
+
+	var _lodash2 = _interopRequireDefault(_lodash);
+
+	var _helper = __webpack_require__(554);
+
+	var _helper2 = _interopRequireDefault(_helper);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var GameTeam = _react2.default.createClass({
+	  displayName: 'GameTeam',
+
+	  handleClick: function handleClick() {
+	    if (this.props.isSendingPrediction) {
+	      return;
+	    } else {
+	      var isEligible = _lodash2.default.includes(this.props.eligibleTeams, this.props.teamName);
+	      var isChosen = this.props.predictedWinner.teamName === this.props.teamName;
+	      if ((isEligible || isChosen) && !this.props.gameData.gameStatus.hasStarted) {
+	        var gameTime = _helper2.default.getDateTime(this.props.gameData.gameDate, this.props.gameData.gameStatus.startTime);
+	        if (isChosen) {
+	          this.props.removePrediction(this.props.gameData.gameId, this.props.teamName, this.props.gameData.gameDate, gameTime, this.props.activeMonth);
+	        } else {
+	          this.props.addPrediction(this.props.gameData.gameId, this.props.teamName, this.props.gameData.gameDate, gameTime, this.props.userMonth, this.props.activeMonth);
+	        }
+	      }
+	    }
+	  },
+	  render: function render() {
+	    var isChosen = this.props.predictedWinner.teamName === this.props.teamName;
+	    var isEligible = _lodash2.default.includes(this.props.eligibleTeams, this.props.teamName);
+	    var successfulPrediction = isChosen && this.props.predictedWinner.outcome === 'success';
+	    var failedPrediction = isChosen && this.props.predictedWinner.outcome === 'failure';
+
+	    var clickable = isEligible || this.props.predictedWinner.teamName === this.props.teamName;
+
+	    return _react2.default.createElement(
+	      'div',
+	      { className: 'game-item game-team', onClick: this.handleClick },
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'team-container' },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'team-item team-name ' + (clickable ? 'eligible-team' : 'ineligible-team') + (isChosen ? ' selected-team' : '') + (successfulPrediction ? ' victory-team ' : '') + (failedPrediction ? ' defeat-team ' : '') },
+	          _react2.default.createElement(
+	            'h4',
+	            null,
+	            this.props.teamName
+	          ),
+	          _react2.default.createElement('div', { className: 'logo ' + this.props.teamName.toLowerCase() })
+	        )
+	      )
+	    );
+	  }
+	});
+
+		exports.default = GameTeam;
+
+/***/ },
+/* 571 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(298);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var GameStatus = function GameStatus(_ref) {
+	  var statusData = _ref.statusData;
+	  var roadTeam = _ref.roadTeam;
+	  var homeTeam = _ref.homeTeam;
+	  var predictedWinner = _ref.predictedWinner;
+
+	  var scoreString;
+	  var progressString;
+	  var outcomeString = '';
+	  var outcomeClass = '';
+
+	  //set scoreString to game score or start time
+	  if (statusData.hasStarted) {
+	    scoreString = statusData.roadScore + ' - ' + statusData.homeScore;
+	  } else {
+	    scoreString = statusData.startTime;
+	  }
+
+	  // set progressString to Final or In Progress (maybe eventually better precision than In Progress)
+	  if (statusData.hasStarted) {
+	    if (statusData.isFinal) {
+	      progressString = 'Final';
+	    } else {
+	      progressString = 'In Progress';
+	    }
+	  }
+
+	  // set outcomeString to display "success" or "failure" appropriately
+	  if (predictedWinner.teamName === homeTeam || predictedWinner.teamName === roadTeam) {
+	    if (predictedWinner.outcome === 'success') {
+	      outcomeString = 'W';
+	      outcomeClass = 'text-success';
+	    } else if (predictedWinner.outcome === 'failure') {
+	      outcomeString = 'L';
+	      outcomeClass = 'text-danger';
+	    }
+	  }
+
+	  return _react2.default.createElement(
+	    'div',
+	    { className: 'game-item game-status' },
+	    _react2.default.createElement(
+	      'h5',
+	      { className: 'game-status-score' },
+	      scoreString
+	    ),
+	    _react2.default.createElement(
+	      'small',
+	      { className: 'game-status-progress' },
+	      progressString
+	    ),
+	    _react2.default.createElement(
+	      'h3',
+	      { className: "game-status-outcome " + outcomeClass },
+	      outcomeString
+	    )
+	  );
+	};
+
+	exports.default = GameStatus;
+
+/***/ },
+/* 572 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(298);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactRouter = __webpack_require__(488);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var DayPicker = function DayPicker(_ref) {
+	  var activeDate = _ref.activeDate;
+
+	  var prevDay = moment(activeDate).subtract(1, 'days').format('D');
+	  var nextDay = moment(activeDate).add(1, 'days').format('D');
+
+	  var isFirstOfMonth = moment(activeDate).format('D') === '1';
+	  var isLastOfMonth = moment(activeDate).format('M') !== moment(activeDate).add(1, 'days').format('M');
+	  return _react2.default.createElement(
+	    'div',
+	    { className: 'row' },
+	    _react2.default.createElement(
+	      'div',
+	      { className: 'day-picker-container' },
+	      isFirstOfMonth ? null : _react2.default.createElement(
+	        _reactRouter.Link,
+	        { to: prevDay },
+	        _react2.default.createElement('span', { className: 'day-picker-item glyphicon glyphicon-menu-left' })
+	      ),
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'day-picker-item date-display' },
+	        _react2.default.createElement(
+	          'h3',
+	          null,
+	          moment(activeDate).format('dddd, MMM D')
+	        )
+	      ),
+	      isLastOfMonth ? null : _react2.default.createElement(
+	        _reactRouter.Link,
+	        { to: nextDay },
+	        _react2.default.createElement('span', { className: 'day-picker-item glyphicon glyphicon-menu-right' })
+	      )
+	    )
+	  );
+	};
+
+	exports.default = DayPicker;
+
+/***/ },
+/* 573 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(298);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _standingsContainer = __webpack_require__(574);
+
+	var _standingsContainer2 = _interopRequireDefault(_standingsContainer);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	// import PredictionsSummaryContainer from '../containers/predictions-summary-container.jsx'; 
+	// import StatusMessage from '../status-message.jsx';
+
+	var DashboardPage = _react2.default.createClass({
+	  displayName: 'DashboardPage',
+
+	  componentDidMount: function componentDidMount() {
+	    // this.props.getUserMonthData(this.props.reduxState.activeMonth);
+	    // this.props.getGameData(this.props.reduxState.activeMonth);
+	  },
+	  render: function render() {
+	    return _react2.default.createElement(
+	      'div',
+	      { className: 'row' },
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'col-xs-12 col-md-6' },
+	        _react2.default.createElement(_standingsContainer2.default, null)
+	      ),
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'col-xs-12 col-md-6' },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'jumbotron' },
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'panel-boody' },
+	            _react2.default.createElement(
+	              'h4',
+	              null,
+	              '(Eventually) Click on a player to view all of their picks for the month.'
+	            )
+	          )
+	        )
+	      )
+	    );
+	  }
+	});
+
+		exports.default = DashboardPage;
+
+/***/ },
+/* 574 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _reactRedux = __webpack_require__(459);
+
+	var _reactSAlert = __webpack_require__(544);
+
+	var _reactSAlert2 = _interopRequireDefault(_reactSAlert);
+
+	var _actionCreators = __webpack_require__(557);
+
+	var _actionCreators2 = _interopRequireDefault(_actionCreators);
+
+	var _standingsTable = __webpack_require__(575);
+
+	var _standingsTable2 = _interopRequireDefault(_standingsTable);
+
+	var _helper = __webpack_require__(554);
+
+	var _helper2 = _interopRequireDefault(_helper);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var mapStateToProps = function mapStateToProps(state) {
+	  return {
+	    reduxState: state,
+	    standingsData: state.standingsData
+	  };
+	};
+
+	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+	  return {
+	    getStandingsData: function getStandingsData(month) {
+	      _helper2.default.myFetch('/api/userMonth/all-public/' + month, 'GET', {}, function (response) {
+	        dispatch(_actionCreators2.default.receiveStandingsData(response));
+	      }, function (response) {
+	        dispatch(_actionCreators2.default.requestStandingsDataFailure());
+	        _reactSAlert2.default.warning('Error: Failed to load standings data. ' + response.message, {
+	          position: 'bottom',
+	          effect: 'stackslide',
+	          beep: false,
+	          timeout: 8000,
+	          offset: 0
+	        });
+	      });
+	      dispatch(_actionCreators2.default.requestStandingsDataWaiting());
+	    }
+	  };
+	};
+
+	var StandingsContainer = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_standingsTable2.default);
+
+		exports.default = StandingsContainer;
+
+/***/ },
+/* 575 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(298);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _standingsTableHeader = __webpack_require__(576);
+
+	var _standingsTableHeader2 = _interopRequireDefault(_standingsTableHeader);
+
+	var _standingsTableRow = __webpack_require__(577);
+
+	var _standingsTableRow2 = _interopRequireDefault(_standingsTableRow);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var StandingsTable = _react2.default.createClass({
+	  displayName: 'StandingsTable',
+
+	  componentDidMount: function componentDidMount() {
+	    this.props.getStandingsData('2016-11');
+	  },
+	  render: function render() {
+	    return _react2.default.createElement(
+	      'div',
+	      { className: 'panel panel-default panel-black' },
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'panel-heading' },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'panel-title' },
+	          'November Standings'
+	        )
+	      ),
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'panel-body' },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'standings-wrapper' },
+	          _react2.default.createElement(
+	            'table',
+	            { className: 'table table-hover table-bordered standings-table' },
+	            _react2.default.createElement(_standingsTableHeader2.default, null),
+	            _react2.default.createElement(
+	              'tbody',
+	              null,
+	              this.props.standingsData.map(function (player, key) {
+	                return _react2.default.createElement(_standingsTableRow2.default, { player: player, key: key });
+	              })
+	            )
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'small text-center' },
+	          'Today\'s picks appear in the standings as soon as the picked game begins. '
+	        )
+	      )
+	    );
+	  }
+	});
+
+		exports.default = StandingsTable;
+
+/***/ },
+/* 576 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(298);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var StandingsTableHeader = function StandingsTableHeader() {
+	  return _react2.default.createElement(
+	    'thead',
+	    null,
+	    _react2.default.createElement(
+	      'tr',
+	      null,
+	      _react2.default.createElement(
+	        'th',
+	        null,
+	        'Player Name'
+	      ),
+	      _react2.default.createElement(
+	        'th',
+	        { className: 'text-center' },
+	        ' W - L'
+	      ),
+	      _react2.default.createElement(
+	        'th',
+	        { className: 'text-center' },
+	        moment().format('MMM D')
+	      ),
+	      _react2.default.createElement(
+	        'th',
+	        { className: 'text-center' },
+	        moment().subtract(1, 'days').format('MMM D')
+	      )
+	    )
+	  );
+	};
+
+		exports.default = StandingsTableHeader;
+
+/***/ },
+/* 577 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(298);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _standingsTableGame = __webpack_require__(578);
+
+	var _standingsTableGame2 = _interopRequireDefault(_standingsTableGame);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var StandingsTableRow = function StandingsTableRow(_ref) {
+	  var player = _ref.player;
+
+	  // const todayNumber = moment().format('D');
+	  var todayNumber = 2;
+	  return _react2.default.createElement(
+	    'tr',
+	    null,
+	    _react2.default.createElement(
+	      'td',
+	      { className: 'standings-border-right' },
+	      _react2.default.createElement(
+	        'h6',
+	        null,
+	        player.ownerDisplayName
+	      )
+	    ),
+	    _react2.default.createElement(
+	      'td',
+	      { className: 'text-center' },
+	      _react2.default.createElement(
+	        'h5',
+	        null,
+	        player.standingsData.winCount + ' - ' + player.standingsData.lossCount
+	      )
+	    ),
+	    _react2.default.createElement(
+	      'td',
+	      null,
+	      _react2.default.createElement(_standingsTableGame2.default, { game: player.predictedWinners[todayNumber] })
+	    ),
+	    _react2.default.createElement(
+	      'td',
+	      null,
+	      _react2.default.createElement(_standingsTableGame2.default, { game: player.predictedWinners[todayNumber - 1] || {} })
+	    )
+	  );
+	};
+
+	exports.default = StandingsTableRow;
+
+/***/ },
+/* 578 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(298);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var StandingsTableRow = function StandingsTableRow(_ref) {
+	  var game = _ref.game;
+
+	  var teamNameClass = game.teamName ? game.teamName.toLowerCase() : '';
+	  var outcomeClass = '';
+	  if (game.outcome === 'success') {
+	    outcomeClass = 'standings-victory-team';
+	  } else if (game.outcome === 'failure') {
+	    outcomeClass = 'standings-defeat-team';
+	  }
+
+	  return _react2.default.createElement(
+	    'div',
+	    { className: "standings-team center-block " + outcomeClass },
+	    _react2.default.createElement('div', { className: "center-block " + teamNameClass })
+	  );
+	};
+
+	exports.default = StandingsTableRow;
 
 /***/ }
 /******/ ]);

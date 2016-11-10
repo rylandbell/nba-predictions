@@ -19,7 +19,3 @@
 .standings-table>tbody>tr:hover {
   cursor: pointer;
 }
-
-.standings-border-rightt {
-  border-right: 1px solid #282828;
-}

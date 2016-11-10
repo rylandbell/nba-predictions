@@ -2,7 +2,7 @@
 
 const api = {
 
-  //GET initial data:
+  //GET initial monthly picks data:
   requestUserMonthWaiting: () => (
     {
       type: 'REQUEST_USER_MONTH_WAITING'
@@ -38,6 +38,26 @@ const api = {
   requestGameDataFailure: () => (
     {
       type: 'REQUEST_GAME_DATA_FAILURE'
+    }
+  ),
+
+  //GET standings data
+  requestStandingsDataWaiting: () => (
+    {
+      type: 'REQUEST_STANDINGS_DATA_WAITING'
+    }
+  ),
+
+  receiveStandingsData: (response) => (
+    { 
+      type: 'RECEIVE_STANDINGS_DATA',
+      response: response
+    }
+  ),
+
+  requestStandingsDataFailure: () => (
+    {
+      type: 'REQUEST_STANDINGS_DATA_FAILURE'
     }
   ),
 

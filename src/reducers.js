@@ -33,6 +33,19 @@ const isFetchingGameData = (state = false, action) => {
   }
 };
 
+const isFetchingStandingsData = (state = false, action) => {
+  switch(action.type){
+    case 'REQUEST_STANDINGS_DATA_WAITING':
+      return true;
+    case 'RECEIVE_STANDINGS_DATA':
+      return false;
+    case 'REQUEST_STANDINGS_DATA_FAILURE':
+      return false;
+    default:
+      return state;
+  }
+};
+
 const isSendingPrediction = (state = false, action) => {
   switch(action.type){
     case 'SEND_PREDICTION_WAITING':
@@ -136,9 +149,22 @@ const gamesByDay = (state = [], action) => {
   }
 };
 
+const standingsData = (state=[], action) => {
+  switch(action.type) {
+    case 'RECEIVE_STANDINGS_DATA':
+      // return action.response;
+      return _.sortBy(action.response, [function(obj) { return obj.standingsData.winCount; }])
+        .reverse();
+    default:
+      return state;
+  }
+}
+
 const api = {
   app: Redux.combineReducers({
+    standingsData,
     isFetchingGameData,
+    isFetchingStandingsData,
     isFetchingPredictions,
     isSendingPrediction,
     activeMonth,

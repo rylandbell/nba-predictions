@@ -5,10 +5,10 @@ import React from 'react';
 import Navbar from './navbar.jsx';
 
 const LayoutComponent = React.createClass({
-  componentWillReceiveProps: function(newProps) {
-    // this.setState(this.getState(newProps));
-    console.log(newProps.children);
-  },
+  // componentWillReceiveProps: function(newProps) {
+  //   this.setState(this.getState(newProps));
+  //   console.log(newProps.children);
+  // },
   render: function () {
     return (
       <div>
@@ -26,22 +26,5 @@ const LayoutComponent = React.createClass({
     );
   }
 });
-
-// const LayoutComponent = (props) => {
-//   return (
-//     <div>
-//       <Navbar />
-//       <div className="main">
-//         <div className="container container-body">
-//           <div className="row">
-//             <div className="col-xs-12">
-//               {props.children}
-//             </div>
-//           </div>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
 
 export default LayoutComponent;

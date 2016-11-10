@@ -20,11 +20,6 @@ import DashboardPage from './components/dashboard/dashboard-page.jsx';
 
 const store = Redux.createStore(Reducers.app);
 store.subscribe(render);
-// store.subscribe(showStore);
-
-function showStore () {
-  console.log('state',store.getState());
-}
 
 //extract date data from URL, pass to Redux store (dateArray has format ['2016-11','9'])
 const dateToRedux = function () {
