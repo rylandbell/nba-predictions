@@ -33,6 +33,21 @@ const isFetchingGameData = (state = false, action) => {
   }
 };
 
+const missingUserMonth = (state = false, action) => {
+  switch(action.type){
+    case 'RECEIVE_USER_MONTH':
+      return false;
+    case 'REQUEST_USER_MONTH_FAILURE':
+      if (action.message && action.message === "No userMonth found") {
+        return true;
+      } else {
+        return false;
+      }
+    default:
+      return state;
+  }
+};
+
 const isFetchingStandingsData = (state = false, action) => {
   switch(action.type){
     case 'REQUEST_STANDINGS_DATA_WAITING':
@@ -167,6 +182,7 @@ const api = {
     isFetchingStandingsData,
     isFetchingPredictions,
     isSendingPrediction,
+    missingUserMonth,
     activeMonth,
     activeDate,
     userMonth,

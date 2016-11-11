@@ -16,9 +16,10 @@ const api = {
     }
   ),
 
-  requestUserMonthFailure: () => (
+  requestUserMonthFailure: (message) => (
     {
-      type: 'REQUEST_USER_MONTH_FAILURE'
+      type: 'REQUEST_USER_MONTH_FAILURE',
+      message: message
     }
   ),
 

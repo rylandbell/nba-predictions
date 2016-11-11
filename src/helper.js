@@ -21,13 +21,7 @@ function handleErrors(response) {
 
 const api = {
   myFetch: function(url, method, bodyData, successCallback, failureCallback){
-    //Create headers with authorization token stored in cookie:
-    // const userCookie = document.cookie.slice(document.cookie.indexOf('user=')+5);
-    // const accessToken = JSON.parse(decodeURIComponent(userCookie)).token;
 
-    // const myHeaders = new Headers();
-    // myHeaders.append('Authorization', 'Bearer ' + accessToken);
-    // const accessToken = document.cookie.slice(document.cookie.indexOf('token=')+6);
     const newRequest = {
       // mode: 'cors',
       method: method,
@@ -51,7 +45,7 @@ const api = {
         response
           .json()
           .then(response => {failureCallback(response);})
-          .catch(err => {console.log(err);});
+          .catch(err => {console.log('catch block err: ',err);});
       });
   },
 

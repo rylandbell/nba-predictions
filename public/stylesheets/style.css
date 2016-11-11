@@ -84,3 +84,7 @@ body {
 .btn-caption {
   margin-top: 8px;
 }
+
+.upcoming-picks-table {
+  table-layout: fixed;
+}

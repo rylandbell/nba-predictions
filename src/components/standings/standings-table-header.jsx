@@ -6,9 +6,9 @@ const StandingsTableHeader = () => (
   <thead>
     <tr>
       <th>
-        Player Name
+        Player
       </th>
-      <th className="text-center"> W - L
+      <th className="text-center w-l-column"> W - L
       </th>
       <th className="text-center">
         {moment().format('MMM D')}

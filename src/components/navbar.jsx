@@ -16,23 +16,22 @@ const Navbar = () => {
               <span className="icon-bar"></span>
               <span className="icon-bar"></span>
             </button>
-            <Link to="/app/" className="navbar-brand">Home</Link>
-            <ul className="nav navbar-nav">
+            <Link to="/app/" className="navbar-brand text-primary">Home</Link>
+            <ul className="nav nav-pills navbar-nav">
               <li>
-                <Link to={"/app/picks/"+todayPath}> My Picks </Link>
-              </li>
-              <li>
-                <Link to="/app/picks/"> Standings </Link>
+                <Link to={"/app/picks/"+todayPath}>
+                  <span className="nav-strong"> My Picks </span>
+                </Link>
               </li>
             </ul>
           </div>
           <div id="navbar-collapse-1" className="collapse navbar-collapse">
             <ul className="nav navbar-nav navbar-right">
               <li>
-                <Link to="/app/">How to Play </Link>
+                <Link to="/app/">Rules </Link>
               </li>
               <li>
-                <a href="https://goo.gl/forms/iWjt8lWwQ815G77Y2" target="_blank">Feedback Form</a>
+                <a href="https://goo.gl/forms/iWjt8lWwQ815G77Y2" target="_blank">Feedback</a>
               </li>
               <li>
                 <a href="/login">Sign Out</a>

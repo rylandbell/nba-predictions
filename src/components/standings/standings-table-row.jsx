@@ -12,7 +12,7 @@ const StandingsTableRow = ({player}) => {
         <h6>{player.ownerDisplayName}</h6>
       </td>
       <td className="text-center">
-        <h5>{player.standingsData.winCount + ' - ' + player.standingsData.lossCount}</h5>
+        <h5>{player.standingsData.winCount + '-' + player.standingsData.lossCount}</h5>
       </td>
       <td>
         <StandingsTableGame game={player.predictedWinners[todayNumber]}/>

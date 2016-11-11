@@ -3,53 +3,28 @@ extends ./layouts/layout.jade
 block content
   .container
     .row
-      .col-xs-12.col-sm-8.col-md-6
+      .col-xs-12.col-md-5
         .panel.panel-default.panel-black
           .panel-heading
-            .panel-title November Standings
+            .panel-title My Picks - Summary
           .panel-body
-            .standings-wrapper
-              table.table.table-hover.table-bordered.standings-table
-                -var today = moment().tz('America/Los_Angeles').format('D')
-                thead
-                  tr
-                    th
-                      p Player Name
-                    th.text-center
-                      p W/L Record
-                    th.text-center
-                      p Nov 7
-                    th.text-center
-                      p Nov 6
-                tbody
-                  tr
-                    td.standings-border-right
-                      h6 Ryland
-                    td.text-center
-                      h5 8 - 13
-                    td
-                      .standings-victory-team.standings-team.center-block
-                        .por.center-block
-                    td
-                      .standings-defeat-team.standings-team.center-block
-                        .gsw.center-block
-                  tr
-                    td.standings-border-right
-                      h6 Captain Hart
-                    td.text-center 
-                      h5 7 - 14
-
-                    td
-                      .standings-team.center-block
-                        .text-center
-                          .glyphicon.glyphicon-minus
-                    td
-                      .standings-victory-team.standings-team.center-block
-                        .cle.center-block
-                  
-            .small.text-center Today's picks appear in the standings as soon as the picked game begins.        
-      .col-xs-12.col-sm-6
-        .panel
-          .panel-body
-            .text-center.lead Click on a player to view all of their picks for the month.        
+            p Upcoming Games:
+            table.table.upcoming-picks-table
+              thead
+                tr
+                  th.text-center Nov 11
+                  th.text-center Nov 12
+                  th.text-center Nov 13
+                  th.text-center Nov 14
+              tbody
+                tr
+                  td
+                    .por.center-block
+                  td
+                    .gsw.center-block
+                  td
+                    .sas.center-block
+                  td
+                    .uta.center-block
+            button.btn.btn-primary.btn-lg.center-block Update My Picks
       

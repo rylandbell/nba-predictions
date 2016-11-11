@@ -19,3 +19,7 @@
 .standings-table>tbody>tr:hover {
   cursor: pointer;
 }
+
+.w-l-column {
+  min-width: 54px;
+}

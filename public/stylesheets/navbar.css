@@ -3,6 +3,20 @@
   padding-bottom: 5px;
 }
 
+/*.navbar .btn-primary {
+  position: relative;
+  bottom: 5px;
+  font-weight: bold;
+}*/
+
+/*.nav-strong {
+  font-weight: bold;
+  border: 1px solid #2A9FD6;
+  background-color: #282828;
+  padding: 8px;
+  border-radius: 5px;
+}
+*/
 #navbar-collapse-1 form {
   width: 100%;
 }

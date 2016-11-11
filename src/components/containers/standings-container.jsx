@@ -8,8 +8,8 @@ import StandingsTable from '../standings/standings-table.jsx';
 import Helper from '../../helper.js';
 
 const mapStateToProps = state => ({
-  reduxState: state,
-  standingsData: state.standingsData
+  standingsData: state.standingsData,
+  isFetchingStandingsData: state.isFetchingStandingsData
 });
 
 const mapDispatchToProps = dispatch => ({

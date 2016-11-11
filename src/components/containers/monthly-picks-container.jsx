@@ -22,16 +22,19 @@ const mapDispatchToProps = dispatch => ({
           dispatch(ActionCreator.receiveUserMonth(response));
         }),
         (response => {
-          dispatch(ActionCreator.requestUserMonthFailure());
-          Alert.warning('Error: Failed to load user data. ' + response.message,
-            {
-              position: 'bottom',
-              effect: 'stackslide',
-              beep: false,
-              timeout: 8000,
-              offset: 0
-            }
-          );
+          if (response.message === "No userMonth found") {
+            dispatch(ActionCreator.requestUserMonthFailure(response.message));
+          } else {
+            Alert.warning('Error: Failed to load user data. ' + response.message,
+              {
+                position: 'bottom',
+                effect: 'stackslide',
+                beep: false,
+                timeout: 8000,
+                offset: 0
+              }
+            );
+          }
         })
       );
       dispatch(ActionCreator.requestUserMonthWaiting());

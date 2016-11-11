@@ -3,16 +3,21 @@
 import React from 'react';
 import StandingsTableHeader from './standings-table-header.jsx';
 import StandingsTableRow from './standings-table-row.jsx';
+import StatusMessage from '../status-message.jsx';
 
 const StandingsTable = React.createClass({
   componentDidMount: function() {
-    this.props.getStandingsData('2016-11');
+    const currentMonth = moment().format('YYYY-MM');
+    this.props.getStandingsData(currentMonth);
   },
   render: function() {
     return (
+      this.props.isFetchingStandingsData ? 
+      <StatusMessage messageBold={'Loading standings data...'} messageBody={'Just hang tight.'} messageClass={'info'}/>
+      :
       <div className="panel panel-default panel-black">
         <div className="panel-heading">
-          <div className="panel-title">November Standings</div>
+          <div className="panel-title">{moment().format('MMMM')} Standings</div>
         </div>
         <div className="panel-body">
           <div className="standings-wrapper">
