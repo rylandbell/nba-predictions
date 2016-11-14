@@ -15,7 +15,7 @@ const UpcomingPicks = React.createClass({
   handleClick: function () {
     const currentMonth = moment().format('YYYY-MM');
     const currentDay = moment().format('D');
-    const path = `/app/picks/${currentMonth}/${currentDay}`;
+    const path = `/picks/${currentMonth}/${currentDay}`;
     browserHistory.push(path);
   },
   render: function() {

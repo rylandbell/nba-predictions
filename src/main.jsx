@@ -37,12 +37,13 @@ function render() {
     <Provider store={store}>
       <div>
         <Router history={browserHistory}>
-          <Route path ="/app/" component={Layout}>
+          <Route path ="/" component={Layout}>
             <IndexRoute component={DashboardPage}/>
-            <Route path="/app/picks" component={MonthlyPicksContainer}>
-              <Route path="/app/picks/:month/:day" component = {DailyPicksContainer} />
+            <Route path="/picks" component={MonthlyPicksContainer}>
+              <Route path="/picks/:month/:day" component = {DailyPicksContainer} />
                 <Route path = "*" component={GenericNotFound} />
             </Route>
+            {/*<Route path = "*" component={GenericNotFound} />*/}
           </Route>
         </Router>
         <Alert />

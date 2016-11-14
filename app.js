@@ -39,8 +39,8 @@ app.use(function(req, res, next){
   next();
 });
 
-app.use('/', routes);
 app.use('/api', routesApi);
+app.use('/', routes);
 
 //Report on envirnoment to console:
 app.listen(app.get('port'),function(){

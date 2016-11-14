@@ -131,12 +131,12 @@
 	        { history: _reactRouter.browserHistory },
 	        _react2.default.createElement(
 	          _reactRouter.Route,
-	          { path: '/app/', component: _layout2.default },
+	          { path: '/', component: _layout2.default },
 	          _react2.default.createElement(_reactRouter.IndexRoute, { component: _dashboardPage2.default }),
 	          _react2.default.createElement(
 	            _reactRouter.Route,
-	            { path: '/app/picks', component: _monthlyPicksContainer2.default },
-	            _react2.default.createElement(_reactRouter.Route, { path: '/app/picks/:month/:day', component: _dailyPicksContainer2.default }),
+	            { path: '/picks', component: _monthlyPicksContainer2.default },
+	            _react2.default.createElement(_reactRouter.Route, { path: '/picks/:month/:day', component: _dailyPicksContainer2.default }),
 	            _react2.default.createElement(_reactRouter.Route, { path: '*', component: _genericNotFound2.default })
 	          )
 	        )
@@ -54021,7 +54021,7 @@
 	          ),
 	          _react2.default.createElement(
 	            _reactRouter.Link,
-	            { to: '/app/', className: 'navbar-brand text-primary' },
+	            { to: '/', className: 'navbar-brand text-primary' },
 	            'Home'
 	          ),
 	          _react2.default.createElement(
@@ -54032,7 +54032,7 @@
 	              null,
 	              _react2.default.createElement(
 	                _reactRouter.Link,
-	                { to: "/app/picks/" + todayPath },
+	                { to: "/picks/" + todayPath },
 	                _react2.default.createElement(
 	                  'span',
 	                  { className: 'nav-strong' },
@@ -55321,7 +55321,7 @@
 	        dispatch(_actionCreators2.default.createUserMonthSuccess(month));
 	        var currentMonth = (0, _moment2.default)().format('YYYY-MM');
 	        var currentDay = (0, _moment2.default)().format('D');
-	        var path = '/app/picks/' + currentMonth + '/' + currentDay;
+	        var path = '/picks/' + currentMonth + '/' + currentDay;
 	        _reactRouter.browserHistory.push(path);
 	        return null;
 	      }).catch(function (response) {
@@ -59733,7 +59733,7 @@
 	  handleClick: function handleClick() {
 	    var currentMonth = moment().format('YYYY-MM');
 	    var currentDay = moment().format('D');
-	    var path = '/app/picks/' + currentMonth + '/' + currentDay;
+	    var path = '/picks/' + currentMonth + '/' + currentDay;
 	    _reactRouter.browserHistory.push(path);
 	  },
 	  render: function render() {
@@ -59843,7 +59843,7 @@
 	            ' Either you\'ve found a bad URL, or you haven\'t yet signed up for the given month. Try ',
 	            _react2.default.createElement(
 	              'a',
-	              { href: '/app/' },
+	              { href: '/' },
 	              'going home'
 	            ),
 	            ' to remedy.'
@@ -59851,11 +59851,11 @@
 	          _react2.default.createElement(
 	            'p',
 	            null,
-	            'If you think you\'ve received this message in error, please let me know via my  ',
+	            'If you think you\'ve received this message in error, please let me know via my',
 	            _react2.default.createElement(
 	              'a',
 	              { href: 'https://goo.gl/forms/iWjt8lWwQ815G77Y2', target: '_blank' },
-	              'feedback form'
+	              ' feedback form'
 	            ),
 	            '.'
 	          )
@@ -59907,7 +59907,7 @@
 	            ' It looks like you\'ve either you\'ve followed a bad link or entered a bad URL. Try ',
 	            _react2.default.createElement(
 	              'a',
-	              { href: '/app/' },
+	              { href: '/' },
 	              'going home'
 	            ),
 	            ' to remedy.'
@@ -59915,11 +59915,11 @@
 	          _react2.default.createElement(
 	            'p',
 	            null,
-	            ' If you think you\'ve received this message in error, please let me know via my  ',
+	            ' If you think you\'ve received this message in error, please let me know via my',
 	            _react2.default.createElement(
 	              'a',
 	              { href: 'https://goo.gl/forms/iWjt8lWwQ815G77Y2', target: '_blank' },
-	              'feedback form'
+	              ' feedback form'
 	            ),
 	            '. '
 	          )

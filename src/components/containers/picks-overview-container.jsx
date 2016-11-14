@@ -60,7 +60,7 @@ const mapDispatchToProps = dispatch => ({
           dispatch(ActionCreator.createUserMonthSuccess(month));
           const currentMonth = moment().format('YYYY-MM');
           const currentDay = moment().format('D');
-          const path = `/app/picks/${currentMonth}/${currentDay}`;
+          const path = `/picks/${currentMonth}/${currentDay}`;
           browserHistory.push(path);
           return null;
         })

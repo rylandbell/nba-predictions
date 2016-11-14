@@ -7,7 +7,7 @@ html(lang="en")
         var parts = value.split("; " + name + "=");
         if (parts.length == 2) return parts.pop().split(";").shift();
       }
-      if(!getCookie('token') && (window.location.pathname !== '/login' && window.location.pathname !== '/register'))
+      if(!getCookie('token') && (window.location.pathname !== '/login'))
         {window.location.href = '/login';}
     title= title
     meta(name='viewport', content='width=device-width, initial-scale=1.0')
@@ -17,7 +17,6 @@ html(lang="en")
 
   body
     block content
-    #app-root
 
     script(src='/vendor/js/jquery-1.11.1.min.js')
     script(src='/vendor/bootstrap/js/bootstrap.min.js')
