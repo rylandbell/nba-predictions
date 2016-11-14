@@ -138,10 +138,8 @@
 	            { path: '/app/picks', component: _monthlyPicksContainer2.default },
 	            _react2.default.createElement(_reactRouter.Route, { path: '/app/picks/:month/:day', component: _dailyPicksContainer2.default }),
 	            _react2.default.createElement(_reactRouter.Route, { path: '*', component: _genericNotFound2.default })
-	          ),
-	          _react2.default.createElement(_reactRouter.Route, { path: '*', component: _genericNotFound2.default })
-	        ),
-	        _react2.default.createElement(_reactRouter.Route, { path: '*', component: _genericNotFound2.default })
+	          )
+	        )
 	      ),
 	      _react2.default.createElement(_reactSAlert2.default, null)
 	    )

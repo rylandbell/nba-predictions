@@ -41,11 +41,9 @@ function render() {
             <IndexRoute component={DashboardPage}/>
             <Route path="/app/picks" component={MonthlyPicksContainer}>
               <Route path="/app/picks/:month/:day" component = {DailyPicksContainer} />
-              <Route path = "*" component={GenericNotFound} />
+                <Route path = "*" component={GenericNotFound} />
             </Route>
-            <Route path = "*" component={GenericNotFound} />
           </Route>
-          <Route path = "*" component={GenericNotFound} />
         </Router>
         <Alert />
       </div>
