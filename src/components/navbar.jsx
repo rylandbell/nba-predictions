@@ -27,9 +27,9 @@ const Navbar = () => {
           </div>
           <div id="navbar-collapse-1" className="collapse navbar-collapse">
             <ul className="nav navbar-nav navbar-right">
-              <li>
+              {/*<li>
                 <Link to="/app/">Rules </Link>
-              </li>
+              </li>*/}
               <li>
                 <a href="https://goo.gl/forms/iWjt8lWwQ815G77Y2" target="_blank">Feedback</a>
               </li>

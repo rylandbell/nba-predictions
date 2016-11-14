@@ -98,6 +98,10 @@
 
 	var _dashboardPage2 = _interopRequireDefault(_dashboardPage);
 
+	var _genericNotFound = __webpack_require__(586);
+
+	var _genericNotFound2 = _interopRequireDefault(_genericNotFound);
+
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -132,9 +136,12 @@
 	          _react2.default.createElement(
 	            _reactRouter.Route,
 	            { path: '/app/picks', component: _monthlyPicksContainer2.default },
-	            _react2.default.createElement(_reactRouter.Route, { path: '/app/picks/:month/:day', component: _dailyPicksContainer2.default })
-	          )
-	        )
+	            _react2.default.createElement(_reactRouter.Route, { path: '/app/picks/:month/:day', component: _dailyPicksContainer2.default }),
+	            _react2.default.createElement(_reactRouter.Route, { path: '*', component: _genericNotFound2.default })
+	          ),
+	          _react2.default.createElement(_reactRouter.Route, { path: '*', component: _genericNotFound2.default })
+	        ),
+	        _react2.default.createElement(_reactRouter.Route, { path: '*', component: _genericNotFound2.default })
 	      ),
 	      _react2.default.createElement(_reactSAlert2.default, null)
 	    )
@@ -54047,15 +54054,6 @@
 	              'li',
 	              null,
 	              _react2.default.createElement(
-	                _reactRouter.Link,
-	                { to: '/app/' },
-	                'Rules '
-	              )
-	            ),
-	            _react2.default.createElement(
-	              'li',
-	              null,
-	              _react2.default.createElement(
 	                'a',
 	                { href: 'https://goo.gl/forms/iWjt8lWwQ815G77Y2', target: '_blank' },
 	                'Feedback'
@@ -54192,6 +54190,10 @@
 
 	var _statusMessage2 = _interopRequireDefault(_statusMessage);
 
+	var _usermonthNotFound = __webpack_require__(585);
+
+	var _usermonthNotFound2 = _interopRequireDefault(_usermonthNotFound);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var MonthlyPicksPage = _react2.default.createClass({
@@ -54207,11 +54209,7 @@
 	    if (isLoading) {
 	      return _react2.default.createElement(_statusMessage2.default, { messageBold: 'Loading game data...', messageBody: 'Just hang tight.', messageClass: 'info' });
 	    } else if (this.props.reduxState.missingUserMonth) {
-	      return _react2.default.createElement(
-	        'h2',
-	        null,
-	        'Missing user month'
-	      );
+	      return _react2.default.createElement(_usermonthNotFound2.default, null);
 	    } else {
 	      return _react2.default.createElement(
 	        'div',
@@ -59805,6 +59803,135 @@
 	});
 
 		exports.default = UpcomingPicks;
+
+/***/ },
+/* 584 */,
+/* 585 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(298);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var UserMonthNotFound = function UserMonthNotFound() {
+	  return _react2.default.createElement(
+	    'div',
+	    { className: 'row' },
+	    _react2.default.createElement(
+	      'div',
+	      { className: 'col-xs-12 col-md-6 col-md-offset-3' },
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'panel panel-default' },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'panel-body' },
+	          _react2.default.createElement(
+	            'h4',
+	            null,
+	            'Not Found'
+	          ),
+	          _react2.default.createElement(
+	            'p',
+	            null,
+	            ' Either you\'ve found a bad URL, or you haven\'t yet signed up for the given month. Try ',
+	            _react2.default.createElement(
+	              'a',
+	              { href: '/app/' },
+	              'going home'
+	            ),
+	            ' to remedy.'
+	          ),
+	          _react2.default.createElement(
+	            'p',
+	            null,
+	            'If you think you\'ve received this message in error, please let me know via my  ',
+	            _react2.default.createElement(
+	              'a',
+	              { href: 'https://goo.gl/forms/iWjt8lWwQ815G77Y2', target: '_blank' },
+	              'feedback form'
+	            ),
+	            '.'
+	          )
+	        )
+	      )
+	    )
+	  );
+	};
+
+	exports.default = UserMonthNotFound;
+
+/***/ },
+/* 586 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(298);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var GenericNotFound = function GenericNotFound() {
+	  return _react2.default.createElement(
+	    'div',
+	    { className: 'row' },
+	    _react2.default.createElement(
+	      'div',
+	      { className: 'col-xs-12 col-md-6 col-md-offset-3' },
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'panel panel-default' },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'panel-body' },
+	          _react2.default.createElement(
+	            'h4',
+	            null,
+	            'Not Found'
+	          ),
+	          _react2.default.createElement(
+	            'p',
+	            null,
+	            ' It looks like you\'ve either you\'ve followed a bad link or entered a bad URL. Try ',
+	            _react2.default.createElement(
+	              'a',
+	              { href: '/app/' },
+	              'going home'
+	            ),
+	            ' to remedy.'
+	          ),
+	          _react2.default.createElement(
+	            'p',
+	            null,
+	            ' If you think you\'ve received this message in error, please let me know via my  ',
+	            _react2.default.createElement(
+	              'a',
+	              { href: 'https://goo.gl/forms/iWjt8lWwQ815G77Y2', target: '_blank' },
+	              'feedback form'
+	            ),
+	            '. '
+	          )
+	        )
+	      )
+	    )
+	  );
+	};
+
+	exports.default = GenericNotFound;
 
 /***/ }
 /******/ ]);

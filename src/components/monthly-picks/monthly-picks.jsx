@@ -4,6 +4,7 @@ import React from 'react';
 
 import PredictionsSummaryContainer from '../containers/predictions-summary-container.jsx'; 
 import StatusMessage from '../status-message.jsx';
+import UserMonthNotFound from './usermonth-not-found.jsx';
 
 const MonthlyPicksPage = React.createClass({
   componentDidMount: function() {
@@ -16,7 +17,7 @@ const MonthlyPicksPage = React.createClass({
     if (isLoading) {
       return <StatusMessage messageBold={'Loading game data...'} messageBody={'Just hang tight.'} messageClass={'info'}/>
     } else if (this.props.reduxState.missingUserMonth) {
-      return <h2>Missing user month</h2>
+      return <UserMonthNotFound />
     } else {
       return (
         <div className={'row '+(this.props.reduxState.isSendingPrediction ? 'send-waiting' : '')}>
