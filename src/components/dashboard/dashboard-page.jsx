@@ -2,7 +2,7 @@
 
 import React from 'react';
 import StandingsContainer from '../containers/standings-container.jsx';
-import PicksOverviewContainer from '../containers/picks-overview-container.jsx';
+import PicksSummaryContainer from '../containers/picks-summary-container.jsx';
 
 // import PredictionsSummaryContainer from '../containers/predictions-summary-container.jsx'; 
 // import StatusMessage from '../status-message.jsx';
@@ -19,7 +19,7 @@ const DashboardPage = React.createClass({
       return (
         <div className="row">
           <div className="col-xs-12 col-md-6 col-lg-4">
-            <PicksOverviewContainer />
+            <PicksSummaryContainer />
             <StandingsContainer />
           </div>
         </div>

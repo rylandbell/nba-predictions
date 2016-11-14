@@ -6,7 +6,7 @@ import moment from 'moment';
 import { browserHistory } from 'react-router';
 
 import ActionCreator from '../../action-creators.js';
-import PicksOverview from '../picks-overview/picks-overview.jsx';
+import PicksSummary from '../picks-summary/picks-summary.jsx';
 import Helper from '../../helper.js';
 
 const mapStateToProps = state => ({
@@ -80,9 +80,9 @@ const mapDispatchToProps = dispatch => ({
     }
 });
 
-const PicksOverviewContainer = connect(
+const PicksSummaryContainer = connect(
   mapStateToProps,
   mapDispatchToProps
-)(PicksOverview);
+)(PicksSummary);
 
-export default PicksOverviewContainer;
+export default PicksSummaryContainer;

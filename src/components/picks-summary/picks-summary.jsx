@@ -5,7 +5,7 @@ import StatusMessage from '../status-message.jsx';
 import JoinMonth from './join-month.jsx';
 import UpcomingPicks from './upcoming-picks.jsx';
 
-const PicksOverview = React.createClass({
+const PicksSummary = React.createClass({
   componentDidMount: function() {
     const currentMonth = moment().format('YYYY-MM');
     this.props.getUserMonthData(currentMonth);
@@ -35,4 +35,4 @@ const PicksOverview = React.createClass({
   }
 });
 
-export default PicksOverview;
+export default PicksSummary;
