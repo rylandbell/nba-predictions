@@ -53284,9 +53284,7 @@
 	      newRequest.headers.append('Content-Type', 'application/json');
 	    }
 
-	    (0, _isomorphicFetch2.default)(url, newRequest)
-	    // .then(response => response.json())
-	    .then(function (response) {
+	    (0, _isomorphicFetch2.default)(url, newRequest).then(function (response) {
 	      return handleErrors(response);
 	    }).then(function (response) {
 	      return response.json();
@@ -55264,7 +55262,7 @@
 
 	var _reactSAlert2 = _interopRequireDefault(_reactSAlert);
 
-	var _moment = __webpack_require__(583);
+	var _moment = __webpack_require__(580);
 
 	var _moment2 = _interopRequireDefault(_moment);
 
@@ -55274,7 +55272,7 @@
 
 	var _actionCreators2 = _interopRequireDefault(_actionCreators);
 
-	var _picksOverview = __webpack_require__(580);
+	var _picksOverview = __webpack_require__(581);
 
 	var _picksOverview2 = _interopRequireDefault(_picksOverview);
 
@@ -55351,224 +55349,6 @@
 
 /***/ },
 /* 580 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _react = __webpack_require__(298);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _statusMessage = __webpack_require__(565);
-
-	var _statusMessage2 = _interopRequireDefault(_statusMessage);
-
-	var _joinMonth = __webpack_require__(581);
-
-	var _joinMonth2 = _interopRequireDefault(_joinMonth);
-
-	var _upcomingPicks = __webpack_require__(582);
-
-	var _upcomingPicks2 = _interopRequireDefault(_upcomingPicks);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var PicksOverview = _react2.default.createClass({
-	  displayName: 'PicksOverview',
-
-	  componentDidMount: function componentDidMount() {
-	    var currentMonth = moment().format('YYYY-MM');
-	    this.props.getUserMonthData(currentMonth);
-	  },
-	  render: function render() {
-	    var panelContent = void 0,
-	        panelTitle = void 0;
-	    if (this.props.missingUserMonth) {
-	      panelContent = _react2.default.createElement(_joinMonth2.default, { createNewUserMonth: this.props.createNewUserMonth });
-	      panelTitle = "Join New Month";
-	    } else if (this.props.userMonth && this.props.userMonth.userMonthId) {
-	      panelContent = _react2.default.createElement(_upcomingPicks2.default, { userMonth: this.props.userMonth });
-	      panelTitle = "My Upcoming Picks";
-	    } else {
-	      panelContent = _react2.default.createElement(_statusMessage2.default, { messageBold: 'Loading user picks data...', messageBody: 'Just hang tight.', messageClass: 'info' });
-	      panelTitle = "Loading";
-	    }
-	    return _react2.default.createElement(
-	      'div',
-	      { className: 'panel panel-default' },
-	      _react2.default.createElement(
-	        'div',
-	        { className: 'panel-heading' },
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'panel-title' },
-	          panelTitle
-	        )
-	      ),
-	      _react2.default.createElement(
-	        'div',
-	        { className: 'panel-body panel-black' },
-	        panelContent
-	      )
-	    );
-	  }
-	});
-
-		exports.default = PicksOverview;
-
-/***/ },
-/* 581 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _react = __webpack_require__(298);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var JoinMonth = function JoinMonth() {
-	  return _react2.default.createElement(
-	    'div',
-	    null,
-	    _react2.default.createElement(
-	      'p',
-	      null,
-	      ' It looks like you haven\'t made any picks yet this month. Click the button below to join the ',
-	      moment().format('MMMM'),
-	      ' competition: '
-	    ),
-	    _react2.default.createElement(
-	      'p',
-	      null,
-	      _react2.default.createElement(
-	        'button',
-	        { onClick: undefined.props.createNewUserMonth, className: 'btn btn-primary center-block' },
-	        'Get Started'
-	      )
-	    ),
-	    _react2.default.createElement(
-	      'p',
-	      null,
-	      ' You are welcome to join at any point in the month. If it\'s too late to be competitive, you can at least get some practice for next month.'
-	    )
-	  );
-	};
-
-		exports.default = JoinMonth;
-
-/***/ },
-/* 582 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _react = __webpack_require__(298);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _reactRouter = __webpack_require__(488);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var getPick = function getPick(userMonth, day) {
-	  if (userMonth.predictedWinners[day] && userMonth.predictedWinners[day].teamName) {
-	    return userMonth.predictedWinners[day].teamName.toLowerCase();
-	  } else {
-	    return "glyphicon glyphicon-minus";
-	  }
-	};
-
-	var UpcomingPicks = _react2.default.createClass({
-	  displayName: 'UpcomingPicks',
-
-	  handleClick: function handleClick() {
-	    var currentMonth = moment().format('YYYY-MM');
-	    var currentDay = moment().format('D');
-	    var path = '/app/picks/' + currentMonth + '/' + currentDay;
-	    _reactRouter.browserHistory.push(path);
-	  },
-	  render: function render() {
-	    var today = moment().format('D');
-	    return _react2.default.createElement(
-	      'div',
-	      null,
-	      _react2.default.createElement(
-	        'table',
-	        { className: 'table upcoming-picks-table' },
-	        _react2.default.createElement(
-	          'thead',
-	          null,
-	          _react2.default.createElement(
-	            'tr',
-	            null,
-	            _react2.default.createElement(
-	              'th',
-	              { className: 'text-center' },
-	              moment().format('MMM D')
-	            ),
-	            _react2.default.createElement(
-	              'th',
-	              { className: 'text-center' },
-	              moment().add(1, 'days').format('MMM D')
-	            ),
-	            _react2.default.createElement(
-	              'th',
-	              { className: 'text-center' },
-	              moment().add(2, 'days').format('MMM D')
-	            )
-	          )
-	        ),
-	        _react2.default.createElement(
-	          'tbody',
-	          null,
-	          _react2.default.createElement(
-	            'tr',
-	            null,
-	            _react2.default.createElement(
-	              'td',
-	              null,
-	              _react2.default.createElement('div', { className: "center-block text-center " + getPick(this.props.userMonth, today) })
-	            ),
-	            _react2.default.createElement(
-	              'td',
-	              null,
-	              _react2.default.createElement('div', { className: "center-block text-center " + getPick(this.props.userMonth, parseInt(today) + 1) })
-	            ),
-	            _react2.default.createElement(
-	              'td',
-	              null,
-	              _react2.default.createElement('div', { className: "center-block text-center " + getPick(this.props.userMonth, parseInt(today) + 2) })
-	            )
-	          )
-	        )
-	      ),
-	      _react2.default.createElement(
-	        'button',
-	        { onClick: this.handleClick, className: 'btn btn-primary center-block' },
-	        'Update My Picks'
-	      )
-	    );
-	  }
-	});
-
-		exports.default = UpcomingPicks;
-
-/***/ },
-/* 583 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(module) {//! moment.js
@@ -59806,6 +59586,225 @@
 
 	}));
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(553)(module)))
+
+/***/ },
+/* 581 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(298);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _statusMessage = __webpack_require__(565);
+
+	var _statusMessage2 = _interopRequireDefault(_statusMessage);
+
+	var _joinMonth = __webpack_require__(582);
+
+	var _joinMonth2 = _interopRequireDefault(_joinMonth);
+
+	var _upcomingPicks = __webpack_require__(583);
+
+	var _upcomingPicks2 = _interopRequireDefault(_upcomingPicks);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var PicksOverview = _react2.default.createClass({
+	  displayName: 'PicksOverview',
+
+	  componentDidMount: function componentDidMount() {
+	    var currentMonth = moment().format('YYYY-MM');
+	    this.props.getUserMonthData(currentMonth);
+	  },
+	  render: function render() {
+	    var panelContent = void 0,
+	        panelTitle = void 0;
+	    if (this.props.missingUserMonth) {
+	      panelContent = _react2.default.createElement(_joinMonth2.default, { createNewUserMonth: this.props.createNewUserMonth });
+	      panelTitle = "Join New Month";
+	    } else if (this.props.userMonth && this.props.userMonth.userMonthId) {
+	      panelContent = _react2.default.createElement(_upcomingPicks2.default, { userMonth: this.props.userMonth });
+	      panelTitle = "My Upcoming Picks";
+	    } else {
+	      panelContent = _react2.default.createElement(_statusMessage2.default, { messageBold: 'Loading user picks data...', messageBody: 'Just hang tight.', messageClass: 'info' });
+	      panelTitle = "Loading";
+	    }
+	    return _react2.default.createElement(
+	      'div',
+	      { className: 'panel panel-default' },
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'panel-heading' },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'panel-title' },
+	          panelTitle
+	        )
+	      ),
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'panel-body panel-black' },
+	        panelContent
+	      )
+	    );
+	  }
+	});
+
+		exports.default = PicksOverview;
+
+/***/ },
+/* 582 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(298);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var JoinMonth = function JoinMonth(_ref) {
+	  var createNewUserMonth = _ref.createNewUserMonth;
+	  return _react2.default.createElement(
+	    'div',
+	    null,
+	    _react2.default.createElement(
+	      'p',
+	      null,
+	      ' It looks like you haven\'t made any picks yet this month. Click the button below to join the ',
+	      moment().format('MMMM'),
+	      ' competition: '
+	    ),
+	    _react2.default.createElement(
+	      'p',
+	      null,
+	      _react2.default.createElement(
+	        'button',
+	        { onClick: createNewUserMonth, className: 'btn btn-primary center-block' },
+	        'Get Started'
+	      )
+	    ),
+	    _react2.default.createElement(
+	      'p',
+	      null,
+	      ' You are welcome to join at any point in the month. If it\'s too late to be competitive, you can at least get some practice for next month.'
+	    )
+	  );
+	};
+
+		exports.default = JoinMonth;
+
+/***/ },
+/* 583 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(298);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactRouter = __webpack_require__(488);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var getPick = function getPick(userMonth, day) {
+	  if (userMonth.predictedWinners[day] && userMonth.predictedWinners[day].teamName) {
+	    return userMonth.predictedWinners[day].teamName.toLowerCase();
+	  } else {
+	    return "glyphicon glyphicon-minus";
+	  }
+	};
+
+	var UpcomingPicks = _react2.default.createClass({
+	  displayName: 'UpcomingPicks',
+
+	  handleClick: function handleClick() {
+	    var currentMonth = moment().format('YYYY-MM');
+	    var currentDay = moment().format('D');
+	    var path = '/app/picks/' + currentMonth + '/' + currentDay;
+	    _reactRouter.browserHistory.push(path);
+	  },
+	  render: function render() {
+	    var today = moment().format('D');
+	    return _react2.default.createElement(
+	      'div',
+	      null,
+	      _react2.default.createElement(
+	        'table',
+	        { className: 'table upcoming-picks-table' },
+	        _react2.default.createElement(
+	          'thead',
+	          null,
+	          _react2.default.createElement(
+	            'tr',
+	            null,
+	            _react2.default.createElement(
+	              'th',
+	              { className: 'text-center' },
+	              moment().format('MMM D')
+	            ),
+	            _react2.default.createElement(
+	              'th',
+	              { className: 'text-center' },
+	              moment().add(1, 'days').format('MMM D')
+	            ),
+	            _react2.default.createElement(
+	              'th',
+	              { className: 'text-center' },
+	              moment().add(2, 'days').format('MMM D')
+	            )
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'tbody',
+	          null,
+	          _react2.default.createElement(
+	            'tr',
+	            null,
+	            _react2.default.createElement(
+	              'td',
+	              null,
+	              _react2.default.createElement('div', { className: "center-block text-center " + getPick(this.props.userMonth, today) })
+	            ),
+	            _react2.default.createElement(
+	              'td',
+	              null,
+	              _react2.default.createElement('div', { className: "center-block text-center " + getPick(this.props.userMonth, parseInt(today) + 1) })
+	            ),
+	            _react2.default.createElement(
+	              'td',
+	              null,
+	              _react2.default.createElement('div', { className: "center-block text-center " + getPick(this.props.userMonth, parseInt(today) + 2) })
+	            )
+	          )
+	        )
+	      ),
+	      _react2.default.createElement(
+	        'button',
+	        { onClick: this.handleClick, className: 'btn btn-primary center-block' },
+	        'Update My Picks'
+	      )
+	    );
+	  }
+	});
+
+		exports.default = UpcomingPicks;
 
 /***/ }
 /******/ ]);

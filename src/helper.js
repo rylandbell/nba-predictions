@@ -37,7 +37,6 @@ const api = {
     }
     
     fetch(url,newRequest)
-      // .then(response => response.json())
       .then(response => handleErrors(response))
       .then(response => response.json())
       .then(response => successCallback(response))
