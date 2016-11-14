@@ -4,8 +4,7 @@ import React from 'react';
 import StandingsTableGame from './standings-table-game';
 
 const StandingsTableRow = ({player}) => {
-  // const todayNumber = moment().format('D');
-  const todayNumber = 2;
+  const todayNumber = moment().format('D');
   return (
     <tr>
       <td className="standings-border-right">

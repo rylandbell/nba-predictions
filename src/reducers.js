@@ -89,6 +89,8 @@ const activeMonth = (state = '', action) => {
   switch(action.type){
     case 'SET_ACTIVE_DATE':
       return action.month;
+    case 'CREATE_USER_MONTH_SUCCESS':
+      return action.month;
     default:
       return state;
   }

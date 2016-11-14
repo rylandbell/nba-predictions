@@ -13,7 +13,7 @@ const PicksOverview = React.createClass({
   render: function() {
     let panelContent, panelTitle;
     if (this.props.missingUserMonth) {
-      panelContent = <JoinMonth />;
+      panelContent = <JoinMonth createNewUserMonth={this.props.createNewUserMonth}/>;
       panelTitle = "Join New Month";
     } else if (this.props.userMonth && this.props.userMonth.userMonthId) {
       panelContent = <UpcomingPicks userMonth={this.props.userMonth} />

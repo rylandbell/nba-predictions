@@ -82,6 +82,27 @@ const api = {
     }
   ),
 
+  //POST create new userMonth at user request:
+  createUserMonthWaiting: () => (
+    {
+      type: 'CREATE_USER_MONTH_WAITING'
+    }
+  ),
+
+  createUserMonthSuccess: (month) => (
+    { 
+      type: 'CREATE_USER_MONTH_SUCCESS',
+      month: month
+    }
+  ),
+
+  createUserMonthFailure: (message) => (
+    {
+      type: 'CREATE_USER_MONTH_FAILURE',
+      message: message
+    }
+  ),
+
   //User actions:
   addPrediction: (gameId, teamName, gameDate) => (
     {

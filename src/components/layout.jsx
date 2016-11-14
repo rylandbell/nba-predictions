@@ -9,6 +9,10 @@ const LayoutComponent = React.createClass({
   //   this.setState(this.getState(newProps));
   //   console.log(newProps.children);
   // },
+  componentDidUpdate: function() {
+    // console.log('LayoutComponent updated')
+    // console.log(this.props.children);
+  },
   render: function () {
     return (
       <div>

@@ -10,7 +10,7 @@
 @import '../vendor/s-alert/slide.css';
 
 body {
-  padding-top: 80px;
+  padding-top: 90px;
 }
 
 .jumbotron {
@@ -87,4 +87,8 @@ body {
 
 .upcoming-picks-table {
   table-layout: fixed;
+}
+
+.upcoming-picks-table .glyphicon{
+  margin-top: 10px;
 }

@@ -8,7 +8,7 @@ import PicksOverviewContainer from '../containers/picks-overview-container.jsx';
 // import StatusMessage from '../status-message.jsx';
 
 const DashboardPage = React.createClass({
-  componentDidMount: function() {
+  componentDidUpdate: function() {
     // this.props.getUserMonthData(this.props.reduxState.activeMonth);
     // this.props.getGameData(this.props.reduxState.activeMonth);
   },
