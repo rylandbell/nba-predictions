@@ -43,7 +43,7 @@ function render() {
               <Route path="/picks/:month/:day" component = {DailyPicksContainer} />
                 <Route path = "*" component={GenericNotFound} />
             </Route>
-            {/*<Route path = "*" component={GenericNotFound} />*/}
+            <Route path = "*" component={GenericNotFound} />
           </Route>
         </Router>
         <Alert />

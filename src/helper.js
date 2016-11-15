@@ -1,7 +1,8 @@
 'use strict';
 
-// import React from 'react';
 import fetch from 'isomorphic-fetch';
+
+
 
 function handleErrors(response) {
   // if (!response.ok) {
@@ -57,6 +58,14 @@ const api = {
     return path
       .split('/')
       .slice(-2);
+  },
+
+  //returns the browser's current path, minus the last step
+  //e.g. sample.com/a/b/c should return '/a/b/'
+  getPathDirectory: function() {
+    const pathnameArray = window.location.pathname.split('/');
+    pathnameArray.pop();
+    return pathnameArray.join('/')+'/';
   }
 };
 

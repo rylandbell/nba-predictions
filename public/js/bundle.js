@@ -138,7 +138,8 @@
 	            { path: '/picks', component: _monthlyPicksContainer2.default },
 	            _react2.default.createElement(_reactRouter.Route, { path: '/picks/:month/:day', component: _dailyPicksContainer2.default }),
 	            _react2.default.createElement(_reactRouter.Route, { path: '*', component: _genericNotFound2.default })
-	          )
+	          ),
+	          _react2.default.createElement(_reactRouter.Route, { path: '*', component: _genericNotFound2.default })
 	        )
 	      ),
 	      _react2.default.createElement(_reactSAlert2.default, null)
@@ -53244,8 +53245,6 @@
 
 	'use strict';
 
-	// import React from 'react';
-
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
@@ -53311,6 +53310,14 @@
 
 	  parseDateFromPath: function parseDateFromPath(path) {
 	    return path.split('/').slice(-2);
+	  },
+
+	  //returns the browser's current path, minus the last step
+	  //e.g. sample.com/a/b/c should return '/a/b/'
+	  getPathDirectory: function getPathDirectory() {
+	    var pathnameArray = window.location.pathname.split('/');
+	    pathnameArray.pop();
+	    return pathnameArray.join('/') + '/';
 	  }
 	};
 
@@ -54857,6 +54864,10 @@
 
 	var _reactRouter = __webpack_require__(488);
 
+	var _helper = __webpack_require__(554);
+
+	var _helper2 = _interopRequireDefault(_helper);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var DayPicker = function DayPicker(_ref) {
@@ -54864,6 +54875,11 @@
 
 	  var prevDay = moment(activeDate).subtract(1, 'days').format('D');
 	  var nextDay = moment(activeDate).add(1, 'days').format('D');
+
+	  //React router doesn't support relative Links, so I construct full-path links:
+	  var currentPath = _helper2.default.getPathDirectory();
+	  var prevDayPath = currentPath + prevDay;
+	  var nextDayPath = currentPath + nextDay;
 
 	  var isFirstOfMonth = moment(activeDate).format('D') === '1';
 	  var isLastOfMonth = moment(activeDate).format('M') !== moment(activeDate).add(1, 'days').format('M');
@@ -54875,7 +54891,7 @@
 	      { className: 'day-picker-container' },
 	      isFirstOfMonth ? null : _react2.default.createElement(
 	        _reactRouter.Link,
-	        { to: prevDay },
+	        { to: prevDayPath },
 	        _react2.default.createElement('span', { className: 'day-picker-item glyphicon glyphicon-menu-left' })
 	      ),
 	      _react2.default.createElement(
@@ -54889,7 +54905,7 @@
 	      ),
 	      isLastOfMonth ? null : _react2.default.createElement(
 	        _reactRouter.Link,
-	        { to: nextDay },
+	        { to: nextDayPath },
 	        _react2.default.createElement('span', { className: 'day-picker-item glyphicon glyphicon-menu-right' })
 	      )
 	    )
