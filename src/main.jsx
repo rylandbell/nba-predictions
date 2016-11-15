@@ -17,6 +17,7 @@ import Layout from './components/layout.jsx';
 import MonthlyPicksContainer from './components/containers/monthly-picks-container.jsx';
 import DailyPicksContainer from './components/containers/daily-picks-container.jsx';
 import DashboardPage from './components/dashboard/dashboard-page.jsx';
+import RulesPanel from './components/dashboard/rules-panel.jsx';
 import GenericNotFound from './components/generic-not-found.jsx';
 
 const store = Redux.createStore(Reducers.app);
@@ -43,6 +44,7 @@ function render() {
               <Route path="/picks/:month/:day" component = {DailyPicksContainer} />
                 <Route path = "*" component={GenericNotFound} />
             </Route>
+            <Route path="/how-to-play" component={RulesPanel} />
             <Route path = "*" component={GenericNotFound} />
           </Route>
         </Router>

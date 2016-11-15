@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import PredictionsSummaryContainer from '../containers/predictions-summary-container.jsx'; 
+import MonthlyPicksSidebarContainer from '../containers/monthly-picks-sidebar-container.jsx'; 
 import StatusMessage from '../status-message.jsx';
 import UserMonthNotFound from './usermonth-not-found.jsx';
 
@@ -22,7 +22,7 @@ const MonthlyPicksPage = React.createClass({
       return (
         <div className={'row '+(this.props.reduxState.isSendingPrediction ? 'send-waiting' : '')}>
           {this.props.children}
-          <PredictionsSummaryContainer reduxState={this.props.reduxState}/>
+          <MonthlyPicksSidebarContainer reduxState={this.props.reduxState}/>
         </div>)
     }
   }

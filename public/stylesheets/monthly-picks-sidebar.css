@@ -1,0 +1,25 @@
+.monthly-picks-sidebar {
+  background-color: #060606;
+}
+
+.monthly-picks-sidebar * {
+  font-weight: bold;
+}
+
+.monthly-picks-sidebar:hover {
+  cursor: pointer;
+}
+
+.monthly-picks-sidebar .team-col {
+  text-align: center;
+}
+
+.monthly-picks-sidebar .date-col {
+  width: 40px;
+  text-align: left;
+}
+
+.monthly-picks-sidebar .outcome-col {
+  width: 40px;
+  text-align: right;
+}

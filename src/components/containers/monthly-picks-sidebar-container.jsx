@@ -3,7 +3,7 @@
 import { connect } from 'react-redux';
 import ActionCreator from '../../action-creators.js';
 
-import PredictionsSummary from '../monthly-picks/predictions-summary/predictions-summary.jsx';
+import MonthlyPicksSidebar from '../monthly-picks/monthly-picks-sidebar/monthly-picks-sidebar.jsx';
 
 const mapStateToProps = (state) => ({
   predictedWinners: state.userMonth.predictedWinners,
@@ -17,9 +17,9 @@ const mapDispatchToProps = (dispatch) => ({
   }
 });
 
-const PredictionsSummaryContainer = connect(
+const MonthlyPicksSidebarContainer = connect(
   mapStateToProps,
   mapDispatchToProps
-)(PredictionsSummary);
+)(MonthlyPicksSidebar);
 
-export default PredictionsSummaryContainer;
+export default MonthlyPicksSidebarContainer;

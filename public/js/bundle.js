@@ -90,15 +90,19 @@
 
 	var _monthlyPicksContainer2 = _interopRequireDefault(_monthlyPicksContainer);
 
-	var _dailyPicksContainer = __webpack_require__(566);
+	var _dailyPicksContainer = __webpack_require__(564);
 
 	var _dailyPicksContainer2 = _interopRequireDefault(_dailyPicksContainer);
 
-	var _dashboardPage = __webpack_require__(573);
+	var _dashboardPage = __webpack_require__(571);
 
 	var _dashboardPage2 = _interopRequireDefault(_dashboardPage);
 
-	var _genericNotFound = __webpack_require__(586);
+	var _rulesPanel = __webpack_require__(583);
+
+	var _rulesPanel2 = _interopRequireDefault(_rulesPanel);
+
+	var _genericNotFound = __webpack_require__(584);
 
 	var _genericNotFound2 = _interopRequireDefault(_genericNotFound);
 
@@ -139,6 +143,7 @@
 	            _react2.default.createElement(_reactRouter.Route, { path: '/picks/:month/:day', component: _dailyPicksContainer2.default }),
 	            _react2.default.createElement(_reactRouter.Route, { path: '*', component: _genericNotFound2.default })
 	          ),
+	          _react2.default.createElement(_reactRouter.Route, { path: '/how-to-play', component: _rulesPanel2.default }),
 	          _react2.default.createElement(_reactRouter.Route, { path: '*', component: _genericNotFound2.default })
 	        )
 	      ),
@@ -54001,7 +54006,6 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var Navbar = function Navbar() {
-	  var todayPath = moment().format('YYYY-MM') + '/' + moment().format('D');
 	  return _react2.default.createElement(
 	    'div',
 	    { className: 'container-fluid' },
@@ -54031,23 +54035,7 @@
 	            { to: '/', className: 'navbar-brand text-primary' },
 	            'Home'
 	          ),
-	          _react2.default.createElement(
-	            'ul',
-	            { className: 'nav nav-pills navbar-nav' },
-	            _react2.default.createElement(
-	              'li',
-	              null,
-	              _react2.default.createElement(
-	                _reactRouter.Link,
-	                { to: "/picks/" + todayPath },
-	                _react2.default.createElement(
-	                  'span',
-	                  { className: 'nav-strong' },
-	                  ' My Picks '
-	                )
-	              )
-	            )
-	          )
+	          _react2.default.createElement('ul', { className: 'nav nav-pills navbar-nav' })
 	        ),
 	        _react2.default.createElement(
 	          'div',
@@ -54055,6 +54043,15 @@
 	          _react2.default.createElement(
 	            'ul',
 	            { className: 'nav navbar-nav navbar-right' },
+	            _react2.default.createElement(
+	              'li',
+	              null,
+	              _react2.default.createElement(
+	                _reactRouter.Link,
+	                { to: '/how-to-play' },
+	                'How to Play '
+	              )
+	            ),
 	            _react2.default.createElement(
 	              'li',
 	              null,
@@ -54187,15 +54184,15 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _predictionsSummaryContainer = __webpack_require__(562);
+	var _monthlyPicksSidebarContainer = __webpack_require__(585);
 
-	var _predictionsSummaryContainer2 = _interopRequireDefault(_predictionsSummaryContainer);
+	var _monthlyPicksSidebarContainer2 = _interopRequireDefault(_monthlyPicksSidebarContainer);
 
-	var _statusMessage = __webpack_require__(565);
+	var _statusMessage = __webpack_require__(562);
 
 	var _statusMessage2 = _interopRequireDefault(_statusMessage);
 
-	var _usermonthNotFound = __webpack_require__(585);
+	var _usermonthNotFound = __webpack_require__(563);
 
 	var _usermonthNotFound2 = _interopRequireDefault(_usermonthNotFound);
 
@@ -54220,7 +54217,7 @@
 	        'div',
 	        { className: 'row ' + (this.props.reduxState.isSendingPrediction ? 'send-waiting' : '') },
 	        this.props.children,
-	        _react2.default.createElement(_predictionsSummaryContainer2.default, { reduxState: this.props.reduxState })
+	        _react2.default.createElement(_monthlyPicksSidebarContainer2.default, { reduxState: this.props.reduxState })
 	      );
 	    }
 	  }
@@ -54230,173 +54227,6 @@
 
 /***/ },
 /* 562 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _reactRedux = __webpack_require__(459);
-
-	var _actionCreators = __webpack_require__(557);
-
-	var _actionCreators2 = _interopRequireDefault(_actionCreators);
-
-	var _predictionsSummary = __webpack_require__(563);
-
-	var _predictionsSummary2 = _interopRequireDefault(_predictionsSummary);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var mapStateToProps = function mapStateToProps(state) {
-	  return {
-	    predictedWinners: state.userMonth.predictedWinners,
-	    activeDate: state.activeDate,
-	    activeMonth: state.activeMonth
-	  };
-	};
-
-	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
-	  return {
-	    goToDate: function goToDate(date) {
-	      dispatch(_actionCreators2.default.goToDate(date));
-	    }
-	  };
-	};
-
-	var PredictionsSummaryContainer = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_predictionsSummary2.default);
-
-		exports.default = PredictionsSummaryContainer;
-
-/***/ },
-/* 563 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _react = __webpack_require__(298);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _predictionsSummaryRow = __webpack_require__(564);
-
-	var _predictionsSummaryRow2 = _interopRequireDefault(_predictionsSummaryRow);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var PredictionsSummary = function PredictionsSummary(_ref) {
-	  var predictedWinners = _ref.predictedWinners;
-	  var activeDate = _ref.activeDate;
-	  var activeMonth = _ref.activeMonth;
-	  var goToDate = _ref.goToDate;
-
-	  var daysInMonth = moment(activeMonth).daysInMonth();
-
-	  var rows = [];
-	  for (var i = 1; i <= daysInMonth; i++) {
-	    rows.push(_react2.default.createElement(_predictionsSummaryRow2.default, { userPrediction: predictedWinners[i], activeDate: activeDate, activeMonth: activeMonth, goToDate: goToDate, dayOfMonth: i, key: i }));
-	  }
-
-	  return _react2.default.createElement(
-	    'div',
-	    { className: 'col-xs-12 col-sm-3 col-md-2 col-sm-offset-1 col-md-offset-1' },
-	    _react2.default.createElement(
-	      'div',
-	      { className: 'text-center lead' },
-	      'Predictions Summary'
-	    ),
-	    _react2.default.createElement(
-	      'table',
-	      { className: 'table table-condensed table-hover predictions-summary' },
-	      _react2.default.createElement(
-	        'tbody',
-	        null,
-	        rows
-	      )
-	    )
-	  );
-	};
-
-	exports.default = PredictionsSummary;
-
-		// {eligibleTeams.map((team, index) => <PredictionsSummaryRow predictedWinners={predictedWinners} date={index} key={index}/>)}
-
-/***/ },
-/* 564 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _react = __webpack_require__(298);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _reactRouter = __webpack_require__(488);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var PredictionsSummaryRow = _react2.default.createClass({
-	  displayName: 'PredictionsSummaryRow',
-
-	  handleClick: function handleClick() {
-	    _reactRouter.browserHistory.push(this.props.dayOfMonth + '');
-	  },
-	  render: function render() {
-	    var isActive = this.props.dayOfMonth == moment(this.props.activeDate).format('D') ? 'active' : '';
-	    var outcomeString = '';
-	    var outcomeClass = '';
-
-	    if (this.props.userPrediction) {
-	      if (this.props.userPrediction.outcome === 'success') {
-	        outcomeString = 'W';
-	        outcomeClass = 'text-success';
-	      } else if (this.props.userPrediction.outcome === 'failure') {
-	        outcomeString = 'L';
-	        outcomeClass = 'text-danger';
-	      }
-	    }
-
-	    if (this.props.userPrediction) {
-	      return _react2.default.createElement(
-	        'tr',
-	        { onClick: this.handleClick, className: isActive },
-	        _react2.default.createElement(
-	          'td',
-	          { className: 'date-col' },
-	          this.props.activeMonth.substring(5, 7) + '/' + this.props.dayOfMonth
-	        ),
-	        _react2.default.createElement(
-	          'td',
-	          { className: 'team-col' },
-	          this.props.userPrediction.teamName ? this.props.userPrediction.teamName : '-'
-	        ),
-	        _react2.default.createElement(
-	          'td',
-	          { className: "outcome-col " + outcomeClass },
-	          outcomeString
-	        )
-	      );
-	    } else {
-	      return null;
-	    }
-	  }
-
-	});
-
-		exports.default = PredictionsSummaryRow;
-
-/***/ },
-/* 565 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -54432,7 +54262,71 @@
 	exports.default = StatusMessage;
 
 /***/ },
-/* 566 */
+/* 563 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(298);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var UserMonthNotFound = function UserMonthNotFound() {
+	  return _react2.default.createElement(
+	    'div',
+	    { className: 'row' },
+	    _react2.default.createElement(
+	      'div',
+	      { className: 'col-xs-12 col-md-6 col-md-offset-3' },
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'panel panel-default' },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'panel-body' },
+	          _react2.default.createElement(
+	            'h4',
+	            null,
+	            'Not Found'
+	          ),
+	          _react2.default.createElement(
+	            'p',
+	            null,
+	            ' Either you\'ve found a bad URL, or you haven\'t yet signed up for the given month. Try ',
+	            _react2.default.createElement(
+	              'a',
+	              { href: '/' },
+	              'going home'
+	            ),
+	            ' to remedy.'
+	          ),
+	          _react2.default.createElement(
+	            'p',
+	            null,
+	            'If you think you\'ve received this message in error, please let me know via my',
+	            _react2.default.createElement(
+	              'a',
+	              { href: 'https://goo.gl/forms/iWjt8lWwQ815G77Y2', target: '_blank' },
+	              ' feedback form'
+	            ),
+	            '.'
+	          )
+	        )
+	      )
+	    )
+	  );
+	};
+
+	exports.default = UserMonthNotFound;
+
+/***/ },
+/* 564 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -54455,7 +54349,7 @@
 
 	var _helper2 = _interopRequireDefault(_helper);
 
-	var _dailyPicks = __webpack_require__(567);
+	var _dailyPicks = __webpack_require__(565);
 
 	var _dailyPicks2 = _interopRequireDefault(_dailyPicks);
 
@@ -54542,7 +54436,7 @@
 		exports.default = DailyPicksContainer;
 
 /***/ },
-/* 567 */
+/* 565 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -54555,11 +54449,11 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _singleDayGameList = __webpack_require__(568);
+	var _singleDayGameList = __webpack_require__(566);
 
 	var _singleDayGameList2 = _interopRequireDefault(_singleDayGameList);
 
-	var _dayPicker = __webpack_require__(572);
+	var _dayPicker = __webpack_require__(570);
 
 	var _dayPicker2 = _interopRequireDefault(_dayPicker);
 
@@ -54591,7 +54485,7 @@
 		exports.default = DailyPicks;
 
 /***/ },
-/* 568 */
+/* 566 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -54604,7 +54498,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _singleGame = __webpack_require__(569);
+	var _singleGame = __webpack_require__(567);
 
 	var _singleGame2 = _interopRequireDefault(_singleGame);
 
@@ -54640,7 +54534,7 @@
 	exports.default = SingleDayGameList;
 
 /***/ },
-/* 569 */
+/* 567 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -54653,11 +54547,11 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _gameTeam = __webpack_require__(570);
+	var _gameTeam = __webpack_require__(568);
 
 	var _gameTeam2 = _interopRequireDefault(_gameTeam);
 
-	var _gameStatus = __webpack_require__(571);
+	var _gameStatus = __webpack_require__(569);
 
 	var _gameStatus2 = _interopRequireDefault(_gameStatus);
 
@@ -54698,7 +54592,7 @@
 	exports.default = SingleGame;
 
 /***/ },
-/* 570 */
+/* 568 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -54772,7 +54666,7 @@
 		exports.default = GameTeam;
 
 /***/ },
-/* 571 */
+/* 569 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -54849,7 +54743,7 @@
 	exports.default = GameStatus;
 
 /***/ },
-/* 572 */
+/* 570 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -54915,7 +54809,7 @@
 	exports.default = DayPicker;
 
 /***/ },
-/* 573 */
+/* 571 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -54928,17 +54822,21 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _standingsContainer = __webpack_require__(574);
+	var _standingsContainer = __webpack_require__(572);
 
 	var _standingsContainer2 = _interopRequireDefault(_standingsContainer);
 
-	var _picksSummaryContainer = __webpack_require__(587);
+	var _picksSummaryContainer = __webpack_require__(577);
 
 	var _picksSummaryContainer2 = _interopRequireDefault(_picksSummaryContainer);
 
+	var _dashboardJumbotron = __webpack_require__(582);
+
+	var _dashboardJumbotron2 = _interopRequireDefault(_dashboardJumbotron);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	// import PredictionsSummaryContainer from '../containers/predictions-summary-container.jsx'; 
+	// import MonthlyPicksSidebarContainer from '../containers/monthly-picks-sidebar-container.jsx'; 
 	// import StatusMessage from '../status-message.jsx';
 
 	var DashboardPage = _react2.default.createClass({
@@ -54958,10 +54856,15 @@
 	    } else {
 	      return _react2.default.createElement(
 	        'div',
-	        { className: 'row' },
+	        { className: 'row full-height-parent' },
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'col-xs-12 col-md-6 col-lg-4' },
+	          { className: 'col-xs-12 col-md-7 col-lg-7 full-height-child full-height-parent' },
+	          _react2.default.createElement(_dashboardJumbotron2.default, null)
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'col-xs-12 col-md-5 col-lg-5' },
 	          _react2.default.createElement(_picksSummaryContainer2.default, null),
 	          _react2.default.createElement(_standingsContainer2.default, null)
 	        )
@@ -54973,7 +54876,7 @@
 		exports.default = DashboardPage;
 
 /***/ },
-/* 574 */
+/* 572 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -54992,7 +54895,7 @@
 
 	var _actionCreators2 = _interopRequireDefault(_actionCreators);
 
-	var _standingsTable = __webpack_require__(575);
+	var _standingsTable = __webpack_require__(573);
 
 	var _standingsTable2 = _interopRequireDefault(_standingsTable);
 
@@ -55034,7 +54937,7 @@
 		exports.default = StandingsContainer;
 
 /***/ },
-/* 575 */
+/* 573 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -55047,15 +54950,15 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _standingsTableHeader = __webpack_require__(576);
+	var _standingsTableHeader = __webpack_require__(574);
 
 	var _standingsTableHeader2 = _interopRequireDefault(_standingsTableHeader);
 
-	var _standingsTableRow = __webpack_require__(577);
+	var _standingsTableRow = __webpack_require__(575);
 
 	var _standingsTableRow2 = _interopRequireDefault(_standingsTableRow);
 
-	var _statusMessage = __webpack_require__(565);
+	var _statusMessage = __webpack_require__(562);
 
 	var _statusMessage2 = _interopRequireDefault(_statusMessage);
 
@@ -55114,7 +55017,7 @@
 		exports.default = StandingsTable;
 
 /***/ },
-/* 576 */
+/* 574 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -55163,7 +55066,7 @@
 		exports.default = StandingsTableHeader;
 
 /***/ },
-/* 577 */
+/* 575 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -55176,7 +55079,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _standingsTableGame = __webpack_require__(578);
+	var _standingsTableGame = __webpack_require__(576);
 
 	var _standingsTableGame2 = _interopRequireDefault(_standingsTableGame);
 
@@ -55223,7 +55126,7 @@
 	exports.default = StandingsTableRow;
 
 /***/ },
-/* 578 */
+/* 576 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -55259,8 +55162,108 @@
 	exports.default = StandingsTableRow;
 
 /***/ },
-/* 579 */,
-/* 580 */
+/* 577 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _reactRedux = __webpack_require__(459);
+
+	var _reactSAlert = __webpack_require__(544);
+
+	var _reactSAlert2 = _interopRequireDefault(_reactSAlert);
+
+	var _moment = __webpack_require__(578);
+
+	var _moment2 = _interopRequireDefault(_moment);
+
+	var _reactRouter = __webpack_require__(488);
+
+	var _actionCreators = __webpack_require__(557);
+
+	var _actionCreators2 = _interopRequireDefault(_actionCreators);
+
+	var _picksSummary = __webpack_require__(579);
+
+	var _picksSummary2 = _interopRequireDefault(_picksSummary);
+
+	var _helper = __webpack_require__(554);
+
+	var _helper2 = _interopRequireDefault(_helper);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var mapStateToProps = function mapStateToProps(state) {
+	  return {
+	    missingUserMonth: state.missingUserMonth,
+	    userMonth: state.userMonth
+	  };
+	};
+
+	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+	  return {
+	    getUserMonthData: function getUserMonthData(month) {
+	      _helper2.default.myFetch('/api/userMonth/' + month, 'GET', {}, function (response) {
+	        dispatch(_actionCreators2.default.receiveUserMonth(response));
+	      }, function (response) {
+	        if (response.message === "No userMonth found") {
+	          dispatch(_actionCreators2.default.requestUserMonthFailure(response.message));
+	        } else {
+	          _reactSAlert2.default.warning('Error: Failed to load user data. ' + response.message, {
+	            position: 'bottom',
+	            effect: 'stackslide',
+	            beep: false,
+	            timeout: 8000,
+	            offset: 0
+	          });
+	        }
+	      });
+	      dispatch(_actionCreators2.default.requestUserMonthWaiting());
+	    },
+	    createNewUserMonth: function createNewUserMonth() {
+	      var month = (0, _moment2.default)().format('YYYY-MM');
+	      var newRequest = {
+	        method: 'POST',
+	        credentials: 'same-origin',
+	        cache: 'default',
+	        body: JSON.stringify({ month: month })
+	      };
+
+	      newRequest.headers = new Headers();
+	      newRequest.headers.append('Content-Type', 'application/json');
+
+	      fetch('/api/userMonth/', newRequest).then(function () {
+	        dispatch(_actionCreators2.default.createUserMonthSuccess(month));
+	        var currentMonth = (0, _moment2.default)().format('YYYY-MM');
+	        var currentDay = (0, _moment2.default)().format('D');
+	        var path = '/picks/' + currentMonth + '/' + currentDay;
+	        _reactRouter.browserHistory.push(path);
+	        return null;
+	      }).catch(function (response) {
+	        _reactSAlert2.default.warning('Error: Failed to load user data. ' + response.message, {
+	          position: 'bottom',
+	          effect: 'stackslide',
+	          beep: false,
+	          timeout: 8000,
+	          offset: 0
+	        });
+	        dispatch(_actionCreators2.default.createUserMonthFailure(response.message));
+	      });
+	      dispatch(_actionCreators2.default.createUserMonthWaiting());
+	    }
+	  };
+	};
+
+	var PicksSummaryContainer = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_picksSummary2.default);
+
+		exports.default = PicksSummaryContainer;
+
+/***/ },
+/* 578 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(module) {//! moment.js
@@ -59500,11 +59503,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(553)(module)))
 
 /***/ },
-/* 581 */,
-/* 582 */,
-/* 583 */,
-/* 584 */,
-/* 585 */
+/* 579 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -59517,244 +59516,15 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var UserMonthNotFound = function UserMonthNotFound() {
-	  return _react2.default.createElement(
-	    'div',
-	    { className: 'row' },
-	    _react2.default.createElement(
-	      'div',
-	      { className: 'col-xs-12 col-md-6 col-md-offset-3' },
-	      _react2.default.createElement(
-	        'div',
-	        { className: 'panel panel-default' },
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'panel-body' },
-	          _react2.default.createElement(
-	            'h4',
-	            null,
-	            'Not Found'
-	          ),
-	          _react2.default.createElement(
-	            'p',
-	            null,
-	            ' Either you\'ve found a bad URL, or you haven\'t yet signed up for the given month. Try ',
-	            _react2.default.createElement(
-	              'a',
-	              { href: '/' },
-	              'going home'
-	            ),
-	            ' to remedy.'
-	          ),
-	          _react2.default.createElement(
-	            'p',
-	            null,
-	            'If you think you\'ve received this message in error, please let me know via my',
-	            _react2.default.createElement(
-	              'a',
-	              { href: 'https://goo.gl/forms/iWjt8lWwQ815G77Y2', target: '_blank' },
-	              ' feedback form'
-	            ),
-	            '.'
-	          )
-	        )
-	      )
-	    )
-	  );
-	};
-
-	exports.default = UserMonthNotFound;
-
-/***/ },
-/* 586 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _react = __webpack_require__(298);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var GenericNotFound = function GenericNotFound() {
-	  return _react2.default.createElement(
-	    'div',
-	    { className: 'row' },
-	    _react2.default.createElement(
-	      'div',
-	      { className: 'col-xs-12 col-md-6 col-md-offset-3' },
-	      _react2.default.createElement(
-	        'div',
-	        { className: 'panel panel-default' },
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'panel-body' },
-	          _react2.default.createElement(
-	            'h4',
-	            null,
-	            'Not Found'
-	          ),
-	          _react2.default.createElement(
-	            'p',
-	            null,
-	            ' It looks like you\'ve either you\'ve followed a bad link or entered a bad URL. Try ',
-	            _react2.default.createElement(
-	              'a',
-	              { href: '/' },
-	              'going home'
-	            ),
-	            ' to remedy.'
-	          ),
-	          _react2.default.createElement(
-	            'p',
-	            null,
-	            ' If you think you\'ve received this message in error, please let me know via my',
-	            _react2.default.createElement(
-	              'a',
-	              { href: 'https://goo.gl/forms/iWjt8lWwQ815G77Y2', target: '_blank' },
-	              ' feedback form'
-	            ),
-	            '. '
-	          )
-	        )
-	      )
-	    )
-	  );
-	};
-
-	exports.default = GenericNotFound;
-
-/***/ },
-/* 587 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _reactRedux = __webpack_require__(459);
-
-	var _reactSAlert = __webpack_require__(544);
-
-	var _reactSAlert2 = _interopRequireDefault(_reactSAlert);
-
-	var _moment = __webpack_require__(580);
-
-	var _moment2 = _interopRequireDefault(_moment);
-
-	var _reactRouter = __webpack_require__(488);
-
-	var _actionCreators = __webpack_require__(557);
-
-	var _actionCreators2 = _interopRequireDefault(_actionCreators);
-
-	var _picksSummary = __webpack_require__(588);
-
-	var _picksSummary2 = _interopRequireDefault(_picksSummary);
-
-	var _helper = __webpack_require__(554);
-
-	var _helper2 = _interopRequireDefault(_helper);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var mapStateToProps = function mapStateToProps(state) {
-	  return {
-	    missingUserMonth: state.missingUserMonth,
-	    userMonth: state.userMonth
-	  };
-	};
-
-	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
-	  return {
-	    getUserMonthData: function getUserMonthData(month) {
-	      _helper2.default.myFetch('/api/userMonth/' + month, 'GET', {}, function (response) {
-	        dispatch(_actionCreators2.default.receiveUserMonth(response));
-	      }, function (response) {
-	        if (response.message === "No userMonth found") {
-	          dispatch(_actionCreators2.default.requestUserMonthFailure(response.message));
-	        } else {
-	          _reactSAlert2.default.warning('Error: Failed to load user data. ' + response.message, {
-	            position: 'bottom',
-	            effect: 'stackslide',
-	            beep: false,
-	            timeout: 8000,
-	            offset: 0
-	          });
-	        }
-	      });
-	      dispatch(_actionCreators2.default.requestUserMonthWaiting());
-	    },
-	    createNewUserMonth: function createNewUserMonth() {
-	      var month = (0, _moment2.default)().format('YYYY-MM');
-	      var newRequest = {
-	        method: 'POST',
-	        credentials: 'same-origin',
-	        cache: 'default',
-	        body: JSON.stringify({ month: month })
-	      };
-
-	      newRequest.headers = new Headers();
-	      newRequest.headers.append('Content-Type', 'application/json');
-
-	      fetch('/api/userMonth/', newRequest).then(function () {
-	        dispatch(_actionCreators2.default.createUserMonthSuccess(month));
-	        var currentMonth = (0, _moment2.default)().format('YYYY-MM');
-	        var currentDay = (0, _moment2.default)().format('D');
-	        var path = '/picks/' + currentMonth + '/' + currentDay;
-	        _reactRouter.browserHistory.push(path);
-	        return null;
-	      }).catch(function (response) {
-	        _reactSAlert2.default.warning('Error: Failed to load user data. ' + response.message, {
-	          position: 'bottom',
-	          effect: 'stackslide',
-	          beep: false,
-	          timeout: 8000,
-	          offset: 0
-	        });
-	        dispatch(_actionCreators2.default.createUserMonthFailure(response.message));
-	      });
-	      dispatch(_actionCreators2.default.createUserMonthWaiting());
-	    }
-	  };
-	};
-
-	var PicksSummaryContainer = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_picksSummary2.default);
-
-		exports.default = PicksSummaryContainer;
-
-/***/ },
-/* 588 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _react = __webpack_require__(298);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _statusMessage = __webpack_require__(565);
+	var _statusMessage = __webpack_require__(562);
 
 	var _statusMessage2 = _interopRequireDefault(_statusMessage);
 
-	var _joinMonth = __webpack_require__(589);
+	var _joinMonth = __webpack_require__(580);
 
 	var _joinMonth2 = _interopRequireDefault(_joinMonth);
 
-	var _upcomingPicks = __webpack_require__(590);
+	var _upcomingPicks = __webpack_require__(581);
 
 	var _upcomingPicks2 = _interopRequireDefault(_upcomingPicks);
 
@@ -59804,7 +59574,7 @@
 		exports.default = PicksSummary;
 
 /***/ },
-/* 589 */
+/* 580 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -59827,7 +59597,7 @@
 	    _react2.default.createElement(
 	      'p',
 	      null,
-	      ' It looks like you haven\'t made any picks yet this month. Click the button below to join the ',
+	      ' Click the button below to join the ',
 	      moment().format('MMMM'),
 	      ' competition: '
 	    ),
@@ -59843,7 +59613,7 @@
 	    _react2.default.createElement(
 	      'p',
 	      null,
-	      ' You are welcome to join at any point in the month. If it\'s too late to be competitive, you can at least get some practice for next month.'
+	      ' You are welcome to join at any point in the month. If it\'s too late to catch up with the other players, you can at least get some practice for next month.'
 	    )
 	  );
 	};
@@ -59851,7 +59621,7 @@
 		exports.default = JoinMonth;
 
 /***/ },
-/* 590 */
+/* 581 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -59950,6 +59720,428 @@
 	});
 
 		exports.default = UpcomingPicks;
+
+/***/ },
+/* 582 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(298);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactRouter = __webpack_require__(488);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var DashboardJumbotron = function DashboardJumbotron() {
+	  return _react2.default.createElement(
+	    'div',
+	    { className: 'jumbotron dashboard-jumbotron full-height-child' },
+	    _react2.default.createElement(
+	      'div',
+	      { className: 'panel panel-default panel-dashboard' },
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'panel-body' },
+	        _react2.default.createElement(
+	          'h5',
+	          { className: 'text-center' },
+	          ' Not sure what\'s happening? Need clarification about the rules?'
+	        ),
+	        _react2.default.createElement(
+	          'h5',
+	          { className: 'text-center' },
+	          ' Check out the ',
+	          _react2.default.createElement(
+	            _reactRouter.Link,
+	            { to: '/how-to-play' },
+	            'How to Play'
+	          ),
+	          ' page.'
+	        )
+	      )
+	    )
+	  );
+	};
+
+		exports.default = DashboardJumbotron;
+
+/***/ },
+/* 583 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(298);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var RulesPanel = function RulesPanel() {
+	  return _react2.default.createElement(
+	    'div',
+	    { className: 'row' },
+	    _react2.default.createElement(
+	      'div',
+	      { className: 'col-xs-12 col-md-8 col-md-offset-2' },
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'panel panel-default rules-panel' },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'panel-heading' },
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'panel-title' },
+	            'How to Play'
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'panel-body' },
+	          _react2.default.createElement(
+	            'h4',
+	            null,
+	            ' The Main Idea: '
+	          ),
+	          _react2.default.createElement(
+	            'ul',
+	            null,
+	            _react2.default.createElement(
+	              'li',
+	              null,
+	              'This is a monthly competition.'
+	            ),
+	            _react2.default.createElement(
+	              'li',
+	              null,
+	              'Pick the winner of one game each day.'
+	            ),
+	            _react2.default.createElement(
+	              'li',
+	              null,
+	              'Pick each team no more than once per month.'
+	            ),
+	            _react2.default.createElement(
+	              'li',
+	              null,
+	              'The player with the most correct picks at the end of the month wins.'
+	            )
+	          ),
+	          _react2.default.createElement(
+	            'h4',
+	            null,
+	            ' So what do I actually do? '
+	          ),
+	          _react2.default.createElement(
+	            'ul',
+	            null,
+	            _react2.default.createElement(
+	              'li',
+	              null,
+	              'Click on the My Picks link on the homepage to view a list of games for each day of the month.'
+	            ),
+	            _react2.default.createElement(
+	              'li',
+	              null,
+	              'Pick a winner by clicking on their logo. If the logo is greyed-out, you have already chosen that team earlier in the month.'
+	            ),
+	            _react2.default.createElement(
+	              'li',
+	              null,
+	              'You can make your picks as you go, or you can pick as far ahead in the month as you like.'
+	            ),
+	            _react2.default.createElement(
+	              'li',
+	              null,
+	              'Picks are finalized once the game actually begins. Until then, you can change your mind as many times as you want.'
+	            )
+	          ),
+	          _react2.default.createElement(
+	            'h4',
+	            null,
+	            ' The Fine Print: '
+	          ),
+	          _react2.default.createElement(
+	            'ul',
+	            null,
+	            _react2.default.createElement(
+	              'li',
+	              null,
+	              'Picks become visible to other players as soon as the game begins.'
+	            ),
+	            _react2.default.createElement(
+	              'li',
+	              null,
+	              'Players are not required to choose a team every day (although it\'s generally advantageous to do so).'
+	            ),
+	            _react2.default.createElement(
+	              'li',
+	              null,
+	              'Losses don\'t affect the standings. For example, a 6-3 player will be listed in front of a 5-0 player.'
+	            ),
+	            _react2.default.createElement(
+	              'li',
+	              null,
+	              'I don\'t yet have a good tie-breaker rule in place. I\'m open to suggestions.'
+	            )
+	          )
+	        )
+	      )
+	    )
+	  );
+	};
+
+		exports.default = RulesPanel;
+
+/***/ },
+/* 584 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(298);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var GenericNotFound = function GenericNotFound() {
+	  return _react2.default.createElement(
+	    'div',
+	    { className: 'row' },
+	    _react2.default.createElement(
+	      'div',
+	      { className: 'col-xs-12 col-md-6 col-md-offset-3' },
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'panel panel-default' },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'panel-body' },
+	          _react2.default.createElement(
+	            'h4',
+	            null,
+	            'Not Found'
+	          ),
+	          _react2.default.createElement(
+	            'p',
+	            null,
+	            ' It looks like you\'ve either you\'ve followed a bad link or entered a bad URL. Try ',
+	            _react2.default.createElement(
+	              'a',
+	              { href: '/' },
+	              'going home'
+	            ),
+	            ' to remedy.'
+	          ),
+	          _react2.default.createElement(
+	            'p',
+	            null,
+	            ' If you think you\'ve received this message in error, please let me know via my',
+	            _react2.default.createElement(
+	              'a',
+	              { href: 'https://goo.gl/forms/iWjt8lWwQ815G77Y2', target: '_blank' },
+	              ' feedback form'
+	            ),
+	            '. '
+	          )
+	        )
+	      )
+	    )
+	  );
+	};
+
+	exports.default = GenericNotFound;
+
+/***/ },
+/* 585 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _reactRedux = __webpack_require__(459);
+
+	var _actionCreators = __webpack_require__(557);
+
+	var _actionCreators2 = _interopRequireDefault(_actionCreators);
+
+	var _monthlyPicksSidebar = __webpack_require__(586);
+
+	var _monthlyPicksSidebar2 = _interopRequireDefault(_monthlyPicksSidebar);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var mapStateToProps = function mapStateToProps(state) {
+	  return {
+	    predictedWinners: state.userMonth.predictedWinners,
+	    activeDate: state.activeDate,
+	    activeMonth: state.activeMonth
+	  };
+	};
+
+	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+	  return {
+	    goToDate: function goToDate(date) {
+	      dispatch(_actionCreators2.default.goToDate(date));
+	    }
+	  };
+	};
+
+	var MonthlyPicksSidebarContainer = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_monthlyPicksSidebar2.default);
+
+		exports.default = MonthlyPicksSidebarContainer;
+
+/***/ },
+/* 586 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(298);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _monthlyPicksSidebarRow = __webpack_require__(587);
+
+	var _monthlyPicksSidebarRow2 = _interopRequireDefault(_monthlyPicksSidebarRow);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var MonthlyPicksSummary = function MonthlyPicksSummary(_ref) {
+	  var predictedWinners = _ref.predictedWinners;
+	  var activeDate = _ref.activeDate;
+	  var activeMonth = _ref.activeMonth;
+	  var goToDate = _ref.goToDate;
+
+	  var daysInMonth = moment(activeMonth).daysInMonth();
+
+	  var rows = [];
+	  for (var i = 1; i <= daysInMonth; i++) {
+	    rows.push(_react2.default.createElement(_monthlyPicksSidebarRow2.default, { userPrediction: predictedWinners[i], activeDate: activeDate, activeMonth: activeMonth, goToDate: goToDate, dayOfMonth: i, key: i }));
+	  }
+
+	  return _react2.default.createElement(
+	    'div',
+	    { className: 'col-xs-12 col-sm-3 col-md-2 col-sm-offset-1 col-md-offset-1' },
+	    _react2.default.createElement(
+	      'div',
+	      { className: 'text-center lead' },
+	      'Predictions Summary'
+	    ),
+	    _react2.default.createElement(
+	      'table',
+	      { className: 'table table-condensed table-hover monthly-picks-sidebar' },
+	      _react2.default.createElement(
+	        'tbody',
+	        null,
+	        rows
+	      )
+	    )
+	  );
+	};
+
+	exports.default = MonthlyPicksSummary;
+
+		// {eligibleTeams.map((team, index) => <MonthlyPicksSidebarRow predictedWinners={predictedWinners} date={index} key={index}/>)}
+
+/***/ },
+/* 587 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(298);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactRouter = __webpack_require__(488);
+
+	var _helper = __webpack_require__(554);
+
+	var _helper2 = _interopRequireDefault(_helper);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var MonthlyPicksSummaryRow = _react2.default.createClass({
+	  displayName: 'MonthlyPicksSummaryRow',
+
+
+	  //HTML doesn't like links on table rows, so I'm using an event handler instead of Link:
+	  handleClick: function handleClick() {
+	    var newPath = _helper2.default.getPathDirectory() + this.props.dayOfMonth;
+	    _reactRouter.browserHistory.push(newPath);
+	  },
+	  render: function render() {
+	    var isActive = this.props.dayOfMonth == moment(this.props.activeDate).format('D') ? 'active' : '';
+	    var outcomeString = '';
+	    var outcomeClass = '';
+
+	    if (this.props.userPrediction) {
+	      if (this.props.userPrediction.outcome === 'success') {
+	        outcomeString = 'W';
+	        outcomeClass = 'text-success';
+	      } else if (this.props.userPrediction.outcome === 'failure') {
+	        outcomeString = 'L';
+	        outcomeClass = 'text-danger';
+	      }
+	    }
+
+	    if (this.props.userPrediction) {
+	      return _react2.default.createElement(
+	        'tr',
+	        { onClick: this.handleClick, className: isActive },
+	        _react2.default.createElement(
+	          'td',
+	          { className: 'date-col' },
+	          this.props.activeMonth.substring(5, 7) + '/' + this.props.dayOfMonth
+	        ),
+	        _react2.default.createElement(
+	          'td',
+	          { className: 'team-col' },
+	          this.props.userPrediction.teamName ? this.props.userPrediction.teamName : '-'
+	        ),
+	        _react2.default.createElement(
+	          'td',
+	          { className: "outcome-col " + outcomeClass },
+	          outcomeString
+	        )
+	      );
+	    } else {
+	      return null;
+	    }
+	  }
+
+	});
+
+		exports.default = MonthlyPicksSummaryRow;
 
 /***/ }
 /******/ ]);

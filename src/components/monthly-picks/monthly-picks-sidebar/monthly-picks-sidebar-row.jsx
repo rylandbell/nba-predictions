@@ -2,10 +2,14 @@
 
 import React from 'react';
 import { browserHistory } from 'react-router';
+import Helper from '../../../helper.js';
 
-const PredictionsSummaryRow = React.createClass({
+const MonthlyPicksSummaryRow = React.createClass({
+
+  //HTML doesn't like links on table rows, so I'm using an event handler instead of Link:
   handleClick: function() {
-    browserHistory.push(this.props.dayOfMonth+'');
+    const newPath = Helper.getPathDirectory() + this.props.dayOfMonth;
+    browserHistory.push(newPath);
   },
   render: function () {
     const isActive = ((this.props.dayOfMonth == moment(this.props.activeDate).format('D')) ? 'active' : '');
@@ -38,4 +42,4 @@ const PredictionsSummaryRow = React.createClass({
 });
 
 
-export default PredictionsSummaryRow;
+export default MonthlyPicksSummaryRow;
