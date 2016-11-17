@@ -55088,36 +55088,25 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	// import MonthlyPicksSidebarContainer from '../containers/monthly-picks-sidebar-container.jsx'; 
-	// import StatusMessage from '../status-message.jsx';
-
 	var DashboardPage = _react2.default.createClass({
 	  displayName: 'DashboardPage',
 
 	  render: function render() {
-	    if (this.props.missingUserMonth) {
-	      return _react2.default.createElement(
-	        'h2',
-	        null,
-	        'No Dice!'
-	      );
-	    } else {
-	      return _react2.default.createElement(
+	    return _react2.default.createElement(
+	      'div',
+	      { className: 'row full-height-parent' },
+	      _react2.default.createElement(
 	        'div',
-	        { className: 'row full-height-parent' },
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'col-xs-12 col-md-7 col-lg-7 full-height-child full-height-parent' },
-	          _react2.default.createElement(_dashboardJumbotron2.default, null)
-	        ),
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'col-xs-12 col-md-5 col-lg-5' },
-	          _react2.default.createElement(_picksSummaryContainer2.default, null),
-	          _react2.default.createElement(_standingsContainer2.default, null)
-	        )
-	      );
-	    }
+	        { className: 'col-xs-12 col-md-7 col-lg-7 full-height-child full-height-parent' },
+	        _react2.default.createElement(_dashboardJumbotron2.default, null)
+	      ),
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'col-xs-12 col-md-5 col-lg-5' },
+	        _react2.default.createElement(_picksSummaryContainer2.default, null),
+	        _react2.default.createElement(_standingsContainer2.default, null)
+	      )
+	    );
 	  }
 	});
 
