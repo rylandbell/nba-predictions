@@ -13,7 +13,7 @@ import Alert from 'react-s-alert';
 import Reducers from './reducers.js';
 import Helper from './helper.js';
 import ActionCreator from './action-creators.js';
-import Layout from './components/layout.jsx';
+import LayoutContainer from './components/containers/layout-container.jsx';
 import MonthlyPicksContainer from './components/containers/monthly-picks-container.jsx';
 import DailyPicksContainer from './components/containers/daily-picks-container.jsx';
 import DashboardPage from './components/dashboard/dashboard-page.jsx';
@@ -38,7 +38,7 @@ function render() {
     <Provider store={store}>
       <div>
         <Router history={browserHistory}>
-          <Route path ="/" component={Layout}>
+          <Route path ="/" component={LayoutContainer}>
             <IndexRoute component={DashboardPage}/>
             <Route path="/picks" component={MonthlyPicksContainer}>
               <Route path="/picks/:month/:day" component = {DailyPicksContainer} />

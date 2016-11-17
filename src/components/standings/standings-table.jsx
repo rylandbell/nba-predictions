@@ -6,10 +6,6 @@ import StandingsTableRow from './standings-table-row.jsx';
 import StatusMessage from '../status-message.jsx';
 
 const StandingsTable = React.createClass({
-  componentDidMount: function() {
-    const currentMonth = moment().format('YYYY-MM');
-    this.props.getStandingsData(currentMonth);
-  },
   render: function() {
     return (
       this.props.isFetchingStandingsData ? 

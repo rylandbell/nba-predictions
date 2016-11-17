@@ -9,10 +9,6 @@ import DashboardJumbotron from './dashboard-jumbotron.jsx';
 // import StatusMessage from '../status-message.jsx';
 
 const DashboardPage = React.createClass({
-  componentDidUpdate: function() {
-    // this.props.getUserMonthData(this.props.reduxState.activeMonth);
-    // this.props.getGameData(this.props.reduxState.activeMonth);
-  },
   render: function() {
     if (this.props.missingUserMonth) {
       return <h2>No Dice!</h2>
