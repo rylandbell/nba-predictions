@@ -35,6 +35,33 @@ body {
   color: #fff;
 }
 
+html,
+body {
+   margin:0;
+   padding:0;
+   height:100%;
+}
+
+.page-container {
+  min-height:100%;
+  position:relative;
+}
+
+.body-container {
+  padding-top:80px;
+  padding-bottom: 120px;   /* Height of the footer */
+}
+
+.footer-container {
+  background-color: #060606;
+  border-top: 1px solid #282828;
+  width: 100%;
+  bottom: 0;
+  position: absolute;
+  min-height: 40px;
+  padding: 5px 10px;
+}
+
 /*My own helper classes:*/
 @media (min-width: 992px) {
   .full-height-parent {
