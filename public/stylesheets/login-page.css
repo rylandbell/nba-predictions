@@ -16,3 +16,15 @@ body {
     display: none;
   }
 }
+
+.btn-caption {
+  margin-top: 8px;
+}
+
+.thumbnails {
+  padding-left: 15px;
+  padding-right: 15px;
+  border-radius: 5px;
+  background-color: black;
+  opacity: 0.75;
+}

@@ -1,5 +1,6 @@
 @import 'single-game.css';
 @import 'standings.css';
+@import 'dashboard.css';
 @import 'day-picker.css';
 @import 'status-message.css';
 @import 'monthly-picks-sidebar.css';
@@ -9,6 +10,7 @@
 @import '../vendor/s-alert/stackslide.css';
 @import '../vendor/s-alert/slide.css';
 
+/*tweaking the Bootstrap theme:*/
 body {
   padding-top: 90px;
 }
@@ -19,12 +21,22 @@ body {
   opacity: 0.9;
 }
 
-@media (min-width: 992px) {
-  .dashboard-jumbotron {
-    background: url('../images/deflated-ball.jpg');
-    background-size: cover;
-  }
+.panel-default {
+  color: #fff;
+}
 
+.panel-black {
+  background-color: #060606;
+}
+
+.panel-title {
+  text-align: center;
+  font-size: 1.4em;
+  color: #fff;
+}
+
+/*My own helper classes:*/
+@media (min-width: 992px) {
   .full-height-parent {
     display: flex;
   }
@@ -35,96 +47,11 @@ body {
   }
 }
 
-@media (max-width: 991px) {
-  .panel-dashboard {
-    margin-bottom: 0;
-    margin-top: 0;
-  }
-  .dashboard-jumbotron {
-    padding: 20px;
-    padding-bottom: 20px;
-    padding-top: 20px;
-  }
-}
-
-.panel-dashboard {
-  opacity: 0.9;
-}
-
-.thumbnails {
-  padding-left: 15px;
-  padding-right: 15px;
-  border-radius: 5px;
-  background-color: black;
-  opacity: 0.75;
-}
-
-.panel-default {
-  color: #fff;
-}
-
-.panel-black {
-  background-color: #060606;
-
-}
-
-.list-group-item {
-  background-color: #060606;
-  border-color: #060606;
-}
-
 .send-waiting, .send-waiting * {
-  cursor: progress !important;
+  cursor: progress;
 }
 
-.panel-title {
-  text-align: center;
-  font-size: 1.4em;
-  color: #fff;
-}
-
-/*~~~~~~~~~~~~~~~~*/
-
-.vert-teams-table * {
-  text-align: center;
-}
-
-.vert-teams-table .selected {
-  /*border: 1px solid #2A9FD6;*/
-  box-shadow: 0 0 0.2em 0.2em #2A9FD6 inset;
-}
-
-.vert-teams-table .player-win {
-  /*border: 1px solid #77B300;*/
-  box-shadow: 0 0 0.2em 0.2em #77B300 inset;
-}
-
-.vert-teams-table .player-loss {
-  /*border: 1px solid #77B300;*/
-  box-shadow: 0 0 0.3em 0.2em #CC0000 inset;
-}
-
-/*~~~~~~~~~~~~~~~*/
-.remaining-teams-table * {
-  text-align: center;
-}
-
-.how-to-play {
-  font-size: 2em;
-}
-
-.btn-caption {
-  margin-top: 8px;
-}
-
-.upcoming-picks-table {
-  table-layout: fixed;
-}
-
-.upcoming-picks-table .glyphicon{
-  margin-top: 10px;
-}
-
+/*Specific components, not enough code to merit a separate file:*/
 .rules-panel {
   font-size: 1.2em;
 }
