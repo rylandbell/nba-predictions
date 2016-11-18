@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "postinstall": "webpack -p --progress --colors",
+    "heroku-postbuild": "webpack -p --config ./webpack.prod.config.js --progress",
     "updateData": "node ./bin/updateByDate.js",
     "build-watch": "watchify -t [babelify] -x react -x react-dom -x redux -x expect -e src/**/main*.js* -e src/misc/*.js -o public/javascripts/bundle.js",
     "build-vendor": "browserify -t [babelify] -r react -r react-dom -r redux -r expect -o /public/javascripts/vendor.js",
