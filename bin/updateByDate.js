@@ -13,7 +13,7 @@ const updateGameAndUserData = (date) => {
   GameData.updateSingleDate(date, UserData.markResults.bind(this, date));
 };
 
-if (process.argv.length>2){
+if (process.argv.length > 2) {
   updateGameAndUserData(process.argv[2]);
 } else {
   //subtract 9 hours from UTC to arrive at a time that is at the end of the recently completed day, which is called 'today'
@@ -29,5 +29,4 @@ if (process.argv.length>2){
   updateGameAndUserData(today);
   updateGameAndUserData(tomorrow);
 }
-
 

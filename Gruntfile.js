@@ -137,6 +137,6 @@ module.exports = function (grunt) {
   });
 
   //register tasks:
-  grunt.registerTask('default', []);
+  // grunt.registerTask('default', []);
   grunt.registerTask('lint', ['jshint', 'jscs:autoFix', 'jscs:showErrors', 'puglint']);
 };
