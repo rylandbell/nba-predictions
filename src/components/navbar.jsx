@@ -3,6 +3,9 @@
 import React from 'react';
 import { Link } from 'react-router';
 
+const fakeTitles = ['Ball Occassionally Lies', 'The Pick & Roll', 'The Pick & Pop', 'Pigeon Hoops Principle', 'Van Gundy\'s Dilemma'];
+const randomTitle = fakeTitles[Math.floor(Math.random()*fakeTitles.length)]
+
 const Navbar = () => {
   // const todayPath = moment().format('YYYY-MM')+'/'+moment().format('D');
   return (
@@ -16,7 +19,7 @@ const Navbar = () => {
               <span className="icon-bar"></span>
               <span className="icon-bar"></span>
             </button>
-            <Link to="/" className="navbar-brand text-primary">Home</Link>
+            <Link to="/" className="navbar-brand text-primary">{randomTitle}</Link>
             <ul className="nav nav-pills navbar-nav">
               {/*<li>
                 <Link to={"/picks/"+todayPath}>

@@ -5,13 +5,10 @@ import React from 'react';
 import Navbar from './navbar.jsx';
 
 const LayoutComponent = React.createClass({
-  // componentWillReceiveProps: function(newProps) {
-  //   this.setState(this.getState(newProps));
-  //   console.log(newProps.children);
-  // },
-  componentDidUpdate: function() {
-    // console.log('LayoutComponent updated')
-    // console.log(this.props.children);
+  componentDidMount: function() {
+    const currentMonth = moment().format('YYYY-MM');
+    this.props.getStandingsData(currentMonth);
+    this.props.getUserMonthData(currentMonth);
   },
   render: function () {
     return (

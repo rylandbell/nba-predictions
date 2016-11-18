@@ -6,8 +6,8 @@ import moment from 'moment';
 import { browserHistory } from 'react-router';
 
 import ActionCreator from '../../action-creators.js';
-import PicksSummary from '../picks-summary/picks-summary.jsx';
 import Helper from '../../helper.js';
+import PicksSummary from '../picks-summary/picks-summary.jsx';
 
 const mapStateToProps = state => ({
   missingUserMonth: state.missingUserMonth,
@@ -15,35 +15,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  getUserMonthData:
-    (month) => {
-      Helper.myFetch(
-        '/api/userMonth/'+month,
-        'GET',
-        {},
-        (response => {
-          dispatch(ActionCreator.receiveUserMonth(response));
-        }),
-        (response => {
-          if (response.message === "No userMonth found") {
-            dispatch(ActionCreator.requestUserMonthFailure(response.message));
-          } else {
-            Alert.warning('Error: Failed to load user data. ' + response.message,
-              {
-                position: 'bottom',
-                effect: 'stackslide',
-                beep: false,
-                timeout: 8000,
-                offset: 0
-              }
-            );
-          }
-        })
-      );
-      dispatch(ActionCreator.requestUserMonthWaiting());
-    },
   createNewUserMonth: 
-    () => {
+    (callback) => {
       const month = moment().format('YYYY-MM');
       const newRequest = {
         method: 'POST',
@@ -57,6 +30,7 @@ const mapDispatchToProps = dispatch => ({
             
       fetch('/api/userMonth/',newRequest)
         .then( () => {
+          callback();
           dispatch(ActionCreator.createUserMonthSuccess(month));
           const currentMonth = moment().format('YYYY-MM');
           const currentDay = moment().format('D');
@@ -77,6 +51,31 @@ const mapDispatchToProps = dispatch => ({
           dispatch(ActionCreator.createUserMonthFailure(response.message));
         });
       dispatch(ActionCreator.createUserMonthWaiting());
+    },
+  getStandingsData:
+    () => {
+      const month = moment().format('YYYY-MM');
+      Helper.myFetch(
+        '/api/userMonth/all-public/'+month,
+        'GET',
+        {},
+        (response => {
+          dispatch(ActionCreator.receiveStandingsData(response));
+        }),
+        (response => {
+          dispatch(ActionCreator.requestStandingsDataFailure());
+          Alert.warning('Error: Failed to load standings data. ' + response.message,
+            {
+              position: 'bottom',
+              effect: 'stackslide',
+              beep: false,
+              timeout: 8000,
+              offset: 0
+            }
+          );
+        })
+      );
+      dispatch(ActionCreator.requestStandingsDataWaiting());
     }
 });
 
