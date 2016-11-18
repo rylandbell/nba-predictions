@@ -5,7 +5,7 @@ const path = require('path');
 
 const PATHS = {
   app: './src/main.jsx',
-  dist: path.join(__dirname, './public/js')
+  dist: path.join(__dirname, './public/build')
 };
  
 module.exports = {
