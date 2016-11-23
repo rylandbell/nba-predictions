@@ -11,7 +11,6 @@ import { Router, Route, IndexRoute, browserHistory } from 'react-router'
 import Alert from 'react-s-alert';
 
 import Reducers from './reducers.js';
-import Helper from './helper.js';
 import ActionCreator from './action-creators.js';
 import LayoutContainer from './components/containers/layout-container.jsx';
 import MonthlyPicksContainer from './components/containers/monthly-picks-container.jsx';
@@ -23,10 +22,12 @@ import GenericNotFound from './components/generic-not-found.jsx';
 const store = Redux.createStore(Reducers.app);
 store.subscribe(render);
 
-//extract date data from URL, pass to Redux store (dateArray has format ['2016-11','9'])
+//pass date data to Redux store if route looks like /picks/2016/:month/:day
 const dateToRedux = function () {
-  let dateArray = Helper.parseDateFromPath(window.location.pathname);
-  store.dispatch(ActionCreator.setActiveDate(dateArray[0],dateArray[1]));
+  let pathArray = window.location.pathname.split('/');
+  if (pathArray[1] === 'picks') {
+    store.dispatch(ActionCreator.setActiveDate(pathArray[2],pathArray[3]));
+  }
 }
 
 //call dateToRedux on initial load, and again whenever the browserHistory updates
