@@ -54,12 +54,6 @@ const api = {
     return moment(dateString + ' ' + timeString, 'YYYY-MM-DD h:mm a').format();
   },
 
-  parseDateFromPath: function(path) {
-    return path
-      .split('/')
-      .slice(-2);
-  },
-
   //returns the browser's current path, minus the last step
   //e.g. sample.com/a/b/c should return '/a/b/'
   getPathDirectory: function() {
