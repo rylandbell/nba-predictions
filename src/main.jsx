@@ -22,8 +22,6 @@ import GenericNotFound from './components/generic-not-found.jsx';
 const store = Redux.createStore(Reducers.app);
 store.subscribe(render);
 
-console.log('webpack testing');
-
 //pass date data to Redux store if route looks like /picks/2016/:month/:day
 const dateToRedux = function () {
   let pathArray = window.location.pathname.split('/');

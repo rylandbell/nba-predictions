@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "heroku-postbuild": "webpack -p --config webpack.config.prod.js --progress",
+    "heroku-postbuild": "webpack --config webpack.config.prod.js --progress",
     "updateData": "node ./bin/updateByDate.js",
     "sass-watch": "sass --watch scss:css"
   },
