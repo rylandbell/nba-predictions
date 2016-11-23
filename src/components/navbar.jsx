@@ -3,11 +3,10 @@
 import React from 'react';
 import { Link } from 'react-router';
 
-const fakeTitles = ['Ball Occassionally Lies', 'The Pick & Roll', 'The Pick & Pop', 'Pigeon Hoops Principle', 'Van Gundy\'s Dilemma'];
+const fakeTitles = ['Ball Occassionally Lies', 'The Pick & Roll', 'The Pick & Pop', 'Pigeon Hoops', 'The Pigeon Hoops Principle', 'The Van Gundy Dilemma'];
 const randomTitle = fakeTitles[Math.floor(Math.random()*fakeTitles.length)]
 
 const Navbar = () => {
-  // const todayPath = moment().format('YYYY-MM')+'/'+moment().format('D');
   return (
     <div className="container-fluid">
       <nav className="navbar navbar-default navbar-fixed-top">
