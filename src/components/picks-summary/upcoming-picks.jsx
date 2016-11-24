@@ -3,6 +3,8 @@
 import React from 'react';
 import { browserHistory } from 'react-router';
 
+import UpcomingPicksTeam from './upcoming-picks-team.jsx';
+
 const getPick = (userMonth, day) => {
   if (userMonth.predictedWinners[day] && userMonth.predictedWinners[day].teamName) {
     return userMonth.predictedWinners[day].teamName.toLowerCase();
@@ -32,16 +34,9 @@ const UpcomingPicks = React.createClass({
           </thead>
           <tbody>
             <tr>
-              <td className="upcoming-picks-team">
-                <div className={"center-block text-center "+getPick(this.props.userMonth,today)}></div>
-              </td>
-              <td className="upcoming-picks-team">
-                <div className={"center-block text-center "+getPick(this.props.userMonth,parseInt(today)+1)}></div>
-              </td>
-              <td className="upcoming-picks-team">
-                <div className={"center-block text-center "+getPick(this.props.userMonth,parseInt(today)+2)}>
-                </div>
-              </td>
+              <UpcomingPicksTeam day={today} userMonth={this.props.userMonth} />
+              <UpcomingPicksTeam day={parseInt(today)+1} userMonth={this.props.userMonth} />
+              <UpcomingPicksTeam day={parseInt(today)+2} userMonth={this.props.userMonth} />
             </tr>
           </tbody>
         </table>
