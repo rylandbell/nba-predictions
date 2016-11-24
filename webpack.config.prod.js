@@ -8,7 +8,6 @@ const PATHS = {
  
 module.exports = {
   devtool: 'source-map',
-  progress: true,
   plugins: [
     new webpack.DefinePlugin({
       'process.env': {
@@ -42,7 +41,8 @@ module.exports = {
         // Don't mangle function names
         keep_fnames: false
       }
-    })
+    }),
+    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)
   ],
   entry: {
     javascript: PATHS.app

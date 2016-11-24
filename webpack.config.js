@@ -8,7 +8,6 @@ const PATHS = {
  
 module.exports = {
   devtool: 'source-map',
-  progress: true;
   plugins: [
     new webpack.DefinePlugin({
       'process.env': {
