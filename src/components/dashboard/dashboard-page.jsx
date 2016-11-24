@@ -6,6 +6,9 @@ import PicksSummaryContainer from '../containers/picks-summary-container.jsx';
 import DashboardJumbotron from './dashboard-jumbotron.jsx';
 
 const DashboardPage = React.createClass({
+  componentDidMount: function() {
+    document.title = document.title.split(' | ')[0] + ' | Dashboard';
+  },
   render: function() {
     return (
       <div className="row full-height-parent">

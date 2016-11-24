@@ -76,7 +76,7 @@ module.exports.reactApp = function (req, res, next) {
 
   var prettyDate = moment(req.params.month).format('MMM YYYY');
   res.render('react-app', {
-    title: 'My Picks: ' + prettyDate,
+    title: 'Pigeon Hoops',
     month: req.params.month,
     loggedIn: true,
     error: req.query.err

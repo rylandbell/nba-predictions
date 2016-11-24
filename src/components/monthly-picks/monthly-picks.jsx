@@ -10,6 +10,7 @@ const MonthlyPicksPage = React.createClass({
   componentDidMount: function() {
     this.props.getUserMonthData(this.props.reduxState.activeMonth);
     this.props.getGameData(this.props.reduxState.activeMonth);
+    document.title = document.title.split(' | ')[0] + ' | My Picks';
   },
   render: function() {
     const isLoading = this.props.reduxState.isFetchingPredictions || this.props.reduxState.isFetchingGameData;
