@@ -20,11 +20,34 @@ import DashboardPage from './components/dashboard/dashboard-page.jsx';
 import RulesPanel from './components/dashboard/rules-panel.jsx';
 import GenericNotFound from './components/generic-not-found.jsx';
 
-if (window.location.pathname !== "/login") {
-  const store = Redux.createStore(Reducers.app);
-  store.subscribe(render);
+const store = Redux.createStore(Reducers.app);
 
-  //pass date data to Redux store if route looks like /picks/2016/:month/:day
+function render() {
+  ReactDOM.render(
+    <Provider store={store}>
+      <div>
+        <Router history={browserHistory}>
+          <Route path ="/" component={LayoutContainer}>
+            <IndexRoute component={DashboardPage}/>
+            <Route path="/picks" component={MonthlyPicksContainer}>
+              <Route path="/picks/:month/:day" component = {DailyPicksContainer} />
+                <Route path = "*" component={GenericNotFound} />
+            </Route>
+            <Route path="/how-to-play" component={RulesPanel} />
+            <Route path = "*" component={GenericNotFound} />
+          </Route>
+        </Router>
+        <Alert />
+      </div>
+    </Provider>,
+    document.getElementById('app-root')
+  );
+}
+
+//don't actually run anything on login page:
+if (window.location.pathname !== "/login") {
+  
+  //pass date data from path to Redux store if current path looks like /picks/2016/:month/:day
   const dateToRedux = function () {
     let pathArray = window.location.pathname.split('/');
     if (pathArray[1] === 'picks') {
@@ -36,28 +59,7 @@ if (window.location.pathname !== "/login") {
   dateToRedux();
   browserHistory.listen(dateToRedux);
 
-  function render() {
-    ReactDOM.render(
-      <Provider store={store}>
-        <div>
-          <Router history={browserHistory}>
-            <Route path ="/" component={LayoutContainer}>
-              <IndexRoute component={DashboardPage}/>
-              <Route path="/picks" component={MonthlyPicksContainer}>
-                <Route path="/picks/:month/:day" component = {DailyPicksContainer} />
-                  <Route path = "*" component={GenericNotFound} />
-              </Route>
-              <Route path="/how-to-play" component={RulesPanel} />
-              <Route path = "*" component={GenericNotFound} />
-            </Route>
-          </Router>
-          <Alert />
-        </div>
-      </Provider>,
-      document.getElementById('app-root')
-    );
-  }
-
+  store.subscribe(render);
   render();
 }
 

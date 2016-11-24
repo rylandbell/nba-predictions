@@ -17,7 +17,7 @@ const StandingsTable = React.createClass({
         </div>
         <div className="panel-body">
           <div className="standings-wrapper">
-            <table className="table table-hover table-bordered standings-table">
+            <table className="table table-bordered standings-table">
               <StandingsTableHeader />
               <tbody>
                 {this.props.standingsData.map(
