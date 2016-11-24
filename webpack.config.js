@@ -7,7 +7,8 @@ const PATHS = {
 };
  
 module.exports = {
-  devtool: 'cheap-module-source-map',
+  devtool: 'source-map',
+  progress: true;
   plugins: [
     new webpack.DefinePlugin({
       'process.env': {
