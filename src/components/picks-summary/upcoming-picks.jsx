@@ -5,14 +5,6 @@ import { browserHistory } from 'react-router';
 
 import UpcomingPicksTeam from './upcoming-picks-team.jsx';
 
-const getPick = (userMonth, day) => {
-  if (userMonth.predictedWinners[day] && userMonth.predictedWinners[day].teamName) {
-    return userMonth.predictedWinners[day].teamName.toLowerCase();
-  } else {
-    return "glyphicon glyphicon-minus"
-  }
-};
-
 const UpcomingPicks = React.createClass({
   handleClick: function () {
     const currentMonth = moment().format('YYYY-MM');

@@ -13,14 +13,14 @@ const getPick = (userMonth, day) => {
 
 const UpcomingPicksTeam = React.createClass({
   handleClick: function () {
-    // const currentMonth = moment().format('YYYY-MM');
-    // const currentDay = moment().format('D');
-    // const path = `/picks/${currentMonth}/${currentDay}`;
-    // browserHistory.push(path);
+    const currentMonth = moment().format('YYYY-MM');
+    const pickDay = this.props.day;
+    const path = `/picks/${currentMonth}/${pickDay}`;
+    browserHistory.push(path);
   },
   render: function() {
     return (
-      <td className="upcoming-picks-team">
+      <td className="upcoming-picks-team" onClick={this.handleClick}>
         <div className={"center-block text-center "+getPick(this.props.userMonth,this.props.day)}></div>
       </td>
     );
