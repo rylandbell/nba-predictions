@@ -1,8 +1,7 @@
 'use strict';
 
 import fetch from 'isomorphic-fetch';
-
-
+import moment from 'moment';
 
 function handleErrors(response) {
   // if (!response.ok) {

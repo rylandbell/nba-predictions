@@ -1,6 +1,8 @@
 'use strict';
 
 import React from 'react';
+import moment from 'moment';
+
 import StandingsTableGame from './standings-table-game';
 
 const StandingsTableRow = ({player}) => {

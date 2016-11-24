@@ -1,6 +1,8 @@
 'use strict';
 
 import React from 'react';
+import moment from 'moment';
+
 import StandingsTableHeader from './standings-table-header.jsx';
 import StandingsTableRow from './standings-table-row.jsx';
 import StatusMessage from '../status-message.jsx';

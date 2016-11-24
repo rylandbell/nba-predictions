@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { browserHistory } from 'react-router';
+import moment from 'moment';
 
 const getPick = (userMonth, day) => {
   if (userMonth.predictedWinners[day] && userMonth.predictedWinners[day].teamName) {

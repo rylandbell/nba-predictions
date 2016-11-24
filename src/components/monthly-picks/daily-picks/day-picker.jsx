@@ -2,6 +2,8 @@
 
 import React from 'react';
 import { Link } from 'react-router';
+import moment from 'moment';
+
 import Helper from '../../../helper.js';
 
 const DayPicker = ({activeDate}) => {

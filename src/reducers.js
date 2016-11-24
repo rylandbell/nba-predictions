@@ -114,14 +114,6 @@ const eligibleTeams = (state = [], action) => {
     case 'SEND_PREDICTION_SUCCESS':
       chosenTeams = _.values(action.response.predictedWinners).map(obj=>obj.teamName);
       return _.difference(teams, chosenTeams).sort();
-    // case 'MARK_ELIGIBLE':
-    //   if(action.teamName){
-    //     return state.concat([action.teamName]).sort();
-    //   } else {
-    //     return state;
-    //   }
-    // case 'MARK_INELIGIBLE':
-    //   return _.without(state,action.teamName).sort();
     default:
       return state;
   }
@@ -133,19 +125,6 @@ const predictedWinners = (state = {}, action) => {
       return Object.assign({},action.response.userMonth.predictedWinners);
     case 'SEND_PREDICTION_SUCCESS':
       return Object.assign({}, action.response.predictedWinners);
-    // case 'ADD_PREDICTION': {
-    //   const date = moment(action.gameDate).format('D');
-    //   const team = action.teamName;
-    //   const update = {};
-    //   update[date] = Object.assign({}, state[date], {teamName: team});
-    //   return Object.assign({}, state, update);
-    // }
-    // case 'REMOVE_PREDICTION': {
-    //   const date = moment(action.gameDate).format('D');
-    //   const update = {};
-    //   update[date] = Object.assign({}, state[date], {teamName: null});
-    //   return Object.assign({}, state, update);
-    // }
     default:
       return state;
   }
@@ -169,7 +148,6 @@ const gamesByDay = (state = [], action) => {
 const standingsData = (state=[], action) => {
   switch(action.type) {
     case 'RECEIVE_STANDINGS_DATA':
-      // return action.response;
       return _.sortBy(action.response, [function(obj) { return obj.standingsData.winCount; }])
         .reverse();
     default:
