@@ -32,13 +32,13 @@ const UpcomingPicks = React.createClass({
           </thead>
           <tbody>
             <tr>
-              <td>
+              <td className="upcoming-picks-team">
                 <div className={"center-block text-center "+getPick(this.props.userMonth,today)}></div>
               </td>
-              <td>
+              <td className="upcoming-picks-team">
                 <div className={"center-block text-center "+getPick(this.props.userMonth,parseInt(today)+1)}></div>
               </td>
-              <td>
+              <td className="upcoming-picks-team">
                 <div className={"center-block text-center "+getPick(this.props.userMonth,parseInt(today)+2)}>
                 </div>
               </td>

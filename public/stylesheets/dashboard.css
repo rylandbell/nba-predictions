@@ -25,6 +25,11 @@
   table-layout: fixed;
 }
 
+.upcoming-picks-team:hover {
+  cursor: pointer;
+  background-color: #282828;
+}
+
 .upcoming-picks-table .glyphicon{
   margin-top: 10px;
 }
