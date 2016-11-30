@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react';
+import moment from 'moment';
 
 import StandingsTableHeader from './standings-table-header.jsx';
 import StandingsTableRow from './standings-table-row.jsx';
@@ -13,10 +14,9 @@ const StandingsTable = React.createClass({
   },
   render: function() {
     return (
-      
       <div className="panel panel-default panel-black">
         <div className="panel-heading">
-          <div className="panel-title">Monthly Standings</div>
+          <div className="panel-title">{moment(this.props.selectedStandingsMonth).format('MMMM YYYY')} Standings</div>
         </div>
         <div className="panel-body">
           
@@ -40,7 +40,7 @@ const StandingsTable = React.createClass({
           {this.props.monthList && this.props.monthList.length>1 ?
             <div>
               <hr />
-              <StandingsMonthSelector getStandingsData={this.props.getStandingsData} monthList={this.props.monthList} />
+              <StandingsMonthSelector getStandingsData={this.props.getStandingsData} setStandingsMonth={this.props.setStandingsMonth} selectedStandingsMonth={this.props.selectedStandingsMonth} monthList={this.props.monthList} />
             </div>
             : null
           }

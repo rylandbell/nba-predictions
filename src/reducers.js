@@ -4,6 +4,7 @@
 
 const Redux = require('redux');
 import _ from 'lodash';
+import moment from 'moment';
 
 const teams = ['ATL', 'BKN', 'BOS', 'CHA', 'CHI', 'CLE', 'DAL', 'DEN', 'DET', 'GSW', 'HOU', 'IND', 'LAC', 'LAL', 'MEM', 'MIA', 'MIL', 'MIN', 'NOP', 'NYK', 'OKC', 'ORL', 'PHI', 'PHX', 'POR', 'SAC', 'SAS', 'TOR', 'UTA', 'WAS'];
 
@@ -168,6 +169,15 @@ const standingsData = (state=[], action) => {
   }
 };
 
+const selectedStandingsMonth = (state=moment().format('YYYY-MM'), action) => {
+  switch(action.type) {
+    case 'SET_STANDINGS_MONTH':
+      return action.month
+    default:
+      return state;
+  }
+}
+
 //List of months for which the current user has participated. Always includes current month.
 const monthList = (state=[], action) => {
   switch(action.type) {
@@ -181,6 +191,7 @@ const monthList = (state=[], action) => {
 const api = {
   app: Redux.combineReducers({
     monthList,
+    selectedStandingsMonth,
     standingsData,
     isFetchingGameData,
     isFetchingStandingsData,

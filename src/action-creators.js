@@ -42,6 +42,14 @@ const api = {
     }
   ),
 
+  //Set standings month from pulldown menu
+  setStandingsMonth: month => (
+    {
+      type: 'SET_STANDINGS_MONTH',
+      month: month
+    }
+  ),
+
   //GET standings data
   requestStandingsDataWaiting: () => (
     {

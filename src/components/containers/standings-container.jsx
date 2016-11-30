@@ -11,11 +11,16 @@ import StandingsTable from '../standings/standings-table.jsx';
 
 const mapStateToProps = state => ({
   monthList: state.monthList,
+  selectedStandingsMonth: state.selectedStandingsMonth,
   standingsData: state.standingsData,
   isFetchingStandingsData: state.isFetchingStandingsData
 });
 
 const mapDispatchToProps = dispatch => ({
+  setStandingsMonth:
+    (month) => {
+      dispatch(ActionCreator.setStandingsMonth(month))
+    },
   getStandingsData:
     (month) => {
       Helper.myFetch(
