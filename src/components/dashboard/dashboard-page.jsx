@@ -12,10 +12,10 @@ const DashboardPage = React.createClass({
   render: function() {
     return (
       <div className="row full-height-parent">
-        <div className="col-xs-12 col-md-7 col-lg-7 full-height-child full-height-parent">
+        <div className="col-xs-12 col-sm-5 col-md-7 col-lg-7 full-height-child full-height-parent">
           <DashboardJumbotron />
         </div>
-        <div className="col-xs-12 col-md-5 col-lg-5">
+        <div className="col-xs-12 col-sm-7 col-md-5 col-lg-5">
           <PicksSummaryContainer />
           <StandingsContainer />
         </div>

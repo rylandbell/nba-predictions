@@ -1,4 +1,4 @@
-@media (min-width: 992px) {
+@media (min-width: 768px) {
   .dashboard-jumbotron {
     background: url('../images/deflated-ball.jpg');
     background-size: cover;
@@ -6,15 +6,24 @@
   }
 }
 
+/*@media (min-width: 768px) {
+  .dashboard-jumbotron {
+    background: url('../images/deflated-ball.jpg');
+    background-size: cover;
+    min-height: 300px;
+  }
+}*/
+
 @media (max-width: 991px) {
   .panel-dashboard {
     margin-bottom: 0;
     margin-top: 0;
   }
   .dashboard-jumbotron {
-    padding: 20px;
+    padding-left: 10px !important;
+    padding-right: 10px !important;
     padding-bottom: 20px;
-    padding-top: 20px;
+    padding-top: 30px !important;
   }
 }
 
