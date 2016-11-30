@@ -5,8 +5,8 @@ import moment from 'moment';
 
 const StandingsMonthSelector = React.createClass({
   handleChange: function(event) {
+    this.props.getStandingsData(event.target.value);
     this.props.setStandingsMonth(event.target.value);
-    this.props.getStandingsData(this.props.selectedStandingsMonth);
   },
   render: function() {
     return (
