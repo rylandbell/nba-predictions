@@ -15,7 +15,7 @@ const StandingsTableHeader = ({selectedStandingsMonth}) => (
         <th className="text-center">
           {moment().format('MMM D')}
         </th>
-        <th className="text-center">
+        <th className="text-center hidden-xs">
           {moment().subtract(1,'days').format('MMM D')}
         </th>
       </tr>

@@ -19,7 +19,7 @@ const StandingsTableRow = ({player, selectedStandingsMonth}) => {
         <td>
           <StandingsTableGame game={player.predictedWinners[todayNumber]}/>
         </td>
-        <td>
+        <td className="hidden-xs">
           <StandingsTableGame game={player.predictedWinners[todayNumber-1]||{}}/>
         </td>
       </tr>
