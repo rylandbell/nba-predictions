@@ -8,6 +8,9 @@ import StandingsMonthSelector from './standings-month-selector.jsx';
 import StatusMessage from '../status-message.jsx';
 
 const StandingsTable = React.createClass({
+  componentDidMount: function() {
+    this.props.getMonthsList();
+  },
   render: function() {
     return (
       
@@ -16,7 +19,7 @@ const StandingsTable = React.createClass({
           <div className="panel-title">Monthly Standings</div>
         </div>
         <div className="panel-body">
-          <StandingsMonthSelector getStandingsData={this.props.getStandingsData}/>
+          
           {this.props.isFetchingStandingsData ? 
             <StatusMessage messageBold={'Loading standings data...'} messageBody={'Just hang tight.'} messageClass={'info'}/>
           :
@@ -34,6 +37,8 @@ const StandingsTable = React.createClass({
               <div className="small text-center">Today's picks appear in the standings as soon as the picked game begins. </div>
             </div>
           }
+          <hr />
+          <StandingsMonthSelector getStandingsData={this.props.getStandingsData} monthList={this.props.monthList} />
         </div>
       </div>
     )

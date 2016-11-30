@@ -61,6 +61,19 @@ const isFetchingStandingsData = (state = false, action) => {
   }
 };
 
+const isFetchingMonthList = (state = false, action) => {
+  switch(action.type){
+    case 'REQUEST_MONTH_LIST_WAITING':
+      return true;
+    case 'RECEIVE_MONTH_LIST':
+      return false;
+    case 'REQUEST_MONTH_LIST_FAILURE':
+      return false;
+    default:
+      return state;
+  }
+};
+
 const isSendingPrediction = (state = false, action) => {
   switch(action.type){
     case 'SEND_PREDICTION_WAITING':
@@ -153,13 +166,25 @@ const standingsData = (state=[], action) => {
     default:
       return state;
   }
-}
+};
+
+//List of months for which the current user has participated. Always includes current month.
+const monthList = (state=[], action) => {
+  switch(action.type) {
+    case 'RECEIVE_MONTH_LIST':
+      return action.list;
+    default:
+      return state;
+  }
+};
 
 const api = {
   app: Redux.combineReducers({
+    monthList,
     standingsData,
     isFetchingGameData,
     isFetchingStandingsData,
+    isFetchingMonthList,
     isFetchingPredictions,
     isSendingPrediction,
     missingUserMonth,

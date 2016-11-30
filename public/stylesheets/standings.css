@@ -20,3 +20,7 @@
 .w-l-column {
   min-width: 54px;
 }
+
+#standings-month-selector__label {
+  /*text-align: center;*/
+}

@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react';
+import moment from 'moment';
 
 const StandingsMonthSelector = React.createClass({
   handleChange: function(event) {
@@ -11,11 +12,12 @@ const StandingsMonthSelector = React.createClass({
       <form role="form" className="form-horizontal">
         <fieldset>
           <div className="form-group">
-            <label className="col-sm-3 col-md-5 col-lg-4 control-label">Select a month:</label>
-            <div className="col-sm-9 col-md-7 col-lg-8">
+            <label className="col-sm-3 col-md-5 col-lg-offset-1 col-lg-4 control-label" id="standings-month-selector__label">Select a month:</label>
+            <div className="col-sm-9 col-md-7 col-lg-5">
               <select className="form-control" onChange={this.handleChange}>
-                <option value="2016-11">November 2016</option>
-                <option value="2016-10">October 2016</option>
+                {this.props.monthList.map(
+                  (month,key) => <option value={month} key={key}>{moment(month).format('MMMM YYYY')}</option>)
+                }
               </select>
             </div>
           </div>

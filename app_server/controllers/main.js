@@ -7,7 +7,7 @@ var _ = require('lodash');
 var updateData = require('../../bin/updateDataFunction.js');
 
 //don't run updateData more than once per minute:
-var throttledUpdateData = _.throttle(updateData, 60000, { leading: true });
+var throttledUpdateData = _.throttle(updateData, 60*1000, { leading: true });
 
 var apiOptions = {
   server: 'http://localhost:3000'
