@@ -37,8 +37,13 @@ const StandingsTable = React.createClass({
               <div className="small text-center">Today's picks appear in the standings as soon as the picked game begins. </div>
             </div>
           }
-          <hr />
-          <StandingsMonthSelector getStandingsData={this.props.getStandingsData} monthList={this.props.monthList} />
+          {this.props.monthList && this.props.monthList.length>1 ?
+            <div>
+              <hr />
+              <StandingsMonthSelector getStandingsData={this.props.getStandingsData} monthList={this.props.monthList} />
+            </div>
+            : null
+          }
         </div>
       </div>
     )
