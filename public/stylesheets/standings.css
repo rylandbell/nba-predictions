@@ -21,6 +21,30 @@
   min-width: 54px;
 }
 
-#standings-month-selector__label {
-  /*text-align: center;*/
+.standings-month-selector {
+  display: flex;
+  padding: 10px;
+}
+@media (min-width: 992px) {
+  .standings-month-selector__label {
+    margin-right: 10px;
+    margin-top: 5px;
+    flex: 1;
+  }
+
+  .standings-month-selector__select {
+    flex: 2;
+  }
+}
+
+@media (max-width: 991px) {
+  .standings-month-selector__label {
+    margin-right: 10px;
+    margin-top: 5px;
+    flex: 1;
+  }
+
+  .standings-month-selector__select {
+    flex: 3;
+  }
 }

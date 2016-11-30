@@ -10,17 +10,15 @@ const StandingsMonthSelector = React.createClass({
   },
   render: function() {
     return (
-      <form role="form" className="form-horizontal">
+      <form role="form" className="form">
         <fieldset>
-          <div className="form-group">
-            <label className="col-sm-3 col-md-5 col-lg-offset-1 col-lg-4 control-label" id="standings-month-selector__label">Select a month:</label>
-            <div className="col-sm-9 col-md-7 col-lg-5">
-              <select className="form-control" onChange={this.handleChange}>
-                {this.props.monthList.map(
-                  (month,key) => <option value={month} key={key}>{moment(month).format('MMMM YYYY')}</option>)
-                }
-              </select>
-            </div>
+          <div className="form-group standings-month-selector">
+            <label className="control-label standings-month-selector__label">Select a month:</label>
+            <select className="form-control standings-month-selector__select" onChange={this.handleChange}>
+              {this.props.monthList.map(
+                (month,key) => <option value={month} key={key}>{moment(month).format('MMMM YYYY')}</option>)
+              }
+            </select>
           </div>
         </fieldset>
       </form>
