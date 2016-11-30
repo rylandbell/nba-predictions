@@ -26,10 +26,10 @@ const StandingsTable = React.createClass({
             <div>
               <div className="standings-wrapper">
                 <table className="table table-bordered standings-table">
-                  <StandingsTableHeader />
+                  <StandingsTableHeader selectedStandingsMonth={this.props.selectedStandingsMonth}/>
                   <tbody>
                     {this.props.standingsData.map(
-                        (player,key) => <StandingsTableRow player={player} key={key} />                    
+                        (player,key) => <StandingsTableRow player={player} key={key} selectedStandingsMonth={this.props.selectedStandingsMonth}/>                    
                     )}
                   </tbody>
                 </table>
