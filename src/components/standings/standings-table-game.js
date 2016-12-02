@@ -3,7 +3,7 @@
 import React from 'react';
 
 const StandingsTableRow = ({game}) => {
-  const teamNameClass = game.teamName ? game.teamName.toLowerCase() : '';
+  const teamNameClass = game.teamName ? game.teamName.toLowerCase() : 'glyphicon glyphicon-minus text-center';
   let outcomeClass = '';
   if (game.outcome === 'success') {
     outcomeClass = 'standings-victory-team';

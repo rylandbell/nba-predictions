@@ -1,7 +1,12 @@
 .standings-team {
   padding: 2px;
-  font-size: 1.4em;
+  /*font-size: 1.4em;*/
   border-radius: 5px;
+}
+
+.standings-team .glyphicon {
+  margin-top: 6px;
+  color: #888;
 }
 
 .standings-victory-team {
