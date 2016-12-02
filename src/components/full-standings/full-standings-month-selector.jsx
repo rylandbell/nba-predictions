@@ -3,7 +3,7 @@
 import React from 'react';
 import moment from 'moment';
 
-const StandingsMonthSelector = React.createClass({
+const FullStandingsMonthSelector = React.createClass({
   handleChange: function(event) {
     this.props.getStandingsData(event.target.value);
     this.props.setStandingsMonth(event.target.value);
@@ -16,7 +16,7 @@ const StandingsMonthSelector = React.createClass({
             <label className="control-label standings-month-selector__label">Select a month:</label>
             <select className="form-control standings-month-selector__select" onChange={this.handleChange}>
               {this.props.monthList.map(
-                (month,key) => <option value={month} key={key} selected={month===this.props.selectedStandingsMonth}>{moment(month).format('MMMM YYYY') }</option>)
+                (month,key) => <option value={month} key={key} selected={month===this.props.selectedStandingsMonth}>{moment(month).format('MMMM YYYY')}</option>)
               }
             </select>
           </div>
@@ -26,4 +26,4 @@ const StandingsMonthSelector = React.createClass({
   }
 });
 
-export default StandingsMonthSelector;
+export default FullStandingsMonthSelector;

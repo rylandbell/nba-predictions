@@ -48,3 +48,8 @@
     flex: 3;
   }
 }
+
+.full-standings-scrollspace {
+  white-space:nowrap;
+  overflow-x: auto;
+}
