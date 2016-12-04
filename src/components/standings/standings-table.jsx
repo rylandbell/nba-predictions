@@ -2,6 +2,7 @@
 
 import React from 'react';
 import moment from 'moment';
+import { browserHistory } from 'react-router';  
 
 import StandingsTableHeader from './standings-table-header.jsx';
 import StandingsTableRow from './standings-table-row.jsx';
@@ -12,6 +13,10 @@ const StandingsTable = React.createClass({
   componentDidMount: function() {
     this.props.getMonthsList();
   },
+  handleClick: function () {
+    const path = '/standings';
+    browserHistory.push(path);
+  },
   render: function() {
     return (
       <div className="panel panel-default panel-black">
@@ -19,7 +24,12 @@ const StandingsTable = React.createClass({
           <div className="panel-title">{moment(this.props.selectedStandingsMonth).format('MMMM YYYY')} Standings</div>
         </div>
         <div className="panel-body">
-          
+          <p className="text-center"> 
+            View all results for the month&nbsp;
+            <a href="#" onClick={this.handleClick}>here</a>
+            .
+          </p>
+
           {this.props.isFetchingStandingsData ? 
             <StatusMessage messageBold={'Loading standings data...'} messageBody={'Just hang tight.'} messageClass={'info'}/>
           :
