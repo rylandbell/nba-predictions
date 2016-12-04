@@ -23,21 +23,25 @@ import GenericNotFound from './components/generic-not-found.jsx';
 
 const store = Redux.createStore(Reducers.app);
 
+const routes = (
+  <Route path ="/" component={LayoutContainer}>
+    <IndexRoute component={DashboardPage}/>
+    <Route path="/picks" component={MonthlyPicksContainer}>
+      <Route path="/picks/:month/:day" component = {DailyPicksContainer} />
+        <Route path = "*" component={GenericNotFound} />
+    </Route>
+    <Route path="/standings" component = {FullStandingsPageContainer} />
+    <Route path="/how-to-play" component={RulesPanel} />
+    <Route path = "*" component={GenericNotFound} />
+  </Route>
+);
+
 function render() {
   ReactDOM.render(
     <Provider store={store}>
       <div>
         <Router history={browserHistory}>
-          <Route path ="/" component={LayoutContainer}>
-            <IndexRoute component={DashboardPage}/>
-            <Route path="/picks" component={MonthlyPicksContainer}>
-              <Route path="/picks/:month/:day" component = {DailyPicksContainer} />
-                <Route path = "*" component={GenericNotFound} />
-            </Route>
-            <Route path="/standings" component = {FullStandingsPageContainer} />
-            <Route path="/how-to-play" component={RulesPanel} />
-            <Route path = "*" component={GenericNotFound} />
-          </Route>
+          {routes}
         </Router>
         <Alert />
       </div>
