@@ -28,7 +28,6 @@ const mapDispatchToProps = dispatch => ({
         'GET',
         {},
         (response => {
-          console.log(response);
           dispatch(ActionCreator.receiveStandingsData(response));
         }),
         (response => {

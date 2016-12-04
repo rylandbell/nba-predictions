@@ -20,8 +20,8 @@ const FullStandingsRow = ({player, selectedStandingsMonth}) => {
           <h5>{player.standingsData.winCount + '-' + player.standingsData.lossCount}</h5>
         </td>
         {daysArray.map((day, key) => 
-          <td>
-            <StandingsTableGame game={player.predictedWinners[day]} key={key}/>
+          <td key={key}>
+            <StandingsTableGame game={player.predictedWinners[day]} />
           </td>
         )}
       </tr>
