@@ -21,8 +21,10 @@ const FullStandingsPage = React.createClass({
         </div>
         <div className="panel-body">
           {this.props.monthList && this.props.monthList.length>1 ?
-            <div>
-              <FullStandingsMonthSelector getStandingsData={this.props.getStandingsData} setStandingsMonth={this.props.setStandingsMonth} selectedStandingsMonth={this.props.selectedStandingsMonth} monthList={this.props.monthList} />
+            <div className="row">
+              <div className="col-xs-12 col-sm-8 col-sm-offset-2">
+                <FullStandingsMonthSelector getStandingsData={this.props.getStandingsData} setStandingsMonth={this.props.setStandingsMonth} selectedStandingsMonth={this.props.selectedStandingsMonth} monthList={this.props.monthList} />
+              </div>
             </div>
             : null
           }

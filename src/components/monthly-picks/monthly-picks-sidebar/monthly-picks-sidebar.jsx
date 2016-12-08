@@ -17,9 +17,9 @@ const MonthlyPicksSummary = ({predictedWinners, activeDate, activeMonth, goToDat
 
   return  (
     <div className="col-xs-12 col-sm-3 col-md-2 col-sm-offset-1 col-md-offset-1">
-      <div className="text-center lead">
-        Predictions Summary
-      </div>
+      <h5 className="text-center">
+        {moment(activeMonth).format('MMM YYYY')}
+      </h5>
       <table className="table table-condensed table-hover monthly-picks-sidebar">
         <tbody>
           {rows}
