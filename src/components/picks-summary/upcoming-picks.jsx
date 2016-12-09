@@ -28,8 +28,8 @@ const UpcomingPicks = React.createClass({
           <tbody>
             <tr>
               <UpcomingPicksTeam day={today} userMonth={this.props.userMonth} />
-              <UpcomingPicksTeam day={parseInt(today)+1} userMonth={this.props.userMonth} />
-              <UpcomingPicksTeam day={parseInt(today)+2} userMonth={this.props.userMonth} />
+              <UpcomingPicksTeam day={parseInt(today, 10)+1} userMonth={this.props.userMonth} />
+              <UpcomingPicksTeam day={parseInt(today, 10)+2} userMonth={this.props.userMonth} />
             </tr>
           </tbody>
         </table>

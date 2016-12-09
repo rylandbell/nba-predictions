@@ -12,6 +12,7 @@
 
 .game-team {
   flex: 1;
+  
 }
 
 .game-status {
@@ -25,6 +26,7 @@
 
 .team-item {
   flex: 1;
+  transition: box-shadow .2s;
 }
 
 .team-name {

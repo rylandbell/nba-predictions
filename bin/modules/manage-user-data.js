@@ -77,7 +77,7 @@ const postResult = function (result, dateNumber) {
 };
 
 module.exports.markResults = function (date) {
-  const dateNumber = parseInt(date.substring(8, 10));
+  const dateNumber = parseInt(date.substring(8, 10), 10);
 
   //get a month of games data, and all userMonths for the given month:
   Promise.all([

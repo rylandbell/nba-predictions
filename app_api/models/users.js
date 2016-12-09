@@ -38,7 +38,7 @@ userSchema.methods.generateJwt = function () {
     _id: this._id,
     username: this.username,
     name: this.name,
-    exp: parseInt(expiry.getTime() / 1000),
+    exp: parseInt(expiry.getTime() / 1000, 10),
   }, process.env.JWT_SECRET); // DO NOT KEEP YOUR SECRET IN THE CODE!
 };
 
