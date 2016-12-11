@@ -22,12 +22,12 @@ const Navbar = () => {
             </button>
             <Link to="/" className="navbar-brand text-primary">Pigeon Hoops</Link>
             <ul className="nav nav-pills navbar-nav">
-              <li>
+              <li className="hidden-xs">
                 <Link to={"/picks/"+todayPath}>
                   <span className="nav-strong">My Picks</span>
                 </Link>
               </li>
-              <li>
+              <li className="hidden-xs">
                 <Link to={"/standings"}>
                   <span className="nav-strong">Full Results</span>
                 </Link>
@@ -36,6 +36,16 @@ const Navbar = () => {
           </div>
           <div id="navbar-collapse-1" className="collapse navbar-collapse">
             <ul className="nav navbar-nav navbar-right">
+              <li className="visible-xs">
+                <Link to={"/picks/"+todayPath}>
+                  <span className="nav-strong">My Picks</span>
+                </Link>
+              </li>
+              <li className="visible-xs">
+                <Link to={"/standings"}>
+                  <span className="nav-strong">Full Results</span>
+                </Link>
+              </li>
               <li>
                 <Link to="/how-to-play">How to Play </Link>
               </li>
