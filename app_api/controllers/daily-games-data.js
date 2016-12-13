@@ -1,5 +1,7 @@
 var mongoose = require('mongoose');
+
 var DailyGamesDataModel = mongoose.model('DailyGamesData');
+
 
 //helper function for composing responses as status codes (e.g. 404) with JSON files
 var sendJsonResponse = function (res, status, content) {

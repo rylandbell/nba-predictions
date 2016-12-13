@@ -4,11 +4,6 @@ var request = require('request');
 var moment = require('moment-timezone');
 var _ = require('lodash');
 
-var updateData = require('../../bin/updateDataFunction.js');
-
-//don't run updateData more than once per minute:
-var throttledUpdateData = _.throttle(updateData, 60*1000, { leading: true });
-
 var apiOptions = {
   server: 'http://localhost:3000'
 };
@@ -72,9 +67,6 @@ var _showError = function (req, res, apiResponse, err, body) {
 
 /* GET React app */
 module.exports.reactApp = function (req, res, next) {
-  throttledUpdateData();
-
-  var prettyDate = moment(req.params.month).format('MMM YYYY');
   res.render('react-app', {
     title: 'Pigeon Hoops',
     month: req.params.month,

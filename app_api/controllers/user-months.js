@@ -6,6 +6,10 @@ var _ = require('lodash');
 
 var UserMonthModel = mongoose.model('UserMonth');
 var UserModel = mongoose.model('User');
+var updateData = require('../../bin/updateDataFunction.js');
+
+//don't run updateData more than once per minute:
+var throttledUpdateData = _.throttle(updateData, 30*1000, { leading: true });
 
 //return true if gameTime is after now
 const gameTimeInFuture = function (gameTime) {
@@ -90,6 +94,7 @@ const getOwnerData = function (req, res, callback) {
 
 /* GET one userMonth ownerId, month */
 module.exports.userMonthReadOne = function (req, res) {
+  throttledUpdateData();
   getOwnerData(req, res, function (req, res, owner) {
     var filter = {
       ownerId: owner._id,
@@ -118,8 +123,9 @@ module.exports.userMonthReadOne = function (req, res) {
   });
 };
 
-/* GET all userMonths for ownerId */
+/* GET all userMonths for a single ownerId */
 module.exports.userMonthReadAllForUser = function (req, res) {
+  throttledUpdateData();
   getOwnerData(req, res, function (req, res, owner) {
     var filter = {
       ownerId: owner._id
@@ -147,7 +153,7 @@ module.exports.userMonthReadAllForUser = function (req, res) {
   });
 };
 
-/* GET all userMonths for given month */
+/* GET all users' userMonths for given month */
 module.exports.userMonthReadAllByMonth = function (req, res) {
   var filter = {
     month: req.params.month
