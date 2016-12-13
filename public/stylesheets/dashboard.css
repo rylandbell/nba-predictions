@@ -1,18 +1,10 @@
 @media (min-width: 768px) {
   .dashboard-jumbotron {
-    background: url('../images/deflated-ball.jpg');
+    background: url('../images/deflated-ball2.jpg');
     background-size: cover;
-    min-height: 800px;
+    /*min-height: 800px;*/
   }
 }
-
-/*@media (min-width: 768px) {
-  .dashboard-jumbotron {
-    background: url('../images/deflated-ball.jpg');
-    background-size: cover;
-    min-height: 300px;
-  }
-}*/
 
 @media (max-width: 991px) {
   .panel-dashboard {

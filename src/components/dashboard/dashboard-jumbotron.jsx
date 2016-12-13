@@ -3,6 +3,8 @@
 import React from 'react';
 import { Link } from 'react-router';
 
+import ChatContainer from '../containers/chat-container.jsx';
+
 const DashboardJumbotron = () => (
   <div className="jumbotron dashboard-jumbotron full-height-child">
     <div className="panel panel-default panel-dashboard">
@@ -14,6 +16,7 @@ const DashboardJumbotron = () => (
         </h5>
       </div>
     </div>
+    <ChatContainer />
   </div>
 );
     
