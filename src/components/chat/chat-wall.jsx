@@ -4,6 +4,7 @@ import React from 'react';
 
 import MessageLog from './message-log.jsx';
 import NewMessageInput from './new-message-input.jsx';
+import StatusMessage from '../status-message.jsx';
 
 //owns message array state, assembles subcomponents: 
 const ChatWall = React.createClass({
@@ -17,7 +18,10 @@ const ChatWall = React.createClass({
           <div className="panel-title">Chat</div>
         </div>*/}
         <div className="panel-body conversation-panel">
-          <MessageLog messages={this.props.messages}/>
+          {this.props.isFetchingMessageLog ? 
+            <StatusMessage messageBold={'Loading message data...'} messageBody={'Just hang tight.'} messageClass={'info'} /> :
+            <MessageLog messages={this.props.messages}/>
+          }
           <div className="clearfix"></div>
         </div>
 

@@ -21,8 +21,6 @@ const enteredText = (state = '', action) => {
 
 const messages = (state=[], action) => {
   switch(action.type){
-    case 'SEND_MESSAGE':
-      return state.concat([action.newMessage]);
     case 'RECEIVE_MESSAGE_LOG':
       if (action.response && action.response.messages) {
         return action.response.messages;
@@ -33,6 +31,32 @@ const messages = (state=[], action) => {
       return state;
   }
 }
+
+const isSendingMessage = (state = false, action) => {
+  switch(action.type){
+    case 'SEND_MESSAGE':
+      console.log('sent message');
+      return true;
+    case 'RECEIVE_MESSAGE_LOG':
+      console.log('received message log');
+      return false;
+    default:
+      return state;
+  }
+};
+
+const isFetchingMessageLog = (state = false, action) => {
+  switch(action.type){
+    case 'REQUEST_MESSAGE_LOG_WAITING':
+      return true;
+    case 'RECEIVE_MESSAGE_LOG':
+      return false;
+    case 'REQUEST_MESSAGE_LOG_FAILURE':
+      return false;
+    default:
+      return state;
+  }
+};
 
 const isFetchingPredictions = (state = false, action) => {
   switch(action.type){
@@ -225,7 +249,9 @@ const api = {
     isFetchingStandingsData,
     isFetchingMonthList,
     isFetchingPredictions,
+    isFetchingMessageLog,
     isSendingPrediction,
+    isSendingMessage,
     missingUserMonth,
     activeMonth,
     activeDate,

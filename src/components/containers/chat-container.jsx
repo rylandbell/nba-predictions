@@ -10,7 +10,8 @@ import Helper from '../../helper.js';
 
 const mapStateToProps = (state) => ({
   messages: state.messages,
-  enteredText: state.enteredText
+  enteredText: state.enteredText,
+  isFetchingMessageLog: state.isFetchingMessageLog
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -51,7 +52,30 @@ const mapDispatchToProps = (dispatch) => ({
       if(enteredText === ''){
         return;
       } else {
-        dispatch(ActionCreator.sendMessage(Helper.addMessageProps(enteredText)));
+        dispatch(ActionCreator.sendMessage());
+        Helper.myFetch(
+          '/api/messages',
+          'PUT',
+          Helper.addMessageProps(enteredText),
+          (response => {
+            dispatch(ActionCreator.receiveMessageLog(response));
+          }),
+          (response => {
+            if (response.message === "No messageLog found") {
+              dispatch(ActionCreator.requestMessageLogFailure(response.message));
+            } else {
+              Alert.warning('Error: Failed to load message log. ' + response.message,
+                {
+                  position: 'bottom',
+                  effect: 'stackslide',
+                  beep: false,
+                  timeout: 8000,
+                  offset: 0
+                }
+              );
+            }
+          })
+        );
       }
     },
   listenForEnter:
