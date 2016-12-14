@@ -35,10 +35,8 @@ const messages = (state=[], action) => {
 const isSendingMessage = (state = false, action) => {
   switch(action.type){
     case 'SEND_MESSAGE':
-      console.log('sent message');
       return true;
     case 'RECEIVE_MESSAGE_LOG':
-      console.log('received message log');
       return false;
     default:
       return state;

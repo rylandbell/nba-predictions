@@ -72,7 +72,6 @@ const api = {
   //Convert user-entered string to a message object:
   addMessageProps: function (enteredText){
     const fullMessage = {
-      sender: "Unknown User",
       timeSent: new Date().toISOString(),
       content: enteredText,
     };
