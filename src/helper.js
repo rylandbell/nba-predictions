@@ -2,6 +2,7 @@
 
 import fetch from 'isomorphic-fetch';
 import moment from 'moment';
+import React from 'react';
 
 function handleErrors(response) {
   // if (!response.ok) {
@@ -59,6 +60,35 @@ const api = {
     const pathnameArray = window.location.pathname.split('/');
     pathnameArray.pop();
     return pathnameArray.join('/')+'/';
+  },
+
+  // ~~~~~~Chat component helpers:~~~~~~
+  //always scroll chat window to bottom when new message sent
+  scrollToBottom: function(){
+    const node = this.log;
+    node.parentNode.scrollTop = node.scrollHeight;
+  },
+
+  //Convert user-entered string to a message object:
+  addMessageProps: function (enteredText){
+    const fullMessage = {
+      sender: "clinician",
+      timeSent: new Date().toISOString(),
+      content: enteredText,
+    };
+    return fullMessage;
+  },
+
+  //handles paragraph formatting for displayed messages
+  formatMessage: function (message) {
+    const paragraphArray = message.split('\n');
+    const formattedMessage = [];
+    paragraphArray.forEach(function(paragraph, index){
+      formattedMessage.push(
+        <div className='message-paragraph' key={index}>{paragraph}</div>
+      );
+    });
+    return formattedMessage;
   }
 };
 

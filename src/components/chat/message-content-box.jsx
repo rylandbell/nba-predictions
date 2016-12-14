@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import Helper from '../../helper.jsx';
+import Helper from '../../helper.js';
 
 //handles paragraph breaks in message text
 const api = ({content}) => (

@@ -2,16 +2,21 @@
 
 import React from 'react';
 
-import EnterToSend from './enter-to-send.jsx';
+const NewMessageInput = React.createClass({
+  handleSubmit: function(e) {
+    e.preventDefault();
+    this.props.sendMessage(this.props.enteredText);
+  },
+  render: function() {
+    return (
+      <form className="new-message-form" onSubmit={this.handleSubmit}>
+        <textarea placeholder="Your Message" className="form-control" rows='3' value={this.props.enteredText} onChange={this.props.handleTextChange} onKeyPress={this.props.listenForEnter}/>
+        <input className='btn btn-primary hidden' type='submit' value='Send' />
+        <div className="small pull-right">Press enter to send</div>
+        <div className="clearfix"></div>
+      </form>
+    )
+  }
+});
 
-//owns new message, enterToSend states; handles all form events
-const api = ({handleSubmit,enteredText,handleTextChange,listenForEnter,enterToSendStatus,handleCheckboxChange}) => (
-  <form className="new-message-form" onSubmit={handleSubmit}>
-    <textarea placeholder="Your Message" className="form-control" rows='3' value={enteredText} onChange={handleTextChange} onKeyPress={listenForEnter}/>
-    {/*<input className='btn btn-primary' type='submit' value='Send' />*/}
-    <EnterToSend enterToSendStatus={enterToSendStatus} handleCheckboxChange={handleCheckboxChange} />
-    <div className="clearfix"></div>
-  </form>
-);
-
-export default api;
+export default NewMessageInput;

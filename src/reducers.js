@@ -8,6 +8,26 @@ import moment from 'moment';
 
 const teams = ['ATL', 'BKN', 'BOS', 'CHA', 'CHI', 'CLE', 'DAL', 'DEN', 'DET', 'GSW', 'HOU', 'IND', 'LAC', 'LAL', 'MEM', 'MIA', 'MIL', 'MIN', 'NOP', 'NYK', 'OKC', 'ORL', 'PHI', 'PHX', 'POR', 'SAC', 'SAS', 'TOR', 'UTA', 'WAS'];
 
+const enteredText = (state = '', action) => {
+  switch(action.type){
+    case 'TEXT_ENTRY':
+      return action.enteredText;
+    case 'SEND_MESSAGE':
+      return '';
+    default:
+      return state;
+  }
+}
+
+const messages = (state=[], action) => {
+  switch(action.type){
+    case 'SEND_MESSAGE':
+      return state.concat([action.newMessage]);
+    default:
+      return state;
+  }
+}
+
 const isFetchingPredictions = (state = false, action) => {
   switch(action.type){
     case 'REQUEST_USER_MONTH_WAITING':
@@ -190,6 +210,8 @@ const monthList = (state=[], action) => {
 
 const api = {
   app: Redux.combineReducers({
+    enteredText,
+    messages,
     monthList,
     selectedStandingsMonth,
     standingsData,

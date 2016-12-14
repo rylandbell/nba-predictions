@@ -6,7 +6,7 @@ import moment from 'moment';
 import MessageContentBox from './message-content-box.jsx';
 
 //assembles message display from date,  sender, content
-const api = ({message, correspondent}) => (
+const api = ({message}) => (
   <div className="message-row">
     <div>
       <div className="message-author pull-left">{message.sender}</div>

@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import Helper from '../../helper.jsx';
+import Helper from '../../helper.js';
 import MessageRow from './message-row.jsx';
 
 //creates array of MessageRows
@@ -12,7 +12,7 @@ const api = React.createClass({
   render: function() {
     return (
       <div className="messages-display" ref={(c) => this.log = c}>
-        {this.props.activeCorrespondence.messages.map((message,index) => <MessageRow message={message} correspondent={this.props.activeCorrespondence.correspondent} key={index}/>)}
+        {this.props.messages.map((message,index) => <MessageRow message={message} key={index}/>)}
       </div> 
     );
   }

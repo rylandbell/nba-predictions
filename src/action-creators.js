@@ -163,7 +163,20 @@ const api = {
       month: month,
       day: day
     }
-  )
+  ),
+  //~~~~~~~CHAT~~~~~~~~
+  textEntry: (text) => (
+    {
+      type: 'TEXT_ENTRY',
+      enteredText: text
+    }    
+  ),
+  sendMessage: (newMessageObject) => (
+    {
+      type: 'SEND_MESSAGE',
+      newMessage: newMessageObject
+    }
+  ),
 };
 
 export default api;
