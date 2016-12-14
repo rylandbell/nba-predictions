@@ -51,6 +51,7 @@ process.on('SIGTERM', function () {
 });
 
 // BRING IN YOUR SCHEMAS & MODELS
+require('./users');
 require('./user-months');
 require('./daily-games-data');
-require('./users');
+require('./message-logs');

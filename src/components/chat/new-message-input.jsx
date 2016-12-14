@@ -12,7 +12,7 @@ const NewMessageInput = React.createClass({
       <form className="new-message-form" onSubmit={this.handleSubmit}>
         <textarea placeholder="Your Message" className="form-control" rows='3' value={this.props.enteredText} onChange={this.props.handleTextChange} onKeyPress={this.props.listenForEnter}/>
         <input className='btn btn-primary hidden' type='submit' value='Send' />
-        <div className="small pull-right">Press enter to send</div>
+        <div className="small pull-right enter-to-send">Press enter to send</div>
         <div className="clearfix"></div>
       </form>
     )

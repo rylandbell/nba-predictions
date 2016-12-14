@@ -19,6 +19,7 @@ var auth = jwt({
 
 var ctrlUserMonths = require('../controllers/user-months');
 var ctrlDailyGamesData = require('../controllers/daily-games-data');
+var ctrlMessages = require('../controllers/messages');
 var ctrlAuth = require('../controllers/authentication');
 
 // routes for calls to userMonths folder:
@@ -40,5 +41,9 @@ router.put('/dailyGamesData/:date', ctrlDailyGamesData.dailyGamesDataUpdate);
 // routes for authentication requests:
 router.post('/register', ctrlAuth.register);
 router.post('/login', ctrlAuth.login);
+
+//routes for messaging:
+router.get('/messages', auth, ctrlMessages.getMessageLog);
+router.put('/messages', auth, ctrlMessages.sendMessage);
 
 module.exports = router;
