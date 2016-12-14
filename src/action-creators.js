@@ -2,6 +2,27 @@
 
 const api = {
 
+  //GET messageLog:
+  requestMessageLogWaiting: () => (
+    {
+      type: 'REQUEST_MESSAGE_LOG_WAITING'
+    }
+  ),
+
+  receiveMessageLog: (response) => (
+    { 
+      type: 'RECEIVE_MESSAGE_LOG',
+      response: response
+    }
+  ),
+
+  requestMessageLogFailure: (message) => (
+    {
+      type: 'REQUEST_MESSAGE_LOG_FAILURE',
+      message: message
+    }
+  ),
+
   //GET initial monthly picks data:
   requestUserMonthWaiting: () => (
     {

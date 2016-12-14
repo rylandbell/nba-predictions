@@ -6,7 +6,7 @@ import Helper from '../../helper.js';
 import MessageRow from './message-row.jsx';
 
 //creates array of MessageRows
-const api = React.createClass({
+const MessageLog = React.createClass({
   componentDidUpdate: Helper.scrollToBottom,
   componentDidMount: Helper.scrollToBottom,
   render: function() {
@@ -18,4 +18,4 @@ const api = React.createClass({
   }
 });
 
-export default api;
+export default MessageLog;

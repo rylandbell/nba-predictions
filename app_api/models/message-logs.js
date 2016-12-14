@@ -7,7 +7,7 @@ var messageSchema = new mongoose.Schema({
 });
 
 var messageLogSchema = new mongoose.Schema({
-  league: {type: String, default: "alpha"},
+  league: {type: String, default: "alpha", unique: true},
   messages: [messageSchema]
 });
 

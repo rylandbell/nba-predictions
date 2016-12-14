@@ -23,6 +23,12 @@ const messages = (state=[], action) => {
   switch(action.type){
     case 'SEND_MESSAGE':
       return state.concat([action.newMessage]);
+    case 'RECEIVE_MESSAGE_LOG':
+      if (action.response && action.response.messages) {
+        return action.response.messages;
+      } else {
+        return [];
+      }
     default:
       return state;
   }
