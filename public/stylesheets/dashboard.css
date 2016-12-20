@@ -1,7 +1,14 @@
+.dashboard-jumbotron {
+  border-radius: 5px;
+}
+
 @media (min-width: 768px) {
   .dashboard-jumbotron {
-    background: url('../images/deflated-ball2.jpg');
+    background: url('../images/deflated-ball-color.jpg');
     background-size: cover;
+    width: 100%;
+    overflow: auto;
+    padding: 20px 30px 0 30px;
     /*min-height: 800px;*/
   }
 }
@@ -15,7 +22,7 @@
     padding-left: 10px !important;
     padding-right: 10px !important;
     padding-bottom: 20px;
-    padding-top: 30px !important;
+    padding-top: 20px !important;
   }
 }
 

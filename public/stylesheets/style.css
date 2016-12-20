@@ -28,6 +28,7 @@ body {
 
 .panel-black {
   background-color: #060606;
+  /*background-color: rgba(0,0,0,0);*/
 }
 
 .panel-title {
@@ -49,7 +50,7 @@ body {
 }
 
 .body-container {
-  padding-top:80px;
+  padding-top: 70px;
   padding-bottom: 120px;   /* Height of the footer */
 }
 

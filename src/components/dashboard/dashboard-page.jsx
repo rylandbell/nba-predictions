@@ -1,9 +1,11 @@
 'use strict';
 
 import React from 'react';
+import { Link } from 'react-router';
+
 import StandingsContainer from '../containers/standings-container.jsx';
 import PicksSummaryContainer from '../containers/picks-summary-container.jsx';
-import DashboardJumbotron from './dashboard-jumbotron.jsx';
+import ChatContainer from '../containers/chat-container.jsx';
 
 const DashboardPage = React.createClass({
   componentDidMount: function() {
@@ -11,13 +13,20 @@ const DashboardPage = React.createClass({
   },
   render: function() {
     return (
-      <div className="row full-height-parent">
-        <div className="col-xs-12 col-sm-5 col-md-7 col-lg-7 full-height-child full-height-parent">
-          <DashboardJumbotron />
-        </div>
-        <div className="col-xs-12 col-sm-7 col-md-5 col-lg-5">
-          <PicksSummaryContainer />
-          <StandingsContainer />
+      <div>
+        <p className="text-center"> Not sure what's happening? Need clarification about the rules? Check out the&nbsp;
+          <Link to="/how-to-play">How to Play</Link>
+          &nbsp;page.
+        </p>
+        <div className="row full-height-parent">
+          <div className="col-xs-12 col-sm-5 col-md-7 col-lg-7 full-height-child full-height-parent">
+            <ChatContainer />
+          </div>
+          <div className="col-xs-12 col-sm-7 col-md-5 col-lg-5">
+            <PicksSummaryContainer />
+            <StandingsContainer />
+          </div>
+
         </div>
       </div>
     )

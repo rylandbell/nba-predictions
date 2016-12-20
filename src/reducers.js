@@ -23,7 +23,7 @@ const messages = (state=[], action) => {
   switch(action.type){
     case 'RECEIVE_MESSAGE_LOG':
       if (action.response && action.response.messages) {
-        return action.response.messages;
+        return action.response.messages.reverse();
       } else {
         return [];
       }

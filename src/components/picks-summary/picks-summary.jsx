@@ -19,11 +19,11 @@ const PicksSummary = React.createClass({
       panelTitle = "Loading";
     }
     return (
-      <div className="panel panel-default">
+      <div className="panel panel-default panel-black">
         <div className="panel-heading">
           <div className="panel-title">{panelTitle}</div>
         </div>
-        <div className="panel-body panel-black">
+        <div className="panel-body">
           {panelContent}
         </div>
       </div>
