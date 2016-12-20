@@ -197,7 +197,7 @@ const api = {
       type: 'SEND_MESSAGE',
       newMessage: newMessageObject
     }
-  ),
+  )
 };
 
 export default api;

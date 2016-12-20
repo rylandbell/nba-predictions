@@ -24,10 +24,16 @@
   }
 }
 
+.chat-wall {
+  max-height: 620px;
+  min-height: 500px;
+}
+
 .message-log {
   width: 100%;
-  max-height: 600px;
-  min-height: 350px;
+  height: 100%;
+  /*max-height: 600px;
+  min-height: 350px;*/
   /*margin: 8px;*/
   /*overflow: auto;*/
   background: rgba(0,0,0,0);

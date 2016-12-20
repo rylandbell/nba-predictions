@@ -73,7 +73,7 @@ const api = {
   addMessageProps: function (enteredText){
     const fullMessage = {
       timeSent: new Date().toISOString(),
-      content: enteredText,
+      content: enteredText
     };
     return fullMessage;
   },
