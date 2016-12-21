@@ -14,6 +14,8 @@
 /*tweaking the Bootstrap theme:*/
 body {
   padding-top: 90px;
+  background: url('../images/park-1200.jpg');
+  background-size: cover;
 }
 
 .jumbotron {
@@ -27,8 +29,8 @@ body {
 }
 
 .panel-black {
-  background-color: #060606;
-  /*background-color: rgba(0,0,0,0);*/
+  /*background-color: #060606;*/
+  background-color: rgba(0,0,0,.7);
 }
 
 .panel-title {

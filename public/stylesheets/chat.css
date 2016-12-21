@@ -3,12 +3,22 @@
 .chat-wall-panel {
   width: 100%;
   background-color: rgba(0,0,0,0);
+  /*border-color: rgba(0,0,0,0);*/
+}
+
+.chat-wall-panel > .panel-heading {
+  border-radius: 5px 5px 0 0;
+}
+
+.chat-wall {
+  border-radius: 0 0 5px 5px;
+  /*border-color: rgba(0,0,0,0);*/
 }
 
 @media (min-width: 768px) {
   .chat-wall {
-    background: url('../images/deflated-ball.jpg');
-    background-size: cover;
+    /*background: url('../images/deflated-ball.jpg');*/
+    /*background-size: cover;*/
     width: 100%;
     overflow: auto;
     padding: 20px 30px 0 30px;
@@ -57,24 +67,38 @@
 }
 
 .message-row {
-  background-color: rgba(20,20,20,0.8);
+  background-color: rgba(24,24,24,1);
   padding: 8px 15px;
-  border-radius: 10px;
+  border-radius: 5px;
   margin-top: 8px;
   color: #ffffff;
 }
 
+.message-row h6 {
+  margin-top: 0;
+  margin-bottom: 5px;
+}
+
 .message-author {
-  font-size: 1.1em;
+  /*font-size: 20px;*/
   /*text-transform: uppercase;*/
   font-weight: bold;
 }
 
+.message-time {
+  font-size: 12px;
+  color: grey;
+  font-weight: normal;
+}
+
 .message-content {
   /*padding: 10px;*/
-  margin-top: 8px;
+  /*margin-top: 8px;*/
   border-radius: 5px;
   display: inline-block;
+  line-height: 1.6em;
+  font-size: 1.2em;
+  color: #cccccc;
 }
 
 .new-message-form textarea {
@@ -93,5 +117,5 @@ input.btn {
 
 .enter-to-send {
   margin-top: 5px;
-  color: black;
+  color: #888888;
 }

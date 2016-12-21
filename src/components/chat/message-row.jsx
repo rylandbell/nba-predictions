@@ -9,11 +9,13 @@ import MessageContentBox from './message-content-box.jsx';
 const api = ({message}) => (
   <div className="message-row">
     <div>
-      <div className="message-author pull-left">{message.sender}</div>
-      <div className="pull-right">
-        <div className="message-time small text-right">{moment(message.timeSent).format('MMM D, h:mm A')}</div>
+      <h6 className="message-author">{message.sender}
+        <span className="message-time">&nbsp;&middot;&nbsp;{moment(message.timeSent).fromNow()}</span>
+      </h6>
+      {/*<div className="pull-right">
+        <div className="message-time small text-right">{moment(message.timeSent).fromNow()}</div>
       </div>
-      <div className="clearfix"></div>
+      <div className="clearfix"></div>*/}
       <MessageContentBox content={message.content} />
     </div>
   </div>
