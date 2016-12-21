@@ -16,15 +16,19 @@ const MonthlyPicksSummary = ({predictedWinners, activeDate, activeMonth, goToDat
   }
 
   return  (
-    <div className="col-xs-12 col-sm-3 col-md-2 col-sm-offset-1 col-md-offset-1">
-      <h5 className="text-center">
-        {moment(activeMonth).format('MMM YYYY')}
-      </h5>
-      <table className="table table-condensed table-hover monthly-picks-sidebar">
-        <tbody>
-          {rows}
-        </tbody>
-      </table>
+    <div className="col-xs-12 col-sm-4 col-md-3">
+      <div className="panel panel-default panel-black monthly-picks-sidebar-panel">
+        <div className="panel-heading">
+          <div className="panel-title">My {moment(activeMonth).format('MMMM')} Picks</div>
+        </div>
+        <div className="panel-body">
+          <table className="table table-condensed table-hover monthly-picks-sidebar">
+            <tbody>
+              {rows}
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   );
 }

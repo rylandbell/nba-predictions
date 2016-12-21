@@ -13,7 +13,6 @@
 
 /*tweaking the Bootstrap theme:*/
 body {
-  padding-top: 90px;
   background: url('../images/park-1200.jpg');
   background-size: cover;
 }
@@ -26,6 +25,10 @@ body {
 
 .panel-default {
   color: #fff;
+}
+
+.panel-default > .panel-heading {
+  background-color: #282828;
 }
 
 .panel-black {
@@ -54,6 +57,12 @@ body {
 .body-container {
   padding-top: 70px;
   padding-bottom: 120px;   /* Height of the footer */
+}
+
+@media (max-width: 768px) {
+  .body-container {
+    padding-top: 80px;
+  }
 }
 
 .footer-container {
@@ -86,3 +95,9 @@ body {
 .rules-panel {
   font-size: 1.2em;
 }
+
+.daily-picks-panel {
+  border-radius: 5px;
+  padding: 10px;
+}
+

@@ -1,5 +1,33 @@
+.monthly-picks-sidebar-panel > .panel-body {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
 .monthly-picks-sidebar {
+  border: 3px solid #222222;
   background-color: #060606;
+  border-radius: 10px;
+  border-collapse: initial;
+}
+
+.monthly-picks-sidebar tr:last-child td:first-child {
+  border-bottom-left-radius: 5px;
+}
+
+.monthly-picks-sidebar tr:last-child td:last-child {
+  border-bottom-right-radius: 5px;
+}
+
+.monthly-picks-sidebar tr:first-child td:first-child {
+  border-top-left-radius: 5px;
+}
+
+.monthly-picks-sidebar tr:first-child td:last-child {
+  border-top-right-radius: 5px;
+}
+
+.monthly-picks-sidebar tr {
+  background-color: #121212;
 }
 
 .monthly-picks-sidebar * {
