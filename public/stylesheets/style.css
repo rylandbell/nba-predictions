@@ -13,8 +13,9 @@
 
 /*tweaking the Bootstrap theme:*/
 body {
-  background: url('../images/park-1200.jpg');
+  background: url('../images/park.jpg');
   background-size: cover;
+  background-attachment: fixed;
 }
 
 .jumbotron {
@@ -33,7 +34,7 @@ body {
 
 .panel-black {
   /*background-color: #060606;*/
-  background-color: rgba(0,0,0,.7);
+  background-color: rgba(0,0,0,.6);
 }
 
 .panel-title {
@@ -99,5 +100,6 @@ body {
 .daily-picks-panel {
   border-radius: 5px;
   padding: 10px;
+  background-color: rgba(0,0,0,.5);
 }
 
