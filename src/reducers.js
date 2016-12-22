@@ -3,7 +3,9 @@
 'use strict';
 
 const Redux = require('redux');
-import _ from 'lodash';
+import _values from 'lodash/values';
+import _difference from 'lodash/difference';
+import _sortBy from 'lodash/sortBy';
 import moment from 'moment';
 
 const teams = ['ATL', 'BKN', 'BOS', 'CHA', 'CHI', 'CLE', 'DAL', 'DEN', 'DET', 'GSW', 'HOU', 'IND', 'LAC', 'LAL', 'MEM', 'MIA', 'MIL', 'MIN', 'NOP', 'NYK', 'OKC', 'ORL', 'PHI', 'PHX', 'POR', 'SAC', 'SAS', 'TOR', 'UTA', 'WAS'];
@@ -171,11 +173,11 @@ const eligibleTeams = (state = [], action) => {
   var chosenTeams;
   switch(action.type){
     case 'RECEIVE_USER_MONTH':
-      chosenTeams = _.values(action.response.userMonth.predictedWinners).map(obj=>obj.teamName);
-      return _.difference(teams, chosenTeams).sort();
+      chosenTeams = _values(action.response.userMonth.predictedWinners).map(obj=>obj.teamName);
+      return _difference(teams, chosenTeams).sort();
     case 'SEND_PREDICTION_SUCCESS':
-      chosenTeams = _.values(action.response.predictedWinners).map(obj=>obj.teamName);
-      return _.difference(teams, chosenTeams).sort();
+      chosenTeams = _values(action.response.predictedWinners).map(obj=>obj.teamName);
+      return _difference(teams, chosenTeams).sort();
     default:
       return state;
   }
@@ -201,7 +203,7 @@ const userMonth = Redux.combineReducers({
 const gamesByDay = (state = [], action) => {
   switch(action.type) {
     case 'RECEIVE_GAME_DATA':
-      return _.sortBy(action.response, [function(obj) { return obj.date; }])
+      return _sortBy(action.response, [function(obj) { return obj.date; }])
     default:
       return state;
   }
@@ -210,7 +212,7 @@ const gamesByDay = (state = [], action) => {
 const standingsData = (state=[], action) => {
   switch(action.type) {
     case 'RECEIVE_STANDINGS_DATA':
-      return _.sortBy(action.response, [function(obj) { return obj.standingsData.winCount; }])
+      return _sortBy(action.response, [function(obj) { return obj.standingsData.winCount; }])
         .reverse();
     default:
       return state;

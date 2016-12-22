@@ -3,7 +3,7 @@
 import { connect } from 'react-redux';
 import Alert from 'react-s-alert';
 import moment from 'moment';
-import _ from 'lodash';
+import _uniqBy from 'lodash/uniqBy';
 
 import ActionCreator from '../../action-creators.js';
 import Helper from '../../helper.js';
@@ -57,7 +57,7 @@ const mapDispatchToProps = dispatch => ({
           //always include the current month, even if user hasn't created a userMonth yet:
           months
             .push(moment().format('YYYY-MM'))
-          const uniqMonths = _.uniqBy(months)
+          const uniqMonths = _uniqBy(months)
 
           //sort reverse-chronologically:
           uniqMonths

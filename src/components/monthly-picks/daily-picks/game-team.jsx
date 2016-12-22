@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import _ from 'lodash';
+import _includes from 'lodash/includes';
 import Helper from '../../../helper.js';
 
 const GameTeam = React.createClass({
@@ -9,7 +9,7 @@ const GameTeam = React.createClass({
     if(this.props.isSendingPrediction){
       return
     } else {
-      const isEligible = _.includes(this.props.eligibleTeams, this.props.teamName);
+      const isEligible = _includes(this.props.eligibleTeams, this.props.teamName);
       const isChosen = this.props.predictedWinner.teamName === this.props.teamName;
       if((isEligible || isChosen) && !this.props.gameData.gameStatus.hasStarted){
         let gameTime = Helper.getDateTime(this.props.gameData.gameDate, this.props.gameData.gameStatus.startTime);
@@ -23,7 +23,7 @@ const GameTeam = React.createClass({
   },
   render: function () {    
     const isChosen = this.props.predictedWinner.teamName === this.props.teamName;
-    const isEligible = _.includes(this.props.eligibleTeams, this.props.teamName);  
+    const isEligible = _includes(this.props.eligibleTeams, this.props.teamName);  
     const successfulPrediction = (isChosen && this.props.predictedWinner.outcome === 'success');
     const failedPrediction = (isChosen && this.props.predictedWinner.outcome === 'failure'); 
 

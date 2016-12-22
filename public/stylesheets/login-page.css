@@ -1,8 +1,7 @@
 body {
-  background: url('../images/floor-1600.jpg');
-  background-repeat: no-repeat;
-  background-color: #060606;
-  background-position: center top;
+  background: url('../images/floor.jpg');
+  background-size: cover;
+  background-attachment: fixed;
 }
 
 @media(min-width: 1600px) {
