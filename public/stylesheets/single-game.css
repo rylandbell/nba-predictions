@@ -50,8 +50,8 @@
 }
 
 .game-panel {
-  background-color: #222222;
-  border-color: #323232;
+  background-color: #121212;
+  border-color: #222222;
   border-width: 3px;
   border-radius: 10px;
 }
@@ -66,7 +66,7 @@
 
 .team-name {
   padding-bottom: 10px;
-  border: 3px solid #222222;
+  border: 3px solid #121212;
 }
 
 .selected-team {
