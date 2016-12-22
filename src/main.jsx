@@ -2,13 +2,17 @@
 
 
 //babel-polyfill will polyfill ES6 features, specifically Promises for fetch
-import 'babel-polyfill';
+// import 'babel-polyfill';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import * as Redux from 'redux';
-import { Router, Route, IndexRoute, browserHistory } from 'react-router'
+import browserHistory from 'react-router/lib/browserHistory';
+import Router from 'react-router/lib/Router';
+import Route from 'react-router/lib/Route';
+import IndexRoute from 'react-router/lib/IndexRoute';
+
 import Alert from 'react-s-alert';
 
 import Reducers from './reducers.js';

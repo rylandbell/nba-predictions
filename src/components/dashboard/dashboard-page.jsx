@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import { Link } from 'react-router';
+import Link from 'react-router/lib/Link';
 
 import StandingsContainer from '../containers/standings-container.jsx';
 import PicksSummaryContainer from '../containers/picks-summary-container.jsx';

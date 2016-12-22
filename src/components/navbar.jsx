@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import { Link } from 'react-router';
+import Link from 'react-router/lib/Link';
 import moment from 'moment';
 
 // const fakeTitles = ['Ball Occassionally Lies', 'The Pick & Roll', 'The Pick & Pop', 'Pigeon Hoops', 'The Pigeon Hoops Principle', 'The Van Gundy Dilemma'];

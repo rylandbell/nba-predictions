@@ -1,5 +1,6 @@
 'use strict';
 
+require('es6-promise').polyfill();
 import fetch from 'isomorphic-fetch';
 import moment from 'moment';
 import React from 'react';

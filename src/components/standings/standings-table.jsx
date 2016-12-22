@@ -2,7 +2,7 @@
 
 import React from 'react';
 import moment from 'moment';
-import { browserHistory } from 'react-router';  
+import browserHistory from 'react-router/lib/browserHistory'; 
 
 import StandingsTableHeader from './standings-table-header.jsx';
 import StandingsTableRow from './standings-table-row.jsx';
