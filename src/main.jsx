@@ -73,3 +73,11 @@ if (window.location.pathname !== "/login") {
   render();
 }
 
+//Bootstrap/jQuery
+
+//Hide nav menu once an item is selected
+$(document).on('click','.navbar-collapse.in',function(e) {
+  if( $(e.target).is('a') && $(e.target).attr('class') != 'dropdown-toggle' ) {
+    $(this).collapse('hide');
+  }
+});
