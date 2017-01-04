@@ -1,6 +1,15 @@
-@import '../vendor/s-alert/s-alert-default.css';
-@import '../vendor/s-alert/stackslide.css';
-@import '../vendor/s-alert/slide.css';
+/*@import './vendor/s-alert/s-alert-default.css';*/
+/*@import './vendor/s-alert/stackslide.css';*/
+@import './dashboard.css';
+@import './day-picker.css';
+@import './chat.css';
+@import './logo-sprites.css';
+@import './monthly-picks-sidebar.css';
+@import './navbar.css';
+@import './single-game.css';
+@import './status-message.css';
+@import './standings.css';
+@import './login-page.css';
 
 /*tweaking the Bootstrap theme:*/
 body {

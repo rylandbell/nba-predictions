@@ -1,7 +1,7 @@
 extends ./layouts/layout
 
-block stylesheets
-  link(rel='stylesheet', href='/stylesheets/login-page.css')
+//- block stylesheets
+  link(rel='stylesheet', href='/build/login-page.css')
 
 block content
   include ./includes/navbar
@@ -80,5 +80,5 @@ block content
 
 block scripts
   script(src='/vendor/bootstrap/js/bootstrap.min.js')
-  script(src='/vendor/js/moment.min.js')
+  //- script(src='/vendor/js/moment.min.js')
   script(src='/js/validation.js')

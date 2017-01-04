@@ -1,26 +1,32 @@
-body {
-  background: url('../images/floor.jpg');
+/*body {
+  background: url('../images/floor.jpg') !important;
+  background-size: cover;
+  background-attachment: fixed;
+}*/
+
+#login-page {
+  background: url('../images/floor.jpg') !important;
   background-size: cover;
   background-attachment: fixed;
 }
 
 @media(min-width: 1600px) {
-  body {
+  #login-page body {
     background-position: center top;
   }
 }
 
 @media (max-width: 500px) {
-  .thumbnails {
+  #login-page .thumbnails {
     display: none;
   }
 }
 
-.btn-caption {
+#login-page .btn-caption {
   margin-top: 8px;
 }
 
-.thumbnails {
+#login-page .thumbnails {
   padding-left: 15px;
   padding-right: 15px;
   border-radius: 5px;

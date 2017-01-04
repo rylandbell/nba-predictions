@@ -1,8 +1,10 @@
 const webpack = require('webpack');
 const path = require('path');
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 const PATHS = {
   app: './src/main.jsx',
+  css: './src/css/style.css',
   dist: path.join(__dirname, './public/build')
 };
  
@@ -42,14 +44,16 @@ module.exports = {
         keep_fnames: false
       }
     }),
-    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)
+    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+    new ExtractTextPlugin("bundle.css")
   ],
   entry: {
-    javascript: PATHS.app
+    javascript: PATHS.app,
+    css: PATHS.css
   },
   output: {
     path: PATHS.dist,
-    publicPath: '/',
+    publicPath: '/build/',
     filename: 'bundle.js'
   },
   eslint: {
@@ -68,6 +72,19 @@ module.exports = {
         test: /\.jsx?$/,
         exclude: /node_modules/,
         loaders: ["babel-loader"],
+      },
+      // Extract css files
+      {
+        test: /\.css$/,
+        loader: ExtractTextPlugin.extract("style-loader", "css-loader")
+      },
+      { 
+        test: /\.jpg$/,
+        loader: "url-loader?limit=10000&mimetype=image/jpg"
+      },
+      { 
+        test: /\.png$/,
+        loader: "url-loader?limit=10000&mimetype=image/png"
       }
     ]
   }

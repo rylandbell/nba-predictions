@@ -37,19 +37,13 @@ const Navbar = () => {
           <div id="navbar-collapse-1" className="collapse navbar-collapse">
             <ul className="nav navbar-nav navbar-right">
               <li className="visible-xs">
-                <Link to={"/picks/"+todayPath}>
-                  <span className="nav-strong">My Picks</span>
-                </Link>
+                <Link to={"/picks/"+todayPath}>My Picks </Link>
               </li>
               <li className="visible-xs">
-                <Link to={"/standings"}>
-                  <span className="nav-strong">Full Results</span>
-                </Link>
+                <Link to="/standings">Full Results </Link>
               </li>
               <li className="visible-xs">
-                <Link to={"/chat"}>
-                  <span className="nav-strong">Chat Wall</span>
-                </Link>
+                <Link to="/chat">Chat Wall </Link>
               </li>
               <li>
                 <Link to="/how-to-play">How to Play </Link>

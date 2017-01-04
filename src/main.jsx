@@ -1,6 +1,5 @@
 'use strict';
 
-
 //babel-polyfill will polyfill ES6 features, specifically Promises for fetch
 // import 'babel-polyfill';
 

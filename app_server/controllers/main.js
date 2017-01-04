@@ -61,7 +61,8 @@ var _showError = function (req, res, apiResponse, err, body) {
   res.render('generic-text', {
     message: message,
     title: title,
-    content: content
+    content: content,
+    pageId: 'generic-text'
   });
 };
 
@@ -71,7 +72,8 @@ module.exports.reactApp = function (req, res, next) {
     title: 'Pigeon Hoops',
     month: req.params.month,
     loggedIn: true,
-    error: req.query.err
+    error: req.query.err,
+    pageId: 'react-app'
   });
 };
 
@@ -86,9 +88,10 @@ var renderLoginView = function (req, res, body) {
   res
     .clearCookie('token')
     .render('login', {
-      title: 'Login Page',
+      title: 'Pigeon Hoops | Login Page',
       loggedIn: false,
-      message: message
+      message: message,
+      pageId: 'login-page'
     });
 };
 
