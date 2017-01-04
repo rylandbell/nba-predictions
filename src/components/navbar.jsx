@@ -40,10 +40,10 @@ const Navbar = () => {
                 <Link to={"/picks/"+todayPath}>My Picks </Link>
               </li>
               <li className="visible-xs">
-                <Link to="/standings">Full Results </Link>
+                <Link to="/standings">Standings</Link>
               </li>
               <li className="visible-xs">
-                <Link to="/chat">Chat Wall </Link>
+                <Link to="/chat">Chat</Link>
               </li>
               <li>
                 <Link to="/how-to-play">How to Play </Link>

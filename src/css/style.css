@@ -12,10 +12,13 @@
 @import './login-page.css';
 
 /*tweaking the Bootstrap theme:*/
-body {
-  background: url('../images/park.jpg');
-  background-size: cover;
-  background-attachment: fixed;
+
+@media (min-width: 769px) {
+  body {
+    background: url('../images/park.jpg');
+    background-size: cover;
+    background-attachment: fixed;
+  }
 }
 
 .jumbotron {
@@ -63,6 +66,7 @@ body {
 @media (max-width: 768px) {
   .body-container {
     padding-top: 80px;
+    padding-bottom: 85px;
   }
 }
 

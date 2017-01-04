@@ -2,8 +2,6 @@
 
 .chat-wall-panel {
   width: 100%;
-  /*background-color: rgba(0,0,0,0);*/
-  /*border-color: rgba(0,0,0,0);*/
 }
 
 .chat-wall-panel > .panel-heading {
@@ -11,17 +9,22 @@
 }
 
 .chat-wall {
+  overflow: auto;
   border-radius: 0 0 5px 5px;
-  /*border-color: rgba(0,0,0,0);*/
 }
 
 @media (min-width: 768px) {
   .chat-wall {
-    /*background: url('../images/deflated-ball.jpg');*/
-    /*background-size: cover;*/
     width: 100%;
-    overflow: auto;
     padding: 20px 30px 0 30px;
+  }
+}
+
+@media (max-width: 768px) {
+  .chat-wall-panel {
+    width: 100vw;
+    margin: -15px -15px 0 -15px;
+    top: -15px;
   }
 }
 
@@ -40,11 +43,6 @@
 
 .message-log {
   width: 100%;
-  /*height: 100%;*/
-  /*max-height: 600px;
-  min-height: 350px;*/
-  /*margin: 8px;*/
-  /*overflow: auto;*/
   background: rgba(0,0,0,0);
   padding: 0;
 }
