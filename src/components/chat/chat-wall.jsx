@@ -13,7 +13,7 @@ const ChatWall = React.createClass({
   },
   render: function() {
     return (
-      <div className="chat-wall-panel hidden-xs panel panel-default panel-black">
+      <div className="chat-wall-panel panel panel-default panel-black">
         <div className="panel-heading">
           <div className="panel-title">Chat Wall</div>
         </div>

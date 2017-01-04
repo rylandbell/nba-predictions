@@ -24,7 +24,7 @@ const DashboardPage = React.createClass({
             <PicksSummaryContainer />
             <StandingsContainer />
           </div>
-          <div className="col-xs-12 col-sm-5 col-md-7 col-lg-7 full-height-child full-height-pparent">
+          <div className="col-xs-12 col-sm-5 col-md-7 col-lg-7 full-height-child hidden-xs">
             <ChatContainer />
           </div>
         </div>

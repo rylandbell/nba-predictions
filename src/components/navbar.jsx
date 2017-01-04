@@ -46,6 +46,11 @@ const Navbar = () => {
                   <span className="nav-strong">Full Results</span>
                 </Link>
               </li>
+              <li className="visible-xs">
+                <Link to={"/chat"}>
+                  <span className="nav-strong">Chat Wall</span>
+                </Link>
+              </li>
               <li>
                 <Link to="/how-to-play">How to Play </Link>
               </li>
