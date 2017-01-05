@@ -43,8 +43,10 @@
   }
 }
 
-.chat-wall {
-  height: 620px;
+@media (min-width: 769px) {
+  .chat-wall {
+    height: 620px;
+  }
 }
 
 .message-log {
