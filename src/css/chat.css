@@ -13,18 +13,10 @@
   border-radius: 0 0 5px 5px;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 769px) {
   .chat-wall {
     width: 100%;
     padding: 20px 30px 0 30px;
-  }
-}
-
-@media (max-width: 768px) {
-  .chat-wall-panel {
-    width: 100vw;
-    margin: -15px -15px 0 -15px;
-    top: -15px;
   }
 }
 
@@ -34,6 +26,20 @@
     padding-right: 10px;
     padding-bottom: 20px;
     padding-top: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .chat-wall-panel {
+    padding: 0;
+    /*width: 100vw;*/
+    /*margin: -10px;*/
+    top: -15px;
+    border: 0px;
+  }
+
+  .chat-wall {
+    padding: 0;
   }
 }
 

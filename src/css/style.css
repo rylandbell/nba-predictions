@@ -1,5 +1,6 @@
 /*@import './vendor/s-alert/s-alert-default.css';*/
 /*@import './vendor/s-alert/stackslide.css';*/
+@import './mobile.css';
 @import './dashboard.css';
 @import './day-picker.css';
 @import './chat.css';
@@ -11,11 +12,13 @@
 @import './standings.css';
 @import './login-page.css';
 
+
 /*tweaking the Bootstrap theme:*/
 
 @media (min-width: 769px) {
   body {
     background: url('../images/park.jpg');
+    /*background-color: #222;*/
     background-size: cover;
     background-attachment: fixed;
   }

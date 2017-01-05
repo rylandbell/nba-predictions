@@ -29,7 +29,7 @@ const Navbar = () => {
               </li>
               <li className="hidden-xs">
                 <Link to={"/standings"}>
-                  <span className="nav-strong">Full Results</span>
+                  <span className="nav-strong">Standings</span>
                 </Link>
               </li>
             </ul>

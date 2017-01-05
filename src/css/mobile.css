@@ -1,0 +1,48 @@
+@media (max-width: 768px) {
+  #app-root {
+    padding: 0 6px;
+  }
+
+  h3 {
+    font-size: 24px;
+  }
+
+  h4 {
+    font-size: 20px;
+  }
+
+  h5 {
+    font-size: 14px;
+  }
+
+  .day-picker-item.glyphicon {
+    font-size: 20px;
+  }
+
+  .main .container-body {
+    padding: 0;
+  }
+
+  #app-root > div > div:nth-child(1) > div.main > div > div > div > div > div.col-xs-12.col-sm-8.col-md-9 > div {
+    padding-top: 0;
+    background-color: rgba(0,0,0,0) !important;
+  }
+
+  #app-root > div > div:nth-child(1) > div.main > div > div > div > div > div.col-xs-12.col-sm-8.col-md-9 > div > .panel-body {
+    padding: 0 10px;
+  }
+
+  .daily-picks-panel>.panel-body>.row>.col-xs-12 {
+    padding: 0;
+  }
+  
+  .panel-black {
+    background-color: rgba(0,0,0,0);
+  }
+
+  .date-display {
+    position: relative;
+    top: -4px;
+  }
+
+}
