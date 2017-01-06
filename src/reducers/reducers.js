@@ -8,6 +8,8 @@ import _difference from 'lodash/difference';
 import _sortBy from 'lodash/sortBy';
 import moment from 'moment';
 
+import fetchStatus from './fetch-status.js';
+
 const teams = ['ATL', 'BKN', 'BOS', 'CHA', 'CHI', 'CLE', 'DAL', 'DEN', 'DET', 'GSW', 'HOU', 'IND', 'LAC', 'LAL', 'MEM', 'MIA', 'MIL', 'MIN', 'NOP', 'NYK', 'OKC', 'ORL', 'PHI', 'PHX', 'POR', 'SAC', 'SAS', 'TOR', 'UTA', 'WAS'];
 
 const enteredText = (state = '', action) => {
@@ -33,110 +35,6 @@ const messages = (state=[], action) => {
       return state;
   }
 }
-
-const isSendingMessage = (state = false, action) => {
-  switch(action.type){
-    case 'SEND_MESSAGE':
-      return true;
-    case 'RECEIVE_MESSAGE_LOG':
-      return false;
-    default:
-      return state;
-  }
-};
-
-const isFetchingMessageLog = (state = false, action) => {
-  switch(action.type){
-    case 'REQUEST_MESSAGE_LOG_WAITING':
-      return true;
-    case 'RECEIVE_MESSAGE_LOG':
-      return false;
-    case 'REQUEST_MESSAGE_LOG_FAILURE':
-      return false;
-    default:
-      return state;
-  }
-};
-
-const isFetchingPredictions = (state = false, action) => {
-  switch(action.type){
-    case 'REQUEST_USER_MONTH_WAITING':
-      return true;
-    case 'RECEIVE_USER_MONTH':
-      return false;
-    case 'REQUEST_USER_MONTH_FAILURE':
-      return false;
-    default:
-      return state;
-  }
-};
-
-const isFetchingGameData = (state = false, action) => {
-  switch(action.type){
-    case 'REQUEST_GAME_DATA_WAITING':
-      return true;
-    case 'RECEIVE_GAME_DATA':
-      return false;
-    case 'REQUEST_GAME_DATA_FAILURE':
-      return false;
-    default:
-      return state;
-  }
-};
-
-const missingUserMonth = (state = false, action) => {
-  switch(action.type){
-    case 'RECEIVE_USER_MONTH':
-      return false;
-    case 'REQUEST_USER_MONTH_FAILURE':
-      if (action.message && action.message === "No userMonth found") {
-        return true;
-      } else {
-        return false;
-      }
-    default:
-      return state;
-  }
-};
-
-const isFetchingStandingsData = (state = false, action) => {
-  switch(action.type){
-    case 'REQUEST_STANDINGS_DATA_WAITING':
-      return true;
-    case 'RECEIVE_STANDINGS_DATA':
-      return false;
-    case 'REQUEST_STANDINGS_DATA_FAILURE':
-      return false;
-    default:
-      return state;
-  }
-};
-
-const isFetchingMonthList = (state = false, action) => {
-  switch(action.type){
-    case 'REQUEST_MONTH_LIST_WAITING':
-      return true;
-    case 'RECEIVE_MONTH_LIST':
-      return false;
-    case 'REQUEST_MONTH_LIST_FAILURE':
-      return false;
-    default:
-      return state;
-  }
-};
-
-const isSendingPrediction = (state = false, action) => {
-  switch(action.type){
-    case 'SEND_PREDICTION_WAITING':
-      return true;
-    case 'SEND_PREDICTION_SUCCESS':
-      return false;
-    case 'SEND_PREDICTION_FAILURE':
-      return false;
-    default:
-      return state;
-  }
-};
 
 //format: 'YYYY-MM-DD'
 const activeDate = (state = '', action) => {
@@ -240,19 +138,12 @@ const monthList = (state=[], action) => {
 
 const api = {
   app: Redux.combineReducers({
+    fetchStatus,
     enteredText,
     messages,
     monthList,
     selectedStandingsMonth,
     standingsData,
-    isFetchingGameData,
-    isFetchingStandingsData,
-    isFetchingMonthList,
-    isFetchingPredictions,
-    isFetchingMessageLog,
-    isSendingPrediction,
-    isSendingMessage,
-    missingUserMonth,
     activeMonth,
     activeDate,
     userMonth,
@@ -261,23 +152,3 @@ const api = {
 };
 
 export default api;
-
-// {
-//   isFetchingGameData,
-//   isFetchingPredictions,
-//   isSendingPrediction,
-//   activeDate: string,
-//   activeMonth: '2016-11',
-//   userMonth: {
-//     userMonthId: string
-//     eligibleTeams: {
-//       ATL: false,
-//       BOS: false,...
-//     },
-//     predictedWinners: {
-//       1: 'POR',
-//       2: 'NYK',...
-//     }
-//   },
-//   gamesByDay: []
-// }

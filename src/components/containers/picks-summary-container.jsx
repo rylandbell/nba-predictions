@@ -10,7 +10,7 @@ import Helper from '../../helper.js';
 import PicksSummary from '../picks-summary/picks-summary.jsx';
 
 const mapStateToProps = state => ({
-  missingUserMonth: state.missingUserMonth,
+  missingUserMonth: state.fetchStatus.missingUserMonth,
   userMonth: state.userMonth
 });
 

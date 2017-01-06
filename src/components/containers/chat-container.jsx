@@ -11,7 +11,7 @@ import Helper from '../../helper.js';
 const mapStateToProps = (state) => ({
   messages: state.messages,
   enteredText: state.enteredText,
-  isFetchingMessageLog: state.isFetchingMessageLog
+  isFetchingMessageLog: state.fetchStatus.isFetchingMessageLog
 });
 
 const mapDispatchToProps = (dispatch) => ({

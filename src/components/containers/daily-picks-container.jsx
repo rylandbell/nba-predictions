@@ -13,7 +13,7 @@ const mapStateToProps = (state) => ({
   predictedWinners: state.userMonth.predictedWinners,
   eligibleTeams: state.userMonth.eligibleTeams,
   gamesByDay: state.gamesByDay,
-  isSendingPrediction: state.isSendingPrediction,
+  isSendingPrediction: state.fetchStatus.isSendingPrediction,
   userMonth: state.userMonth,
   activeMonth: state.activeMonth
 });

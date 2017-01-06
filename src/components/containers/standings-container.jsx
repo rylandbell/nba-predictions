@@ -13,7 +13,7 @@ const mapStateToProps = state => ({
   monthList: state.monthList,
   selectedStandingsMonth: state.selectedStandingsMonth,
   standingsData: state.standingsData,
-  isFetchingStandingsData: state.isFetchingStandingsData
+  isFetchingStandingsData: state.fetchStatus.isFetchingStandingsData
 });
 
 const mapDispatchToProps = dispatch => ({

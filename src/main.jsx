@@ -14,7 +14,7 @@ import IndexRoute from 'react-router/lib/IndexRoute';
 
 import Alert from 'react-s-alert';
 
-import Reducers from './reducers.js';
+import Reducers from './reducers/reducers.js';
 import ActionCreator from './action-creators.js';
 import LayoutContainer from './components/containers/layout-container.jsx';
 import MonthlyPicksContainer from './components/containers/monthly-picks-container.jsx';

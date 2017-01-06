@@ -13,15 +13,15 @@ const MonthlyPicksPage = React.createClass({
     document.title = document.title.split(' | ')[0] + ' | My Picks';
   },
   render: function() {
-    const isLoading = this.props.reduxState.isFetchingPredictions || this.props.reduxState.isFetchingGameData;
+    const isLoading = this.props.reduxState.fetchStatus.isFetchingPredictions || this.props.reduxState.fetchStatus.isFetchingGameData;
 
     if (isLoading) {
       return <StatusMessage messageBold={'Loading game data...'} messageBody={'Just hang tight.'} messageClass={'info'}/>
-    } else if (this.props.reduxState.missingUserMonth) {
+    } else if (this.props.reduxState.fetchStatus.missingUserMonth) {
       return <UserMonthNotFound />
     } else {
       return (
-        <div className={'row '+(this.props.reduxState.isSendingPrediction ? 'send-waiting' : '')}>
+        <div className={'row '+(this.props.reduxState.fetchStatus.isSendingPrediction ? 'send-waiting' : '')}>
           {this.props.children}
           <MonthlyPicksSidebarContainer reduxState={this.props.reduxState}/>
         </div>)
