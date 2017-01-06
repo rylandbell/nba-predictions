@@ -9,44 +9,20 @@ import { Provider } from 'react-redux';
 import * as Redux from 'redux';
 import browserHistory from 'react-router/lib/browserHistory';
 import Router from 'react-router/lib/Router';
-import Route from 'react-router/lib/Route';
-import IndexRoute from 'react-router/lib/IndexRoute';
-
 import Alert from 'react-s-alert';
 
 import Reducers from './reducers/reducers.js';
 import ActionCreator from './action-creators.js';
-import LayoutContainer from './components/containers/layout-container.jsx';
-import MonthlyPicksContainer from './components/containers/monthly-picks-container.jsx';
-import DailyPicksContainer from './components/containers/daily-picks-container.jsx';
-import DashboardPage from './components/dashboard/dashboard-page.jsx';
-import FullStandingsPageContainer from './components/containers/full-standings-page-container.jsx';
-import RulesPanel from './components/dashboard/rules-panel.jsx';
-import ChatContainer from './components/containers/chat-container.jsx';
-import GenericNotFound from './components/generic-not-found.jsx';
+import Routes from './routes.jsx';
 
 const store = Redux.createStore(Reducers.app);
-
-const routes = (
-  <Route path ="/" component={LayoutContainer}>
-    <IndexRoute component={DashboardPage}/>
-    <Route path="/picks" component={MonthlyPicksContainer}>
-      <Route path="/picks/:month/:day" component = {DailyPicksContainer} />
-        <Route path = "*" component={GenericNotFound} />
-    </Route>
-    <Route path="/standings" component = {FullStandingsPageContainer} />
-    <Route path="/chat" component = {ChatContainer} />
-    <Route path="/how-to-play" component={RulesPanel} />
-    <Route path = "*" component={GenericNotFound} />
-  </Route>
-);
 
 function render() {
   ReactDOM.render(
     <Provider store={store}>
       <div>
         <Router history={browserHistory}>
-          {routes}
+          {Routes}
         </Router>
         <Alert />
       </div>
