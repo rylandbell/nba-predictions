@@ -10,3 +10,9 @@
 #login-form .form-group, #login-form button {
   margin-left: 15px;
 }
+
+.navbar-brand {
+  font-family: 'Life Savers', serif;
+  font-weight: bold;
+  font-size: 20px;
+}
