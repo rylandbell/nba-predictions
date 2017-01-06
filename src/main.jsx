@@ -50,7 +50,7 @@ if (window.location.pathname !== "/login") {
   render();
 }
 
-//Bootstrap/jQuery
+//~~~~~~Bootstrap/jQuery~~~~~~~~
 
 //Hide nav menu once an item is selected
 $(document).on('click','.navbar-collapse.in',function(e) {
