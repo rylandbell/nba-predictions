@@ -126,6 +126,15 @@ const selectedStandingsMonth = (state=moment().format('YYYY-MM'), action) => {
   }
 }
 
+const selectedPicksMonth = (state=moment().format('YYYY-MM'), action) => {
+  switch(action.type) {
+    case 'SET_PICKS_MONTH':
+      return action.month
+    default:
+      return state;
+  }
+}
+
 //List of months for which the current user has participated. Always includes current month.
 const monthList = (state=[], action) => {
   switch(action.type) {
@@ -139,14 +148,15 @@ const monthList = (state=[], action) => {
 const api = {
   app: Redux.combineReducers({
     fetchStatus,
+    userMonth,
     enteredText,
     messages,
     monthList,
     selectedStandingsMonth,
+    selectedPicksMonth,
     standingsData,
     activeMonth,
     activeDate,
-    userMonth,
     gamesByDay
   })
 };

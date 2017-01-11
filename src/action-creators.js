@@ -71,6 +71,14 @@ const api = {
     }
   ),
 
+  //Set PickSummary month on dashboard page from pulldown menu
+  setPicksMonth: month => (
+    {
+      type: 'SET_PICKS_MONTH',
+      month: month
+    }
+  ),
+
   //GET standings data
   requestStandingsDataWaiting: () => (
     {

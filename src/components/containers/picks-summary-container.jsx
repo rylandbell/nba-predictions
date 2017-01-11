@@ -11,13 +11,14 @@ import PicksSummary from '../picks-summary/picks-summary.jsx';
 
 const mapStateToProps = state => ({
   missingUserMonth: state.fetchStatus.missingUserMonth,
-  userMonth: state.userMonth
+  userMonth: state.userMonth,
+  selectedPicksMonth: state.selectedPicksMonth
 });
 
 const mapDispatchToProps = dispatch => ({
   createNewUserMonth: 
-    (callback) => {
-      const month = moment().format('YYYY-MM');
+    (callback, selectedPicksMonth) => {
+      const month = selectedPicksMonth || moment().format('YYYY-MM');
       const newRequest = {
         method: 'POST',
         credentials: 'same-origin',
@@ -52,6 +53,33 @@ const mapDispatchToProps = dispatch => ({
         });
       dispatch(ActionCreator.createUserMonthWaiting());
     },
+  getUserMonthData:
+    (month) => {
+      Helper.myFetch(
+        '/api/userMonth/'+month,
+        'GET',
+        {},
+        (response => {
+          dispatch(ActionCreator.receiveUserMonth(response));
+        }),
+        (response => {
+          if (response.message === "No userMonth found") {
+            dispatch(ActionCreator.requestUserMonthFailure(response.message));
+          } else {
+            Alert.warning('Error: Failed to load user data. ' + response.message,
+              {
+                position: 'bottom',
+                effect: 'stackslide',
+                beep: false,
+                timeout: 8000,
+                offset: 0
+              }
+            );
+          }
+        })
+      );
+      dispatch(ActionCreator.requestUserMonthWaiting());
+    },
   getStandingsData:
     () => {
       const month = moment().format('YYYY-MM');
@@ -76,7 +104,11 @@ const mapDispatchToProps = dispatch => ({
         })
       );
       dispatch(ActionCreator.requestStandingsDataWaiting());
-    }
+    },
+  setPicksMonth:
+    (month) => {
+      dispatch(ActionCreator.setPicksMonth(month))
+    },
 });
 
 const PicksSummaryContainer = connect(

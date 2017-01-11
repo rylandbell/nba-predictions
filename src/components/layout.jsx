@@ -9,7 +9,6 @@ const LayoutComponent = React.createClass({
   componentDidMount: function() {
     const currentMonth = moment().format('YYYY-MM');
     this.props.getUserMonthData(currentMonth);
-
     this.props.getStandingsData(this.props.reduxState.selectedStandingsMonth);
   },
   render: function () {
