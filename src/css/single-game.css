@@ -32,8 +32,13 @@
   border-radius: 10px;
 }
 
+.team-name>h4 {
+  font-size: 20px;
+}
+
 .game-status-score {
   margin-bottom: 0;
+  font-size: 14px;
 }
 
 .ineligible-team {
