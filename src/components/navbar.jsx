@@ -2,13 +2,8 @@
 
 import React from 'react';
 import Link from 'react-router/lib/Link';
-import moment from 'moment';
-
-// const fakeTitles = ['Ball Occassionally Lies', 'The Pick & Roll', 'The Pick & Pop', 'Pigeon Hoops', 'The Pigeon Hoops Principle', 'The Van Gundy Dilemma'];
-// const randomTitle = fakeTitles[Math.floor(Math.random()*fakeTitles.length)]
 
 const Navbar = () => {
-  const todayPath = moment().format('YYYY-MM') + '/' + moment().format('D');
   return (
     <div className="container-fluid">
       <nav className="navbar navbar-default navbar-fixed-top">
@@ -23,7 +18,7 @@ const Navbar = () => {
             <Link to="/" className="navbar-brand text-primary">Pigeon Hoops</Link>
             <ul className="nav nav-pills navbar-nav">
               <li className="hidden-xs">
-                <Link to={"/picks/"+todayPath}>
+                <Link to={"/picks"}>
                   <span className="nav-strong">My Picks</span>
                 </Link>
               </li>
@@ -37,7 +32,7 @@ const Navbar = () => {
           <div id="navbar-collapse-1" className="collapse navbar-collapse">
             <ul className="nav navbar-nav navbar-right">
               <li className="visible-xs">
-                <Link to={"/picks/"+todayPath}>My Picks </Link>
+                <Link to={"/picks"}>My Picks </Link>
               </li>
               <li className="visible-xs">
                 <Link to="/standings">Standings</Link>

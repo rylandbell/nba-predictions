@@ -11,7 +11,7 @@ const UpcomingPicks = React.createClass({
     //if current month is selected, go to today's picks page; otherwise, go to the first of the selected month
     const day = (this.props.selectedPicksMonth === moment().format('YYYY-MM') ? moment().format('D') : '1');
     const path = `/picks/${this.props.selectedPicksMonth}/${day}`;
-    browserHistory.push(path);
+    browserHistory.push('/picks');
   },
   render: function() {
     const firstDay = this.props.selectedPicksMonth === moment().format('YYYY-MM') ? moment().format('D') : '1';
