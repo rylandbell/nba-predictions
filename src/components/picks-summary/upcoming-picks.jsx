@@ -11,15 +11,15 @@ const UpcomingPicks = React.createClass({
     browserHistory.push('/picks');
   },
   render: function() {
-    const firstDay = this.props.selectedPicksMonth === moment().format('YYYY-MM') ? moment().format('D') : '1';
+    const firstDay = this.props.activeMonth === moment().format('YYYY-MM') ? moment().format('D') : '1';
     return (
       <div>
         <table className="table upcoming-picks-table">
           <thead>
             <tr>
-              <th className="text-center">{moment(this.props.selectedPicksMonth+'-'+firstDay).format('MMM D')}</th>
-              <th className="text-center">{moment(this.props.selectedPicksMonth+'-'+firstDay).add(1,'days').format('MMM D')}</th>
-              <th className="text-center">{moment(this.props.selectedPicksMonth+'-'+firstDay).add(2,'days').format('MMM D')}</th>
+              <th className="text-center">{moment(this.props.activeMonth+'-'+firstDay).format('MMM D')}</th>
+              <th className="text-center">{moment(this.props.activeMonth+'-'+firstDay).add(1,'days').format('MMM D')}</th>
+              <th className="text-center">{moment(this.props.activeMonth+'-'+firstDay).add(2,'days').format('MMM D')}</th>
             </tr>
           </thead>
           <tbody>
@@ -30,7 +30,7 @@ const UpcomingPicks = React.createClass({
             </tr>
           </tbody>
         </table>
-        <button onClick={this.handleClick} className="btn btn-primary center-block">Update {moment(this.props.selectedPicksMonth).format('MMMM')} Picks</button>
+        <button onClick={this.handleClick} className="btn btn-primary center-block">Update {moment(this.props.activeMonth).format('MMMM')} Picks</button>
       </div>
     );
   }

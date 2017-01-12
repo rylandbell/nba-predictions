@@ -71,14 +71,6 @@ const api = {
     }
   ),
 
-  //Set PickSummary month on dashboard page from pulldown menu
-  setPicksMonth: month => (
-    {
-      type: 'SET_PICKS_MONTH',
-      month: month
-    }
-  ),
-
   //GET standings data
   requestStandingsDataWaiting: () => (
     {
@@ -191,6 +183,12 @@ const api = {
       type: 'SET_ACTIVE_DATE',
       month: month,
       day: day
+    }
+  ),
+  setActiveMonth: (month) => (
+    {
+      type: 'SET_ACTIVE_MONTH',
+      month: month,
     }
   ),
   //~~~~~~~CHAT~~~~~~~~

@@ -28,7 +28,7 @@ const MonthlyPicksPage = React.createClass({
             <DailyPicksContainer />
           </div>
           <div className="col-xs-12 col-sm-4 col-md-3">
-            <MonthlyPicksMonthSelector selectedPicksMonth = {this.props.reduxState.selectedPicksMonth} setPicksMonth = {this.props.setPicksMonth} getUserMonthData={this.props.getUserMonthData} getGameData={this.props.getGameData} />
+            <MonthlyPicksMonthSelector activeMonth = {this.props.reduxState.activeMonth} setActiveMonth = {this.props.setActiveMonth} getUserMonthData={this.props.getUserMonthData} getGameData={this.props.getGameData} />
             <MonthlyPicksSidebarContainer reduxState={this.props.reduxState} />
           </div>
         </div>)

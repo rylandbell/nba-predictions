@@ -5,12 +5,12 @@ import moment from 'moment';
 
 const JoinMonth = React.createClass({
   handleClick: function () {
-    this.props.createNewUserMonth(this.props.getUserMonthData, this.props.selectedPicksMonth);
+    this.props.createNewUserMonth(this.props.getUserMonthData, this.props.activeMonth);
   },
   render: function() {
     return (
       <div>
-        <p> Click the button below to join the {moment(this.props.selectedPicksMonth).format('MMMM')} competition: </p>
+        <p> Click the button below to join the {moment(this.props.activeMonth).format('MMMM')} competition: </p>
         <p>
           <button onClick={this.handleClick} className="btn btn-primary btn-lg center-block animated rubberBand">Get Started</button>
         </p>

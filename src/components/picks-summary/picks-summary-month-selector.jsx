@@ -6,7 +6,7 @@ import moment from 'moment';
 const PicksSummaryMonthSelector = React.createClass({
   handleChange: function(event) {
     this.props.getUserMonthData(event.target.value);
-    this.props.setPicksMonth(event.target.value);
+    this.props.setActiveMonth(event.target.value);
   },
   render: function() {
     return (
@@ -14,7 +14,7 @@ const PicksSummaryMonthSelector = React.createClass({
         <fieldset>
           <div className="form-group standings-month-selector">
             <label className="control-label standings-month-selector__label">Select a month:</label>
-            <select className="form-control standings-month-selector__select" onChange={this.handleChange} value={this.props.selectedPicksMonth}>
+            <select className="form-control standings-month-selector__select" onChange={this.handleChange} value={this.props.activeMonth}>
               <option value={moment().format('YYYY-MM')}>
                 {moment().format('MMMM YYYY')}
               </option>

@@ -12,13 +12,13 @@ import PicksSummary from '../picks-summary/picks-summary.jsx';
 const mapStateToProps = state => ({
   missingUserMonth: state.fetchStatus.missingUserMonth,
   userMonth: state.userMonth,
-  selectedPicksMonth: state.selectedPicksMonth
+  activeMonth: state.activeMonth
 });
 
 const mapDispatchToProps = dispatch => ({
   createNewUserMonth: 
-    (callback, selectedPicksMonth) => {
-      const month = selectedPicksMonth || moment().format('YYYY-MM');
+    (callback, activeMonth) => {
+      const month = activeMonth || moment().format('YYYY-MM');
       const newRequest = {
         method: 'POST',
         credentials: 'same-origin',
@@ -104,7 +104,7 @@ const mapDispatchToProps = dispatch => ({
       );
       dispatch(ActionCreator.requestStandingsDataWaiting());
     },
-  setPicksMonth:
+  setActiveMonth:
     (month) => {
       let activeDay;
       if (month===moment().format('YYYY-MM')) {
@@ -112,7 +112,7 @@ const mapDispatchToProps = dispatch => ({
       } else {
         activeDay = '1';
       }
-      dispatch(ActionCreator.setPicksMonth(month));
+      dispatch(ActionCreator.setActiveMonth(month));
       dispatch(ActionCreator.setActiveDate(month, activeDay));
     }
 });

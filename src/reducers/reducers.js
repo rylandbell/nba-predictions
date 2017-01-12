@@ -51,6 +51,8 @@ const activeMonth = (state = moment().format('YYYY-MM'), action) => {
   switch(action.type){
     case 'SET_ACTIVE_DATE':
       return action.month;
+    case 'SET_ACTIVE_MONTH':
+      return action.month;
     case 'CREATE_USER_MONTH_SUCCESS':
       return action.month;
     default:
@@ -126,14 +128,14 @@ const selectedStandingsMonth = (state=moment().format('YYYY-MM'), action) => {
   }
 }
 
-const selectedPicksMonth = (state=moment().format('YYYY-MM'), action) => {
-  switch(action.type) {
-    case 'SET_PICKS_MONTH':
-      return action.month
-    default:
-      return state;
-  }
-}
+// const activeMonth = (state=moment().format('YYYY-MM'), action) => {
+//   switch(action.type) {
+//     case 'SET_PICKS_MONTH':
+//       return action.month
+//     default:
+//       return state;
+//   }
+// }
 
 //List of months for which the current user has participated. Always includes current month.
 const monthList = (state=[], action) => {
@@ -153,7 +155,6 @@ const api = {
     messages,
     monthList,
     selectedStandingsMonth,
-    selectedPicksMonth,
     standingsData,
     activeMonth,
     activeDate,

@@ -6,7 +6,7 @@ import moment from 'moment';
 const MonthlyPicksMonthSelector = React.createClass({
   handleChange: function(event) {
     // this.props.getUserMonthData(event.target.value);
-    this.props.setPicksMonth(event.target.value);
+    this.props.setActiveMonth(event.target.value);
     this.props.getUserMonthData(event.target.value);
     this.props.getGameData(event.target.value);
   },
@@ -20,7 +20,7 @@ const MonthlyPicksMonthSelector = React.createClass({
           <form role="form" className="form">
             <fieldset>
               <div className="form-group standings-month-selector">
-                <select className="form-control standings-month-selector__select" onChange={this.handleChange} value={this.props.selectedPicksMonth}>
+                <select className="form-control standings-month-selector__select" onChange={this.handleChange} value={this.props.activeMonth}>
                   <option value={moment().format('YYYY-MM')}>
                     {moment().format('MMMM YYYY')}
                   </option>

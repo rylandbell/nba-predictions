@@ -76,7 +76,7 @@ const mapDispatchToProps = dispatch => ({
       options = Object.assign({}, defaultOptions, options);
       Alert[type](msg, options);
     },
-  setPicksMonth:
+  setActiveMonth:
     (month) => {
       let activeDay;
       if (month===moment().format('YYYY-MM')) {
@@ -84,7 +84,7 @@ const mapDispatchToProps = dispatch => ({
       } else {
         activeDay = '1';
       }
-      dispatch(ActionCreator.setPicksMonth(month));
+      dispatch(ActionCreator.setActiveMonth(month));
       dispatch(ActionCreator.setActiveDate(month, activeDay));
     }
 });
