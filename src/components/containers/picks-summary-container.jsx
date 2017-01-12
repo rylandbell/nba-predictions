@@ -106,8 +106,15 @@ const mapDispatchToProps = dispatch => ({
     },
   setPicksMonth:
     (month) => {
-      dispatch(ActionCreator.setPicksMonth(month))
-    },
+      let activeDay;
+      if (month===moment().format('YYYY-MM')) {
+        activeDay = moment().format('D');
+      } else {
+        activeDay = '1';
+      }
+      dispatch(ActionCreator.setPicksMonth(month));
+      dispatch(ActionCreator.setActiveDate(month, activeDay));
+    }
 });
 
 const PicksSummaryContainer = connect(

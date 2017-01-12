@@ -5,8 +5,10 @@ import moment from 'moment';
 
 const MonthlyPicksMonthSelector = React.createClass({
   handleChange: function(event) {
-    this.props.getUserMonthData(event.target.value);
+    // this.props.getUserMonthData(event.target.value);
     this.props.setPicksMonth(event.target.value);
+    this.props.getUserMonthData(event.target.value);
+    this.props.getGameData(event.target.value);
   },
   render: function() {
     return (

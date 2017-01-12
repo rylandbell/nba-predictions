@@ -1,6 +1,7 @@
 'use strict';
 
 import { connect } from 'react-redux';
+import moment from 'moment';
 import Alert from 'react-s-alert';
 
 import ActionCreator from '../../action-creators.js';
@@ -74,6 +75,17 @@ const mapDispatchToProps = dispatch => ({
       };
       options = Object.assign({}, defaultOptions, options);
       Alert[type](msg, options);
+    },
+  setPicksMonth:
+    (month) => {
+      let activeDay;
+      if (month===moment().format('YYYY-MM')) {
+        activeDay = moment().format('D');
+      } else {
+        activeDay = '1';
+      }
+      dispatch(ActionCreator.setPicksMonth(month));
+      dispatch(ActionCreator.setActiveDate(month, activeDay));
     }
 });
 
