@@ -33,9 +33,8 @@ const mapDispatchToProps = dispatch => ({
         .then( () => {
           callback();
           dispatch(ActionCreator.createUserMonthSuccess(month));
-          const currentMonth = moment().format('YYYY-MM');
-          const currentDay = moment().format('D');
-          const path = `/picks/${currentMonth}/${currentDay}`;
+          const day = (month === moment().format('YYYY-MM') ? moment().format('D') : '1');
+          const path = `/picks/${month}/${day}`;
           browserHistory.push(path);
           return null;
         })

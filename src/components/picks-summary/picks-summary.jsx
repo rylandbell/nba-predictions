@@ -1,6 +1,8 @@
 'use strict';
 
 import React from 'react';
+import moment from 'moment';
+
 import StatusMessage from '../status-message.jsx';
 import JoinMonth from './join-month.jsx';
 import UpcomingPicks from './upcoming-picks.jsx';
@@ -11,10 +13,10 @@ const PicksSummary = React.createClass({
     let panelContent, panelTitle;
     if (this.props.missingUserMonth) {
       panelContent = <JoinMonth selectedPicksMonth={this.props.selectedPicksMonth} createNewUserMonth={this.props.createNewUserMonth} getStandingsData={this.props.getStandingsData} getUserMonthData={this.props.getUserMonthData} />;
-      panelTitle = "Join New Month";
+      panelTitle = `Join ${moment(this.props.selectedPicksMonth).format('MMMM')} Competition`;
     } else if (this.props.userMonth && this.props.userMonth.userMonthId) {
-      panelContent = <UpcomingPicks userMonth={this.props.userMonth} />
-      panelTitle = "My Upcoming Picks";
+      panelContent = <UpcomingPicks selectedPicksMonth={this.props.selectedPicksMonth} userMonth={this.props.userMonth} />
+      panelTitle = `My Upcoming Picks`;
     } else {
       panelContent = <StatusMessage messageBold={'Loading user picks data...'} messageBody={'Just hang tight.'} messageClass={'info'}/>;
       panelTitle = "Loading";
