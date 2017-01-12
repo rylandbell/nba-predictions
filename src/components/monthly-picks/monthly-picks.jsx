@@ -29,7 +29,7 @@ const MonthlyPicksPage = React.createClass({
           </div>
           <div className="col-xs-12 col-sm-4 col-md-3">
             <MonthlyPicksMonthSelector />
-            <MonthlyPicksSidebarContainer reduxState={this.props.reduxState}/>
+            <MonthlyPicksSidebarContainer reduxState={this.props.reduxState} />
           </div>
         </div>)
     }

@@ -1,17 +1,11 @@
 'use strict';
 
 import React from 'react';
-import browserHistory from 'react-router/lib/browserHistory';
 import moment from 'moment';
 
-import Helper from '../../../helper.js';
-
 const MonthlyPicksSummaryRow = React.createClass({
-
-  //HTML doesn't like links on table rows, so I'm using an event handler instead of Link:
   handleClick: function() {
-    const newPath = Helper.getPathDirectory() + this.props.dayOfMonth;
-    browserHistory.push(newPath);
+    this.props.updateActiveDate(this.props.activeMonth, this.props.dayOfMonth);
   },
   render: function () {
     const isActive = ((this.props.dayOfMonth == moment(this.props.activeDate).format('D')) ? 'active' : '');

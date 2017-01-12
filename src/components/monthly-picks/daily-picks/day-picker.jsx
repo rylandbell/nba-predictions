@@ -16,10 +16,8 @@ const DayPicker = React.createClass({
     }
 
     this.props.updateActiveDate(this.props.activeMonth, newDay);
-    console.log(this.props.activeDate);
   },
-  render: function() {
-    
+  render: function() {    
     const isFirstOfMonth = moment(this.props.activeDate).format('D') === '1';
     const isLastOfMonth = moment(this.props.activeDate).format('M') !== moment(this.props.activeDate).add(1,'days').format('M');
     

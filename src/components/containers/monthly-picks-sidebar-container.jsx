@@ -12,9 +12,10 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  goToDate: (date) => {
-    dispatch(ActionCreator.goToDate(date));
-  }
+  updateActiveDate:
+    (activeMonth, newDay) => {
+      dispatch(ActionCreator.setActiveDate (activeMonth, newDay));
+    }
 });
 
 const MonthlyPicksSidebarContainer = connect(

@@ -5,13 +5,13 @@ import moment from 'moment';
 
 import MonthlyPicksSidebarRow from './monthly-picks-sidebar-row.jsx';
 
-const MonthlyPicksSummary = ({predictedWinners, activeDate, activeMonth, goToDate}) => {
+const MonthlyPicksSummary = ({predictedWinners, activeDate, activeMonth, updateActiveDate}) => {
   const daysInMonth = moment(activeMonth).daysInMonth();
   
   const rows = [];
   for (var i = 1; i<=daysInMonth; i++){
     rows.push(
-      <MonthlyPicksSidebarRow userPrediction={predictedWinners[i]} activeDate={activeDate} activeMonth={activeMonth} goToDate={goToDate} dayOfMonth={i} key={i}/>
+      <MonthlyPicksSidebarRow userPrediction={predictedWinners[i]} activeDate={activeDate} activeMonth={activeMonth} updateActiveDate={updateActiveDate} dayOfMonth={i} key={i}/>
     )
   }
 
@@ -32,5 +32,3 @@ const MonthlyPicksSummary = ({predictedWinners, activeDate, activeMonth, goToDat
 }
 
 export default MonthlyPicksSummary;
-
-// {eligibleTeams.map((team, index) => <MonthlyPicksSidebarRow predictedWinners={predictedWinners} date={index} key={index}/>)}
