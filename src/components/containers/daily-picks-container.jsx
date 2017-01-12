@@ -95,6 +95,10 @@ const mapDispatchToProps = (dispatch) => ({
         })
       );
       dispatch(ActionCreator.sendPredictionWaiting());
+    },
+  updateActiveDate:
+    (activeMonth, newDay) => {
+      dispatch(ActionCreator.setActiveDate (activeMonth, newDay));
     }
 });
 

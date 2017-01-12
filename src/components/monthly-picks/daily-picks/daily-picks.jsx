@@ -5,10 +5,10 @@ import React from 'react';
 import SingleDayGameList from './single-day-game-list.jsx';
 import DayPicker from './day-picker.jsx';
 
-const DailyPicks = ({activeDate, gamesByDay, eligibleTeams, isSendingPrediction, predictedWinners, userMonth, activeMonth, addPrediction, removePrediction}) => (
+const DailyPicks = ({activeDate, gamesByDay, eligibleTeams, isSendingPrediction, predictedWinners, userMonth, activeMonth, addPrediction, removePrediction, updateActiveDate}) => (
   <div className="panel panel-black daily-picks-panel">
     <div className="panel-body">
-      <DayPicker activeDate={activeDate} />
+      <DayPicker activeDate={activeDate} activeMonth={activeMonth} updateActiveDate={updateActiveDate}/>
       <p className="text-center day-picker-message">
         (Home teams are displayed on the right.)
       </p>

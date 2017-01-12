@@ -1,44 +1,46 @@
 'use strict';
 
 import React from 'react';
-import Link from 'react-router/lib/Link';
 import moment from 'moment';
 
-import Helper from '../../../helper.js';
+const DayPicker = React.createClass({
+  handleClick: function(e) {
+    let newDay;
 
-const DayPicker = ({activeDate}) => {
-  const prevDay = moment(activeDate).subtract(1,'days').format('D');
-  const nextDay = moment(activeDate).add(1,'days').format('D');
+    if (e.target.dataset.direction === "next") {
+      newDay = moment(this.props.activeDate).add(1,'days').format('D');
+    } else if (e.target.dataset.direction === "prev") {
+      newDay = moment(this.props.activeDate).subtract(1,'days').format('D');
+    } else {
+      return;
+    }
 
-  //React router doesn't support relative Links, so I construct full-path links:
-  const currentPath = Helper.getPathDirectory();
-  const prevDayPath = currentPath + prevDay;
-  const nextDayPath = currentPath + nextDay;
-
-  const isFirstOfMonth = moment(activeDate).format('D') === '1';
-  const isLastOfMonth = moment(activeDate).format('M') !== moment(activeDate).add(1,'days').format('M');
-  return (
-    <div className="row">
-      <div className="day-picker-container">
-        {isFirstOfMonth ? null :
-          <Link to={prevDayPath}>
-            <span className="day-picker-item glyphicon glyphicon-menu-left"></span>
-          </Link>
-        }
-        <div className="day-picker-item date-display">
-          <h3>
-            {moment(activeDate).format('dddd, MMM D')}
-          </h3>
+    this.props.updateActiveDate(this.props.activeMonth, newDay);
+    console.log(this.props.activeDate);
+  },
+  render: function() {
+    
+    const isFirstOfMonth = moment(this.props.activeDate).format('D') === '1';
+    const isLastOfMonth = moment(this.props.activeDate).format('M') !== moment(this.props.activeDate).add(1,'days').format('M');
+    
+    return (
+      <div className="row">
+        <div className="day-picker-container">
+          {isFirstOfMonth ? null :
+            <span className="day-picker-item glyphicon glyphicon-menu-left" onClick={this.handleClick} data-direction="prev"></span>
+          }
+          <div className="day-picker-item date-display">
+            <h3>
+              {moment(this.props.activeDate).format('dddd, MMM D')}
+            </h3>
+          </div>
+          {isLastOfMonth ? null :          
+            <span className="day-picker-item glyphicon glyphicon-menu-right" onClick={this.handleClick} data-direction="next"></span>
+          }
         </div>
-        
-        {isLastOfMonth ? null :
-          <Link to={nextDayPath}>
-            <span className="day-picker-item glyphicon glyphicon-menu-right"></span>
-          </Link>
-        }
       </div>
-    </div>
-  );
-};
+    );
+  }
+});
 
 export default DayPicker;

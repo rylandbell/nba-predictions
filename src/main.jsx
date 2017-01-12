@@ -12,7 +12,6 @@ import Router from 'react-router/lib/Router';
 import Alert from 'react-s-alert';
 
 import Reducers from './reducers/reducers.js';
-import ActionCreator from './action-creators.js';
 import Routes from './routes.jsx';
 
 const store = Redux.createStore(Reducers.app);
@@ -32,20 +31,7 @@ function render() {
 }
 
 //don't actually run anything on login page:
-if (window.location.pathname !== "/login") {
-  
-  //pass date data from path to Redux store if current path looks like /picks/2016/:month/:day
-  const dateToRedux = function () {
-    let pathArray = window.location.pathname.split('/');
-    if (pathArray[1] === 'picks') {
-      store.dispatch(ActionCreator.setActiveDate(pathArray[2],pathArray[3]));
-    }
-  }
-
-  //call dateToRedux on initial load, and again whenever the browserHistory updates
-  dateToRedux();
-  browserHistory.listen(dateToRedux);
-
+if (window.location.pathname !== "/login") {  
   store.subscribe(render);
   render();
 }
