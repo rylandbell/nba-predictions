@@ -4,7 +4,7 @@ import React from 'react';
 import moment from 'moment';
 
 import StatusMessage from '../status-message.jsx';
-import JoinMonth from './join-month.jsx';
+import JoinMonth from '../utility/join-month.jsx';
 import UpcomingPicks from './upcoming-picks.jsx';
 import PicksSummaryMonthSelector from './picks-summary-month-selector.jsx';
 

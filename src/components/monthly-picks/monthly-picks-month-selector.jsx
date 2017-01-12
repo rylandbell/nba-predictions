@@ -12,15 +12,15 @@ const MonthlyPicksMonthSelector = React.createClass({
   },
   render: function() {
     return (
-      <div className="panel panel-black">
+      <div className="panel panel-black panel-default month-selector">
         <div className="panel-heading">
           <div className="panel-title"> Select a month: </div>
         </div>
         <div className="panel-body">
           <form role="form" className="form">
             <fieldset>
-              <div className="form-group standings-month-selector">
-                <select className="form-control standings-month-selector__select" onChange={this.handleChange} value={this.props.activeMonth}>
+              <div className="form-group">
+                <select className="form-control" onChange={this.handleChange} value={this.props.activeMonth}>
                   <option value={moment().format('YYYY-MM')}>
                     {moment().format('MMMM YYYY')}
                   </option>
@@ -31,7 +31,11 @@ const MonthlyPicksMonthSelector = React.createClass({
               </div>
             </fieldset>
           </form>
+          <p className="month-selector__message">
+            You can view and update your picks for the current and upcoming month here. To view results from earlier months, visit the <a href="/standings">Standings</a> page.
+          </p>
         </div>
+        
       </div>
     )
   }
