@@ -2,6 +2,13 @@
   padding-top: 28px;
 }
 
+.full-standings-wrapper {
+  white-space: nowrap;
+  overflow-x: scroll;
+  overflow-y:visible;
+  margin-left: 211px;
+}
+
 .standings-team {
   padding: 2px;
   /*font-size: 1.4em;*/
@@ -21,13 +28,34 @@
   box-shadow: 0 0 0.4em 0.1em #CC0000;
 }
 
-/*.standings-table>tbody>tr:hover {
-  cursor: pointer;
+.full-standings-wrapper .w-l-column {
+  width: 54px;
+  position: absolute;
+  left: 190px;
 }
-*/
 
-.w-l-column {
-  min-width: 54px;
+.name-column {
+  position: absolute;
+  left: 30px;
+  width: 160px;
+}
+
+.full-standings-wrapper .w-l-column, .full-standings-wrapper .name-column {
+  background-color: #181818;
+}
+
+.full-standings-wrapper th.w-l-column, .full-standings-wrapper th.name-column {
+  height: 38px;
+  /*border-bottom-width: 5px;*/
+  /*border-color: red;*/
+}
+
+.full-standings-wrapper td.w-l-column, .full-standings-wrapper td.name-column {
+  height: 62px;
+}
+
+.full-standings-wrapper table {
+  margin-bottom: 0;
 }
 
 .standings-month-selector {
@@ -56,9 +84,4 @@
   .standings-month-selector__select {
     flex: 3;
   }
-}
-
-.full-standings-scrollspace {
-  white-space:nowrap;
-  overflow-x: auto;
 }

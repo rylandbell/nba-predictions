@@ -31,17 +31,15 @@ const FullStandingsPage = React.createClass({
           {this.props.isFetchingStandingsData ? 
             <StatusMessage messageBold={'Loading standings data...'} messageBody={'Just hang tight.'} messageClass={'info'}/>
           :
-            <div className="full-standings-scrollspace">
-              <div className="standings-wrapper">
-                <table className="table table-bordered standings-table">
-                  <FullStandingsHeader selectedStandingsMonth={this.props.selectedStandingsMonth} />
-                  <tbody>
-                    {this.props.standingsData.map(
-                        (player,key) => <FullStandingsRow player={player} key={key} selectedStandingsMonth={this.props.selectedStandingsMonth}/>                    
-                    )}
-                  </tbody>
-                </table>
-              </div>
+            <div className="full-standings-wrapper">
+              <table className="table table-bordered standings-table">
+                <FullStandingsHeader selectedStandingsMonth={this.props.selectedStandingsMonth} />
+                <tbody>
+                  {this.props.standingsData.map(
+                      (player,key) => <FullStandingsRow player={player} key={key} selectedStandingsMonth={this.props.selectedStandingsMonth}/>                    
+                  )}
+                </tbody>
+              </table>
             </div>
           }
         </div>

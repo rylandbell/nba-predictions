@@ -13,7 +13,7 @@ const FullStandingsHeader = ({selectedStandingsMonth}) => {
   return (
     <thead>
       <tr>
-        <th>
+        <th className="name-column">
           Player
         </th>
         <th className="text-center w-l-column"> W - L
