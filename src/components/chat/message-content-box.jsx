@@ -6,7 +6,7 @@ import Helper from '../../helper.js';
 
 //handles paragraph breaks in message text
 const api = ({content}) => (
-    <div className="message-content">{Helper.formatMessage(content)}</div>
+    <div className="chat__message-content">{Helper.formatMessage(content)}</div>
 );
 
 export default api;

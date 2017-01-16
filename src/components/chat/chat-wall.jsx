@@ -13,18 +13,18 @@ const ChatWall = React.createClass({
   },
   render: function() {
     return (
-      <div className="chat-wall-panel panel panel-default panel-black">
-        <div className="panel-heading hidden-xs">
+      <div className="chat panel panel-default panel-black">
+        <div className="panel-heading hidden-xs chat__heading">
           <div className="panel-title">Chat Wall</div>
         </div>
-        <div className="panel-body chat-wall">
+        <div className="panel-body chat__body">
           <NewMessageInput 
             enteredText={this.props.enteredText} 
             sendMessage={this.props.sendMessage} 
             handleTextChange = {this.props.handleTextChange}
             listenForEnter = {this.props.listenForEnter}
           />
-          <div className="message-log">
+          <div className="chat__message-log">
             <div>
               {this.props.isFetchingMessageLog ? 
                 <StatusMessage messageBold={'Loading message data...'} messageBody={'Just hang tight.'} messageClass={'info'} /> :

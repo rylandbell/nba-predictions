@@ -9,10 +9,10 @@ const NewMessageInput = React.createClass({
   },
   render: function() {
     return (
-      <form className="new-message-form" onSubmit={this.handleSubmit}>
-        <textarea placeholder="What's on your mind?" className="form-control" rows='4' value={this.props.enteredText} onChange={this.props.handleTextChange} onKeyPress={this.props.listenForEnter}/>
+      <form onSubmit={this.handleSubmit}>
+        <textarea placeholder="What's on your mind?" className="chat__new-message-input form-control" rows='4' value={this.props.enteredText} onChange={this.props.handleTextChange} onKeyPress={this.props.listenForEnter}/>
         <input className='btn btn-primary hidden' type='submit' value='Send' />
-        <div className="small pull-right enter-to-send">Press enter to send</div>
+        <div className="small pull-right chat__help-text">Press enter to send</div>
         <div className="clearfix"></div>
       </form>
     )

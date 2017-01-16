@@ -11,7 +11,7 @@ const MessageLog = React.createClass({
   componentDidMount: Helper.scrollToBottom,
   render: function() {
     return (
-      <div className="messages-display" ref={(c) => this.log = c}>
+      <div ref={(c) => this.log = c}>
         {this.props.messages.map((message,index) => <MessageRow message={message} key={index}/>)}
       </div> 
     );
