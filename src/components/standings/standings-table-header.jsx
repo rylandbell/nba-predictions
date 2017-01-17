@@ -10,7 +10,7 @@ const StandingsTableHeader = ({selectedStandingsMonth}) => (
         <th>
           Player
         </th>
-        <th className="text-center w-l-column"> W - L
+        <th className="text-center standings__w-l-column"> W - L
         </th>
         <th className="text-center">
           {moment().format('MMM D')}
@@ -26,7 +26,7 @@ const StandingsTableHeader = ({selectedStandingsMonth}) => (
         <th>
           Player
         </th>
-        <th className="text-center w-l-column"> W - L
+        <th className="text-center standings__w-l-column"> W - L
         </th>
       </tr>
     </thead>

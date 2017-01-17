@@ -34,8 +34,8 @@ const StandingsTable = React.createClass({
             <StatusMessage messageBold={'Loading standings data...'} messageBody={'Just hang tight.'} messageClass={'info'}/>
           :
             <div>
-              <div className="standings-wrapper">
-                <table className="table table-bordered standings-table">
+              <div className="standings">
+                <table className="table table-bordered">
                   <StandingsTableHeader selectedStandingsMonth={this.props.selectedStandingsMonth}/>
                   <tbody>
                     {this.props.standingsData.map(

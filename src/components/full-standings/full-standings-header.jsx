@@ -13,10 +13,10 @@ const FullStandingsHeader = ({selectedStandingsMonth}) => {
   return (
     <thead>
       <tr>
-        <th className="name-column">
+        <th className="standings__player-name-column--full standings__player-name-column-header--full">
           Player
         </th>
-        <th className="text-center w-l-column"> W - L
+        <th className="text-center standings__w-l-column--full standings__w-l-column-header--full"> W - L
         </th>
         {daysArray.map( (day, key) =>
           <th className="text-center" key={key}>{selectedStandingsMonth.substring(5,7)}/{day}</th>

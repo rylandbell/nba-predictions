@@ -12,9 +12,9 @@ const StandingsMonthSelector = React.createClass({
     return (
       <form role="form" className="form">
         <fieldset>
-          <div className="form-group standings-month-selector">
-            <label className="control-label standings-month-selector__label">Select a month:</label>
-            <select className="form-control standings-month-selector__select" onChange={this.handleChange} value={this.props.selectedStandingsMonth}>
+          <div className="form-group standings__month-selector">
+            <label className="control-label standings__month-selector-label">Select a month:</label>
+            <select className="form-control standings__month-selector-input" onChange={this.handleChange} value={this.props.selectedStandingsMonth}>
               {this.props.monthList.map(
                 (month,key) => <option value={month} key={key}>{moment(month).format('MMMM YYYY') }</option>)
               }

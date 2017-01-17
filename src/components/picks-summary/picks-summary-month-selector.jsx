@@ -12,9 +12,9 @@ const PicksSummaryMonthSelector = React.createClass({
     return (
       <form role="form" className="form">
         <fieldset>
-          <div className="form-group standings-month-selector">
-            <label className="control-label standings-month-selector__label">Select a month:</label>
-            <select className="form-control standings-month-selector__select" onChange={this.handleChange} value={this.props.activeMonth}>
+          <div className="form-group standings__month-selector">
+            <label className="control-label standings__month-selector-label">Select a month:</label>
+            <select className="form-control standings__month-selector-input" onChange={this.handleChange} value={this.props.activeMonth}>
               <option value={moment().format('YYYY-MM')}>
                 {moment().format('MMMM YYYY')}
               </option>

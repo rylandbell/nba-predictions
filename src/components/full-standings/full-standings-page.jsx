@@ -31,8 +31,8 @@ const FullStandingsPage = React.createClass({
           {this.props.isFetchingStandingsData ? 
             <StatusMessage messageBold={'Loading standings data...'} messageBody={'Just hang tight.'} messageClass={'info'}/>
           :
-            <div className="full-standings-wrapper">
-              <table className="table table-bordered standings-table">
+            <div className="standings--full">
+              <table className="table table-bordered standings__table--full">
                 <FullStandingsHeader selectedStandingsMonth={this.props.selectedStandingsMonth} />
                 <tbody>
                   {this.props.standingsData.map(

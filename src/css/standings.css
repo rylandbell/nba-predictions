@@ -1,87 +1,90 @@
-.standings-panel {
-  padding-top: 28px;
+.standings__team-cell {
+  padding: 2px;
+  border-radius: 5px;
 }
 
-.full-standings-wrapper {
+.standings__glyphicon {
+  margin-top: 6px;
+  color: #888;
+}
+
+.standings__team-cell--victory {
+  box-shadow: 0 0 0.4em 0.1em #77B300;
+}
+
+.standings__team-cell--defeat {
+  box-shadow: 0 0 0.4em 0.1em #CC0000;
+}
+
+.standings__month-selector {
+  display: flex;
+  padding: 10px;
+}
+
+/*classes for the full standings page get the modifier "--full"*/
+.standings--full {
   white-space: nowrap;
   overflow-x: scroll;
   overflow-y:visible;
   margin-left: 211px;
 }
 
-.standings-team {
-  padding: 2px;
-  /*font-size: 1.4em;*/
-  border-radius: 5px;
-}
-
-.standings-team .glyphicon {
-  margin-top: 6px;
-  color: #888;
-}
-
-.standings-victory-team {
-  box-shadow: 0 0 0.4em 0.1em #77B300;
-}
-
-.standings-defeat-team {
-  box-shadow: 0 0 0.4em 0.1em #CC0000;
-}
-
-.full-standings-wrapper .w-l-column {
+.standings__w-l-column--full {
   width: 54px;
   position: absolute;
   left: 190px;
-}
-
-.name-column {
-  position: absolute;
-  left: 30px;
-  width: 160px;
-}
-
-.full-standings-wrapper .w-l-column, .full-standings-wrapper .name-column {
   background-color: #181818;
 }
 
-.full-standings-wrapper th.w-l-column, .full-standings-wrapper th.name-column {
-  height: 38px;
-  /*border-bottom-width: 5px;*/
-  /*border-color: red;*/
+.standings__player-name-column--full {
+  position: absolute;
+  left: 30px;
+  width: 160px;
+  background-color: #181818;
 }
 
-.full-standings-wrapper td.w-l-column, .full-standings-wrapper td.name-column {
+.standings__w-l-column-header--full {
+  height: 38px;
+}
+
+.standings__w-l-column-item--full {
   height: 62px;
 }
 
-.full-standings-wrapper table {
+.standings__player-name-column-header--full {
+  height: 38px;
+}
+
+.standings__player-name-column-item--full {
+  height: 62px;
+}
+
+.standings__table--full {
   margin-bottom: 0;
 }
 
-.standings-month-selector {
-  display: flex;
-  padding: 10px;
-}
+/*MD and LG*/
 @media (min-width: 992px) {
-  .standings-month-selector__label {
+  .standings__month-selector-label {
     margin-right: 10px;
     margin-top: 5px;
     flex: 1;
   }
 
-  .standings-month-selector__select {
+  .standings__month-selector-input {
     flex: 2;
   }
 }
 
+/*XS and SM*/
 @media (max-width: 991px) {
-  .standings-month-selector__label {
+  .standings__month-selector-label {
     margin-right: 10px;
     margin-top: 5px;
     flex: 1;
   }
 
-  .standings-month-selector__select {
+  .standings__month-selector-input {
     flex: 3;
   }
 }

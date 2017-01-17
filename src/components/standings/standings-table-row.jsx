@@ -3,14 +3,14 @@
 import React from 'react';
 import moment from 'moment';
 
-import StandingsTableGame from './standings-table-game';
+import StandingsTableGame from './standings-table-game.jsx';
 
 const StandingsTableRow = ({player, selectedStandingsMonth}) => {
   const todayNumber = moment().format('D');
   return (
     selectedStandingsMonth === moment().format('YYYY-MM') ?
       <tr>
-        <td className="standings-border-right">
+        <td>
           <h6>{player.ownerDisplayName}</h6>
         </td>
         <td className="text-center">
@@ -25,7 +25,7 @@ const StandingsTableRow = ({player, selectedStandingsMonth}) => {
       </tr>
     :
       <tr>
-        <td className="standings-border-right">
+        <td>
           <h6>{player.ownerDisplayName}</h6>
         </td>
         <td className="text-center">
