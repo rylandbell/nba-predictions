@@ -6,7 +6,7 @@ var _ = require('lodash');
 
 var UserMonthModel = mongoose.model('UserMonth');
 var UserModel = mongoose.model('User');
-var updateData = require('../../bin/updateDataFunction.js');
+var updateData = require('./scorekeeping/updateDataFunction.js');
 
 //don't run updateData more than once per minute:
 var throttledUpdateData = _.throttle(updateData, 30*1000, { leading: true });
@@ -94,7 +94,7 @@ const getOwnerData = function (req, res, callback) {
 
 /* GET one userMonth ownerId, month */
 module.exports.userMonthReadOne = function (req, res) {
-  throttledUpdateData();
+  // throttledUpdateData();
   getOwnerData(req, res, function (req, res, owner) {
     var filter = {
       ownerId: owner._id,
@@ -125,7 +125,7 @@ module.exports.userMonthReadOne = function (req, res) {
 
 /* GET all userMonths for a single ownerId */
 module.exports.userMonthReadAllForUser = function (req, res) {
-  throttledUpdateData();
+  // throttledUpdateData();
   getOwnerData(req, res, function (req, res, owner) {
     var filter = {
       ownerId: owner._id
@@ -183,6 +183,7 @@ module.exports.userMonthReadAllByMonth = function (req, res) {
 
 //GET all userMonths by month, and hide future predictions
 module.exports.userMonthReadAllPublic = function (req, res) {
+  throttledUpdateData();
   var filter = {
     month: req.params.month
   };

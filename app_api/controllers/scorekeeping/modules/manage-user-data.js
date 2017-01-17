@@ -101,8 +101,10 @@ module.exports.markResults = function (date) {
       });
     })
 
-  //finally, send any marked outcomes back to the API:
-    // .then
-    .catch(response => console.log('error in markResults function: ', response));
+  //finally, tell the calling function that the process is complete:
+    .then(results => {
+      console.log(results);
+    })
 
+    .catch(response => console.log('error in markResults function: ', response));
 };
