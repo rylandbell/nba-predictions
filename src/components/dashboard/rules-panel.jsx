@@ -30,6 +30,7 @@ const RulesPanel = React.createClass({
                   The player with the most correct picks at the end of the month wins.
                 </li>
               </ul>
+              <hr />
               <h4> So what do I actually do? </h4>
               <ul>
                 <li>
@@ -45,6 +46,7 @@ const RulesPanel = React.createClass({
                   Picks are finalized once the game actually begins. Until then, you can change your mind as many times as you want.
                 </li>
               </ul>
+              <hr />
               <h4> The Fine Print: </h4>
               <ul>
                 <li>
@@ -57,7 +59,7 @@ const RulesPanel = React.createClass({
                   Losses don't affect the standings. For example, a 6-3 player will be listed in front of a 5-0 player.
                 </li>
                 <li>
-                  I don't yet have a good tie-breaker rule in place. I'm open to suggestions.
+                  There is no programmed tiebreaker right now. My best idea is to favor the player who can boast a correct prediction with the weakest team, but I'm open to suggestions.
                 </li>
               </ul>
             </div>
