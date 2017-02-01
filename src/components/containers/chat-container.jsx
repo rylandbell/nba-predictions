@@ -80,9 +80,10 @@ const mapDispatchToProps = (dispatch) => ({
     },
   listenForEnter:
     (e) => {
-      if(e.charCode===13){
+      console.log(e.charCode)
+      if(e.charCode === 13){
         e.preventDefault();
-        $('.new-message-form input[type="submit"]').click();
+        $('.chat__form input[type="submit"]').click();
       }
     }
 });

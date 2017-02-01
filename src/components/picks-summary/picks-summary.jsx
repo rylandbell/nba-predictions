@@ -28,9 +28,9 @@ const PicksSummary = React.createClass({
         </div>
         <div className="panel-body">
           {panelContent}
+          <hr className="picks-summary__hr"/>
+          <PicksSummaryMonthSelector activeMonth={this.props.activeMonth} setActiveMonth={this.props.setActiveMonth} getUserMonthData={this.props.getUserMonthData}/>
         </div>
-        <hr />
-        <PicksSummaryMonthSelector activeMonth={this.props.activeMonth} setActiveMonth={this.props.setActiveMonth} getUserMonthData={this.props.getUserMonthData}/>
       </div>
     );
   }
