@@ -6,9 +6,9 @@ const StandingsTableRow = ({game}) => {
   const teamNameClass = game.teamName ? game.teamName.toLowerCase() : 'glyphicon glyphicon-minus standings__glyphicon text-center';
   let outcomeClass = '';
   if (game.outcome === 'success') {
-    outcomeClass = '.standings__team-cell--victory';
+    outcomeClass = 'standings__team-cell--victory';
   } else if (game.outcome === 'failure') {
-    outcomeClass = '.standings__team-cell--defeat';
+    outcomeClass = 'standings__team-cell--defeat';
   }
   
   return (
