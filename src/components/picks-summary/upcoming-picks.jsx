@@ -12,7 +12,6 @@ const UpcomingPicks = React.createClass({
   },
   render: function() {
     const firstDay = this.props.activeMonth === moment().format('YYYY-MM') ? moment().format('DD') : '1';
-    console.log('firstDay',firstDay);
     return (
       <div>
         <table className="table upcoming-picks-table">
@@ -25,7 +24,7 @@ const UpcomingPicks = React.createClass({
           </thead>
           <tbody>
             <tr>
-              <UpcomingPicksTeam day={firstDay} userMonth={this.props.userMonth} />
+              <UpcomingPicksTeam day={parseInt(firstDay, 10)} userMonth={this.props.userMonth} />
               <UpcomingPicksTeam day={parseInt(firstDay, 10)+1} userMonth={this.props.userMonth} />
               <UpcomingPicksTeam day={parseInt(firstDay, 10)+2} userMonth={this.props.userMonth} />
             </tr>
