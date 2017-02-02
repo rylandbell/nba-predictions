@@ -12,6 +12,7 @@ const UpcomingPicks = React.createClass({
   },
   render: function() {
     const firstDay = this.props.activeMonth === moment().format('YYYY-MM') ? moment().format('D') : '1';
+    console.log('firstDay',firstDay);
     return (
       <div>
         <table className="table upcoming-picks-table">
