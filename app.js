@@ -42,10 +42,11 @@ app.use(function(req, res, next){
 app.use('/api', routesApi);
 app.use('/', routes);
 
+//Not working in latest version of node; commenting out for the time beingz
 //Report on envirnoment to console:
-app.listen(app.get('port'),function(){
-  console.log('Express started in '+app.get('env')+' mode on port '+app.get('port'));
-});
+// app.listen(app.get('port'),function(){
+//   console.log('Express started in '+app.get('env')+' mode on port '+app.get('port'));
+// });
 
 switch(app.get('env')){
   case 'development':
