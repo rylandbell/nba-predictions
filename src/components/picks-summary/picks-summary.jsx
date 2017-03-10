@@ -15,7 +15,7 @@ const PicksSummary = React.createClass({
       panelContent = <JoinMonth activeMonth={this.props.activeMonth} createNewUserMonth={this.props.createNewUserMonth} getStandingsData={this.props.getStandingsData} getUserMonthData={this.props.getUserMonthData} />;
       panelTitle = `Join ${moment(this.props.activeMonth).format('MMMM')} Competition`;
     } else if (this.props.userMonth && this.props.userMonth.userMonthId) {
-      panelContent = <UpcomingPicks activeMonth={this.props.activeMonth} userMonth={this.props.userMonth} />
+      panelContent = <UpcomingPicks activeMonth={this.props.activeMonth} userMonth={this.props.userMonth} goToDate={this.props.goToDate} />
       panelTitle = `My Upcoming Picks`;
     } else {
       panelContent = <StatusMessage messageBold={'Loading user picks data...'} messageBody={'Just hang tight.'} messageClass={'info'}/>;

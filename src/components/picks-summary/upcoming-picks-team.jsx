@@ -1,8 +1,6 @@
 'use strict';
 
 import React from 'react';
-import browserHistory from 'react-router/lib/browserHistory';
-import moment from 'moment';
 
 const getPick = (userMonth, day) => {
   if (userMonth.predictedWinners[day] && userMonth.predictedWinners[day].teamName) {
@@ -14,10 +12,7 @@ const getPick = (userMonth, day) => {
 
 const UpcomingPicksTeam = React.createClass({
   handleClick: function () {
-    const currentMonth = moment().format('YYYY-MM');
-    const pickDay = this.props.day;
-    const path = `/picks/${currentMonth}/${pickDay}`;
-    browserHistory.push(path);
+    this.props.goToDate(this.props.activeMonth, this.props.day);
   },
   render: function() {
     return (

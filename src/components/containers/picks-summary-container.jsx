@@ -114,6 +114,12 @@ const mapDispatchToProps = dispatch => ({
       }
       dispatch(ActionCreator.setActiveMonth(month));
       dispatch(ActionCreator.setActiveDate(month, activeDay));
+    },
+  goToDate:
+    (month, day) => {
+      dispatch(ActionCreator.setActiveDate(month, day));
+      const path = `/picks/${month}`;
+      browserHistory.push(path);
     }
 });
 
