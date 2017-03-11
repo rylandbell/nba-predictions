@@ -3,6 +3,7 @@
 import { connect } from 'react-redux';
 import moment from 'moment';
 import Alert from 'react-s-alert';
+import browserHistory from 'react-router/lib/browserHistory';
 
 import ActionCreator from '../../action-creators.js';
 import MonthlyPicks from '../monthly-picks/monthly-picks.jsx';
@@ -13,8 +14,44 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
+  createNewUserMonth: 
+    (callback, activeMonth) => {
+      console.log('activeMonth', activeMonth);
+      const month = activeMonth || moment().format('YYYY-MM');
+      const newRequest = {
+        method: 'POST',
+        credentials: 'same-origin',
+        cache: 'default',
+        body: JSON.stringify({month: month})
+      };
+
+      newRequest.headers = new Headers;
+      newRequest.headers.append('Content-Type', 'application/json');
+            
+      fetch('/api/userMonth/',newRequest)
+        .then( () => {
+          callback();
+          dispatch(ActionCreator.createUserMonthSuccess(month));
+          const path = `/picks/${month}`;
+          browserHistory.push(path);
+          return null;
+        })
+        .catch(response => {
+          Alert.warning('Error: Failed to load user data. ' + response.message,
+            {
+              position: 'bottom',
+              effect: 'stackslide',
+              beep: false,
+              timeout: 8000,
+              offset: 0
+            }
+          );
+          dispatch(ActionCreator.createUserMonthFailure(response.message));
+        });
+      dispatch(ActionCreator.createUserMonthWaiting());
+    },
   getUserMonthData:
-    (month) => {
+    (month = moment().format('YYYY-MM')) => {
       Helper.myFetch(
         '/api/userMonth/'+month,
         'GET',

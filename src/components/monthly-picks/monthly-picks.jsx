@@ -28,7 +28,7 @@ const MonthlyPicksPage = React.createClass({
                 <div className="panel-title">Join Month</div>
               </div>
               <div className="panel-body">
-                <JoinMonth activeMonth={this.props.reduxState.activeMonth} />
+                <JoinMonth activeMonth={this.props.reduxState.activeMonth} createNewUserMonth={this.props.createNewUserMonth} getUserMonthData={this.props.getUserMonthData} />
               </div>
             </div>  
           </div>

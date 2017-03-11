@@ -33,8 +33,7 @@ const mapDispatchToProps = dispatch => ({
         .then( () => {
           callback();
           dispatch(ActionCreator.createUserMonthSuccess(month));
-          const day = (month === moment().format('YYYY-MM') ? moment().format('D') : '1');
-          const path = `/picks/${month}/${day}`;
+          const path = `/picks/${month}`;
           browserHistory.push(path);
           return null;
         })
@@ -53,7 +52,7 @@ const mapDispatchToProps = dispatch => ({
       dispatch(ActionCreator.createUserMonthWaiting());
     },
   getUserMonthData:
-    (month) => {
+    (month = moment().format('YYYY-MM')) => {
       Helper.myFetch(
         '/api/userMonth/'+month,
         'GET',
