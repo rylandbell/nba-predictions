@@ -1,11 +1,15 @@
-# NBA Survivor
+## Pigeon Hoops: An NBA Predictions Game
 
-Description coming soon.
+###The Main Idea:
+* This is a monthly competition.
 
-## Usage
+* Pick the winner of one game each day.
 
-Usage info coming soon.
+* Pick each team no more than once per month.
 
+* The player with the most correct picks at the end of the month wins.
+
+Want to give it a try? Sign up at [nba.ryland-bell.com](nba.ryland-bell.com).
 
 ## License
 
