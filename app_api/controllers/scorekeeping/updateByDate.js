@@ -31,7 +31,7 @@ if (process.argv.length > 2) {
   updateGameAndUserData('2017-03-17');
   updateGameAndUserData('2017-03-18');
   updateGameAndUserData('2017-03-19');
-  updateGameAndUserData('2017-03-20');
+  updateGameAndUserData('2017-03-20'); 
 
 
   // updateGameAndUserData(yesterday);
