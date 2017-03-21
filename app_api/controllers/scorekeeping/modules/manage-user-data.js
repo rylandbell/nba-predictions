@@ -94,17 +94,12 @@ module.exports.markResults = function (date) {
 
   //send results from determinePredictionOutcome to API
     .then(results => {
+      console.log('results1: ', results)
       results.forEach(result => {
         if (result) {
           postResult(result, dateNumber);
         }
       });
     })
-
-  //finally, tell the calling function that the process is complete:
-    .then(results => {
-      console.log(results);
-    })
-
     .catch(response => console.log('error in markResults function: ', response));
 };

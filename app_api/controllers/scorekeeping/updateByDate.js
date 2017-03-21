@@ -9,7 +9,6 @@ console.log('updateByDate ran at UTC: ', moment().format('YYYY-MM-DD kk:mm'));
 
 //used to update a single day's game and user data, as scores become available
 const updateGameAndUserData = (date) => {
-  console.log('running updateGameAndUserData for ', date)
   GameData.updateSingleDate(date, UserData.markResults.bind(this, date));
 };
 
@@ -25,8 +24,18 @@ if (process.argv.length > 2) {
   //run updateData on tomorrow's games to catch schedule changes
   const tomorrow = moment(today).add(1, 'days').format('YYYY-MM-DD');
 
-  updateGameAndUserData(yesterday);
-  updateGameAndUserData(today);
-  updateGameAndUserData(tomorrow);
+  //temp:
+  updateGameAndUserData('2017-03-14');
+  updateGameAndUserData('2017-03-15');
+  updateGameAndUserData('2017-03-16');
+  updateGameAndUserData('2017-03-17');
+  updateGameAndUserData('2017-03-18');
+  updateGameAndUserData('2017-03-19');
+  updateGameAndUserData('2017-03-20');
+
+
+  // updateGameAndUserData(yesterday);
+  // updateGameAndUserData(today);
+  // updateGameAndUserData(tomorrow);
 }
 
