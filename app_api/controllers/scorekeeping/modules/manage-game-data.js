@@ -52,5 +52,6 @@ module.exports.addSingleDate = (date) => {
 
 //Takes date, fetches and shapes data, sends to DB as PUT request
 module.exports.updateSingleDate = (date, successCallback) => {
+  console.log('GameData.updateSingleDate called for ', date);
   Nba.nbaRequest(date, shapeAndPutDay.bind(this, date, successCallback || console.log));
 };

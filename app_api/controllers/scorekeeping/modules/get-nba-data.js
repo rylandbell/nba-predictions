@@ -28,6 +28,7 @@ const request = require("request");
 // };
 
 module.exports.nbaRequest = function (date, successCallback, failureCallback) {
+  console.log('nbaRequest called for', date)
   date = moment(date).format('MM/DD/YYYY');
   var options = { 
     method: 'GET',
@@ -40,7 +41,12 @@ module.exports.nbaRequest = function (date, successCallback, failureCallback) {
   };
 
   request(options, function (error, response, body) {
-    if (error) throw new Error(error);
+    if (error) {
+      console.log('error from nbaRequest: ', error);
+      throw new Error(error);
+    } else {
+      console.log('successful nbaRequest, body= ', body.substring(0,40));
+    }
 
     successCallback(JSON.parse(body));
   });
