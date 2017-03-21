@@ -13,9 +13,6 @@ module.exports = () => {
   console.log('updateDataFunction ran at ', moment().format('kk:mm:ss'));
   console.log('with dates = ', today, yesterday);
   
-  Promise.all([
-    GameData.updateSingleDate(today, UserData.markResults.bind(this, today)),
-    // GameData.updateSingleDate(today, UserData.markResults.bind(this, yesterday))
-  ])
-    .then(()=>{console.log('promise resolved!')});
+  GameData.updateSingleDate(today, UserData.markResults.bind(this, today));
+  GameData.updateSingleDate(today, UserData.markResults.bind(this, yesterday));
 };

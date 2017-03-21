@@ -103,7 +103,7 @@ module.exports.markResults = function (date) {
 
   //finally, tell the calling function that the process is complete:
     .then(results => {
-      console.log('done with ', date);
+      console.log(results);
     })
 
     .catch(response => console.log('error in markResults function: ', response));
