@@ -46,6 +46,8 @@
     "moment-timezone": "^0.5.7",
     "mongoose": "^4.6.0",
     "morgan": "~1.6.1",
+    "nba-client-template": "^3.3.0",
+    "node-fetch": "^1.6.3",
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
     "react": "^15.3.1",
