@@ -13,12 +13,15 @@ var throttledUpdateData = _.throttle(updateData, 30*1000, { leading: true });
 
 //return true if gameTime is after now
 const gameTimeInFuture = function (gameTime) {
-
+  console.log(gameTime);
   //create moment in East time zone, from gameTime:
   let gameMoment = moment.tz(gameTime, 'YYYY-MM-DD h:mm a', 'America/New_York');
 
   //create moment from local time, then translate to ETC moment:
   let nowMoment = moment().tz('America/New_York');
+
+  //summer mode:
+  nowMoment = moment('2017-04-11T06:00:00-07:00').tz('America/New_York');
 
   return gameMoment.isAfter(nowMoment);
 };

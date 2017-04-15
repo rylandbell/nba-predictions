@@ -37,7 +37,10 @@ const messages = (state=[], action) => {
 }
 
 //format: 'YYYY-MM-DD'
-const activeDate = (state = moment().format('YYYY-MM-DD'), action) => {
+
+//summer mode:
+// const activeDate = (state = moment().format('YYYY-MM-DD'), action) => {
+const activeDate = (state = moment().format('2017-04-11'), action) => {
   switch(action.type){
     case 'SET_ACTIVE_DATE':
       return action.month + '-' + (action.day >= 10 ? action.day : '0' + action.day);

@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-const StandingsTableRow = ({game}) => {
+const StandingsTableGame = ({game}) => {
   const teamNameClass = game.teamName ? game.teamName.toLowerCase() : 'glyphicon glyphicon-minus standings__glyphicon text-center';
   let outcomeClass = '';
   if (game.outcome === 'success') {
@@ -18,5 +18,5 @@ const StandingsTableRow = ({game}) => {
   );
 }
 
-export default StandingsTableRow;
+export default StandingsTableGame;
 

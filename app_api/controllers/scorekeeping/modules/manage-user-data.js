@@ -94,7 +94,6 @@ module.exports.markResults = function (date) {
 
   //send results from determinePredictionOutcome to API
     .then(results => {
-      console.log('results1: ', results)
       results.forEach(result => {
         if (result) {
           postResult(result, dateNumber);

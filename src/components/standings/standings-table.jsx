@@ -18,6 +18,7 @@ const StandingsTable = React.createClass({
     browserHistory.push(path);
   },
   render: function() {
+    console.log(this.props);
     return (
       <div className="panel panel-default panel-black">
         <div className="panel-heading">
