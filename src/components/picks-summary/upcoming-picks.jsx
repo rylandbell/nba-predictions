@@ -11,7 +11,7 @@ const UpcomingPicks = React.createClass({
     browserHistory.push('/picks');
   },
   render: function() {
-    const firstDay = this.props.activeMonth === moment().format('YYYY-MM') ? moment().format('DD') : '1';
+    const firstDay = this.props.activeMonth === moment().format('YYYY-MM') ? moment('2017-04-11').format('DD') : '1';
     return (
       <div>
         <table className="table upcoming-picks-table">
