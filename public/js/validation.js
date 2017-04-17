@@ -11,3 +11,9 @@ function validatePassword(){
 
 password.onchange = validatePassword;
 confirm_password.onkeyup = validatePassword;
+
+//Initialize summer mode UI:
+$(function () {
+  $('[data-toggle="popover"]').popover();
+  $('#summerModal').modal();
+})

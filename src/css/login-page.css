@@ -33,3 +33,16 @@
   background-color: black;
   opacity: 0.75;
 }
+
+.summer-message {
+  /*background-color: rgba(153, 51, 204,.7);*/
+  /*background-color: rgba(240,240,240,.7);*/
+  font-size: 20px;
+  /*font-weight: bold;*/
+  line-height: 32px;
+  color: rgb(246,246,246);
+  /*border-radius: 5px;*/
+  /*border: 3px solid #9933cc;*/
+  padding: 15px;
+  margin-bottom: 30px;
+}
