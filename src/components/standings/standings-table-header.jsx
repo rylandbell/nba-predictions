@@ -13,10 +13,10 @@ const StandingsTableHeader = ({selectedStandingsMonth}) => (
         <th className="text-center standings__w-l-column"> W - L
         </th>
         <th className="text-center">
-          {moment().format('MMM D')}
+          {moment('2017-04-10').format('MMM D')}
         </th>
         <th className="text-center hidden-xs">
-          {moment().subtract(1,'days').format('MMM D')}
+          {moment('2017-04-10').subtract(1,'days').format('MMM D')}
         </th>
       </tr>
     </thead>
