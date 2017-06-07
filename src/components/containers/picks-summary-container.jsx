@@ -18,7 +18,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   createNewUserMonth: 
     (callback, activeMonth) => {
-      const month = activeMonth || moment().format('YYYY-MM');
+      // const month = activeMonth || moment().format('YYYY-MM'); summer mode
+      const month = activeMonth || '2017-04';
       const newRequest = {
         method: 'POST',
         credentials: 'same-origin',
@@ -52,7 +53,8 @@ const mapDispatchToProps = dispatch => ({
       dispatch(ActionCreator.createUserMonthWaiting());
     },
   getUserMonthData:
-    (month = moment().format('YYYY-MM')) => {
+    // (month = moment().format('YYYY-MM')) => { summer mode
+    (month = '2017-04') => {
       Helper.myFetch(
         '/api/userMonth/'+month,
         'GET',
@@ -80,7 +82,8 @@ const mapDispatchToProps = dispatch => ({
     },
   getStandingsData:
     () => {
-      const month = moment().format('YYYY-MM');
+      // const month = moment().format('YYYY-MM'); summer mode
+      const month = '2017-04';
       Helper.myFetch(
         '/api/userMonth/all-public/'+month,
         'GET',
@@ -106,8 +109,10 @@ const mapDispatchToProps = dispatch => ({
   setActiveMonth:
     (month) => {
       let activeDay;
-      if (month===moment().format('YYYY-MM')) {
-        activeDay = moment().format('D');
+      // if (month===moment().format('YYYY-MM')) {
+      //   activeDay = moment().format('D'); summer mode
+      if (month==='2017-04') {
+        activeDay = '11';
       } else {
         activeDay = '1';
       }

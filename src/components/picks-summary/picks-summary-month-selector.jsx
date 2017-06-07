@@ -15,11 +15,17 @@ const PicksSummaryMonthSelector = React.createClass({
           <div className="form-group standings__month-selector">
             <label className="control-label standings__month-selector-label">Select a month:</label>
             <select className="form-control standings__month-selector-input" onChange={this.handleChange} value={this.props.activeMonth}>
-              <option value={moment().format('YYYY-MM')}>
+              {/*<option value={moment().format('YYYY-MM')}>
                 {moment('2017-04').format('MMMM YYYY')}
               </option>
               <option value={moment().add(1,'months').format('YYYY-MM')}>
                 {moment('2017-04').add(1,'months').format('MMMM YYYY')}
+              </option> summer mode*/}
+              <option value='2017-04'>
+                April 2017
+              </option>
+              <option value='2017-05'>
+                May 2017
               </option>
             </select>
           </div>

@@ -56,7 +56,8 @@ const mapDispatchToProps = dispatch => ({
 
           //always include the current month, even if user hasn't created a userMonth yet:
           months
-            .push(moment().format('YYYY-MM'))
+            // .push(moment().format('YYYY-MM')) summer mode
+            .push('2017-04')
           const uniqMonths = _uniqBy(months)
 
           //sort reverse-chronologically:

@@ -4,7 +4,8 @@ import React from 'react';
 import moment from 'moment';
 
 const StandingsTableHeader = ({selectedStandingsMonth}) => (
-  selectedStandingsMonth === moment().format('YYYY-MM') ?
+  // selectedStandingsMonth === moment().format('YYYY-MM') ? summer mode
+  selectedStandingsMonth === '2017-04' ?
     <thead>
       <tr>
         <th>

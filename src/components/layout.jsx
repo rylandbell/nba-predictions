@@ -1,13 +1,15 @@
 'use strict';
 
 import React from 'react';
-import moment from 'moment';
+// import moment from 'moment';
 
 import Navbar from './navbar.jsx';
 
 const LayoutComponent = React.createClass({
   componentDidMount: function() {
-    const currentMonth = moment().format('YYYY-MM');
+    //summer mode
+    // const currentMonth = moment().format('YYYY-MM');
+    const currentMonth = '2017-04';
     this.props.getUserMonthData(currentMonth);
     this.props.getStandingsData(this.props.reduxState.selectedStandingsMonth);
   },
