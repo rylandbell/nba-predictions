@@ -6,7 +6,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import * as Redux from 'redux';
+import { createStore } from 'redux';
 import browserHistory from 'react-router/lib/browserHistory';
 import Router from 'react-router/lib/Router';
 import Alert from 'react-s-alert';
@@ -14,7 +14,13 @@ import Alert from 'react-s-alert';
 import Reducers from './reducers/reducers.js';
 import Routes from './routes.jsx';
 
-const store = Redux.createStore(Reducers.app);
+//enable Redux devtools in Browser
+const store = createStore(
+  Reducers.app,
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+);
+
+// const store = Redux.createStore(Reducers.app);
 
 function render() {
   ReactDOM.render(
