@@ -1,6 +1,11 @@
-## Pigeon Hoops: An NBA Predictions Game
+# Pigeon Hoops: An NBA Predictions Game
 
-###The Main Idea:
+## Usage
+Sign up at [nba.ryland-bell.com](nba.ryland-bell.com).
+
+## About
+
+### The Game:
 * This is a monthly competition.
 
 * Pick the winner of one game each day.
@@ -9,13 +14,14 @@
 
 * The player with the most correct picks at the end of the month wins.
 
-Want to give it a try? Sign up at [nba.ryland-bell.com](nba.ryland-bell.com).
+### The App:
+
 
 ## License
 
 MIT License
 
-Copyright (c) 2016 Ryland Bell
+Copyright (c) 2017 Ryland Bell
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
