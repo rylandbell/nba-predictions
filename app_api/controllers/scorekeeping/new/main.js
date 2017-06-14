@@ -33,6 +33,8 @@ const scorekeeping = function(){
   getNbaScores(today)
     .then(res => res.json())
     .then(data => saveGameData(today, data))
+    .then(res => res.json())
+    .then(console.log)
     .catch(console.log);
 
   // getNbaScores()
