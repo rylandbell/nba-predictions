@@ -1,7 +1,8 @@
-var mongoose = require('mongoose');
+'use strict';
+const mongoose = require('mongoose');
 
 //data for single day's prediction (outcome="success", "failure", or null):
-var predictionSchema = new mongoose.Schema({
+const predictionSchema = new mongoose.Schema({
   teamName: { type: String, default: null },
   outcome: { type: String, default: null },
 
@@ -10,7 +11,7 @@ var predictionSchema = new mongoose.Schema({
 });
 
 //tracks predicted winners by day of month
-var predictedWinnersSchema = new mongoose.Schema({
+const predictedWinnersSchema = new mongoose.Schema({
   1: { type: predictionSchema, default: {} },
   2: { type: predictionSchema, default: {} },
   3: { type: predictionSchema, default: {} },
@@ -45,11 +46,12 @@ var predictedWinnersSchema = new mongoose.Schema({
 });
 
 //By 'userMonth', I mean one month of one user's prediction and outcome data
-var userMonthSchema = new mongoose.Schema({
+const userMonthSchema = new mongoose.Schema({
 
   //e.g. 2016-09
   month: { type: String, required: true },
   ownerId: { type: String, required: true },
+  leagueId: {type: String, required: true},
   ownerDisplayName: { type: String, required: true, default: 'Anon' },
   predictedWinners: { type: predictedWinnersSchema, default: predictedWinnersSchema },
   standingsData: {

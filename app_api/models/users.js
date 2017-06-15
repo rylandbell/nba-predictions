@@ -1,8 +1,9 @@
-var mongoose = require('mongoose');
-var crypto = require('crypto');
-var jwt = require('jsonwebtoken');
+'use strict';
+const mongoose = require('mongoose');
+const crypto = require('crypto');
+const jwt = require('jsonwebtoken');
 
-var userSchema = new mongoose.Schema({
+const userSchema = new mongoose.Schema({
   username: {
     type: String,
     unique: true,
@@ -17,7 +18,8 @@ var userSchema = new mongoose.Schema({
     type: String
   },
   hash: String,
-  salt: String
+  salt: String,
+  leagueIds: [String]
 });
 
 userSchema.methods.setPassword = function (password) {
@@ -26,12 +28,12 @@ userSchema.methods.setPassword = function (password) {
 };
 
 userSchema.methods.validPassword = function (password) {
-  var hash = crypto.pbkdf2Sync(password, this.salt, 1000, 64).toString('hex');
+  const hash = crypto.pbkdf2Sync(password, this.salt, 1000, 64).toString('hex');
   return this.hash === hash;
 };
 
 userSchema.methods.generateJwt = function () {
-  var expiry = new Date();
+  const expiry = new Date();
   expiry.setDate(expiry.getDate() + 7);
 
   return jwt.sign({

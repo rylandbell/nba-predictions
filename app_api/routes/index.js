@@ -29,7 +29,6 @@ router.get('/userMonth/all/:month', ctrlUserMonths.userMonthReadAllByMonth);
 router.get('/userMonth/all-public/:month', auth, ctrlUserMonths.userMonthReadAllPublic);
 router.post('/userMonth', auth, ctrlUserMonths.userMonthCreate);
 router.delete('/userMonth/:userMonthId', auth, ctrlUserMonths.userMonthDelete);
-
 router.put('/userMonth/:month/predictedWinners', auth, ctrlUserMonths.predictedWinnersUpdate);
 router.put('/userMonth/:userMonthId', ctrlUserMonths.outcomeUpdate);
 

@@ -1,11 +1,7 @@
-// DailyGamesData
-//   [GameSummary]
-//     TeamSummary * 2 (home & road)
-//     GameStatus
+'use strict';
+const mongoose = require('mongoose');
 
-var mongoose = require('mongoose');
-
-var gameStatusSchema = new mongoose.Schema({
+const gameStatusSchema = new mongoose.Schema({
   startTime: { type: String },
   hasStarted: { type: Boolean, required: true },
   homeScore: { type: String },
@@ -13,7 +9,7 @@ var gameStatusSchema = new mongoose.Schema({
   isFinal: { type: Boolean, required: true }
 });
 
-var gameSummarySchema = new mongoose.Schema({
+const gameSummarySchema = new mongoose.Schema({
   gameId: { type: String, required: true },
   gameDate: { type: String, required: true },
   winner: { type: String, default: null },
@@ -24,7 +20,7 @@ var gameSummarySchema = new mongoose.Schema({
 });
 
 //By 'userMonth', I mean one month of one user's prediction data
-var dailyGamesDataSchema = new mongoose.Schema({
+const dailyGamesDataSchema = new mongoose.Schema({
 
   //e.g. 2016-09
   month: { type: String, required: true },

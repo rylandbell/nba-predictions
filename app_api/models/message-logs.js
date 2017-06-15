@@ -1,12 +1,13 @@
-var mongoose = require('mongoose');
+'use strict';
+const mongoose = require('mongoose');
 
-var messageSchema = new mongoose.Schema({
+const messageSchema = new mongoose.Schema({
   timeSent: { type: String, default: new Date().toISOString() },
   content: { type: String, required: true },
   sender: { type: String, required: true }
 });
 
-var messageLogSchema = new mongoose.Schema({
+const messageLogSchema = new mongoose.Schema({
   league: {type: String, default: "alpha", unique: true},
   messages: [messageSchema]
 });

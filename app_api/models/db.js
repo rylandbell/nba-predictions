@@ -1,6 +1,6 @@
-var mongoose = require('mongoose');
-var gracefulShutdown;
-var dbURI = 'mongodb://localhost/nba';
+'use strict';
+const mongoose = require('mongoose');
+let dbURI = 'mongodb://localhost/nba';
 if (process.env.NODE_ENV === 'production') {
   dbURI = process.env.MONGOLAB_URI;
 }
@@ -22,7 +22,7 @@ mongoose.connection.on('disconnected', function () {
 
 // CAPTURE APP TERMINATION / RESTART EVENTS
 // To be called when process is restarted or terminated
-gracefulShutdown = function (msg, callback) {
+const gracefulShutdown = function (msg, callback) {
   mongoose.connection.close(function () {
     console.log('Mongoose disconnected through ' + msg);
     callback();
@@ -50,8 +50,9 @@ process.on('SIGTERM', function () {
   });
 });
 
-// BRING IN YOUR SCHEMAS & MODELS
+// BRING IN SCHEMAS & MODELS
 require('./users');
+require('./leagues');
 require('./user-months');
 require('./daily-games-data');
 require('./message-logs');
