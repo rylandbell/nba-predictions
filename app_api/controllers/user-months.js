@@ -6,7 +6,7 @@ var _ = require('lodash');
 
 var UserMonthModel = mongoose.model('UserMonth');
 var UserModel = mongoose.model('User');
-var updateData = require('./scorekeeping/updateDataFunction.js');
+var updateData = require('./scorekeeping/main.js');
 
 //don't run updateData more than once per minute:
 var throttledUpdateData = _.throttle(updateData, 30*1000, { leading: true });
