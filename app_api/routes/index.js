@@ -3,6 +3,12 @@ const express = require('express');
 const router = express.Router();
 const jwt = require('express-jwt');
 
+const ctrlLeagues = require('../controllers/leagues');
+const ctrlUserMonths = require('../controllers/user-months');
+const ctrlDailyGamesData = require('../controllers/daily-games-data');
+const ctrlMessages = require('../controllers/messages');
+const ctrlAuth = require('../controllers/authentication');
+
 const auth = jwt({
   secret: process.env.JWT_SECRET,
   userProperty: 'payload',
@@ -18,10 +24,9 @@ const auth = jwt({
   }
 });
 
-const ctrlUserMonths = require('../controllers/user-months');
-const ctrlDailyGamesData = require('../controllers/daily-games-data');
-const ctrlMessages = require('../controllers/messages');
-const ctrlAuth = require('../controllers/authentication');
+//routes for creating/joining leagues:
+router.post('/league', auth, ctrlLeagues.leagueCreate);
+// router.post('/league/:leagueId', auth, ctrlLeagues.leagueJoin);
 
 // routes for calls to userMonths folder:
 router.get('/userMonth/:month', auth, ctrlUserMonths.userMonthReadOne);
