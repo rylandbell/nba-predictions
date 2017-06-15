@@ -1,19 +1,18 @@
 'use strict';
 
-var mongoose = require('mongoose');
-var moment = require('moment-timezone');
-var _ = require('lodash');
+const mongoose = require('mongoose');
+const moment = require('moment-timezone');
+const _ = require('lodash');
 
-var UserMonthModel = mongoose.model('UserMonth');
-var UserModel = mongoose.model('User');
-var updateData = require('./scorekeeping/main.js');
+const UserMonthModel = mongoose.model('UserMonth');
+const UserModel = mongoose.model('User');
+// const updateData = require('./scorekeeping/main.js');
 
 //don't run updateData more than once per minute:
-var throttledUpdateData = _.throttle(updateData, 30*1000, { leading: true });
+// const throttledUpdateData = _.throttle(updateData, 30*1000, { leading: true });
 
 //return true if gameTime is after now
 const gameTimeInFuture = function (gameTime) {
-  console.log(gameTime);
   //create moment in East time zone, from gameTime:
   let gameMoment = moment.tz(gameTime, 'YYYY-MM-DD h:mm a', 'America/New_York');
 
@@ -53,7 +52,7 @@ const countOutcomes = function (predictedWinners, outcomeType) {
       if (key === '_id') {
         return sum;
       } else {
-        var increase = day.outcome && day.outcome === outcomeType ? 1 : 0;
+        const increase = day.outcome && day.outcome === outcomeType ? 1 : 0;
         return sum + increase;
       }
     },
@@ -97,9 +96,8 @@ const getOwnerData = function (req, res, callback) {
 
 /* GET one userMonth ownerId, month */
 module.exports.userMonthReadOne = function (req, res) {
-  // throttledUpdateData();
   getOwnerData(req, res, function (req, res, owner) {
-    var filter = {
+    const filter = {
       ownerId: owner._id,
       month: req.params.month
     };
@@ -107,7 +105,7 @@ module.exports.userMonthReadOne = function (req, res) {
       .find(filter)
       .exec(function (err, userMonth) {
 
-        var responseBody = {};
+        const responseBody = {};
         if (!userMonth || userMonth.length === 0) {
           sendJsonResponse(res, 404, {
             message: 'No userMonth found'
@@ -128,16 +126,15 @@ module.exports.userMonthReadOne = function (req, res) {
 
 /* GET all userMonths for a single ownerId */
 module.exports.userMonthReadAllForUser = function (req, res) {
-  // throttledUpdateData();
   getOwnerData(req, res, function (req, res, owner) {
-    var filter = {
+    const filter = {
       ownerId: owner._id
     };
     UserMonthModel
       .find(filter)
       .exec(function (err, userMonthArray) {
 
-        var responseBody = {};
+        const responseBody = {};
         if (!userMonthArray) {
           sendJsonResponse(res, 404, {
             message: 'No userMonths found'
@@ -158,14 +155,14 @@ module.exports.userMonthReadAllForUser = function (req, res) {
 
 /* GET all users' userMonths for given month */
 module.exports.userMonthReadAllByMonth = function (req, res) {
-  var filter = {
+  const filter = {
     month: req.params.month
   };
 
   UserMonthModel
     .find(filter)
     .exec(function (err, userMonthArray) {
-      var responseBody = {};
+      const responseBody = {};
 
       if (!userMonthArray) {
         sendJsonResponse(res, 404, {
@@ -186,15 +183,15 @@ module.exports.userMonthReadAllByMonth = function (req, res) {
 
 //GET all userMonths by month, and hide future predictions
 module.exports.userMonthReadAllPublic = function (req, res) {
-  throttledUpdateData();
-  var filter = {
+  // throttledUpdateData();
+  const filter = {
     month: req.params.month
   };
 
   UserMonthModel
     .find(filter)
     .exec(function (err, userMonthArray) {
-      var responseBody = {};
+      let responseBody;
 
       if (!userMonthArray) {
         sendJsonResponse(res, 404, {
@@ -253,7 +250,7 @@ module.exports.predictedWinnersUpdate = function (req, res) {
       return;
     }
 
-    var filter = {
+    const filter = {
       ownerId: owner._id,
       month: req.params.month
     };
@@ -275,9 +272,9 @@ module.exports.predictedWinnersUpdate = function (req, res) {
             return;
           }
 
-          var dayNumber = req.body.dayNumber;
-          var gameTime = req.body.gameTime;
-          var predictedWinner = req.body.teamName || null;
+          const dayNumber = req.body.dayNumber;
+          const gameTime = req.body.gameTime;
+          const predictedWinner = req.body.teamName || null;
 
           //reject the prediction if the existing pick has already started:
           if (userMonth[0].predictedWinners[dayNumber].gameTime) {
@@ -313,7 +310,7 @@ module.exports.predictedWinnersUpdate = function (req, res) {
 
 /* PUT mark a prediction as success or failure */
 module.exports.outcomeUpdate = function (req, res) {
-  var userMonthId = req.params.userMonthId;
+  const userMonthId = req.params.userMonthId;
   if (userMonthId) {
     UserMonthModel
       .findById(userMonthId)
@@ -364,7 +361,7 @@ module.exports.outcomeUpdate = function (req, res) {
 
 /* DELETE a userMonth */
 module.exports.userMonthDelete = function (req, res) {
-  var userMonthId = req.params.userMonthId;
+  const userMonthId = req.params.userMonthId;
   if (userMonthId) {
     UserMonthModel
       .findByIdAndRemove(userMonthId)

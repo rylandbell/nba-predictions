@@ -1,10 +1,10 @@
-var mongoose = require('mongoose');
+'use strict';
+const mongoose = require('mongoose');
 
-var DailyGamesDataModel = mongoose.model('DailyGamesData');
-
+const DailyGamesDataModel = mongoose.model('DailyGamesData');
 
 //helper function for composing responses as status codes (e.g. 404) with JSON files
-var sendJsonResponse = function (res, status, content) {
+const sendJsonResponse = function (res, status, content) {
   res.status(status);
   res.json(content);
 };
@@ -15,7 +15,7 @@ module.exports.dailyGamesDataGetMonth = function (req, res) {
     DailyGamesDataModel
       .find({ month: req.params.month })
       .exec(function (err, monthlyData) {
-        var responseBody = {};
+        let responseBody;
         if (!monthlyData) {
           sendJsonResponse(res, 404, {
             message: 'no data found'
@@ -85,28 +85,3 @@ module.exports.dailyGamesDataUpdate = function (req, res) {
     }
   });
 };
-
-// /* DELETE a userMonth */
-// module.exports.userMonthDelete = function(req, res) {
-//   var userMonthId = req.params.userMonthId;
-//   if (userMonthId) {
-//     UserMonthModel
-//       .findByIdAndRemove(userMonthId)
-//       .exec(
-//         function(err, userMonth) {
-//           if (err) {
-//             console.log(err);
-//             sendJsonResponse(res, 404, err);
-//             return;
-//           }
-//           console.log("userMonth id " + userMonthId + " deleted");
-//           sendJsonResponse(res, 204, null);
-//           return;
-//         }
-//     );
-//   } else {
-//     sendJSONresponse(res, 404, {
-//       "message": "No userMonthId"
-//     });
-//   }
-// };

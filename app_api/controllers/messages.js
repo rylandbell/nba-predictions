@@ -1,10 +1,11 @@
-var mongoose = require('mongoose');
+'use strict';
+const mongoose = require('mongoose');
 
-var MessageLogModel = mongoose.model('MessageLog');
-var UserModel = mongoose.model('User');
+const MessageLogModel = mongoose.model('MessageLog');
+const UserModel = mongoose.model('User');
 
 //helper function for composing responses as status codes (e.g. 404) with JSON files
-var sendJsonResponse = function (res, status, content) {
+const sendJsonResponse = function (res, status, content) {
   res.status(status);
   res.json(content);
 };
@@ -41,7 +42,7 @@ module.exports.getMessageLog = function (req, res) {
   MessageLogModel
     .find({ league: 'alpha' })
     .exec(function (err, messageLogs) {
-      var responseBody = {};
+      const responseBody = {};
       if (!messageLogs) {
         sendJsonResponse(res, 404, {
           message: 'no message log found'

@@ -1,8 +1,9 @@
-var express = require('express');
-var router = express.Router();
-var jwt = require('express-jwt');
+'use strict';
+const express = require('express');
+const router = express.Router();
+const jwt = require('express-jwt');
 
-var auth = jwt({
+const auth = jwt({
   secret: process.env.JWT_SECRET,
   userProperty: 'payload',
   getToken: function (req) {
@@ -17,10 +18,10 @@ var auth = jwt({
   }
 });
 
-var ctrlUserMonths = require('../controllers/user-months');
-var ctrlDailyGamesData = require('../controllers/daily-games-data');
-var ctrlMessages = require('../controllers/messages');
-var ctrlAuth = require('../controllers/authentication');
+const ctrlUserMonths = require('../controllers/user-months');
+const ctrlDailyGamesData = require('../controllers/daily-games-data');
+const ctrlMessages = require('../controllers/messages');
+const ctrlAuth = require('../controllers/authentication');
 
 // routes for calls to userMonths folder:
 router.get('/userMonth/:month', auth, ctrlUserMonths.userMonthReadOne);
