@@ -51,14 +51,13 @@ const userMonthSchema = new mongoose.Schema({
   //e.g. 2016-09
   month: { type: String, required: true },
   ownerId: { type: String, required: true },
-  leagueId: {type: String, required: true},
+  leagueId: {type: String, default: 'pending'},
   ownerDisplayName: { type: String, required: true, default: 'Anon' },
   predictedWinners: { type: predictedWinnersSchema, default: predictedWinnersSchema },
   standingsData: {
     winCount: { type: Number, default: 0 },
     lossCount: { type: Number, default: 0 }
-  },
-  leagueName: { type: String, default: 'alpha' }
+  }
 });
 
 //connect this schema to the database. automatically creates a MongoDB collection 'usermonths' based on the supplied parameter 'month'

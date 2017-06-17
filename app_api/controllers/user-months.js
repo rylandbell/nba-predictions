@@ -67,8 +67,9 @@ const sendJsonResponse = function (res, status, content) {
   res.json(content);
 };
 
-//helper function for getting author data from JWT
-const getOwnerData = function (req, res, callback) {
+//helper function for getting user data from JWT
+const getUserData = function (req, res, callback) {
+  console.log('req.payload', req.payload);
   if (req.payload._id) {
     UserModel
       .findOne({ _id: req.payload._id })
@@ -96,7 +97,7 @@ const getOwnerData = function (req, res, callback) {
 
 /* GET one userMonth ownerId, month */
 module.exports.userMonthReadOne = function (req, res) {
-  getOwnerData(req, res, function (req, res, owner) {
+  getUserData(req, res, function (req, res, owner) {
     const filter = {
       ownerId: owner._id,
       month: req.params.month
@@ -105,7 +106,7 @@ module.exports.userMonthReadOne = function (req, res) {
       .find(filter)
       .exec(function (err, userMonth) {
 
-        const responseBody = {};
+        let responseBody = {};
         if (!userMonth || userMonth.length === 0) {
           sendJsonResponse(res, 404, {
             message: 'No userMonth found'
@@ -126,7 +127,7 @@ module.exports.userMonthReadOne = function (req, res) {
 
 /* GET all userMonths for a single ownerId */
 module.exports.userMonthReadAllForUser = function (req, res) {
-  getOwnerData(req, res, function (req, res, owner) {
+  getUserData(req, res, function (req, res, owner) {
     const filter = {
       ownerId: owner._id
     };
@@ -134,7 +135,7 @@ module.exports.userMonthReadAllForUser = function (req, res) {
       .find(filter)
       .exec(function (err, userMonthArray) {
 
-        const responseBody = {};
+        let responseBody = {};
         if (!userMonthArray) {
           sendJsonResponse(res, 404, {
             message: 'No userMonths found'
@@ -162,7 +163,7 @@ module.exports.userMonthReadAllByMonth = function (req, res) {
   UserMonthModel
     .find(filter)
     .exec(function (err, userMonthArray) {
-      const responseBody = {};
+      let responseBody = {};
 
       if (!userMonthArray) {
         sendJsonResponse(res, 404, {
@@ -191,7 +192,7 @@ module.exports.userMonthReadAllPublic = function (req, res) {
   UserMonthModel
     .find(filter)
     .exec(function (err, userMonthArray) {
-      let responseBody;
+      let responseBody = {};
 
       if (!userMonthArray) {
         sendJsonResponse(res, 404, {
@@ -214,7 +215,7 @@ module.exports.userMonthReadAllPublic = function (req, res) {
 
 /* POST a new userMonth */
 module.exports.userMonthCreate = function (req, res) {
-  getOwnerData(req, res, function (req, res, owner) {
+  getUserData(req, res, function (req, res, owner) {
     UserMonthModel.create({
       month: req.body.month,
       ownerId: owner._id,
@@ -242,7 +243,7 @@ module.exports.predictedWinnersUpdate = function (req, res) {
     return;
   }
 
-  getOwnerData(req, res, function (req, res, owner) {
+  getUserData(req, res, function (req, res, owner) {
     if (!req.params.month) {
       sendJsonResponse(res, 404, {
         message: 'Not found, month name is required'

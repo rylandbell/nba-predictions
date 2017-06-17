@@ -42,7 +42,7 @@ module.exports.getMessageLog = function (req, res) {
   MessageLogModel
     .find({ league: 'alpha' })
     .exec(function (err, messageLogs) {
-      const responseBody = {};
+      let responseBody = {};
       if (!messageLogs) {
         sendJsonResponse(res, 404, {
           message: 'no message log found'
