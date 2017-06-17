@@ -69,7 +69,6 @@ const sendJsonResponse = function (res, status, content) {
 
 //helper function for getting user data from JWT
 const getUserData = function (req, res, callback) {
-  console.log('req.payload', req.payload);
   if (req.payload._id) {
     UserModel
       .findOne({ _id: req.payload._id })
@@ -95,11 +94,11 @@ const getUserData = function (req, res, callback) {
   }
 };
 
-/* GET one userMonth ownerId, month */
+/* GET one userMonth userId, month */
 module.exports.userMonthReadOne = function (req, res) {
-  getUserData(req, res, function (req, res, owner) {
+  getUserData(req, res, function (req, res, user) {
     const filter = {
-      ownerId: owner._id,
+      userId: user._id,
       month: req.params.month
     };
     UserMonthModel
@@ -125,11 +124,11 @@ module.exports.userMonthReadOne = function (req, res) {
   });
 };
 
-/* GET all userMonths for a single ownerId */
+/* GET all userMonths for a single userId */
 module.exports.userMonthReadAllForUser = function (req, res) {
-  getUserData(req, res, function (req, res, owner) {
+  getUserData(req, res, function (req, res, user) {
     const filter = {
-      ownerId: owner._id
+      userId: user._id
     };
     UserMonthModel
       .find(filter)
@@ -215,11 +214,11 @@ module.exports.userMonthReadAllPublic = function (req, res) {
 
 /* POST a new userMonth */
 module.exports.userMonthCreate = function (req, res) {
-  getUserData(req, res, function (req, res, owner) {
+  getUserData(req, res, function (req, res, user) {
     UserMonthModel.create({
       month: req.body.month,
-      ownerId: owner._id,
-      ownerDisplayName: owner.displayName,
+      userId: user._id,
+      ownerDisplayName: user.displayName,
       predictedWinners: {}
     }, function (err, userMonth) {
       if (err) {
@@ -243,7 +242,7 @@ module.exports.predictedWinnersUpdate = function (req, res) {
     return;
   }
 
-  getUserData(req, res, function (req, res, owner) {
+  getUserData(req, res, function (req, res, user) {
     if (!req.params.month) {
       sendJsonResponse(res, 404, {
         message: 'Not found, month name is required'
@@ -252,7 +251,7 @@ module.exports.predictedWinnersUpdate = function (req, res) {
     }
 
     const filter = {
-      ownerId: owner._id,
+      userId: user._id,
       month: req.params.month
     };
 

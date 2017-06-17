@@ -10,8 +10,8 @@ const sendJsonResponse = function (res, status, content) {
   res.json(content);
 };
 
-//helper function for getting author data from JWT
-const getOwnerData = function (req, res, callback) {
+//helper function for getting user data from JWT
+const getUserData = function (req, res, callback) {
   if (req.payload._id) {
     UserModel
       .findOne({ _id: req.payload._id })
@@ -66,8 +66,8 @@ module.exports.getMessageLog = function (req, res) {
 
 /* PUT: push a new message to the messages array */
 module.exports.sendMessage = function (req, res) {
-  getOwnerData(req, res, function (req, res, owner) {
-    console.log(owner);
+  getUserData(req, res, function (req, res, user) {
+    console.log(user);
     // return null;
     if (req.body && req.body.content) {
       MessageLogModel.find({
@@ -88,7 +88,7 @@ module.exports.sendMessage = function (req, res) {
         } else {
           const newMessage = {
             content: req.body.content,
-            sender: owner.displayName,
+            sender: user.displayName,
             timeSent: new Date().toISOString()
           }
           messageLogs[0].messages.push(newMessage);
