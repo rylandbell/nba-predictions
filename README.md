@@ -4,6 +4,7 @@
 Sign up at [nba.ryland-bell.com](nba.ryland-bell.com).
 
 ## About
+This repo contains the back-end and front-end code used for the 2016-17 season. Moving forward, these will be split into two different repositories.
 
 ### The Game:
 * This is a monthly competition.

@@ -8,7 +8,7 @@ const saveGameData = require('./saveGameData');
 const getUserMonths = require('./getUserMonths');
 const scoreUserMonths = require('./scoreUserMonths');
 
-//used to update a single day's game and user data, as scores become available
+//update a single day's game and user data, as scores become available
 module.exports = () => {
   const today = moment().tz('America/Los_Angeles').format('YYYY-MM-DD');
 
