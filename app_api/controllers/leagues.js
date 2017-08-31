@@ -38,7 +38,8 @@ const getUserData = function(req, res, callback) {
 module.exports.leagueCreate = function(req, res) {
   LeagueModel.create(
     {
-      name: req.body.name
+      name: req.body.name,
+      public: req.body.public
     },
     function(err, league) {
       if (err) {

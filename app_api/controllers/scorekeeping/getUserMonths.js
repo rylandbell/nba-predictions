@@ -11,6 +11,9 @@ module.exports = (date) => {
   const newRequest = {
     method: 'GET'
   };
+
+  newRequest.headers = new Headers;
+  newRequest.headers.append('token', process.env.SCOREKEEPER_TOKEN);
   
   return fetch(url, newRequest);
 };

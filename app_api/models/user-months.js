@@ -6,7 +6,7 @@ const predictionSchema = new mongoose.Schema({
   teamName: { type: String, default: null },
   outcome: { type: String, default: null },
 
-  //2016-11-19T19:30:00Z  (use east coast time);
+  //format: 2016-11-19T19:30:00Z  (use east coast time);
   gameTime: { type: String, default: null }
 });
 
@@ -51,7 +51,7 @@ const userMonthSchema = new mongoose.Schema({
   //e.g. 2016-09
   month: { type: String, required: true },
   ownerId: { type: String, required: true },
-  leagueId: {type: String, default: 'pending'},
+  leagueId: {type: String, required: true, default: 'alpha'},
   ownerDisplayName: { type: String, required: true, default: 'Anon' },
   predictedWinners: { type: predictedWinnersSchema, default: predictedWinnersSchema },
   standingsData: {

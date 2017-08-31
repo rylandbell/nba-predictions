@@ -4,7 +4,7 @@ const moment = require('moment-timezone');
 //fetch NBA scores data from MySportsFeeds for provided date
 module.exports = date => {
   const HEADERS = {
-    "Authorization": "Basic cnlsYW5kYmVsbDoqKjg1XnBhcnR5XkFMT05HXmZhcm1lcnNeOTcqKg=="
+    "Authorization": process.env.MYSPORTSFEEDS_TOKEN
   };
 
   const options = {};

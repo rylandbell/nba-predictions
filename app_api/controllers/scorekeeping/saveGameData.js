@@ -50,6 +50,7 @@ module.exports = (date, rawData) => {
 
   const headers = new Headers();
   headers.append('Content-Type', 'application/json');
+  headers.append('token', process.env.SCOREKEEPER_TOKEN);
 
   const newRequest = {
     method: 'PUT',
