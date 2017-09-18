@@ -94,17 +94,17 @@ const getUserData = function (req, res, callback) {
   }
 };
 
-/* GET one userMonth userId, month */
+/* GET one userMonth ownerId, month */
 module.exports.userMonthReadOne = function (req, res) {
   getUserData(req, res, function (req, res, user) {
     const filter = {
-      userId: user._id,
+      ownerId: user._id,
       month: req.params.month
     };
     UserMonthModel
       .find(filter)
       .exec(function (err, userMonth) {
-
+        console.log('userMonth: ', userMonth);
         let responseBody = {};
         if (!userMonth || userMonth.length === 0) {
           sendJsonResponse(res, 404, {
@@ -124,11 +124,11 @@ module.exports.userMonthReadOne = function (req, res) {
   });
 };
 
-/* GET all userMonths for a single userId */
+/* GET all userMonths for a single ownerId */
 module.exports.userMonthReadAllForUser = function (req, res) {
   getUserData(req, res, function (req, res, user) {
     const filter = {
-      userId: user._id
+      ownerId: user._id
     };
     UserMonthModel
       .find(filter)
@@ -217,7 +217,7 @@ module.exports.userMonthCreate = function (req, res) {
   getUserData(req, res, function (req, res, user) {
     UserMonthModel.create({
       month: req.body.month,
-      userId: user._id,
+      ownerId: user._id,
       ownerDisplayName: user.displayName,
       predictedWinners: {}
     }, function (err, userMonth) {
@@ -251,7 +251,7 @@ module.exports.predictedWinnersUpdate = function (req, res) {
     }
 
     const filter = {
-      userId: user._id,
+      ownerId: user._id,
       month: req.params.month
     };
 
@@ -310,53 +310,63 @@ module.exports.predictedWinnersUpdate = function (req, res) {
 
 /* PUT mark a prediction as success or failure */
 module.exports.outcomeUpdate = function (req, res) {
-  const userMonthId = req.params.userMonthId;
-  if (userMonthId) {
-    UserMonthModel
-      .findById(userMonthId)
-      .select('predictedWinners')
-      .exec(
-        function (err, userMonth) {
+  getUserData(req, res, function (req, res, user) {
 
-          //catch basic errors:
-          if (!userMonth) {
-            sendJsonResponse(res, 404, {
-              message: 'userMonth not found'
-            });
-            return;
-          } else if (err) {
-            sendJsonResponse(res, 400, err);
-            return;
-          }
+    //only allow admin users (like that run by the scorekeeping script) to mark outcomes
+    if (user.role !== 'admin') {
+      sendJsonResponse(res, 403, {
+        message: 'Access forbidden: users cannot score game outcomes.'
+      });
+      return;
+    }
+    const userMonthId = req.params.userMonthId;
+    if (userMonthId) {
+      UserMonthModel
+        .findById(userMonthId)
+        .select('predictedWinners')
+        .exec(
+          function (err, userMonth) {
 
-          //add prediction outcome to provided day:
-          if (req.body.day) {
-            userMonth.predictedWinners[req.body.day].outcome = req.body.outcome || null;
-          } else {
-            sendJsonResponse(res, 404, {
-              message: 'no day provided'
-            });
-          }
-
-          //update standingsData:
-          userMonth.standingsData.winCount = countOutcomes(userMonth.predictedWinners, 'success');
-          userMonth.standingsData.lossCount = countOutcomes(userMonth.predictedWinners, 'failure');
-
-          //save userMonth and send JSON response:
-          userMonth.save(function (err, userMonth) {
-            if (err) {
+            //catch basic errors:
+            if (!userMonth) {
+              sendJsonResponse(res, 404, {
+                message: 'userMonth not found'
+              });
+              return;
+            } else if (err) {
               sendJsonResponse(res, 400, err);
-            } else {
-              sendJsonResponse(res, 200, userMonth);
+              return;
             }
-          });
-        }
-    );
-  } else {
-    sendJsonResponse(res, 404, {
-      message: 'No userMonthId provided'
-    });
-  }
+
+            //add prediction outcome to provided day:
+            if (req.body.day) {
+              userMonth.predictedWinners[req.body.day].outcome = req.body.outcome || null;
+            } else {
+              sendJsonResponse(res, 404, {
+                message: 'no day provided'
+              });
+            }
+
+            //update standingsData:
+            userMonth.standingsData.winCount = countOutcomes(userMonth.predictedWinners, 'success');
+            userMonth.standingsData.lossCount = countOutcomes(userMonth.predictedWinners, 'failure');
+
+            //save userMonth and send JSON response:
+            userMonth.save(function (err, userMonth) {
+              if (err) {
+                sendJsonResponse(res, 400, err);
+              } else {
+                sendJsonResponse(res, 200, userMonth);
+              }
+            });
+          }
+      );
+    } else {
+      sendJsonResponse(res, 404, {
+        message: 'No userMonthId provided'
+      });
+    }
+  });
 };
 
 /* DELETE a userMonth */

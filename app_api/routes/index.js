@@ -13,12 +13,14 @@ const auth = jwt({
   secret: process.env.JWT_SECRET,
   userProperty: 'payload',
   getToken: function (req) {
-    if (req.body.token) {
+    if (req.headers.token) {
+      return req.headers.token;
+    } else if (req.body.token) {
       return req.body.token;
     } else if (req.cookies.token) {
       return req.cookies.token;
     } else {
-      console.log('Couldn\'t find a cookie token');
+      console.log('Couldn\'t find an authorization token');
       return null;
     }
   }
@@ -36,12 +38,12 @@ router.get('/userMonth/all-public/:month', auth, ctrlUserMonths.userMonthReadAll
 router.post('/userMonth', auth, ctrlUserMonths.userMonthCreate);
 router.delete('/userMonth/:userMonthId', auth, ctrlUserMonths.userMonthDelete);
 router.put('/userMonth/:month/predictedWinners', auth, ctrlUserMonths.predictedWinnersUpdate);
-router.put('/userMonth/:userMonthId', ctrlUserMonths.outcomeUpdate);
+router.put('/userMonth/:userMonthId', auth, ctrlUserMonths.outcomeUpdate);
 
 // routes for dailyGamesData:
 router.get('/dailyGamesData/:month', ctrlDailyGamesData.dailyGamesDataGetMonth);
-router.post('/dailyGamesData', ctrlDailyGamesData.dailyGamesDataCreate);
-router.put('/dailyGamesData/:date', ctrlDailyGamesData.dailyGamesDataUpdate);
+router.post('/dailyGamesData', auth, ctrlDailyGamesData.dailyGamesDataCreate);
+router.put('/dailyGamesData/:date', auth, ctrlDailyGamesData.dailyGamesDataUpdate);
 
 // routes for authentication requests:
 router.post('/register', ctrlAuth.register);

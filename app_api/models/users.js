@@ -17,6 +17,11 @@ const userSchema = new mongoose.Schema({
   email: {
     type: String
   },
+  role: {
+    type: String,
+    default: 'user',
+    required: true
+  },
   hash: String,
   salt: String,
   leagueIds: [String]
@@ -24,11 +29,11 @@ const userSchema = new mongoose.Schema({
 
 userSchema.methods.setPassword = function (password) {
   this.salt = crypto.randomBytes(16).toString('hex');
-  this.hash = crypto.pbkdf2Sync(password, this.salt, 1000, 64).toString('hex');
+  this.hash = crypto.pbkdf2Sync(password, this.salt, 1000, 64, 'sha1').toString('hex');
 };
 
 userSchema.methods.validPassword = function (password) {
-  const hash = crypto.pbkdf2Sync(password, this.salt, 1000, 64).toString('hex');
+  const hash = crypto.pbkdf2Sync(password, this.salt, 1000, 64, 'sha1').toString('hex');
   return this.hash === hash;
 };
 
@@ -40,8 +45,10 @@ userSchema.methods.generateJwt = function () {
     _id: this._id,
     username: this.username,
     name: this.name,
+    leagueIds: this.leagueIds,
+    role: this.role,
     exp: parseInt(expiry.getTime() / 1000, 10),
-  }, process.env.JWT_SECRET); // DO NOT KEEP YOUR SECRET IN THE CODE!
+  }, process.env.JWT_SECRET);
 };
 
 //connect this schema to the database. automatically creates

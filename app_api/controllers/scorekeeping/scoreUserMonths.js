@@ -37,6 +37,7 @@ const postResult = function (result, dateNumber) {
 
   const headers = new Headers();
   headers.append('Content-Type', 'application/json');
+  headers.append('token', process.env.SCOREKEEPER_TOKEN);
 
   const bodyData = {
     day: dateNumber,
