@@ -6,7 +6,7 @@ import React from 'react';
 const CreateLeague = React.createClass({
   handleClick: function (e) {
     e.preventDefault();
-    console.log(this.value);
+    this.props.sendCreateLeague(this.props.enteredLeagueName);
   },
   handleTextEntry: function (e) {
     this.props.handleLeagueNameTextChange(e.target.value);

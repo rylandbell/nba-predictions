@@ -23,7 +23,7 @@ const enteredChatText = (state = '', action) => {
   }
 }
 
-const enteredLeagueName = (state = 'New League Name', action) => {
+const enteredLeagueName = (state = '', action) => {
   switch(action.type){
     case 'LEAGE_NAME_ENTRY':
       return action.payload;
@@ -34,7 +34,7 @@ const enteredLeagueName = (state = 'New League Name', action) => {
   }
 }
 
-const enteredLeagueId = (state = 'League ID', action) => {
+const enteredLeagueId = (state = '', action) => {
   switch(action.type){
     case 'LEAGUE_ID_ENTRY':
       return action.payload;

@@ -1,5 +1,6 @@
 "use strict";
 const mongoose = require("mongoose");
+const _ = require('lodash');
 
 const UserModel = mongoose.model("User");
 const LeagueModel = mongoose.model("League");
@@ -36,21 +37,47 @@ const getUserData = function(req, res, callback) {
 
 /* POST create a new league */
 module.exports.leagueCreate = function(req, res) {
-  LeagueModel.create(
-    {
-      name: req.body.name,
-      public: false
-      // public: req.body.public
-    },
-    function(err, league) {
-      if (err) {
+  getUserData(req, res, function(req, res, user) {
+    LeagueModel.create({name: req.body.name})
+      .then(league => {
+
+        //find the user object for current user
+        UserModel.findOne(
+          {
+            _id: user._id
+          },
+          function(err, user) {
+
+            //check for basic errors
+            if (!user) {
+              sendJsonResponse(res, 404, {
+                message: "user not found"
+              });
+              return;
+            } else if (err) {
+              sendJsonResponse(res, 400, err);
+              return;
+            }
+
+            //add the new league ID
+            user.leagues.push({id: league._id, name: league.name});
+
+            //save
+            user.save(function(err, user) {
+              if (err) {
+                sendJsonResponse(res, 400, err);
+              } else {
+                sendJsonResponse(res, 200, league);
+              }
+            });
+          }
+        )})
+      .catch(err => {
         console.log("error in controller");
         sendJsonResponse(res, 400, err);
-      } else {
-        sendJsonResponse(res, 201, league);
-      }
-    }
-  );
+      })
+  })
+
 };
 
 /* POST join a league by ID */
@@ -62,12 +89,14 @@ module.exports.leagueJoin = function(req, res) {
     return;
   }
   getUserData(req, res, function(req, res, user) {
+
     //find the user object for current user
     UserModel.findOne(
       {
         _id: user._id
       },
       function(err, user) {
+
         //check for basic errors
         if (!user) {
           sendJsonResponse(res, 404, {
@@ -80,22 +109,26 @@ module.exports.leagueJoin = function(req, res) {
         }
 
         //don't add multiple entries for same league:
-        if (user.leagueIds.indexOf(req.params.leagueId) > -1) {
+        const leagueIndex = _.findIndex(user.leagues, { 'id': req.params.leagueId})
+        
+        if (leagueIndex > -1) {
           sendJsonResponse(res, 400, {
             message: "user already belongs to this league"
           });
           return;
         }
 
+        //check that the league actually exists
+
         //add the new league ID
-        user.leagueIds.push(req.params.leagueId);
+        user.leagues.push({id: req.params.leagueId, name: 'fake name'});
 
         //save
-        user.save(function(err, userMonth) {
+        user.save(function(err, user) {
           if (err) {
             sendJsonResponse(res, 400, err);
           } else {
-            sendJsonResponse(res, 200, userMonth);
+            sendJsonResponse(res, 200, user);
           }
         });
       }

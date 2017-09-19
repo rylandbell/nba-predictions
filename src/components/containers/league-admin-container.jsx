@@ -21,33 +21,68 @@ const mapDispatchToProps = (dispatch) => ({
     (text) => {
       dispatch(ActionCreator.leagueIdEntry(text));
     },
-  sendMessage:
-    (enteredChatText) => {
-      if(enteredChatText === ''){
+  sendCreateLeague:
+    (name) => {
+      if(name === ''){
         return;
       } else {
-        dispatch(ActionCreator.sendMessage());
+        // dispatch(ActionCreator.sendMessage());
         Helper.myFetch(
-          '/api/messages',
-          'PUT',
-          Helper.addMessageProps(enteredChatText),
+          '/api/league',
+          'POST',
+          {name: name},
           (response => {
-            dispatch(ActionCreator.receiveMessageLog(response));
+            // dispatch(ActionCreator.receiveMessageLog(response));
+            console.log(response);
           }),
           (response => {
-            if (response.message === "No messageLog found") {
-              dispatch(ActionCreator.requestMessageLogFailure(response.message));
-            } else {
-              Alert.warning('Error: Failed to load message log. ' + response.message,
-                {
-                  position: 'bottom',
-                  effect: 'stackslide',
-                  beep: false,
-                  timeout: 8000,
-                  offset: 0
-                }
-              );
-            }
+            console.log('Errorrrrr', response);
+            // if (response.message === "No messageLog found") {
+            //   dispatch(ActionCreator.requestMessageLogFailure(response.message));
+            // } else {
+            //   Alert.warning('Error: Failed to load message log. ' + response.message,
+            //     {
+            //       position: 'bottom',
+            //       effect: 'stackslide',
+            //       beep: false,
+            //       timeout: 8000,
+            //       offset: 0
+            //     }
+            //   );
+            // }
+          })
+        );
+      }
+    },
+  sendJoinLeague:
+    (id) => {
+      if(id === ''){
+        return;
+      } else {
+        // dispatch(ActionCreator.sendMessage());
+        Helper.myFetch(
+          '/api/league/' + id,
+          'POST',
+          {},
+          (response => {
+            // dispatch(ActionCreator.receiveMessageLog(response));
+            console.log('Successsss', response);
+          }),
+          (response => {
+            console.log('Errorrrrr', response);
+            // if (response.message === "No messageLog found") {
+            //   dispatch(ActionCreator.requestMessageLogFailure(response.message));
+            // } else {
+            //   Alert.warning('Error: Failed to load message log. ' + response.message,
+            //     {
+            //       position: 'bottom',
+            //       effect: 'stackslide',
+            //       beep: false,
+            //       timeout: 8000,
+            //       offset: 0
+            //     }
+            //   );
+            // }
           })
         );
       }

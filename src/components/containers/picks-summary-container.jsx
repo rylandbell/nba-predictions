@@ -2,7 +2,7 @@
 
 import { connect } from 'react-redux';
 import Alert from 'react-s-alert';
-import moment from 'moment';
+// import moment from 'moment';
 import browserHistory from 'react-router/lib/browserHistory';
 
 import ActionCreator from '../../action-creators.js';

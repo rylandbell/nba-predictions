@@ -1,7 +1,7 @@
 'use strict';
 
 import { connect } from 'react-redux';
-import moment from 'moment';
+// import moment from 'moment';
 import Alert from 'react-s-alert';
 import browserHistory from 'react-router/lib/browserHistory';
 

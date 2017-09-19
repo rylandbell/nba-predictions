@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import moment from 'moment';
+// import moment from 'moment';
 
 const PicksSummaryMonthSelector = React.createClass({
   handleChange: function(event) {

@@ -2,7 +2,7 @@
 
 import { connect } from 'react-redux';
 import Alert from 'react-s-alert';
-import moment from 'moment';
+// import moment from 'moment';
 import _uniqBy from 'lodash/uniqBy';
 
 import ActionCreator from '../../action-creators.js';

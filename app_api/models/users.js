@@ -3,6 +3,12 @@ const mongoose = require('mongoose');
 const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
 
+//stores reference to a league object, but is not itself the league object (see ./leagues for league schema)
+const leagueRefSchema = new mongoose.Schema({
+  id: {type: String, required: true},
+  name: {type: String, required: true}
+});
+
 const userSchema = new mongoose.Schema({
   username: {
     type: String,
@@ -24,7 +30,7 @@ const userSchema = new mongoose.Schema({
   },
   hash: String,
   salt: String,
-  leagueIds: [String]
+  leagues: [leagueRefSchema]
 });
 
 userSchema.methods.setPassword = function (password) {
