@@ -3,49 +3,23 @@
 import { connect } from 'react-redux';
 import Alert from 'react-s-alert';
 
-import ChatWall from '../chat/chat-wall.jsx';
+import LeagueAdmin from '../league-admin/league-admin.jsx';
 import ActionCreator from '../../action-creators.js';
 import Helper from '../../helper.js';
 
-
 const mapStateToProps = (state) => ({
-  messages: state.messages,
-  enteredChatText: state.enteredChatText,
-  isFetchingMessageLog: state.fetchStatus.isFetchingMessageLog
+  enteredLeagueName: state.enteredLeagueName,
+  enteredLeagueId: state.enteredLeagueId
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  getMessageLog:
-    () => {
-      Helper.myFetch(
-        '/api/messages',
-        'GET',
-        {},
-        (response => {
-          dispatch(ActionCreator.receiveMessageLog(response));
-        }),
-        (response => {
-          if (response.message === "No messageLog found") {
-            dispatch(ActionCreator.requestMessageLogFailure(response.message));
-          } else {
-            Alert.warning('Error: Failed to load message log. ' + response.message,
-              {
-                position: 'bottom',
-                effect: 'stackslide',
-                beep: false,
-                timeout: 8000,
-                offset: 0
-              }
-            );
-          }
-        })
-      );
-      dispatch(ActionCreator.requestMessageLogWaiting());
+  handleLeagueNameTextChange:
+    (text) => {
+      dispatch(ActionCreator.leagueNameEntry(text));
     },
-  handleTextChange:
-    (e) => {
-      e.preventDefault();
-      dispatch(ActionCreator.chatTextEntry(e.target.value));
+  handleLeagueIdTextChange:
+    (text) => {
+      dispatch(ActionCreator.leagueIdEntry(text));
     },
   sendMessage:
     (enteredChatText) => {
@@ -87,9 +61,9 @@ const mapDispatchToProps = (dispatch) => ({
     }
 });
 
-const ChatContainer = connect(
+const LeagueAdminContainer = connect(
   mapStateToProps,
   mapDispatchToProps
-)(ChatWall);
+)(LeagueAdmin);
 
-export default ChatContainer;
+export default LeagueAdminContainer;

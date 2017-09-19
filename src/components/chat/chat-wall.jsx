@@ -19,7 +19,7 @@ const ChatWall = React.createClass({
         </div>
         <div className="panel-body chat__body">
           <NewMessageInput 
-            enteredText={this.props.enteredText} 
+            enteredChatText={this.props.enteredChatText} 
             sendMessage={this.props.sendMessage} 
             handleTextChange = {this.props.handleTextChange}
             listenForEnter = {this.props.listenForEnter}

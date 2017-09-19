@@ -4,9 +4,13 @@ import React from 'react';
 // import moment from 'moment';
 
 const CreateLeague = React.createClass({
-  // handleClick: function () {
-  //   this.props.createNewUserMonth(this.props.getUserMonthData, this.props.activeMonth);
-  // },
+  handleClick: function (e) {
+    e.preventDefault();
+    console.log(this.value);
+  },
+  handleTextEntry: function (e) {
+    this.props.handleLeagueNameTextChange(e.target.value);
+  },
   render: function() {
     return (
       <div>
@@ -16,9 +20,9 @@ const CreateLeague = React.createClass({
         <form className="form-horizontal">
           <div className="form-group">
             <div className="col-sm-9">
-              <input type="text" className="form-control" id="leagueName" placeholder="League Name" maxLength="20" />
+              <input type="text" className="form-control" id="leagueName" value={this.props.enteredLeagueName} maxLength="20" onChange={this.handleTextEntry} />
             </div>
-            <button type="submit" className="btn btn-primary">Create</button>
+            <button type="submit" className="btn btn-primary" onClick={this.handleClick}>Create</button>
           </div>
         </form>
       </div>

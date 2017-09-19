@@ -12,10 +12,32 @@ import fetchStatus from './fetch-status.js';
 
 const teams = ['ATL', 'BKN', 'BOS', 'CHA', 'CHI', 'CLE', 'DAL', 'DEN', 'DET', 'GSW', 'HOU', 'IND', 'LAC', 'LAL', 'MEM', 'MIA', 'MIL', 'MIN', 'NOP', 'NYK', 'OKC', 'ORL', 'PHI', 'PHX', 'POR', 'SAC', 'SAS', 'TOR', 'UTA', 'WAS'];
 
-const enteredText = (state = '', action) => {
+const enteredChatText = (state = '', action) => {
   switch(action.type){
-    case 'TEXT_ENTRY':
-      return action.enteredText;
+    case 'CHAT_TEXT_ENTRY':
+      return action.enteredChatText;
+    case 'SEND_MESSAGE':
+      return '';
+    default:
+      return state;
+  }
+}
+
+const enteredLeagueName = (state = 'New League Name', action) => {
+  switch(action.type){
+    case 'LEAGE_NAME_ENTRY':
+      return action.payload;
+    case 'SEND_MESSAGE':
+      return '';
+    default:
+      return state;
+  }
+}
+
+const enteredLeagueId = (state = 'League ID', action) => {
+  switch(action.type){
+    case 'LEAGUE_ID_ENTRY':
+      return action.payload;
     case 'SEND_MESSAGE':
       return '';
     default:
@@ -149,7 +171,9 @@ const api = {
   app: Redux.combineReducers({
     fetchStatus,
     userMonth,
-    enteredText,
+    enteredChatText,
+    enteredLeagueName,
+    enteredLeagueId,
     messages,
     monthList,
     selectedStandingsMonth,

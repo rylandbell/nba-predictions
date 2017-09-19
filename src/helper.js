@@ -71,10 +71,10 @@ const api = {
   },
 
   //Convert user-entered string to a message object:
-  addMessageProps: function (enteredText){
+  addMessageProps: function (enteredChatText){
     const fullMessage = {
       timeSent: new Date().toISOString(),
-      content: enteredText
+      content: enteredChatText
     };
     return fullMessage;
   },

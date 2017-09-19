@@ -7,6 +7,9 @@ const JoinLeague = React.createClass({
   // handleClick: function () {
   //   this.props.createNewUserMonth(this.props.getUserMonthData, this.props.activeMonth);
   // },
+  handleTextEntry: function (e) {
+    this.props.handleLeagueIdTextChange(e.target.value);
+  },
   render: function() {
     return (
       <div>
@@ -16,7 +19,7 @@ const JoinLeague = React.createClass({
         <form className="form-horizontal">
           <div className="form-group">
             <div className="col-sm-9">
-              <input type="text" className="form-control" id="leagueId" placeholder="League ID" maxLength="20" />
+              <input type="text" className="form-control" id="leagueId" value={this.props.enteredLeagueId} onChange={this.handleTextEntry} maxLength="20" />
             </div>
             <button type="submit" className="btn btn-primary">Join</button>
           </div>

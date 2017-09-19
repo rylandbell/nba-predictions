@@ -4,7 +4,7 @@ import React from 'react';
 import CreateLeague from './create-league.jsx';
 import JoinLeague from './join-league.jsx';
 
-const LeagueAdmin = () => {
+const LeagueAdmin = ({enteredLeagueName, enteredLeagueId, handleLeagueNameTextChange, handleLeagueIdTextChange}) => {
   return (
     <div className="row">
       <div className="col-xs-12 col-md-10 col-md-offset-1">
@@ -12,10 +12,10 @@ const LeagueAdmin = () => {
           <div className="panel-body">
             <div className="row">
               <div className="col-xs-12 col-sm-6">
-                <CreateLeague />
+                <CreateLeague enteredLeagueName = {enteredLeagueName} handleLeagueNameTextChange = {handleLeagueNameTextChange} />
               </div>
               <div className="col-xs-12 col-sm-6">
-                <JoinLeague />
+                <JoinLeague enteredLeagueId = {enteredLeagueId} handleLeagueIdTextChange = {handleLeagueIdTextChange} />
               </div>
             </div>
           </div>

@@ -10,8 +10,8 @@ import DashboardPage from './components/dashboard/dashboard-page.jsx';
 import FullStandingsPageContainer from './components/containers/full-standings-page-container.jsx';
 import RulesPanel from './components/dashboard/rules-panel.jsx';
 import ChatContainer from './components/containers/chat-container.jsx';
+import LeagueAdminContainer from './components/containers/league-admin-container.jsx';
 import GenericNotFound from './components/generic-not-found.jsx';
-import LeagueAdmin from './components/league-admin/league-admin.jsx';
 
 const Routes = (
   <Route path ="/" component={LayoutContainer}>
@@ -21,7 +21,7 @@ const Routes = (
     </Route>
     <Route path="/standings" component = {FullStandingsPageContainer} />
     <Route path="/chat" component = {ChatContainer} />
-    <Route path="/leagues" component = {LeagueAdmin} />
+    <Route path="/leagues" component = {LeagueAdminContainer} />
     <Route path="/how-to-play" component={RulesPanel} />
     <Route path = "*" component={GenericNotFound} />
   </Route>

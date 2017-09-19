@@ -191,11 +191,23 @@ const api = {
       month: month,
     }
   ),
-  //~~~~~~~CHAT~~~~~~~~
-  textEntry: (text) => (
+  leagueNameEntry: (text) => (
     {
-      type: 'TEXT_ENTRY',
-      enteredText: text
+      type: 'LEAGE_NAME_ENTRY',
+      payload: text
+    }    
+  ),
+  leagueIdEntry: (text) => (
+    {
+      type: 'LEAGUE_ID_ENTRY',
+      payload: text
+    }    
+  ),
+  //~~~~~~~CHAT~~~~~~~~
+  chatTextEntry: (text) => (
+    {
+      type: 'CHAT_TEXT_ENTRY',
+      enteredChatText: text
     }    
   ),
   sendMessage: (newMessageObject) => (
