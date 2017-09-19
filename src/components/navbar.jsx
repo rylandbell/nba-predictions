@@ -27,6 +27,11 @@ const Navbar = () => {
                   <span className="nav-strong">Standings</span>
                 </Link>
               </li>
+              <li className="hidden-xs">
+                <Link to={"/leagues"}>
+                  <span className="nav-strong">Join/Create League</span>
+                </Link>
+              </li>
             </ul>
           </div>
           <div id="navbar-collapse-1" className="collapse navbar-collapse">
@@ -39,6 +44,9 @@ const Navbar = () => {
               </li>
               <li className="visible-xs">
                 <Link to="/chat">Chat</Link>
+              </li>
+              <li className="visible-xs">
+                <Link to="/leagues">Join/Create League</Link>
               </li>
               <li>
                 <Link to="/how-to-play">How to Play </Link>

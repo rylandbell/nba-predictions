@@ -18,10 +18,10 @@ nav.navbar.navbar-default.navbar-fixed-top
             form#login-form.navbar-form.form(action='/login', method='post', role='form')
               .form-group
                 label Username: &nbsp;
-                input.form-control(type='text' name='username' value='guest' autocomplete='off' size='15' autofocus required)
+                input.form-control(type='text' name='username' autocomplete='off' size='15' autofocus required)
               .form-group
                 label Password: &nbsp;
-                input.form-control(type='password' name='password' value='pass' size='15' required)
+                input.form-control(type='password' name='password' size='15' required)
               button.btn.btn-default(type='submit') Log In
         -if(loggedIn)
           li
