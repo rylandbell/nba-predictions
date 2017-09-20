@@ -62,6 +62,35 @@ const mapDispatchToProps = dispatch => ({
         })
       );
       dispatch(ActionCreator.requestUserMonthWaiting());
+    },
+  getLeagues:
+    () => {
+      Helper.myFetch(
+        '/api/league',
+        'GET',
+        {},
+        (response => {
+          // dispatch(ActionCreator.receiveUserMonth(response));
+          console.log('response: ', response);
+        }),
+        (response => {
+          console.log('error', response);
+          // if (response.message === "No userMonth found") {
+          //   dispatch(ActionCreator.requestUserMonthFailure(response.message));
+          // } else {
+          //   Alert.warning('Error: Failed to load user data. ' + response.message,
+          //     {
+          //       position: 'bottom',
+          //       effect: 'stackslide',
+          //       beep: false,
+          //       timeout: 8000,
+          //       offset: 0
+          //     }
+          //   );
+          // }
+        })
+      );
+      dispatch(ActionCreator.requestUserMonthWaiting());
     }
 });
 

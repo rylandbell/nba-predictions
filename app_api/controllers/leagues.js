@@ -36,6 +36,21 @@ const getUserData = function(req, res, callback) {
   }
 };
 
+/* GET a user's data, including a list of leagues */
+module.exports.leagueReadAllForUser = function (req, res) {
+  getUserData(req, res, function (req, res, user) {
+    if (!user) {
+      sendJsonResponse(res, 404, {
+        message: 'No user found'
+      });
+      return;
+    }
+
+    const responseBody = {user};
+    sendJsonResponse(res, 200, responseBody);
+  });
+};
+
 /* POST create a new league */
 module.exports.leagueCreate = function(req, res) {
   getUserData(req, res, function(req, res, user) {

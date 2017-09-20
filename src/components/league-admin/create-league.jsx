@@ -1,7 +1,6 @@
 'use strict';
 
 import React from 'react';
-// import moment from 'moment';
 
 const CreateLeague = React.createClass({
   handleClick: function (e) {
