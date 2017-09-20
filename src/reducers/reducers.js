@@ -48,11 +48,7 @@ const enteredLeagueId = (state = '', action) => {
 const user = (state = {}, action) => {
   switch(action.type) {
     case 'RECEIVE_USER_DATA':
-      if(action.payload && action.payload.user) {
-        return action.payload.user;
-      } else {
-        return {};
-      }
+      return action.payload;
     default:
       return state;
   }

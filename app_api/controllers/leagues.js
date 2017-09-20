@@ -46,7 +46,13 @@ module.exports.leagueReadAllForUser = function (req, res) {
       return;
     }
 
-    const responseBody = {user};
+    const responseBody = {
+      username: user.username,
+      displayName: user.displayName,
+      leagues: user.leagues
+    };
+
+    console.log(responseBody);
     sendJsonResponse(res, 200, responseBody);
   });
 };
