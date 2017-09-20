@@ -106,6 +106,32 @@ const isSendingPrediction = (state = false, action) => {
   }
 };
 
+const isSendingCreateLeague = (state = false, action) => {
+  switch(action.type){
+    case 'CREATE_LEAGUE_WAITING':
+      return true;
+    case 'CREATE_LEAGUE_SUCCESS':
+      return false;
+    case 'CREATE_LEAGUE_FAILURE':
+      return false;
+    default:
+      return state;
+  }
+};
+
+const isSendingJoinLeague = (state = false, action) => {
+  switch(action.type){
+    case 'JOIN_LEAGUE_WAITING':
+      return true;
+    case 'JOIN_LEAGUE_SUCCESS':
+      return false;
+    case 'JOIN_LEAGUE_FAILURE':
+      return false;
+    default:
+      return state;
+  }
+};
+
 const fetchStatus = Redux.combineReducers({
   isFetchingPredictions,
   isSendingPrediction,
@@ -114,6 +140,8 @@ const fetchStatus = Redux.combineReducers({
   isFetchingStandingsData,
   isFetchingMonthList,
   isFetchingMessageLog,
+  isSendingCreateLeague,
+  isSendingJoinLeague,
   missingUserMonth
 });
 

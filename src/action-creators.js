@@ -152,6 +152,48 @@ const api = {
     }
   ),
 
+  //POST create new league request:
+  createLeagueWaiting: () => (
+    {
+      type: 'CREATE_LEAGUE_WAITING'
+    }
+  ),
+
+  createLeagueSuccess: (month) => (
+    { 
+      type: 'CREATE_LEAGUE_SUCCESS',
+      month: month
+    }
+  ),
+
+  createLeagueFailure: (message) => (
+    {
+      type: 'CREATE_LEAGUE_FAILURE',
+      message: message
+    }
+  ),
+
+  //POST create join league request:
+  joinLeagueWaiting: () => (
+    {
+      type: 'JOIN_LEAGUE_WAITING'
+    }
+  ),
+
+  joinLeagueSuccess: (month) => (
+    { 
+      type: 'JOIN_LEAGUE_SUCCESS',
+      month: month
+    }
+  ),
+
+  joinLeagueFailure: (message) => (
+    {
+      type: 'JOIN_LEAGUE_FAILURE',
+      message: message
+    }
+  ),
+
   //User actions:
   addPrediction: (gameId, teamName, gameDate) => (
     {

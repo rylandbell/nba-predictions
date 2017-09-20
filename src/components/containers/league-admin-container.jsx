@@ -26,16 +26,17 @@ const mapDispatchToProps = (dispatch) => ({
       if(name === ''){
         return;
       } else {
-        // dispatch(ActionCreator.sendMessage());
+        dispatch(ActionCreator.createLeagueWaiting());
         Helper.myFetch(
           '/api/league',
           'POST',
           {name: name},
           (response => {
-            // dispatch(ActionCreator.receiveMessageLog(response));
+            dispatch(ActionCreator.createLeagueSuccess());
             console.log(response);
           }),
           (response => {
+            dispatch(ActionCreator.createLeagueFailure());
             Alert.warning('Error: Failed to create league. ' + response.message,
               {
                 position: 'bottom',
@@ -54,16 +55,17 @@ const mapDispatchToProps = (dispatch) => ({
       if(id === ''){
         return;
       } else {
-        // dispatch(ActionCreator.sendMessage());
+        dispatch(ActionCreator.joinLeagueWaiting());
         Helper.myFetch(
           '/api/league/' + id,
           'POST',
           {},
           (response => {
-            // dispatch(ActionCreator.receiveMessageLog(response));
+            dispatch(ActionCreator.joinLeagueSuccess());
             console.log('Successsss', response);
           }),
           (response => {
+            dispatch(ActionCreator.joinLeagueFailure());
             Alert.warning('Error: Failed to join league. ' + response.message,
               {
                 position: 'bottom',
