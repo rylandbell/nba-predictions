@@ -20,7 +20,7 @@ const JoinLeague = React.createClass({
         <form className="form-horizontal">
           <div className="form-group">
             <div className="col-sm-9">
-              <input type="text" className="form-control" id="leagueId" value={this.props.enteredLeagueId} onChange={this.handleTextEntry} maxLength="20" />
+              <input type="text" className="form-control" id="leagueId" value={this.props.enteredLeagueId} onChange={this.handleTextEntry} maxLength="24" />
             </div>
             <button type="submit" className="btn btn-primary" onClick={this.handleClick}>Join</button>
           </div>

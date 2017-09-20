@@ -1,5 +1,6 @@
 "use strict";
 const mongoose = require("mongoose");
+const ObjectId = mongoose.Schema.Types.ObjectId;
 const _ = require('lodash');
 
 const UserModel = mongoose.model("User");
@@ -110,27 +111,49 @@ module.exports.leagueJoin = function(req, res) {
 
         //don't add multiple entries for same league:
         const leagueIndex = _.findIndex(user.leagues, { 'id': req.params.leagueId})
-        
         if (leagueIndex > -1) {
           sendJsonResponse(res, 400, {
-            message: "user already belongs to this league"
+            message: "User already belongs to this league."
           });
           return;
         }
 
-        //check that the league actually exists
+        //check that the league actually exists:
+        const leagueId = req.params.leagueId;
 
-        //add the new league ID
-        user.leagues.push({id: req.params.leagueId, name: 'fake name'});
+        if (!leagueId.match(/^[0-9a-fA-F]{24}$/)) {
+          sendJsonResponse(res, 400, {
+            message: "Invalid league ID."
+          });
+          return;
+        }
 
-        //save
-        user.save(function(err, user) {
-          if (err) {
-            sendJsonResponse(res, 400, err);
-          } else {
-            sendJsonResponse(res, 200, user);
-          }
-        });
+        LeagueModel.findById(leagueId)
+          .exec(function(err, league){
+            if(err){
+              sendJsonResponse(res, 400, err);
+              return;
+            }
+
+            if(!league) {
+              sendJsonResponse(res, 400, {
+                message: "No league found for that ID."
+              });
+              return;
+            }
+
+            //add the new league ID
+            user.leagues.push({id: req.params.leagueId, name: 'fake name'});
+
+            //save
+            user.save(function(err, user) {
+              if (err) {
+                sendJsonResponse(res, 400, err);
+              } else {
+                sendJsonResponse(res, 200, user);
+              }
+            });
+          });
       }
     );
   });
