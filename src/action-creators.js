@@ -1,6 +1,26 @@
 'use strict';
 
 const api = {
+  //GET user data:
+  requestUserDataWaiting: () => (
+    {
+      type: 'REQUEST_USER_DATA_WAITING'
+    }
+  ),
+
+  receiveUserData: (response) => (
+    { 
+      type: 'RECEIVE_USER_DATA',
+      payload: response
+    }
+  ),
+
+  requestUserDataFailure: (message) => (
+    {
+      type: 'REQUEST_USER_DATA_FAILURE',
+      message: message
+    }
+  ),
 
   //GET messageLog:
   requestMessageLogWaiting: () => (
@@ -43,6 +63,8 @@ const api = {
       message: message
     }
   ),
+
+  //GET NBA game schedule/results data
 
   requestGameDataWaiting: () => (
     {

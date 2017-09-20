@@ -70,27 +70,22 @@ const mapDispatchToProps = dispatch => ({
         'GET',
         {},
         (response => {
-          // dispatch(ActionCreator.receiveUserMonth(response));
-          console.log('response: ', response);
+          dispatch(ActionCreator.receiveUserData(response));
         }),
         (response => {
-          console.log('error', response);
-          // if (response.message === "No userMonth found") {
-          //   dispatch(ActionCreator.requestUserMonthFailure(response.message));
-          // } else {
-          //   Alert.warning('Error: Failed to load user data. ' + response.message,
-          //     {
-          //       position: 'bottom',
-          //       effect: 'stackslide',
-          //       beep: false,
-          //       timeout: 8000,
-          //       offset: 0
-          //     }
-          //   );
-          // }
+          dispatch(ActionCreator.requestUserDataFailure(response));
+          Alert.warning('Error: Failed to load user data. ' + response.message,
+            {
+              position: 'bottom',
+              effect: 'stackslide',
+              beep: false,
+              timeout: 8000,
+              offset: 0
+            }
+          );
         })
       );
-      dispatch(ActionCreator.requestUserMonthWaiting());
+      dispatch(ActionCreator.requestUserDataWaiting());
     }
 });
 

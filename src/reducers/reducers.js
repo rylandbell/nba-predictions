@@ -45,6 +45,19 @@ const enteredLeagueId = (state = '', action) => {
   }
 }
 
+const user = (state = {}, action) => {
+  switch(action.type) {
+    case 'RECEIVE_USER_DATA':
+      if(action.payload && action.payload.user) {
+        return action.payload.user;
+      } else {
+        return {};
+      }
+    default:
+      return state;
+  }
+}
+
 const messages = (state=[], action) => {
   switch(action.type){
     case 'RECEIVE_MESSAGE_LOG':
@@ -174,6 +187,7 @@ const api = {
     enteredChatText,
     enteredLeagueName,
     enteredLeagueId,
+    user,
     messages,
     monthList,
     selectedStandingsMonth,
