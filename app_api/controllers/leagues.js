@@ -118,7 +118,7 @@ module.exports.leagueJoin = function(req, res) {
           return;
         }
 
-        //check that the league actually exists:
+        //check that the league actually exists, and get its name:
         const leagueId = req.params.leagueId;
 
         if (!leagueId.match(/^[0-9a-fA-F]{24}$/)) {
@@ -143,7 +143,7 @@ module.exports.leagueJoin = function(req, res) {
             }
 
             //add the new league ID
-            user.leagues.push({id: req.params.leagueId, name: 'fake name'});
+            user.leagues.push({id: req.params.leagueId, name: league.name});
 
             //save
             user.save(function(err, user) {
