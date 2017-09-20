@@ -36,20 +36,15 @@ const mapDispatchToProps = (dispatch) => ({
             console.log(response);
           }),
           (response => {
-            console.log('Errorrrrr', response);
-            // if (response.message === "No messageLog found") {
-            //   dispatch(ActionCreator.requestMessageLogFailure(response.message));
-            // } else {
-            //   Alert.warning('Error: Failed to load message log. ' + response.message,
-            //     {
-            //       position: 'bottom',
-            //       effect: 'stackslide',
-            //       beep: false,
-            //       timeout: 8000,
-            //       offset: 0
-            //     }
-            //   );
-            // }
+            Alert.warning('Error: Failed to create league. ' + response.message,
+              {
+                position: 'bottom',
+                effect: 'stackslide',
+                beep: false,
+                timeout: 8000,
+                offset: 0
+              }
+            );
           })
         );
       }
@@ -69,20 +64,15 @@ const mapDispatchToProps = (dispatch) => ({
             console.log('Successsss', response);
           }),
           (response => {
-            console.log('Errorrrrr', response);
-            // if (response.message === "No messageLog found") {
-            //   dispatch(ActionCreator.requestMessageLogFailure(response.message));
-            // } else {
-            //   Alert.warning('Error: Failed to load message log. ' + response.message,
-            //     {
-            //       position: 'bottom',
-            //       effect: 'stackslide',
-            //       beep: false,
-            //       timeout: 8000,
-            //       offset: 0
-            //     }
-            //   );
-            // }
+            Alert.warning('Error: Failed to join league. ' + response.message,
+              {
+                position: 'bottom',
+                effect: 'stackslide',
+                beep: false,
+                timeout: 8000,
+                offset: 0
+              }
+            );
           })
         );
       }

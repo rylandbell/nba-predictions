@@ -104,7 +104,6 @@ module.exports.userMonthReadOne = function (req, res) {
     UserMonthModel
       .find(filter)
       .exec(function (err, userMonth) {
-        console.log('userMonth: ', userMonth);
         let responseBody = {};
         if (!userMonth || userMonth.length === 0) {
           sendJsonResponse(res, 404, {

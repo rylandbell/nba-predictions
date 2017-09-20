@@ -67,7 +67,6 @@ module.exports.getMessageLog = function (req, res) {
 /* PUT: push a new message to the messages array */
 module.exports.sendMessage = function (req, res) {
   getUserData(req, res, function (req, res, user) {
-    console.log(user);
     // return null;
     if (req.body && req.body.content) {
       MessageLogModel.find({
