@@ -9,7 +9,9 @@ import Helper from '../../helper.js';
 
 const mapStateToProps = (state) => ({
   enteredLeagueName: state.enteredLeagueName,
-  enteredLeagueId: state.enteredLeagueId
+  enteredLeagueId: state.enteredLeagueId,
+  isSendingCreateLeague: state.fetchStatus.isSendingCreateLeague,
+  isSendingJoinLeague: state.fetchStatus.isSendingJoinLeague
 });
 
 const mapDispatchToProps = (dispatch) => ({

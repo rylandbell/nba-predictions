@@ -6,6 +6,9 @@ import React from 'react';
 const JoinLeague = React.createClass({
   handleClick: function (e) {
     e.preventDefault();
+    if(this.props.isSendingJoinLeague) {
+      return;
+    }
     this.props.sendJoinLeague(this.props.enteredLeagueId);
   },
   handleTextEntry: function (e) {
