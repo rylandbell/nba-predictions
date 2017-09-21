@@ -22,10 +22,10 @@ const DashboardPage = React.createClass({
           
           <div className="col-xs-12 col-sm-6 col-md-5 col-lg-5">
             <PicksSummaryContainer />
-            <StandingsContainer />
+            <ChatContainer />
           </div>
           <div className="col-xs-12 col-sm-6 col-md-7 col-lg-7 hidden-xs full-height-child ">
-            <ChatContainer />
+            <StandingsContainer />
           </div>
         </div>
       </div>

@@ -17,7 +17,7 @@
 
 @media (min-width: 769px) {
   body {
-    background: url('../images/park.jpg');
+    /*background: url('../images/park.jpg');*/
     /*background-color: #222;*/
     background-size: cover;
     background-attachment: fixed;
@@ -42,12 +42,12 @@
 }
 
 .panel-default > .panel-heading {
-  background-color: #282828;
+  /*background-color: #282828;*/
 }
 
 .panel-black {
   /*background-color: #060606;*/
-  background-color: rgba(0,0,0,.6);
+  /*background-color: rgba(0,0,0,.6);*/
 }
 
 .panel-title {
@@ -114,6 +114,6 @@ body {
 .daily-picks-panel {
   border-radius: 5px;
   padding: 10px;
-  background-color: rgba(0,0,0,.5);
+  background-color: #060606;
 }
 
