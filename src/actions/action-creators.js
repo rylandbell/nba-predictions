@@ -48,6 +48,22 @@ export const addUserMonthData = (data) => ({
   payload: data
 });
 
+export const requestGameData = (month) => ({
+  type: 'API',
+  payload: {
+    url: `/api/dailyGamesData/${month}`,
+    method: 'GET',
+    success: 'REQUEST_GAME_DATA_SUCCESS',
+    failure: 'REQUEST_GAME_DATA_FAILURE',
+    pending: 'REQUEST_GAME_DATA_PENDING'
+  }
+});
+
+export const addGameData = (data) => ({
+  type: 'ADD_GAME_DATA',
+  payload: data
+});
+
 const api = {
   requestMessageLogWaiting: () => (
     {

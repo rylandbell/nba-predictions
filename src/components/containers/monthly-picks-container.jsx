@@ -5,10 +5,8 @@ import { connect } from 'react-redux';
 import Alert from 'react-s-alert';
 import browserHistory from 'react-router/lib/browserHistory';
 
-import {requestUserMonthData} from '../../actions/action-creators.js';
 import ActionCreator from '../../actions/action-creators.js';
 import MonthlyPicks from '../monthly-picks/monthly-picks.jsx';
-import Helper from '../../helper.js';
 
 const mapStateToProps = state => ({
   reduxState: state
@@ -51,33 +49,6 @@ const mapDispatchToProps = dispatch => ({
           dispatch(ActionCreator.createUserMonthFailure(response.message));
         });
       dispatch(ActionCreator.createUserMonthWaiting());
-    },
-  getUserMonthData: (month) => {
-    dispatch(requestUserMonthData(month));
-  },
-  getGameData:
-    (month) => {
-      Helper.myFetch(
-        '/api/dailyGamesData/'+month,
-        'GET',
-        {},
-        (response => {
-          dispatch(ActionCreator.receiveGameData(response));
-        }),
-        (response => {
-          dispatch(ActionCreator.requestGameDataFailure());
-          Alert.warning('Error: Failed to load game data. ' + response.message,
-            {
-              position: 'bottom',
-              effect: 'stackslide',
-              beep: false,
-              timeout: 8000,
-              offset: 0
-            }
-          );
-        })
-      );
-      dispatch(ActionCreator.requestGameDataWaiting());
     },
   showAlert: 
     (type, msg, options) => {

@@ -138,8 +138,8 @@ const userMonth = Redux.combineReducers({
 
 const gamesByDay = (state = [], action) => {
   switch(action.type) {
-    case 'RECEIVE_GAME_DATA':
-      return _sortBy(action.response, [function(obj) { return obj.date; }])
+    case 'ADD_GAME_DATA':
+      return _sortBy(action.payload, [function(obj) { return obj.date; }])
     default:
       return state;
   }
@@ -154,17 +154,6 @@ const standingsData = (state=[], action) => {
       return state;
   }
 };
-
-//summer mode
-// const selectedStandingsMonth = (state=moment().format('YYYY-MM'), action) => {
-// const selectedStandingsMonth = (state='2017-04', action) => {
-//   switch(action.type) {
-//     case 'SET_STANDINGS_MONTH':
-//       return action.month
-//     default:
-//       return state;
-//   }
-// }
 
 //List of months for which the current user has participated. Always includes current month.
 const monthList = (state=[], action) => {
@@ -186,7 +175,6 @@ const api = {
     user,
     messages,
     monthList,
-    // selectedStandingsMonth,
     standingsData,
     activeMonth,
     activeDate,

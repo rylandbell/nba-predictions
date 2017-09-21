@@ -43,7 +43,7 @@ const isFetchingGameData = (state = false, action) => {
   switch(action.type){
     case 'REQUEST_GAME_DATA_PENDING':
       return true;
-    case 'RECEIVE_GAME_DATA':
+    case 'REQUEST_GAME_DATA_SUCCESS':
       return false;
     case 'REQUEST_GAME_DATA_FAILURE':
       return false;

@@ -10,8 +10,6 @@ import JoinMonth from '../utility/join-month.jsx';
 
 const MonthlyPicksPage = React.createClass({
   componentDidMount: function() {
-    this.props.getUserMonthData(this.props.reduxState.activeMonth);
-    this.props.getGameData(this.props.reduxState.activeMonth);
     document.title = document.title.split(' | ')[0] + ' | My Picks';
   },
   render: function() {

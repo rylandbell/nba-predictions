@@ -2,7 +2,7 @@
 
 import { connect } from 'react-redux';
 
-import {requestUserData, requestStandingsData, requestUserMonthData} from '../../actions/action-creators.js';
+import {requestUserData, requestStandingsData, requestUserMonthData, requestGameData} from '../../actions/action-creators.js';
 import Layout from '../layout.jsx';
 
 const mapStateToProps = state => ({
@@ -18,7 +18,10 @@ const mapDispatchToProps = dispatch => ({
   },
   getUserData: () => {
     dispatch(requestUserData());
-  }
+  },
+  getGameData: (month) => {
+    dispatch(requestGameData(month));
+  },
 });
 
 const LayoutContainer = connect(
