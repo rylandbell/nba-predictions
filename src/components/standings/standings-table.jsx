@@ -6,12 +6,11 @@ import browserHistory from 'react-router/lib/browserHistory';
 
 import StandingsTableHeader from './standings-table-header.jsx';
 import StandingsTableRow from './standings-table-row.jsx';
-import StandingsMonthSelector from './standings-month-selector.jsx';
 import StatusMessage from '../status-message.jsx';
 
 const StandingsTable = React.createClass({
   componentDidMount: function() {
-    this.props.getMonthsList();
+    this.props.getStandingsData(this.props.activeMonth);
   },
   handleClick: function () {
     const path = '/standings';
@@ -21,11 +20,11 @@ const StandingsTable = React.createClass({
     return (
       <div className="panel panel-default panel-black">
         <div className="panel-heading">
-          <div className="panel-title">{moment(this.props.selectedStandingsMonth).format('MMMM YYYY')} Standings</div>
+          <div className="panel-title">{moment(this.props.activeMonth).format('MMMM YYYY')} Standings</div>
         </div>
         <div className="panel-body">
-          <p className="text-center"> 
-            View all results for the month&nbsp;
+          <p className="small text-center"> 
+            Other users' picks are revealed when the chosen game begins. View all results for the month&nbsp;
             <a href="#" onClick={this.handleClick}>here</a>
             .
           </p>
@@ -36,23 +35,15 @@ const StandingsTable = React.createClass({
             <div>
               <div className="standings">
                 <table className="table table-bordered">
-                  <StandingsTableHeader selectedStandingsMonth={this.props.selectedStandingsMonth}/>
+                  <StandingsTableHeader activeMonth={this.props.activeMonth}/>
                   <tbody>
                     {this.props.standingsData.map(
-                        (player,key) => <StandingsTableRow player={player} key={key} selectedStandingsMonth={this.props.selectedStandingsMonth}/>                    
+                        (player,key) => <StandingsTableRow player={player} key={key} activeMonth={this.props.activeMonth}/>                    
                     )}
                   </tbody>
                 </table>
               </div>
-              <div className="small text-center">Today's picks appear in the standings as soon as the picked game begins. </div>
             </div>
-          }
-          {this.props.monthList && this.props.monthList.length>1 ?
-            <div>
-              <hr />
-              <StandingsMonthSelector getStandingsData={this.props.getStandingsData} setStandingsMonth={this.props.setStandingsMonth} selectedStandingsMonth={this.props.selectedStandingsMonth} monthList={this.props.monthList} />
-            </div>
-            : null
           }
         </div>
       </div>

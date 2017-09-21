@@ -11,7 +11,7 @@ const LayoutComponent = React.createClass({
     // const currentMonth = moment().format('YYYY-MM');
     const currentMonth = '2017-04';
     this.props.getUserMonthData(currentMonth);
-    this.props.getStandingsData(this.props.reduxState.selectedStandingsMonth);
+    this.props.getStandingsData(this.props.reduxState.activeMonth);
     this.props.getLeagues();
   },
   render: function () {

@@ -3,9 +3,9 @@
 import React from 'react';
 import moment from 'moment';
 
-const FullStandingsHeader = ({selectedStandingsMonth}) => {
+const FullStandingsHeader = ({activeMonth}) => {
   const daysArray = [];
-  const daysInMonth = moment(selectedStandingsMonth).daysInMonth();
+  const daysInMonth = moment(activeMonth).daysInMonth();
   for (var i = 1; i <= daysInMonth; i++){
     daysArray.push(i);
   }
@@ -19,7 +19,7 @@ const FullStandingsHeader = ({selectedStandingsMonth}) => {
         <th className="text-center standings__w-l-column--full standings__w-l-column-header--full"> W - L
         </th>
         {daysArray.map( (day, key) =>
-          <th className="text-center" key={key}>{selectedStandingsMonth.substring(5,7)}/{day}</th>
+          <th className="text-center" key={key}>{activeMonth.substring(5,7)}/{day}</th>
         )}
       </tr>
     </thead>

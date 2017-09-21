@@ -157,14 +157,14 @@ const standingsData = (state=[], action) => {
 
 //summer mode
 // const selectedStandingsMonth = (state=moment().format('YYYY-MM'), action) => {
-const selectedStandingsMonth = (state='2017-04', action) => {
-  switch(action.type) {
-    case 'SET_STANDINGS_MONTH':
-      return action.month
-    default:
-      return state;
-  }
-}
+// const selectedStandingsMonth = (state='2017-04', action) => {
+//   switch(action.type) {
+//     case 'SET_STANDINGS_MONTH':
+//       return action.month
+//     default:
+//       return state;
+//   }
+// }
 
 //List of months for which the current user has participated. Always includes current month.
 const monthList = (state=[], action) => {
@@ -186,7 +186,7 @@ const api = {
     user,
     messages,
     monthList,
-    selectedStandingsMonth,
+    // selectedStandingsMonth,
     standingsData,
     activeMonth,
     activeDate,

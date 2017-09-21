@@ -5,38 +5,29 @@ import moment from 'moment';
 
 import FullStandingsHeader from './full-standings-header.jsx';
 import FullStandingsRow from './full-standings-row.jsx';
-import FullStandingsMonthSelector from './full-standings-month-selector.jsx';
 import StatusMessage from '../status-message.jsx';
 
 const FullStandingsPage = React.createClass({
   componentDidMount: function() {
     this.props.getMonthsList();
-    this.props.getStandingsData(this.props.selectedStandingsMonth);
+    this.props.getStandingsData(this.props.activeMonth);
   },
   render: function() {
     return (
       <div className="panel panel-default panel-black ">
         <div className="panel-heading">
-          <div className="panel-title">{moment(this.props.selectedStandingsMonth).format('MMMM YYYY')} - Full Results</div>
+          <div className="panel-title">{moment(this.props.activeMonth).format('MMMM YYYY')} - Full Results</div>
         </div>
         <div className="panel-body">
-          {this.props.monthList && this.props.monthList.length>1 ?
-            <div className="row">
-              <div className="col-xs-12 col-sm-8 col-sm-offset-2">
-                <FullStandingsMonthSelector getStandingsData={this.props.getStandingsData} setStandingsMonth={this.props.setStandingsMonth} selectedStandingsMonth={this.props.selectedStandingsMonth} monthList={this.props.monthList} />
-              </div>
-            </div>
-            : null
-          }
           {this.props.isFetchingStandingsData ? 
             <StatusMessage messageBold={'Loading standings data...'} messageBody={'Just hang tight.'} messageClass={'info'}/>
           :
             <div className="standings--full">
               <table className="table table-bordered standings__table--full">
-                <FullStandingsHeader selectedStandingsMonth={this.props.selectedStandingsMonth} />
+                <FullStandingsHeader activeMonth={this.props.activeMonth} />
                 <tbody>
                   {this.props.standingsData.map(
-                      (player,key) => <FullStandingsRow player={player} key={key} selectedStandingsMonth={this.props.selectedStandingsMonth}/>                    
+                      (player,key) => <FullStandingsRow player={player} key={key} activeMonth={this.props.activeMonth}/>                    
                   )}
                 </tbody>
               </table>

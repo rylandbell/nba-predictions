@@ -5,9 +5,9 @@ import moment from 'moment';
 
 import StandingsTableGame from '../standings/standings-table-game.jsx';
 
-const FullStandingsRow = ({player, selectedStandingsMonth}) => {
+const FullStandingsRow = ({player, activeMonth}) => {
   const daysArray = [];
-  const daysInMonth = moment(selectedStandingsMonth).daysInMonth();
+  const daysInMonth = moment(activeMonth).daysInMonth();
   for (var i = 1; i <= daysInMonth; i++){
     daysArray.push(i);
   }

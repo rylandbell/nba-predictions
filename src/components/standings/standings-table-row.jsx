@@ -5,11 +5,11 @@ import moment from 'moment';
 
 import StandingsTableGame from './standings-table-game.jsx';
 
-const StandingsTableRow = ({player, selectedStandingsMonth}) => {
+const StandingsTableRow = ({player, activeMonth}) => {
   const todayNumber = moment('2017-04-10').format('D');
   return (
-    // selectedStandingsMonth === moment().format('YYYY-MM') ? summer mode
-    selectedStandingsMonth === '2017-04' ?
+    // activeMonth === moment().format('YYYY-MM') ? summer mode
+    activeMonth === '2017-04' ?
       <tr>
         <td>
           <h6>{player.ownerDisplayName}</h6>
