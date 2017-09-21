@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import Alert from 'react-s-alert';
 import browserHistory from 'react-router/lib/browserHistory';
 
+import {requestUserMonthData} from '../../actions/action-creators.js';
 import ActionCreator from '../../actions/action-creators.js';
 import MonthlyPicks from '../monthly-picks/monthly-picks.jsx';
 import Helper from '../../helper.js';
@@ -51,34 +52,9 @@ const mapDispatchToProps = dispatch => ({
         });
       dispatch(ActionCreator.createUserMonthWaiting());
     },
-  getUserMonthData:
-    // (month = moment().format('YYYY-MM')) => { summer mode
-    (month = '2017-04') => {
-      Helper.myFetch(
-        '/api/userMonth/'+month,
-        'GET',
-        {},
-        (response => {
-          dispatch(ActionCreator.receiveUserMonth(response));
-        }),
-        (response => {
-          if (response.message === "No userMonth found") {
-            dispatch(ActionCreator.requestUserMonthFailure(response.message));
-          } else {
-            Alert.warning('Error: Failed to load user data. ' + response.message,
-              {
-                position: 'bottom',
-                effect: 'stackslide',
-                beep: false,
-                timeout: 8000,
-                offset: 0
-              }
-            );
-          }
-        })
-      );
-      dispatch(ActionCreator.requestUserMonthWaiting());
-    },
+  getUserMonthData: (month) => {
+    dispatch(requestUserMonthData(month));
+  },
   getGameData:
     (month) => {
       Helper.myFetch(

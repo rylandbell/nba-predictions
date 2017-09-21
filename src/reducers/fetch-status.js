@@ -26,11 +26,11 @@ const isFetchingMessageLog = (state = false, action) => {
   }
 };
 
-const isFetchingPredictions = (state = false, action) => {
+const isFetchingUserMonthData = (state = false, action) => {
   switch(action.type){
     case 'REQUEST_USER_MONTH_PENDING':
       return true;
-    case 'RECEIVE_USER_MONTH':
+    case 'REQUEST_USER_MONTH_SUCCESS':
       return false;
     case 'REQUEST_USER_MONTH_FAILURE':
       return false;
@@ -54,7 +54,7 @@ const isFetchingGameData = (state = false, action) => {
 
 const missingUserMonth = (state = false, action) => {
   switch(action.type){
-    case 'RECEIVE_USER_MONTH':
+    case 'REQUEST_USER_MONTH_SUCCESS':
       return false;
     case 'REQUEST_USER_MONTH_FAILURE':
       if (action.message && action.message === "No userMonth found") {
@@ -133,7 +133,7 @@ const isSendingJoinLeague = (state = false, action) => {
 };
 
 const fetchStatus = Redux.combineReducers({
-  isFetchingPredictions,
+  isFetchingUserMonthData,
   isSendingPrediction,
   isSendingMessage,
   isFetchingGameData,

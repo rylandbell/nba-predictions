@@ -1,6 +1,6 @@
 import Alert from 'react-s-alert';
 
-import {addUserData, addStandingsData} from '../actions/action-creators.js';
+import {addUserData, addStandingsData, addUserMonthData} from '../actions/action-creators.js';
 
 export const userFlowMiddleware = ({
   dispatch,
@@ -15,6 +15,10 @@ export const userFlowMiddleware = ({
 
     case 'REQUEST_STANDINGS_DATA_SUCCESS':
       dispatch(addStandingsData(action.payload));
+      break;
+
+    case 'REQUEST_USER_MONTH_DATA_SUCCESS':
+      dispatch(addUserMonthData(action.payload));
       break;
 
     //Display appropriate alerts in browser on API errors:
@@ -41,6 +45,18 @@ export const userFlowMiddleware = ({
         }
       );
       break;
+
+      case 'REQUEST_USER_MONTH_DATA_FAILURE':
+        Alert.warning('Error: Failed to load user picks data. ' + action.payload,
+          {
+            position: 'bottom',
+            effect: 'stackslide',
+            beep: false,
+            timeout: 8000,
+            offset: 0
+          }
+        );
+        break;
 
     default:
       break;

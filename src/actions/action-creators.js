@@ -11,6 +11,11 @@ export const requestUserData = () => ({
   }
 });
 
+export const addUserData = (data) => ({
+  type: 'ADD_USER_DATA',
+  payload: data
+});
+
 export const requestStandingsData = (month) => ({
   type: 'API',
   payload: {
@@ -22,13 +27,24 @@ export const requestStandingsData = (month) => ({
   }
 });
 
-export const addUserData = (data) => ({
-  type: 'ADD_USER_DATA',
+export const addStandingsData = (data) => ({
+  type: 'ADD_STANDINGS_DATA',
   payload: data
 });
 
-export const addStandingsData = (data) => ({
-  type: 'ADD_STANDINGS_DATA',
+export const requestUserMonthData = (month) => ({
+  type: 'API',
+  payload: {
+    url: `/api/userMonth/${month}`,
+    method: 'GET',
+    success: 'REQUEST_USER_MONTH_DATA_SUCCESS',
+    failure: 'REQUEST_USER_MONTH_DATA_FAILURE',
+    pending: 'REQUEST_USER_MONTH_DATA_PENDING'
+  }
+});
+
+export const addUserMonthData = (data) => ({
+  type: 'ADD_USER_MONTH_DATA',
   payload: data
 });
 
@@ -49,27 +65,6 @@ const api = {
   requestMessageLogFailure: (message) => (
     {
       type: 'REQUEST_MESSAGE_LOG_FAILURE',
-      message: message
-    }
-  ),
-
-  //GET initial monthly picks data:
-  requestUserMonthWaiting: () => (
-    {
-      type: 'REQUEST_USER_MONTH_PENDING'
-    }
-  ),
-
-  receiveUserMonth: (response) => (
-    { 
-      type: 'RECEIVE_USER_MONTH',
-      response: response
-    }
-  ),
-
-  requestUserMonthFailure: (message) => (
-    {
-      type: 'REQUEST_USER_MONTH_FAILURE',
       message: message
     }
   ),

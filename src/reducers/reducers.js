@@ -98,8 +98,8 @@ const activeMonth = (state = '2017-04', action) => {
 
 const userMonthId = (state = '', action) => {
   switch(action.type){
-    case 'RECEIVE_USER_MONTH':
-      return Object.assign({},action.response.userMonth._id);
+    case 'ADD_USER_MONTH_DATA':
+      return Object.assign({},action.payload.userMonth._id);
     default:
       return state;
   }
@@ -108,8 +108,8 @@ const userMonthId = (state = '', action) => {
 const eligibleTeams = (state = [], action) => {
   var chosenTeams;
   switch(action.type){
-    case 'RECEIVE_USER_MONTH':
-      chosenTeams = _values(action.response.userMonth.predictedWinners).map(obj=>obj.teamName);
+    case 'ADD_USER_MONTH_DATA':
+      chosenTeams = _values(action.payload.userMonth.predictedWinners).map(obj=>obj.teamName);
       return _difference(teams, chosenTeams).sort();
     case 'SEND_PREDICTION_SUCCESS':
       chosenTeams = _values(action.response.predictedWinners).map(obj=>obj.teamName);
@@ -121,8 +121,8 @@ const eligibleTeams = (state = [], action) => {
 
 const predictedWinners = (state = {}, action) => {
   switch(action.type){
-    case 'RECEIVE_USER_MONTH':
-      return Object.assign({},action.response.userMonth.predictedWinners);
+    case 'ADD_USER_MONTH_DATA':
+      return Object.assign({},action.payload.userMonth.predictedWinners);
     case 'SEND_PREDICTION_SUCCESS':
       return Object.assign({}, action.response.predictedWinners);
     default:
