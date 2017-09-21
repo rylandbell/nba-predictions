@@ -47,7 +47,7 @@ const enteredLeagueId = (state = '', action) => {
 
 const user = (state = {}, action) => {
   switch(action.type) {
-    case 'RECEIVE_USER_DATA':
+    case 'ADD_USER_DATA':
       return action.payload;
     default:
       return state;
@@ -147,8 +147,8 @@ const gamesByDay = (state = [], action) => {
 
 const standingsData = (state=[], action) => {
   switch(action.type) {
-    case 'RECEIVE_STANDINGS_DATA':
-      return _sortBy(action.response, [function(obj) { return obj.standingsData.winCount; }])
+    case 'ADD_STANDINGS_DATA':
+      return _sortBy(action.payload, [function(obj) { return obj.standingsData.winCount; }])
         .reverse();
     default:
       return state;

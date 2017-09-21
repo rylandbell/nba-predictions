@@ -12,7 +12,7 @@ const LayoutComponent = React.createClass({
     const currentMonth = '2017-04';
     this.props.getUserMonthData(currentMonth);
     this.props.getStandingsData(this.props.reduxState.activeMonth);
-    this.props.getLeagues();
+    this.props.getUserData();
   },
   render: function () {
     return (

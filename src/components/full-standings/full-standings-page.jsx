@@ -9,7 +9,6 @@ import StatusMessage from '../status-message.jsx';
 
 const FullStandingsPage = React.createClass({
   componentDidMount: function() {
-    this.props.getMonthsList();
     this.props.getStandingsData(this.props.activeMonth);
   },
   render: function() {

@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import Alert from 'react-s-alert';
 import browserHistory from 'react-router/lib/browserHistory';
 
-import ActionCreator from '../../action-creators.js';
+import ActionCreator from '../../actions/action-creators.js';
 import MonthlyPicks from '../monthly-picks/monthly-picks.jsx';
 import Helper from '../../helper.js';
 

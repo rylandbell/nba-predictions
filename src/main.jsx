@@ -6,21 +6,25 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { createStore } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
 import browserHistory from 'react-router/lib/browserHistory';
 import Router from 'react-router/lib/Router';
 import Alert from 'react-s-alert';
 
 import Reducers from './reducers/reducers.js';
 import Routes from './routes.jsx';
+import { apiMiddleware } from './middleware/apiMiddleware';
+import { userFlowMiddleware } from './middleware/userFlowMiddleware';
 
-//enable Redux devtools in Browser
+// (Enables Redux dev tools in browser)
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
 const store = createStore(
   Reducers.app,
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+  composeEnhancers(
+    applyMiddleware(userFlowMiddleware, apiMiddleware)
+  )
 );
-
-// const store = Redux.createStore(Reducers.app);
 
 function render() {
   ReactDOM.render(

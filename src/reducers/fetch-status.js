@@ -15,7 +15,7 @@ const isSendingMessage = (state = false, action) => {
 
 const isFetchingMessageLog = (state = false, action) => {
   switch(action.type){
-    case 'REQUEST_MESSAGE_LOG_WAITING':
+    case 'REQUEST_MESSAGE_LOG_PENDING':
       return true;
     case 'RECEIVE_MESSAGE_LOG':
       return false;
@@ -28,7 +28,7 @@ const isFetchingMessageLog = (state = false, action) => {
 
 const isFetchingPredictions = (state = false, action) => {
   switch(action.type){
-    case 'REQUEST_USER_MONTH_WAITING':
+    case 'REQUEST_USER_MONTH_PENDING':
       return true;
     case 'RECEIVE_USER_MONTH':
       return false;
@@ -41,7 +41,7 @@ const isFetchingPredictions = (state = false, action) => {
 
 const isFetchingGameData = (state = false, action) => {
   switch(action.type){
-    case 'REQUEST_GAME_DATA_WAITING':
+    case 'REQUEST_GAME_DATA_PENDING':
       return true;
     case 'RECEIVE_GAME_DATA':
       return false;
@@ -69,9 +69,9 @@ const missingUserMonth = (state = false, action) => {
 
 const isFetchingStandingsData = (state = false, action) => {
   switch(action.type){
-    case 'REQUEST_STANDINGS_DATA_WAITING':
+    case 'REQUEST_STANDINGS_DATA_PENDING':
       return true;
-    case 'RECEIVE_STANDINGS_DATA':
+    case 'REQUEST_STANDINGS_DATA_SUCCESS':
       return false;
     case 'REQUEST_STANDINGS_DATA_FAILURE':
       return false;
@@ -82,7 +82,7 @@ const isFetchingStandingsData = (state = false, action) => {
 
 const isFetchingMonthList = (state = false, action) => {
   switch(action.type){
-    case 'REQUEST_MONTH_LIST_WAITING':
+    case 'REQUEST_MONTH_LIST_PENDING':
       return true;
     case 'RECEIVE_MONTH_LIST':
       return false;
@@ -95,7 +95,7 @@ const isFetchingMonthList = (state = false, action) => {
 
 const isSendingPrediction = (state = false, action) => {
   switch(action.type){
-    case 'SEND_PREDICTION_WAITING':
+    case 'SEND_PREDICTION_PENDING':
       return true;
     case 'SEND_PREDICTION_SUCCESS':
       return false;
@@ -108,7 +108,7 @@ const isSendingPrediction = (state = false, action) => {
 
 const isSendingCreateLeague = (state = false, action) => {
   switch(action.type){
-    case 'CREATE_LEAGUE_WAITING':
+    case 'CREATE_LEAGUE_PENDING':
       return true;
     case 'CREATE_LEAGUE_SUCCESS':
       return false;
@@ -121,7 +121,7 @@ const isSendingCreateLeague = (state = false, action) => {
 
 const isSendingJoinLeague = (state = false, action) => {
   switch(action.type){
-    case 'JOIN_LEAGUE_WAITING':
+    case 'JOIN_LEAGUE_PENDING':
       return true;
     case 'JOIN_LEAGUE_SUCCESS':
       return false;

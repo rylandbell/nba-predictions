@@ -1,7 +1,7 @@
 'use strict';
 
 import { connect } from 'react-redux';
-import ActionCreator from '../../action-creators.js';
+import ActionCreator from '../../actions/action-creators.js';
 
 import MonthlyPicksSidebar from '../monthly-picks/monthly-picks-sidebar/monthly-picks-sidebar.jsx';
 

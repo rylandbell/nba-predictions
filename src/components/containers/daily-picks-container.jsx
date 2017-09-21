@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import Alert from 'react-s-alert';
 import moment from 'moment';
 
-import ActionCreator from '../../action-creators.js';
+import ActionCreator from '../../actions/action-creators.js';
 import Helper from '../../helper.js';
 import DailyPicks from '../monthly-picks/daily-picks/daily-picks.jsx';
 

@@ -5,7 +5,7 @@ import Alert from 'react-s-alert';
 // import moment from 'moment';
 import browserHistory from 'react-router/lib/browserHistory';
 
-import ActionCreator from '../../action-creators.js';
+import ActionCreator from '../../actions/action-creators.js';
 import Helper from '../../helper.js';
 import PicksSummary from '../picks-summary/picks-summary.jsx';
 

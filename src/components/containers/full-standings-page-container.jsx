@@ -1,11 +1,10 @@
 'use strict';
 
 import { connect } from 'react-redux';
-import Alert from 'react-s-alert';
-// import moment from 'moment';
-import ActionCreator from '../../action-creators.js';
-import Helper from '../../helper.js';
+// import Alert from 'react-s-alert';
+
 import FullStandingsPage from '../full-standings/full-standings-page.jsx';
+import {requestStandingsData} from '../../actions/action-creators.js';
 
 const mapStateToProps = state => ({
   activeMonth: state.activeMonth,
@@ -14,30 +13,9 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  getStandingsData:
-    (month) => {
-      Helper.myFetch(
-        '/api/userMonth/all-public/'+month,
-        'GET',
-        {},
-        (response => {
-          dispatch(ActionCreator.receiveStandingsData(response));
-        }),
-        (response => {
-          dispatch(ActionCreator.requestStandingsDataFailure());
-          Alert.warning('Error: Failed to load standings data. ' + response.message,
-            {
-              position: 'bottom',
-              effect: 'stackslide',
-              beep: false,
-              timeout: 8000,
-              offset: 0
-            }
-          );
-        })
-      );
-      dispatch(ActionCreator.requestStandingsDataWaiting());
-    }
+  getStandingsData: (month) => {
+    dispatch(requestStandingsData(month))
+  }
 });
 
 const FullStandingsPageContainer = connect(

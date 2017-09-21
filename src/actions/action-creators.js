@@ -1,31 +1,41 @@
 'use strict';
 
+export const requestUserData = () => ({
+  type: 'API',
+  payload: {
+    url: '/api/league',
+    method: 'GET',
+    success: 'REQUEST_USER_DATA_SUCCESS',
+    failure: 'REQUEST_USER_DATA_FAILURE',
+    pending: 'REQUEST_USER_DATA_PENDING'
+  }
+});
+
+export const requestStandingsData = (month) => ({
+  type: 'API',
+  payload: {
+    url: `/api/userMonth/all-public/${month}`,
+    method: 'GET',
+    success: 'REQUEST_STANDINGS_DATA_SUCCESS',
+    failure: 'REQUEST_STANDINGS_DATA_FAILURE',
+    pending: 'REQUEST_STANDINGS_DATA_PENDING'
+  }
+});
+
+export const addUserData = (data) => ({
+  type: 'ADD_USER_DATA',
+  payload: data
+});
+
+export const addStandingsData = (data) => ({
+  type: 'ADD_STANDINGS_DATA',
+  payload: data
+});
+
 const api = {
-  //GET user data:
-  requestUserDataWaiting: () => (
-    {
-      type: 'REQUEST_USER_DATA_WAITING'
-    }
-  ),
-
-  receiveUserData: (response) => (
-    { 
-      type: 'RECEIVE_USER_DATA',
-      payload: response
-    }
-  ),
-
-  requestUserDataFailure: (message) => (
-    {
-      type: 'REQUEST_USER_DATA_FAILURE',
-      message: message
-    }
-  ),
-
-  //GET messageLog:
   requestMessageLogWaiting: () => (
     {
-      type: 'REQUEST_MESSAGE_LOG_WAITING'
+      type: 'REQUEST_MESSAGE_LOG_PENDING'
     }
   ),
 
@@ -46,7 +56,7 @@ const api = {
   //GET initial monthly picks data:
   requestUserMonthWaiting: () => (
     {
-      type: 'REQUEST_USER_MONTH_WAITING'
+      type: 'REQUEST_USER_MONTH_PENDING'
     }
   ),
 
@@ -68,7 +78,7 @@ const api = {
 
   requestGameDataWaiting: () => (
     {
-      type: 'REQUEST_GAME_DATA_WAITING'
+      type: 'REQUEST_GAME_DATA_PENDING'
     }
   ),
 
@@ -93,30 +103,10 @@ const api = {
     }
   ),
 
-  //GET standings data
-  requestStandingsDataWaiting: () => (
-    {
-      type: 'REQUEST_STANDINGS_DATA_WAITING'
-    }
-  ),
-
-  receiveStandingsData: (response) => (
-    { 
-      type: 'RECEIVE_STANDINGS_DATA',
-      response: response
-    }
-  ),
-
-  requestStandingsDataFailure: () => (
-    {
-      type: 'REQUEST_STANDINGS_DATA_FAILURE'
-    }
-  ),
-
   //GET list of months for standings month-selector
   requestMonthListWaiting: () => (
     {
-      type: 'REQUEST_MONTH_LIST_WAITING'
+      type: 'REQUEST_MONTH_LIST_PENDING'
     }
   ),
 
@@ -136,7 +126,7 @@ const api = {
   //PUT send game prediction:
   sendPredictionWaiting: () => (
     {
-      type: 'SEND_PREDICTION_WAITING'
+      type: 'SEND_PREDICTION_PENDING'
     }
   ),
 
@@ -156,7 +146,7 @@ const api = {
   //POST create new userMonth at user request:
   createUserMonthWaiting: () => (
     {
-      type: 'CREATE_USER_MONTH_WAITING'
+      type: 'CREATE_USER_MONTH_PENDING'
     }
   ),
 
@@ -177,7 +167,7 @@ const api = {
   //POST create new league request:
   createLeagueWaiting: () => (
     {
-      type: 'CREATE_LEAGUE_WAITING'
+      type: 'CREATE_LEAGUE_PENDING'
     }
   ),
 
@@ -198,7 +188,7 @@ const api = {
   //POST create join league request:
   joinLeagueWaiting: () => (
     {
-      type: 'JOIN_LEAGUE_WAITING'
+      type: 'JOIN_LEAGUE_PENDING'
     }
   ),
 
