@@ -19,12 +19,13 @@ const DashboardPage = React.createClass({
           &nbsp;page.
         </p>
         <div className="row full-height-parent">
-          
           <div className="col-xs-12 col-sm-6 col-md-5 col-lg-5">
             <PicksSummaryContainer />
-            <ChatContainer />
+            <div className="hidden-xs">
+              <ChatContainer />
+            </div>
           </div>
-          <div className="col-xs-12 col-sm-6 col-md-7 col-lg-7 hidden-xs full-height-child ">
+          <div className="col-xs-12 col-sm-6 col-md-7 col-lg-7full-height-child ">
             <StandingsContainer />
           </div>
         </div>
