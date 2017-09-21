@@ -5,7 +5,7 @@ import CreateLeague from './create-league.jsx';
 import JoinLeague from './join-league.jsx';
 import MyLeaguesTable from './my-leagues-table.jsx';
 
-const LeagueAdmin = ({enteredLeagueName, enteredLeagueId, isSendingCreateLeague, isSendingJoinLeague, handleLeagueNameTextChange, handleLeagueIdTextChange, sendCreateLeague, sendJoinLeague}) => {
+const LeagueAdmin = ({enteredLeagueName, enteredLeagueId, isSendingCreateLeague, isSendingJoinLeague, user, handleLeagueNameTextChange, handleLeagueIdTextChange, sendCreateLeague, sendJoinLeague}) => {
   const reqPending = isSendingCreateLeague | isSendingJoinLeague;
   const reqPendingClass = reqPending ? 'send-waiting' : '';
   return (
@@ -15,7 +15,7 @@ const LeagueAdmin = ({enteredLeagueName, enteredLeagueId, isSendingCreateLeague,
           <div className="panel-body">
             <div className="row">
               <div className="col-xs-12">
-                <MyLeaguesTable />
+                <MyLeaguesTable user = {user}/>
               </div>
             </div>
             <div className="row">

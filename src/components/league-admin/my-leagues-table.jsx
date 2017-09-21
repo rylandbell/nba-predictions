@@ -1,8 +1,9 @@
 'use strict';
 
 import React from 'react';
+import MyLeaguesTableRow from './my-leagues-table-row.jsx';
 
-const MyLeaguesTable = () => {
+const MyLeaguesTable = ({user}) => {
   return (
     <div>
       <h4 className="text-center">My Leagues</h4>
@@ -15,14 +16,10 @@ const MyLeaguesTable = () => {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>League One</td>
-            <td>http://nba.ryland-bell.com/leagues/59c13bed3cf1c1cddfd34fe4</td>
-          </tr>
-          <tr>
-            <td>League Two</td>
-            <td>http://nba.ryland-bell.com/leagues/59c13bed3cf1c1cddfd34fe4</td>
-          </tr>
+          {user.leagues ? 
+            user.leagues.map(league => <MyLeaguesTableRow league={league} key={league.id}/>) :
+            null
+          }
         </tbody>
       </table>
     </div>

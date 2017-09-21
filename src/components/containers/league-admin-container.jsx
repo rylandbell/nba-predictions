@@ -11,7 +11,8 @@ const mapStateToProps = (state) => ({
   enteredLeagueName: state.enteredLeagueName,
   enteredLeagueId: state.enteredLeagueId,
   isSendingCreateLeague: state.fetchStatus.isSendingCreateLeague,
-  isSendingJoinLeague: state.fetchStatus.isSendingJoinLeague
+  isSendingJoinLeague: state.fetchStatus.isSendingJoinLeague,
+  user: state.user
 });
 
 const mapDispatchToProps = (dispatch) => ({
