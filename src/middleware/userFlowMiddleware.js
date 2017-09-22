@@ -1,6 +1,6 @@
 import Alert from 'react-s-alert';
 
-import {addUserData, addStandingsData, addUserMonthData, addGameData} from '../actions/action-creators.js';
+import {addUserData, addStandingsData, addUserMonthData, addGameData, addMessageLog} from '../actions/action-creators.js';
 
 export const userFlowMiddleware = ({
   dispatch,
@@ -23,6 +23,10 @@ export const userFlowMiddleware = ({
 
     case 'REQUEST_GAME_DATA_SUCCESS':
       dispatch(addGameData(action.payload));
+      break;
+
+    case 'REQUEST_MESSAGE_LOG_SUCCESS':
+      dispatch(addMessageLog(action.payload));
       break;
 
     //Display appropriate alerts in browser on API errors:
@@ -64,6 +68,18 @@ export const userFlowMiddleware = ({
 
     case 'REQUEST_GAME_DATA_FAILURE':
       Alert.warning('Error: Failed to load game data. ' + action.payload,
+        {
+          position: 'bottom',
+          effect: 'stackslide',
+          beep: false,
+          timeout: 8000,
+          offset: 0
+        }
+      );
+      break;
+
+    case 'REQUEST_MESSAGE_LOG_FAILURE':
+      Alert.warning('Error: Failed to load chat messages. ' + action.payload,
         {
           position: 'bottom',
           effect: 'stackslide',

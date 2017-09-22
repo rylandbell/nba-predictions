@@ -17,7 +17,7 @@ const isFetchingMessageLog = (state = false, action) => {
   switch(action.type){
     case 'REQUEST_MESSAGE_LOG_PENDING':
       return true;
-    case 'RECEIVE_MESSAGE_LOG':
+    case 'REQUEST_MESSAGE_LOG_SUCCESS':
       return false;
     case 'REQUEST_MESSAGE_LOG_FAILURE':
       return false;

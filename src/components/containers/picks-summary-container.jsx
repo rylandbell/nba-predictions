@@ -2,7 +2,6 @@
 
 import { connect } from 'react-redux';
 import Alert from 'react-s-alert';
-// import moment from 'moment';
 import browserHistory from 'react-router/lib/browserHistory';
 
 import {requestUserMonthData} from '../../actions/action-creators.js';

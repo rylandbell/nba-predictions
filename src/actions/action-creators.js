@@ -64,48 +64,23 @@ export const addGameData = (data) => ({
   payload: data
 });
 
+export const requestMessageLog = () => ({
+  type: 'API',
+  payload: {
+    url: '/api/messages',
+    method: 'GET',
+    success: 'REQUEST_MESSAGE_LOG_SUCCESS',
+    failure: 'REQUEST_MESSAGE_LOG_FAILURE',
+    pending: 'REQUEST_MESSAGE_LOG_PENDING'
+  }
+});
+
+export const addMessageLog = (data) => ({
+  type: 'ADD_MESSAGE_LOG',
+  payload: data
+});
+
 const api = {
-  requestMessageLogWaiting: () => (
-    {
-      type: 'REQUEST_MESSAGE_LOG_PENDING'
-    }
-  ),
-
-  receiveMessageLog: (response) => (
-    { 
-      type: 'RECEIVE_MESSAGE_LOG',
-      response: response
-    }
-  ),
-
-  requestMessageLogFailure: (message) => (
-    {
-      type: 'REQUEST_MESSAGE_LOG_FAILURE',
-      message: message
-    }
-  ),
-
-  //GET NBA game schedule/results data
-
-  requestGameDataWaiting: () => (
-    {
-      type: 'REQUEST_GAME_DATA_PENDING'
-    }
-  ),
-
-  receiveGameData: (response) => (
-    { 
-      type: 'RECEIVE_GAME_DATA',
-      response: response
-    }
-  ),
-
-  requestGameDataFailure: () => (
-    {
-      type: 'REQUEST_GAME_DATA_FAILURE'
-    }
-  ),
-
   //Set standings month from pulldown menu
   setStandingsMonth: month => (
     {
