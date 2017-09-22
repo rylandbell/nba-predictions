@@ -27,7 +27,7 @@ const enteredLeagueName = (state = '', action) => {
   switch(action.type){
     case 'LEAGE_NAME_ENTRY':
       return action.payload;
-    case 'SEND_MESSAGE':
+    case 'CREATE_LEAGUE_PENDING':
       return '';
     default:
       return state;
@@ -38,7 +38,7 @@ const enteredLeagueId = (state = '', action) => {
   switch(action.type){
     case 'LEAGUE_ID_ENTRY':
       return action.payload;
-    case 'SEND_MESSAGE':
+    case 'JOIN_LEAGUE_PENDING':
       return '';
     default:
       return state;

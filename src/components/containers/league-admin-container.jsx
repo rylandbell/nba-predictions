@@ -5,6 +5,7 @@ import Alert from 'react-s-alert';
 
 import LeagueAdmin from '../league-admin/league-admin.jsx';
 import ActionCreator from '../../actions/action-creators.js';
+import {createLeague} from '../../actions/api-post.js';
 import Helper from '../../helper.js';
 
 const mapStateToProps = (state) => ({
@@ -24,35 +25,13 @@ const mapDispatchToProps = (dispatch) => ({
     (text) => {
       dispatch(ActionCreator.leagueIdEntry(text));
     },
-  sendCreateLeague:
-    (name) => {
-      if(name === ''){
-        return;
-      } else {
-        dispatch(ActionCreator.createLeagueWaiting());
-        Helper.myFetch(
-          '/api/league',
-          'POST',
-          {name: name},
-          (response => {
-            dispatch(ActionCreator.createLeagueSuccess());
-            console.log(response);
-          }),
-          (response => {
-            dispatch(ActionCreator.createLeagueFailure());
-            Alert.warning('Error: Failed to create league. ' + response.message,
-              {
-                position: 'bottom',
-                effect: 'stackslide',
-                beep: false,
-                timeout: 8000,
-                offset: 0
-              }
-            );
-          })
-        );
-      }
-    },
+  sendCreateLeague: (name) => {
+    if(name === ''){
+      return;
+    } else {
+      dispatch(createLeague(name));
+    }
+  },
   sendJoinLeague:
     (id) => {
       if(id === ''){

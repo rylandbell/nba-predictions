@@ -7,7 +7,6 @@ import {requestMessageLog} from '../../actions/api-get.js';
 import {sendMessage} from '../../actions/api-put.js';
 import ActionCreator from '../../actions/action-creators.js';
 
-
 const mapStateToProps = (state) => ({
   messages: state.messages,
   enteredChatText: state.enteredChatText,
@@ -25,18 +24,16 @@ const mapDispatchToProps = (dispatch) => ({
       dispatch(sendMessage(enteredChatText));
     }
   },
-  handleTextChange:
-    (e) => {
+  handleTextChange: (e) => {
+    e.preventDefault();
+    dispatch(ActionCreator.chatTextEntry(e.target.value));
+  },
+  listenForEnter: (e) => {
+    if(e.charCode === 13){
       e.preventDefault();
-      dispatch(ActionCreator.chatTextEntry(e.target.value));
-    },
-  listenForEnter:
-    (e) => {
-      if(e.charCode === 13){
-        e.preventDefault();
-        $('.chat__form input[type="submit"]').click();
-      }
+      $('.chat__form input[type="submit"]').click();
     }
+  }
 });
 
 const ChatContainer = connect(

@@ -1,13 +1,6 @@
 'use strict';
 
 const api = {
-  //Set standings month from pulldown menu
-  setStandingsMonth: month => (
-    {
-      type: 'SET_STANDINGS_MONTH',
-      month: month
-    }
-  ),
 
   //GET list of months for standings month-selector
   requestMonthListWaiting: () => (
@@ -66,27 +59,6 @@ const api = {
   createUserMonthFailure: (message) => (
     {
       type: 'CREATE_USER_MONTH_FAILURE',
-      message: message
-    }
-  ),
-
-  //POST create new league request:
-  createLeagueWaiting: () => (
-    {
-      type: 'CREATE_LEAGUE_PENDING'
-    }
-  ),
-
-  createLeagueSuccess: (month) => (
-    { 
-      type: 'CREATE_LEAGUE_SUCCESS',
-      month: month
-    }
-  ),
-
-  createLeagueFailure: (message) => (
-    {
-      type: 'CREATE_LEAGUE_FAILURE',
       message: message
     }
   ),

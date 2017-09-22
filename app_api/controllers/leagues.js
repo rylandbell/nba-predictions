@@ -88,7 +88,7 @@ module.exports.leagueCreate = function(req, res) {
               if (err) {
                 sendJsonResponse(res, 400, err);
               } else {
-                sendJsonResponse(res, 200, league);
+                sendJsonResponse(res, 200, user);
               }
             });
           }

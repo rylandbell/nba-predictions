@@ -33,6 +33,10 @@ export const userFlowMiddleware = ({
       dispatch(addMessageLog(action.payload));
       break;
 
+    case 'CREATE_LEAGUE_SUCCESS':
+      dispatch(addUserData(action.payload));
+      break;
+
     //Display appropriate alerts in browser on API errors:
     case 'REQUEST_USER_DATA_FAILURE':
       Alert.warning('Error: Failed to load user data. ' + action.payload,
@@ -96,6 +100,18 @@ export const userFlowMiddleware = ({
 
     case 'SEND_MESSAGE_FAILURE':
       Alert.warning('Error: Failed to send message. ' + action.payload,
+        {
+          position: 'bottom',
+          effect: 'stackslide',
+          beep: false,
+          timeout: 8000,
+          offset: 0
+        }
+      );
+      break;
+
+    case 'CREATE_LEAGUE_FAILURE':
+      Alert.warning('Error: Failed to create new league. ' + action.payload,
         {
           position: 'bottom',
           effect: 'stackslide',
