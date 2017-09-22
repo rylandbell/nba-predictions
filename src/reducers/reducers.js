@@ -16,7 +16,7 @@ const enteredChatText = (state = '', action) => {
   switch(action.type){
     case 'CHAT_TEXT_ENTRY':
       return action.enteredChatText;
-    case 'SEND_MESSAGE':
+    case 'SEND_MESSAGE_PENDING':
       return '';
     default:
       return state;

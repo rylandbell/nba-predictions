@@ -52,7 +52,6 @@ module.exports.leagueReadAllForUser = function (req, res) {
       leagues: user.leagues
     };
 
-    console.log(responseBody);
     sendJsonResponse(res, 200, responseBody);
   });
 };

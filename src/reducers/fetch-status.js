@@ -4,9 +4,11 @@ const Redux = require('redux');
 
 const isSendingMessage = (state = false, action) => {
   switch(action.type){
-    case 'SEND_MESSAGE':
+    case 'SEND_MESSAGE_PENDING':
       return true;
-    case 'RECEIVE_MESSAGE_LOG':
+    case 'SEND_MESSAGE_SUCCESS':
+      return false;
+    case 'SEND_MESSAGE_FAILURE':
       return false;
     default:
       return state;

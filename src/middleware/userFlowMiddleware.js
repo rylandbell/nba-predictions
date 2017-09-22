@@ -29,6 +29,10 @@ export const userFlowMiddleware = ({
       dispatch(addMessageLog(action.payload));
       break;
 
+    case 'SEND_MESSAGE_SUCCESS':
+      dispatch(addMessageLog(action.payload));
+      break;
+
     //Display appropriate alerts in browser on API errors:
     case 'REQUEST_USER_DATA_FAILURE':
       Alert.warning('Error: Failed to load user data. ' + action.payload,
@@ -80,6 +84,18 @@ export const userFlowMiddleware = ({
 
     case 'REQUEST_MESSAGE_LOG_FAILURE':
       Alert.warning('Error: Failed to load chat messages. ' + action.payload,
+        {
+          position: 'bottom',
+          effect: 'stackslide',
+          beep: false,
+          timeout: 8000,
+          offset: 0
+        }
+      );
+      break;
+
+    case 'SEND_MESSAGE_FAILURE':
+      Alert.warning('Error: Failed to send message. ' + action.payload,
         {
           position: 'bottom',
           effect: 'stackslide',
