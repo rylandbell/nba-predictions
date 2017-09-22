@@ -8,7 +8,20 @@ export const userFlowMiddleware = ({
 }) => next => action => {
   // const state = getState();
 
+  const showAlert = (errorDescription) => {
+    Alert.warning(`Error: ${errorDescription} ${action.payload}`,
+      {
+        position: 'bottom',
+        effect: 'stackslide',
+        beep: false,
+        timeout: 8000,
+        offset: 0
+      }
+    );
+  }
+
   switch (action.type) {
+    //Handle content received after successful API calls:
     case 'REQUEST_USER_DATA_SUCCESS':
       dispatch(addUserData(action.payload));
       break;
@@ -43,99 +56,32 @@ export const userFlowMiddleware = ({
 
     //Display appropriate alerts in browser on API errors:
     case 'REQUEST_USER_DATA_FAILURE':
-      Alert.warning('Error: Failed to load user data. ' + action.payload,
-        {
-          position: 'bottom',
-          effect: 'stackslide',
-          beep: false,
-          timeout: 8000,
-          offset: 0
-        }
-      );
+      showAlert('Failed to load user data.');
       break;
 
     case 'REQUEST_STANDINGS_DATA_FAILURE':
-      Alert.warning('Error: Failed to load standings data. ' + action.payload,
-        {
-          position: 'bottom',
-          effect: 'stackslide',
-          beep: false,
-          timeout: 8000,
-          offset: 0
-        }
-      );
-      break;
-
-    case 'REQUEST_USER_MONTH_DATA_FAILURE':
-      Alert.warning('Error: Failed to load user picks data. ' + action.payload,
-        {
-          position: 'bottom',
-          effect: 'stackslide',
-          beep: false,
-          timeout: 8000,
-          offset: 0
-        }
-      );
+      showAlert('Failed to load standings data.');
       break;
 
     case 'REQUEST_GAME_DATA_FAILURE':
-      Alert.warning('Error: Failed to load game data. ' + action.payload,
-        {
-          position: 'bottom',
-          effect: 'stackslide',
-          beep: false,
-          timeout: 8000,
-          offset: 0
-        }
-      );
+      showAlert('Failed to load game data.');
       break;
 
     case 'REQUEST_MESSAGE_LOG_FAILURE':
-      Alert.warning('Error: Failed to load chat messages. ' + action.payload,
-        {
-          position: 'bottom',
-          effect: 'stackslide',
-          beep: false,
-          timeout: 8000,
-          offset: 0
-        }
-      );
+      showAlert('Failed to load chat messages.');
       break;
 
     case 'SEND_MESSAGE_FAILURE':
-      Alert.warning('Error: Failed to send message. ' + action.payload,
-        {
-          position: 'bottom',
-          effect: 'stackslide',
-          beep: false,
-          timeout: 8000,
-          offset: 0
-        }
-      );
+      showAlert('Failed to send message.');
       break;
 
     case 'CREATE_LEAGUE_FAILURE':
-      Alert.warning('Error: Failed to create new league. ' + action.payload,
-        {
-          position: 'bottom',
-          effect: 'stackslide',
-          beep: false,
-          timeout: 8000,
-          offset: 0
-        }
-      );
+      showAlert('Failed to create new league.')
       break;
 
     case 'JOIN_LEAGUE_FAILURE':
-      Alert.warning('Error: Failed to join new league. ' + action.payload,
-        {
-          position: 'bottom',
-          effect: 'stackslide',
-          beep: false,
-          timeout: 8000,
-          offset: 0
-        }
-      );
+      showAlert('Failed to create join league.');
+      console.log(action.payload);
       break;
 
     default:

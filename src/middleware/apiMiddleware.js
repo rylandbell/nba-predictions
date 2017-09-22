@@ -34,7 +34,7 @@ export const apiMiddleware = ({ dispatch }) => next => action => {
   fetch(action.payload.url, requestOptions)
     .then(response => {
       if (response.status >= 300) {
-        handleError(response.status);
+        handleError(response);
       } else {
         response.json().then(responseData => {
           dispatch({

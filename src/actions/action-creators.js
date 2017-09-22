@@ -63,27 +63,6 @@ const api = {
     }
   ),
 
-  //POST create join league request:
-  joinLeagueWaiting: () => (
-    {
-      type: 'JOIN_LEAGUE_PENDING'
-    }
-  ),
-
-  joinLeagueSuccess: (month) => (
-    { 
-      type: 'JOIN_LEAGUE_SUCCESS',
-      month: month
-    }
-  ),
-
-  joinLeagueFailure: (message) => (
-    {
-      type: 'JOIN_LEAGUE_FAILURE',
-      message: message
-    }
-  ),
-
   //User actions:
   addPrediction: (gameId, teamName, gameDate) => (
     {
@@ -123,6 +102,7 @@ const api = {
       month: month,
     }
   ),
+  // Text Entry
   leagueNameEntry: (text) => (
     {
       type: 'LEAGE_NAME_ENTRY',
@@ -135,18 +115,11 @@ const api = {
       payload: text
     }    
   ),
-  //~~~~~~~CHAT~~~~~~~~
   chatTextEntry: (text) => (
     {
       type: 'CHAT_TEXT_ENTRY',
       enteredChatText: text
     }    
-  ),
-  sendMessage: (newMessageObject) => (
-    {
-      type: 'SEND_MESSAGE',
-      newMessage: newMessageObject
-    }
   )
 };
 

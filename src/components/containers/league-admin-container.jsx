@@ -15,14 +15,18 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  handleLeagueNameTextChange:
-    (text) => {
-      dispatch(ActionCreator.leagueNameEntry(text));
-    },
-  handleLeagueIdTextChange:
-    (text) => {
-      dispatch(ActionCreator.leagueIdEntry(text));
-    },
+  handleLeagueNameTextChange: (text) => {
+    dispatch(ActionCreator.leagueNameEntry(text));
+  },
+  handleLeagueIdTextChange: (text) => {
+    dispatch(ActionCreator.leagueIdEntry(text));
+  },
+  listenForEnter: (e) => {
+    if(e.charCode === 13){
+      e.preventDefault();
+      $('.chat__form input[type="submit"]').click();
+    }
+  },
   sendCreateLeague: (name) => {
     if(name === ''){
       return;
@@ -36,14 +40,7 @@ const mapDispatchToProps = (dispatch) => ({
     } else {
       dispatch(joinLeague(leagueId));
     }
-  },
-  listenForEnter:
-    (e) => {
-      if(e.charCode === 13){
-        e.preventDefault();
-        $('.chat__form input[type="submit"]').click();
-      }
-    }
+  }
 });
 
 const LeagueAdminContainer = connect(
