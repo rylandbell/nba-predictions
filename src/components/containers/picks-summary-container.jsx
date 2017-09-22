@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import Alert from 'react-s-alert';
 import browserHistory from 'react-router/lib/browserHistory';
 
-import {requestUserMonthData} from '../../actions/action-creators.js';
+import {requestUserMonthData} from '../../actions/api-get.js';
 import ActionCreator from '../../actions/action-creators.js';
 import PicksSummary from '../picks-summary/picks-summary.jsx';
 

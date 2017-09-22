@@ -1,6 +1,6 @@
 import Alert from 'react-s-alert';
 
-import {addUserData, addStandingsData, addUserMonthData, addGameData, addMessageLog} from '../actions/action-creators.js';
+import {addUserData, addStandingsData, addUserMonthData, addGameData, addMessageLog} from '../actions/api-get.js';
 
 export const userFlowMiddleware = ({
   dispatch,

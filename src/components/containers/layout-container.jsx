@@ -2,7 +2,7 @@
 
 import { connect } from 'react-redux';
 
-import {requestUserData, requestStandingsData, requestUserMonthData, requestGameData} from '../../actions/action-creators.js';
+import {requestUserData, requestStandingsData, requestUserMonthData, requestGameData} from '../../actions/api-get.js';
 import Layout from '../layout.jsx';
 
 const mapStateToProps = state => ({

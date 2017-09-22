@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 // import Alert from 'react-s-alert';
 
 import FullStandingsPage from '../full-standings/full-standings-page.jsx';
-import {requestStandingsData} from '../../actions/action-creators.js';
+import {requestStandingsData} from '../../actions/api-get.js';
 
 const mapStateToProps = state => ({
   activeMonth: state.activeMonth,

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import Alert from 'react-s-alert';
 
 import ChatWall from '../chat/chat-wall.jsx';
-import {requestMessageLog} from '../../actions/action-creators.js';
+import {requestMessageLog} from '../../actions/api-get.js';
 import ActionCreator from '../../actions/action-creators.js';
 import Helper from '../../helper.js';
 
