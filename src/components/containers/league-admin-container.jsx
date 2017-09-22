@@ -1,12 +1,10 @@
 'use strict';
 
 import { connect } from 'react-redux';
-import Alert from 'react-s-alert';
 
 import LeagueAdmin from '../league-admin/league-admin.jsx';
 import ActionCreator from '../../actions/action-creators.js';
-import {createLeague} from '../../actions/api-post.js';
-import Helper from '../../helper.js';
+import {createLeague, joinLeague} from '../../actions/api-post.js';
 
 const mapStateToProps = (state) => ({
   enteredLeagueName: state.enteredLeagueName,
@@ -32,35 +30,13 @@ const mapDispatchToProps = (dispatch) => ({
       dispatch(createLeague(name));
     }
   },
-  sendJoinLeague:
-    (id) => {
-      if(id === ''){
-        return;
-      } else {
-        dispatch(ActionCreator.joinLeagueWaiting());
-        Helper.myFetch(
-          '/api/league/' + id,
-          'POST',
-          {},
-          (response => {
-            dispatch(ActionCreator.joinLeagueSuccess());
-            console.log('Successsss', response);
-          }),
-          (response => {
-            dispatch(ActionCreator.joinLeagueFailure());
-            Alert.warning('Error: Failed to join league. ' + response.message,
-              {
-                position: 'bottom',
-                effect: 'stackslide',
-                beep: false,
-                timeout: 8000,
-                offset: 0
-              }
-            );
-          })
-        );
-      }
-    },
+  sendJoinLeague: (leagueId) => {
+    if(leagueId === ''){
+      return;
+    } else {
+      dispatch(joinLeague(leagueId));
+    }
+  },
   listenForEnter:
     (e) => {
       if(e.charCode === 13){

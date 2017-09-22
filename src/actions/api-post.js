@@ -9,3 +9,15 @@ export const createLeague = (leagueName) => ({
     pending: 'CREATE_LEAGUE_PENDING'
   }
 });
+
+export const joinLeague = (leagueId) => ({
+  type: 'API',
+  payload: {
+    url: `/api/league/${leagueId}`,
+    method: 'POST',
+    body: {},
+    success: 'JOIN_LEAGUE_SUCCESS',
+    failure: 'JOIN_LEAGUE_FAILURE',
+    pending: 'JOIN_LEAGUE_PENDING'
+  }
+});
