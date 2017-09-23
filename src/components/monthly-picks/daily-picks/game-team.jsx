@@ -10,7 +10,7 @@ const GameTeam = React.createClass({
       return
     } else {
       const isEligible = _includes(this.props.eligibleTeams, this.props.teamName);
-      const isChosen = this.props.predictedWinner.teamName === this.props.teamName;
+      const isChosen = this.props.predictedWinner ? this.props.predictedWinner.teamName === this.props.teamName : null;
       
       if((isEligible || isChosen) && !this.props.gameData.gameStatus.hasStarted){
         let gameTime = Helper.getDateTime(this.props.gameData.gameDate, this.props.gameData.gameStatus.startTime);

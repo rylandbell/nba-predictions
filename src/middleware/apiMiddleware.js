@@ -25,11 +25,17 @@ export const apiMiddleware = ({ dispatch }) => next => action => {
     requestOptions.body = JSON.stringify(action.payload.body);
   }
 
-  const handleError = error =>
-    dispatch({
-      type: action.payload.failure,
-      payload: error
-    });
+  const handleError = error => {
+    error.json()
+      .then(errorData => {
+        dispatch({
+          type: action.payload.failure,
+          payload: errorData
+        });
+      })
+      .catch(err => {console.log('middleware handleError function failed.', err)})
+  }
+    
 
   fetch(action.payload.url, requestOptions)
     .then(response => {

@@ -9,7 +9,7 @@ export const userFlowMiddleware = ({
   // const state = getState();
 
   const showAlert = (errorDescription) => {
-    Alert.warning(`Error: ${errorDescription} ${action.payload}`,
+    Alert.warning(`Error: ${errorDescription} ${action.payload.message}`,
       {
         position: 'bottom',
         effect: 'stackslide',
@@ -54,6 +54,11 @@ export const userFlowMiddleware = ({
       dispatch(addUserData(action.payload));
       break;
 
+    case 'SEND_PREDICTION_SUCCESS':
+      console.log(action.payload);
+      // dispatch(addUserMonthData(action.payload));
+      break;
+
     //Display appropriate alerts in browser on API errors:
     case 'REQUEST_USER_DATA_FAILURE':
       showAlert('Failed to load user data.');
@@ -81,7 +86,10 @@ export const userFlowMiddleware = ({
 
     case 'JOIN_LEAGUE_FAILURE':
       showAlert('Failed to create join league.');
-      console.log(action.payload);
+      break;
+
+    case 'SEND_PREDICTION_FAILURE':
+      showAlert('Whoops:');
       break;
 
     default:

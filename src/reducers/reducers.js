@@ -112,7 +112,7 @@ const eligibleTeams = (state = [], action) => {
       chosenTeams = _values(action.payload.userMonth.predictedWinners).map(obj=>obj.teamName);
       return _difference(teams, chosenTeams).sort();
     case 'SEND_PREDICTION_SUCCESS':
-      chosenTeams = _values(action.response.predictedWinners).map(obj=>obj.teamName);
+      chosenTeams = _values(action.payload.predictedWinners).map(obj=>obj.teamName);
       return _difference(teams, chosenTeams).sort();
     default:
       return state;
@@ -124,7 +124,7 @@ const predictedWinners = (state = {}, action) => {
     case 'ADD_USER_MONTH_DATA':
       return Object.assign({},action.payload.userMonth.predictedWinners);
     case 'SEND_PREDICTION_SUCCESS':
-      return Object.assign({}, action.response.predictedWinners);
+      return Object.assign({}, action.payload.predictedWinners);
     default:
       return state;
   }

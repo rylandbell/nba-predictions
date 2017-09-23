@@ -9,3 +9,15 @@ export const sendMessage = (enteredChatText) => ({
     pending: 'SEND_MESSAGE_PENDING'
   }
 });
+
+export const sendPrediction = (activeMonth, body) => ({
+  type: 'API',
+  payload: {
+    url: `/api/userMonth/${activeMonth}/predictedWinners`,
+    method: 'PUT',
+    body: body,
+    success: 'SEND_PREDICTION_SUCCESS',
+    failure: 'SEND_PREDICTION_FAILURE',
+    pending: 'SEND_PREDICTION_PENDING'
+  }
+});

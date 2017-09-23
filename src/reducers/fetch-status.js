@@ -30,11 +30,11 @@ const isFetchingMessageLog = (state = false, action) => {
 
 const isFetchingUserMonthData = (state = false, action) => {
   switch(action.type){
-    case 'REQUEST_USER_MONTH_PENDING':
+    case 'REQUEST_USER_MONTH_DATA_PENDING':
       return true;
-    case 'REQUEST_USER_MONTH_SUCCESS':
+    case 'REQUEST_USER_MONTH_DATA_SUCCESS':
       return false;
-    case 'REQUEST_USER_MONTH_FAILURE':
+    case 'REQUEST_USER_MONTH_DATA_FAILURE':
       return false;
     default:
       return state;
@@ -56,10 +56,10 @@ const isFetchingGameData = (state = false, action) => {
 
 const missingUserMonth = (state = false, action) => {
   switch(action.type){
-    case 'REQUEST_USER_MONTH_SUCCESS':
+    case 'REQUEST_USER_MONTH_DATA_SUCCESS':
       return false;
-    case 'REQUEST_USER_MONTH_FAILURE':
-      if (action.message && action.message === "No userMonth found") {
+    case 'REQUEST_USER_MONTH_DATA_FAILURE':
+      if (action.payload && action.payload.message === "No userMonth found") {
         return true;
       } else {
         return false;
