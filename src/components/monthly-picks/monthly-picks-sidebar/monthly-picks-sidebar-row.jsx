@@ -5,7 +5,11 @@ import moment from 'moment';
 
 const MonthlyPicksSummaryRow = React.createClass({
   handleClick: function() {
-    this.props.updateActiveDate(this.props.activeMonth, this.props.dayOfMonth);
+    const singleDigitDate = this.props.dayOfMonth < 10;
+    const newDate = singleDigitDate ? 
+      `${this.props.activeMonth}-0${this.props.dayOfMonth}` : 
+      `${this.props.activeMonth}-${this.props.dayOfMonth}`;
+    this.props.updateActiveDate(newDate);
   },
   render: function () {
     const isActive = ((this.props.dayOfMonth == moment(this.props.activeDate).format('D')) ? 'active' : '');

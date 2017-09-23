@@ -8,6 +8,7 @@ import {requestStandingsData} from '../../actions/api-get.js';
 
 const mapStateToProps = state => ({
   activeMonth: state.activeMonth,
+  currentMonth: state.currentMonth,
   standingsData: state.standingsData,
   isFetchingStandingsData: state.fetchStatus.isFetchingStandingsData
 });

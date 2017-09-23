@@ -35,10 +35,10 @@ const StandingsTable = React.createClass({
             <div>
               <div className="standings">
                 <table className="table table-bordered">
-                  <StandingsTableHeader activeMonth={this.props.activeMonth}/>
+                  <StandingsTableHeader activeMonth={this.props.activeMonth} currentMonth={this.props.currentMonth}/>
                   <tbody>
                     {this.props.standingsData.map(
-                        (player,key) => <StandingsTableRow player={player} key={key} activeMonth={this.props.activeMonth}/>                    
+                        (player,key) => <StandingsTableRow player={player} key={key} activeMonth={this.props.activeMonth} currentMonth={this.props.currentMonth}/>                    
                     )}
                   </tbody>
                 </table>

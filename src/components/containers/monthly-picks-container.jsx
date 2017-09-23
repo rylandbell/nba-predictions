@@ -27,16 +27,7 @@ const mapDispatchToProps = dispatch => ({
     Alert[type](msg, options);
   },
   setActiveMonth: (month) => {
-    let activeDay;
-    // if (month===moment().format('YYYY-MM')) {
-    //   activeDay = moment().format('D'); summer mode
-    if (month==='2017-04') {
-      activeDay = '11';
-    } else {
-      activeDay = '1';
-    }
     dispatch(ActionCreator.setActiveMonth(month));
-    dispatch(ActionCreator.setActiveDate(month, activeDay));
   }
 });
 

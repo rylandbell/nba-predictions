@@ -74,7 +74,7 @@ const messages = (state=[], action) => {
 const activeDate = (state = '2017-04-11', action) => {
   switch(action.type){
     case 'SET_ACTIVE_DATE':
-      return action.month + '-' + (action.day >= 10 ? action.day : '0' + action.day);
+      return action.date;
     default:
       return state;
   }
@@ -86,13 +86,23 @@ const activeDate = (state = '2017-04-11', action) => {
 const activeMonth = (state = '2017-04', action) => {
   switch(action.type){
     case 'SET_ACTIVE_DATE':
-      return action.month;
+      return action.date.substring(0,7);
     case 'SET_ACTIVE_MONTH':
       return action.month;
     default:
       return state;
   }
 };
+
+//summer mode
+const currentDate = (state = '2017-04-11') => {
+  return state;
+}
+
+//summer mode
+const currentMonth = (state = '2017-04') => {
+  return state;
+}
 
 const userMonthId = (state = '', action) => {
   switch(action.type){
@@ -176,6 +186,8 @@ const api = {
     standingsData,
     activeMonth,
     activeDate,
+    currentMonth,
+    currentDate,
     gamesByDay
   })
 };

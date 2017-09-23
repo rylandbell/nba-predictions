@@ -12,8 +12,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  updateActiveDate: (activeMonth, newDay) => {
-    dispatch(ActionCreator.setActiveDate (activeMonth, newDay));
+  updateActiveDate: (newDate) => {
+    dispatch(ActionCreator.setActiveDate (newDate));
   }
 });
 

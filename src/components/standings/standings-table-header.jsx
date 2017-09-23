@@ -3,9 +3,8 @@
 import React from 'react';
 import moment from 'moment';
 
-const StandingsTableHeader = ({activeMonth}) => (
-  // activeMonth === moment().format('YYYY-MM') ? summer mode
-  activeMonth === '2017-04' ?
+const StandingsTableHeader = ({activeMonth, currentMonth}) => (
+  activeMonth === currentMonth ?
     <thead>
       <tr>
         <th>

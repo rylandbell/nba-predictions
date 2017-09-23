@@ -89,11 +89,10 @@ const api = {
       teamName: teamName
     }
   ),
-  setActiveDate: (month, day) => (
+  setActiveDate: (date) => (
     {
       type: 'SET_ACTIVE_DATE',
-      month: month,
-      day: day
+      date: date
     }
   ),
   setActiveMonth: (month) => (

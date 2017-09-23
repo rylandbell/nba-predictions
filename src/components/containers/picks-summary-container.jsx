@@ -11,7 +11,9 @@ import PicksSummary from '../picks-summary/picks-summary.jsx';
 const mapStateToProps = state => ({
   missingUserMonth: state.fetchStatus.missingUserMonth,
   userMonth: state.userMonth,
-  activeMonth: state.activeMonth
+  activeMonth: state.activeMonth,
+  currentMonth: state.currentMonth,
+  currentDate: state.currentDate
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -22,19 +24,12 @@ const mapDispatchToProps = dispatch => ({
     dispatch(requestUserMonthData(month));
   },
   setActiveMonth: (month) => {
-    let activeDay;
-    // if (month===moment().format('YYYY-MM')) {
-    //   activeDay = moment().format('D'); summer mode
-    if (month==='2017-04') {
-      activeDay = '11';
-    } else {
-      activeDay = '1';
-    }
     dispatch(ActionCreator.setActiveMonth(month));
-    dispatch(ActionCreator.setActiveDate(month, activeDay));
   },
-  goToDate: (month, day) => {
-    dispatch(ActionCreator.setActiveDate(month, day));
+  goToDate: (date) => {
+    dispatch(ActionCreator.setActiveDate(date));
+    
+    const month = date.substring(0,7);
     const path = `/picks/${month}`;
     browserHistory.push(path);
   }

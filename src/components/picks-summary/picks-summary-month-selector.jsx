@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-// import moment from 'moment';
+import moment from 'moment';
 
 const PicksSummaryMonthSelector = React.createClass({
   handleChange: function(event) {
@@ -15,17 +15,11 @@ const PicksSummaryMonthSelector = React.createClass({
           <div className="form-group standings__month-selector">
             <label className="control-label standings__month-selector-label">Select a month:</label>
             <select className="form-control standings__month-selector-input" onChange={this.handleChange} value={this.props.activeMonth}>
-              {/*<option value={moment().format('YYYY-MM')}>
-                {moment().format('MMMM YYYY')}
+              <option value={this.props.currentMonth}>
+                {moment(this.props.currentMonth).format('MMMM YYYY')}
               </option>
-              <option value={moment().add(1,'months').format('YYYY-MM')}>
-                {moment().add(1,'months').format('MMMM YYYY')}
-              </option> summer mode*/}
-              <option value='2017-04'>
-                April 2017
-              </option>
-              <option value='2017-05'>
-                May 2017
+              <option value={moment(this.props.currentMonth).add(1,'months').format('YYYY-MM')}>
+                {moment(this.props.currentMonth).add(1,'months').format('MMMM YYYY')}
               </option>
             </select>
           </div>

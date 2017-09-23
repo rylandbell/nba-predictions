@@ -5,17 +5,17 @@ import moment from 'moment';
 
 const DayPicker = React.createClass({
   handleClick: function(e) {
-    let newDay;
+    let newDate;
 
     if (e.target.dataset.direction === "next") {
-      newDay = moment(this.props.activeDate).add(1,'days').format('D');
+      newDate = moment(this.props.activeDate).add(1,'days').format('YYYY-MM-DD');
     } else if (e.target.dataset.direction === "prev") {
-      newDay = moment(this.props.activeDate).subtract(1,'days').format('D');
+      newDate = moment(this.props.activeDate).subtract(1,'days').format('YYYY-MM-DD');
     } else {
       return;
     }
 
-    this.props.updateActiveDate(this.props.activeMonth, newDay);
+    this.props.updateActiveDate(newDate);
   },
   render: function() {    
     const isFirstOfMonth = moment(this.props.activeDate).format('D') === '1';

@@ -54,8 +54,8 @@ const mapDispatchToProps = (dispatch) => ({
 
     dispatch(sendPrediction(activeMonth, body));
   },
-  updateActiveDate: (activeMonth, newDay) => {
-    dispatch(ActionCreator.setActiveDate (activeMonth, newDay));
+  updateActiveDate: (newDate) => {
+    dispatch(ActionCreator.setActiveDate (newDate));
   }
 });
 

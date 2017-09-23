@@ -2,12 +2,14 @@ import Alert from 'react-s-alert';
 import {browserHistory} from 'react-router';
 
 import {addUserData, addStandingsData, addUserMonthData, addGameData, addMessageLog} from '../actions/api-get.js';
+import actions from '../actions/action-creators.js';
 
 export const userFlowMiddleware = ({
   dispatch,
-  // getState
+  getState
 }) => next => action => {
-  // const state = getState();
+  const state = getState();
+  let newActiveDate;
 
   const showAlert = (errorDescription) => {
     Alert.warning(`Error: ${errorDescription} ${action.payload.message}`,
@@ -22,6 +24,17 @@ export const userFlowMiddleware = ({
   }
 
   switch (action.type) {
+
+    //when the active month changes, the active date should be the current date OR the first of that month
+    case 'SET_ACTIVE_MONTH':
+      if(action.month === state.currentMonth) {
+        newActiveDate = state.currentDate;
+      } else {
+        newActiveDate = action.month + '-01';
+      }
+      dispatch(actions.setActiveDate(newActiveDate));
+      break;
+
     //Handle content received after successful API calls:
     case 'REQUEST_USER_DATA_SUCCESS':
       dispatch(addUserData(action.payload));

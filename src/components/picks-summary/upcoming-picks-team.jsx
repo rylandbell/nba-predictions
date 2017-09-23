@@ -12,7 +12,7 @@ const getPick = (userMonth, day) => {
 
 const UpcomingPicksTeam = React.createClass({
   handleClick: function () {
-    this.props.goToDate(this.props.activeMonth, this.props.day);
+    this.props.goToDate(this.props.date);
   },
   render: function() {
     return (

@@ -7,9 +7,6 @@ import Navbar from './navbar.jsx';
 
 const LayoutComponent = React.createClass({
   componentDidMount: function() {
-    //summer mode
-    // const currentMonth = moment().format('YYYY-MM');
-    // const currentMonth = '2017-04';
     this.props.getUserMonthData(this.props.reduxState.activeMonth);
     this.props.getStandingsData(this.props.reduxState.activeMonth);
     this.props.getUserData();
