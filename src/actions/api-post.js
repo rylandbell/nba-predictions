@@ -21,3 +21,15 @@ export const joinLeague = (leagueId) => ({
     pending: 'JOIN_LEAGUE_PENDING'
   }
 });
+
+export const createUserMonth = (month) => ({
+  type: 'API',
+  payload: {
+    url: '/api/userMonth/',
+    method: 'POST',
+    body: {month: month},
+    success: 'CREATE_USER_MONTH_SUCCESS',
+    failure: 'CREATE_USER_MONTH_FAILURE',
+    pending: 'CREATE_USER_MONTH_PENDING'
+  }
+});

@@ -56,6 +56,8 @@ const isFetchingGameData = (state = false, action) => {
 
 const missingUserMonth = (state = false, action) => {
   switch(action.type){
+    case 'CREATE_USER_MONTH_SUCCESS':
+      return false;
     case 'REQUEST_USER_MONTH_DATA_SUCCESS':
       return false;
     case 'REQUEST_USER_MONTH_DATA_FAILURE':

@@ -1,11 +1,10 @@
 'use strict';
 
 import { connect } from 'react-redux';
-// import moment from 'moment';
 import Alert from 'react-s-alert';
-import browserHistory from 'react-router/lib/browserHistory';
 
 import ActionCreator from '../../actions/action-creators.js';
+import {createUserMonth} from '../../actions/api-post.js';
 import MonthlyPicks from '../monthly-picks/monthly-picks.jsx';
 
 const mapStateToProps = state => ({
@@ -13,68 +12,32 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  createNewUserMonth: 
-    (callback, activeMonth) => {
-      console.log('activeMonth', activeMonth);
-      // const month = activeMonth || moment().format('YYYY-MM'); summer mode
-      const month = activeMonth || '2017-04';
-      const newRequest = {
-        method: 'POST',
-        credentials: 'same-origin',
-        cache: 'default',
-        body: JSON.stringify({month: month})
-      };
-
-      newRequest.headers = new Headers;
-      newRequest.headers.append('Content-Type', 'application/json');
-            
-      fetch('/api/userMonth/',newRequest)
-        .then( () => {
-          callback();
-          dispatch(ActionCreator.createUserMonthSuccess(month));
-          const path = `/picks/${month}`;
-          browserHistory.push(path);
-          return null;
-        })
-        .catch(response => {
-          Alert.warning('Error: Failed to load user data. ' + response.message,
-            {
-              position: 'bottom',
-              effect: 'stackslide',
-              beep: false,
-              timeout: 8000,
-              offset: 0
-            }
-          );
-          dispatch(ActionCreator.createUserMonthFailure(response.message));
-        });
-      dispatch(ActionCreator.createUserMonthWaiting());
-    },
-  showAlert: 
-    (type, msg, options) => {
-      const defaultOptions = {
-        position: 'top',
-        effect: 'stackslide',
-        beep: false,
-        timeout: 8000,
-        offset: 0
-      };
-      options = Object.assign({}, defaultOptions, options);
-      Alert[type](msg, options);
-    },
-  setActiveMonth:
-    (month) => {
-      let activeDay;
-      // if (month===moment().format('YYYY-MM')) {
-      //   activeDay = moment().format('D'); summer mode
-      if (month==='2017-04') {
-        activeDay = '11';
-      } else {
-        activeDay = '1';
-      }
-      dispatch(ActionCreator.setActiveMonth(month));
-      dispatch(ActionCreator.setActiveDate(month, activeDay));
+  createNewUserMonth: (activeMonth) => {
+    dispatch(createUserMonth(activeMonth));
+  },
+  showAlert: (type, msg, options) => {
+    const defaultOptions = {
+      position: 'top',
+      effect: 'stackslide',
+      beep: false,
+      timeout: 8000,
+      offset: 0
+    };
+    options = Object.assign({}, defaultOptions, options);
+    Alert[type](msg, options);
+  },
+  setActiveMonth: (month) => {
+    let activeDay;
+    // if (month===moment().format('YYYY-MM')) {
+    //   activeDay = moment().format('D'); summer mode
+    if (month==='2017-04') {
+      activeDay = '11';
+    } else {
+      activeDay = '1';
     }
+    dispatch(ActionCreator.setActiveMonth(month));
+    dispatch(ActionCreator.setActiveDate(month, activeDay));
+  }
 });
 
 const MonthlyPicksContainer = connect(

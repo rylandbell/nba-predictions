@@ -1,4 +1,5 @@
 import Alert from 'react-s-alert';
+import {browserHistory} from 'react-router';
 
 import {addUserData, addStandingsData, addUserMonthData, addGameData, addMessageLog} from '../actions/api-get.js';
 
@@ -31,7 +32,7 @@ export const userFlowMiddleware = ({
       break;
 
     case 'REQUEST_USER_MONTH_DATA_SUCCESS':
-      dispatch(addUserMonthData(action.payload));
+      dispatch(addUserMonthData(action.payload.userMonth));
       break;
 
     case 'REQUEST_GAME_DATA_SUCCESS':
@@ -54,9 +55,10 @@ export const userFlowMiddleware = ({
       dispatch(addUserData(action.payload));
       break;
 
-    case 'SEND_PREDICTION_SUCCESS':
-      console.log(action.payload);
-      // dispatch(addUserMonthData(action.payload));
+    case 'CREATE_USER_MONTH_SUCCESS':
+      console.log(action);
+      browserHistory.push(`/picks/${action.payload.month}`);
+      dispatch(addUserMonthData(action.payload));
       break;
 
     //Display appropriate alerts in browser on API errors:
