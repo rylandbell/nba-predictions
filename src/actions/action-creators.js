@@ -22,47 +22,6 @@ const api = {
     }
   ),
 
-  //PUT send game prediction:
-  sendPredictionWaiting: () => (
-    {
-      type: 'SEND_PREDICTION_PENDING'
-    }
-  ),
-
-  sendPredictionSuccess: (response) => (
-    {
-      response: response,
-      type: 'SEND_PREDICTION_SUCCESS'
-    }
-  ),
-
-  sendPredictionFailure: () => (
-    {
-      type: 'SEND_PREDICTION_FAILURE'
-    }
-  ),
-
-  //POST create new userMonth at user request:
-  createUserMonthWaiting: () => (
-    {
-      type: 'CREATE_USER_MONTH_PENDING'
-    }
-  ),
-
-  createUserMonthSuccess: (month) => (
-    { 
-      type: 'CREATE_USER_MONTH_SUCCESS',
-      month: month
-    }
-  ),
-
-  createUserMonthFailure: (message) => (
-    {
-      type: 'CREATE_USER_MONTH_FAILURE',
-      message: message
-    }
-  ),
-
   //User actions:
   addPrediction: (gameId, teamName, gameDate) => (
     {
@@ -99,6 +58,12 @@ const api = {
     {
       type: 'SET_ACTIVE_MONTH',
       month: month,
+    }
+  ),
+  setActiveLeague: (league) => (
+    {
+      type: 'SET_ACTIVE_LEAGUE',
+      payload: league
     }
   ),
   // Text Entry

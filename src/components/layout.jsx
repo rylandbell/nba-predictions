@@ -4,6 +4,7 @@ import React from 'react';
 // import moment from 'moment';
 
 import Navbar from './navbar.jsx';
+import LeagueMonthPickerContainer from './containers/league-month-picker-container.jsx';
 
 const LayoutComponent = React.createClass({
   componentDidMount: function() {
@@ -16,6 +17,7 @@ const LayoutComponent = React.createClass({
     return (
       <div>
         <Navbar />
+        <LeagueMonthPickerContainer />
         <div className="main">
           <div className="container container-body">
             <div className="row">

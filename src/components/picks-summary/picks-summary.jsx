@@ -6,7 +6,7 @@ import moment from 'moment';
 import StatusMessage from '../status-message.jsx';
 import JoinMonth from '../utility/join-month.jsx';
 import UpcomingPicks from './upcoming-picks.jsx';
-import PicksSummaryMonthSelector from './picks-summary-month-selector.jsx';
+// import PicksSummaryMonthSelector from './picks-summary-month-selector.jsx';
 
 const PicksSummary = React.createClass({
   render: function() {
@@ -28,8 +28,8 @@ const PicksSummary = React.createClass({
         </div>
         <div className="panel-body">
           {panelContent}
-          <hr className="picks-summary__hr"/>
-          <PicksSummaryMonthSelector activeMonth={this.props.activeMonth} currentMonth={this.props.currentMonth} setActiveMonth={this.props.setActiveMonth} getUserMonthData={this.props.getUserMonthData}/>
+          {/*<hr className="picks-summary__hr"/>
+          <PicksSummaryMonthSelector activeMonth={this.props.activeMonth} currentMonth={this.props.currentMonth} setActiveMonth={this.props.setActiveMonth} getUserMonthData={this.props.getUserMonthData}/>*/}
         </div>
       </div>
     );

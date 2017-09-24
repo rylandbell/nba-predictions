@@ -54,6 +54,15 @@ const user = (state = {}, action) => {
   }
 }
 
+const activeLeague = (state = {}, action) => {
+  switch(action.type) {
+    case 'SET_ACTIVE_LEAGUE':
+      return action.payload;
+    default:
+      return state;
+  }
+}
+
 const messages = (state=[], action) => {
   switch(action.type){
     case 'ADD_MESSAGE_LOG':
@@ -181,6 +190,7 @@ const api = {
     enteredLeagueName,
     enteredLeagueId,
     user,
+    activeLeague,
     messages,
     monthList,
     standingsData,
