@@ -217,6 +217,7 @@ module.exports.userMonthCreate = function (req, res) {
   getUserData(req, res, function (req, res, user) {
     UserMonthModel.create({
       month: req.body.month,
+      leagueId: req.body.leagueId,
       ownerId: user._id,
       ownerDisplayName: user.displayName,
       predictedWinners: {}

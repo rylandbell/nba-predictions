@@ -51,7 +51,7 @@ const userMonthSchema = new mongoose.Schema({
   //e.g. 2016-09
   month: { type: String, required: true },
   ownerId: { type: String, required: true },
-  leagueId: {type: String, required: true, default: 'alpha'},
+  leagueId: {type: String, required: true},
   ownerDisplayName: { type: String, required: true, default: 'Anon' },
   predictedWinners: { type: predictedWinnersSchema, default: predictedWinnersSchema },
   standingsData: {

@@ -11,13 +11,14 @@ const mapStateToProps = state => ({
   missingUserMonth: state.fetchStatus.missingUserMonth,
   userMonth: state.userMonth,
   activeMonth: state.activeMonth,
+  activeLeagueId: state.activeLeagueId,
   currentMonth: state.currentMonth,
   currentDate: state.currentDate
 });
 
 const mapDispatchToProps = dispatch => ({
-  createNewUserMonth: (activeMonth) => {
-    dispatch(createUserMonth(activeMonth));
+  createNewUserMonth: (activeMonth, leagueId) => {
+    dispatch(createUserMonth(activeMonth, leagueId));
   },
   goToDate: (date) => {
     dispatch(ActionCreator.setActiveDate(date));

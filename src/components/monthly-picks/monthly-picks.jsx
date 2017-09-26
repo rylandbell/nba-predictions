@@ -4,7 +4,6 @@ import React from 'react';
 
 import MonthlyPicksSidebarContainer from '../containers/monthly-picks-sidebar-container.jsx';
 import DailyPicksContainer from '../containers/daily-picks-container.jsx';
-// import MonthlyPicksMonthSelector from './monthly-picks-month-selector.jsx';
 import StatusMessage from '../status-message.jsx';
 import JoinMonth from '../utility/join-month.jsx';
 
@@ -26,13 +25,10 @@ const MonthlyPicksPage = React.createClass({
                 <div className="panel-title">Join Month</div>
               </div>
               <div className="panel-body">
-                <JoinMonth activeMonth={this.props.reduxState.activeMonth} createNewUserMonth={this.props.createNewUserMonth} getUserMonthData={this.props.getUserMonthData} />
+                <JoinMonth activeMonth={this.props.reduxState.activeMonth} activeLeagueId={this.props.reduxState.activeLeagueId} createNewUserMonth={this.props.createNewUserMonth} getUserMonthData={this.props.getUserMonthData} />
               </div>
             </div>  
           </div>
-          {/*<div className="col-xs-12 col-sm-4 col-sm-offset-1 col-md-3 col-md-offset-2">
-            <MonthlyPicksMonthSelector activeMonth = {this.props.reduxState.activeMonth} setActiveMonth = {this.props.setActiveMonth} getUserMonthData={this.props.getUserMonthData} getGameData={this.props.getGameData} />
-          </div>*/}
         </div>)
     } else {
       return (

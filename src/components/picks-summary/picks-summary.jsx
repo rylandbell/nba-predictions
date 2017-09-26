@@ -11,7 +11,7 @@ const PicksSummary = React.createClass({
   render: function() {
     let panelContent, panelTitle;
     if (this.props.missingUserMonth) {
-      panelContent = <JoinMonth activeMonth={this.props.activeMonth} createNewUserMonth={this.props.createNewUserMonth} />;
+      panelContent = <JoinMonth activeMonth={this.props.activeMonth} activeLeagueId={this.props.activeLeagueId} createNewUserMonth={this.props.createNewUserMonth} />;
       panelTitle = `Join ${moment(this.props.activeMonth).format('MMMM')} Competition`;
     } else if (this.props.userMonth && this.props.userMonth.userMonthId) {
       panelContent = <UpcomingPicks activeMonth={this.props.activeMonth} currentDate={this.props.currentDate} currentMonth={this.props.currentMonth} userMonth={this.props.userMonth} goToDate={this.props.goToDate} />

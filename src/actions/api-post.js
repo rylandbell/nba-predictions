@@ -22,12 +22,12 @@ export const joinLeague = (leagueId) => ({
   }
 });
 
-export const createUserMonth = (month) => ({
+export const createUserMonth = (month, leagueId) => ({
   type: 'API',
   payload: {
     url: '/api/userMonth/',
     method: 'POST',
-    body: {month: month},
+    body: {month: month, leagueId: leagueId},
     success: 'CREATE_USER_MONTH_SUCCESS',
     failure: 'CREATE_USER_MONTH_FAILURE',
     pending: 'CREATE_USER_MONTH_PENDING'

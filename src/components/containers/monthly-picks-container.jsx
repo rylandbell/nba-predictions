@@ -12,8 +12,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  createNewUserMonth: (activeMonth) => {
-    dispatch(createUserMonth(activeMonth));
+  createNewUserMonth: (activeMonth, leagueId) => {
+    dispatch(createUserMonth(activeMonth, leagueId));
   },
   showAlert: (type, msg, options) => {
     const defaultOptions = {

@@ -5,7 +5,7 @@ import moment from 'moment';
 
 const JoinMonth = React.createClass({
   handleClick: function () {
-    this.props.createNewUserMonth(this.props.activeMonth);
+    this.props.createNewUserMonth(this.props.activeMonth, this.props.activeLeagueId);
   },
   render: function() {
     return (
