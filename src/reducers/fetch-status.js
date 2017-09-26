@@ -28,6 +28,19 @@ const isFetchingMessageLog = (state = false, action) => {
   }
 };
 
+const isFetchingUserData = (state = false, action) => {
+  switch(action.type){
+    case 'REQUEST_USER_DATA_PENDING':
+      return true;
+    case 'REQUEST_USER_DATA_SUCCESS':
+      return false;
+    case 'REQUEST_USER_DATA_FAILURE':
+      return false;
+    default:
+      return state;
+  }
+};
+
 const isFetchingUserMonthData = (state = false, action) => {
   switch(action.type){
     case 'REQUEST_USER_MONTH_DATA_PENDING':
@@ -137,6 +150,7 @@ const isSendingJoinLeague = (state = false, action) => {
 };
 
 const fetchStatus = Redux.combineReducers({
+  isFetchingUserData,
   isFetchingUserMonthData,
   isSendingPrediction,
   isSendingMessage,

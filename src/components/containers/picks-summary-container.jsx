@@ -3,7 +3,6 @@
 import { connect } from 'react-redux';
 import browserHistory from 'react-router/lib/browserHistory';
 
-import {requestUserMonthData} from '../../actions/api-get.js';
 import {createUserMonth} from '../../actions/api-post.js';
 import ActionCreator from '../../actions/action-creators.js';
 import PicksSummary from '../picks-summary/picks-summary.jsx';
@@ -19,12 +18,6 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   createNewUserMonth: (activeMonth) => {
     dispatch(createUserMonth(activeMonth));
-  },
-  getUserMonthData: (month) => {
-    dispatch(requestUserMonthData(month));
-  },
-  setActiveMonth: (month) => {
-    dispatch(ActionCreator.setActiveMonth(month));
   },
   goToDate: (date) => {
     dispatch(ActionCreator.setActiveDate(date));

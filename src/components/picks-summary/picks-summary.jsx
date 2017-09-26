@@ -6,13 +6,12 @@ import moment from 'moment';
 import StatusMessage from '../status-message.jsx';
 import JoinMonth from '../utility/join-month.jsx';
 import UpcomingPicks from './upcoming-picks.jsx';
-// import PicksSummaryMonthSelector from './picks-summary-month-selector.jsx';
 
 const PicksSummary = React.createClass({
   render: function() {
     let panelContent, panelTitle;
     if (this.props.missingUserMonth) {
-      panelContent = <JoinMonth activeMonth={this.props.activeMonth} createNewUserMonth={this.props.createNewUserMonth} getUserMonthData={this.props.getUserMonthData} />;
+      panelContent = <JoinMonth activeMonth={this.props.activeMonth} createNewUserMonth={this.props.createNewUserMonth} />;
       panelTitle = `Join ${moment(this.props.activeMonth).format('MMMM')} Competition`;
     } else if (this.props.userMonth && this.props.userMonth.userMonthId) {
       panelContent = <UpcomingPicks activeMonth={this.props.activeMonth} currentDate={this.props.currentDate} currentMonth={this.props.currentMonth} userMonth={this.props.userMonth} goToDate={this.props.goToDate} />
@@ -28,8 +27,6 @@ const PicksSummary = React.createClass({
         </div>
         <div className="panel-body">
           {panelContent}
-          {/*<hr className="picks-summary__hr"/>
-          <PicksSummaryMonthSelector activeMonth={this.props.activeMonth} currentMonth={this.props.currentMonth} setActiveMonth={this.props.setActiveMonth} getUserMonthData={this.props.getUserMonthData}/>*/}
         </div>
       </div>
     );

@@ -60,10 +60,10 @@ const api = {
       month: month,
     }
   ),
-  setActiveLeague: (league) => (
+  setActiveLeague: (leagueId) => (
     {
       type: 'SET_ACTIVE_LEAGUE',
-      payload: league
+      payload: leagueId
     }
   ),
   // Text Entry

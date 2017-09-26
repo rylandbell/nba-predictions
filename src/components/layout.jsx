@@ -9,7 +9,7 @@ import LeagueMonthPickerContainer from './containers/league-month-picker-contain
 const LayoutComponent = React.createClass({
   componentDidMount: function() {
     this.props.getUserMonthData(this.props.reduxState.activeMonth);
-    this.props.getStandingsData(this.props.reduxState.activeMonth);
+    this.props.getStandingsData(this.props.reduxState.activeMonth, this.props.reduxState.activeLeagueId);
     this.props.getUserData();
     this.props.getGameData(this.props.reduxState.activeMonth)
   },
@@ -17,9 +17,13 @@ const LayoutComponent = React.createClass({
     return (
       <div>
         <Navbar />
-        <LeagueMonthPickerContainer />
         <div className="main">
           <div className="container container-body">
+            <div className="row">
+              <div className="col-xs-12">
+                <LeagueMonthPickerContainer />
+              </div>
+            </div>
             <div className="row">
               <div className="col-xs-12">
                 {this.props.children}

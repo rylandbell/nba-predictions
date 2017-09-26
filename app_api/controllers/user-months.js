@@ -99,7 +99,8 @@ module.exports.userMonthReadOne = function (req, res) {
   getUserData(req, res, function (req, res, user) {
     const filter = {
       ownerId: user._id,
-      month: req.params.month
+      month: req.params.month,
+      leagueId: req.query.leagueId
     };
     UserMonthModel
       .find(filter)

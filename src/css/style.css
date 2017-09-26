@@ -1,5 +1,3 @@
-/*@import './react-s-alert/s-alert-default.css';*/
-/*@import './react-s-alert/stackslide.css';*/
 @import './mobile.css';
 @import './dashboard.css';
 @import './day-picker.css';
@@ -11,7 +9,6 @@
 @import './status-message.css';
 @import './standings.css';
 @import './login-page.css';
-@import './month-selector.css';
 
 /*tweaking the Bootstrap theme:*/
 
@@ -68,7 +65,7 @@ body {
 }
 
 .body-container {
-  padding-top: 70px;
+  padding-top: 60px;
   padding-bottom: 120px;   /* Height of the footer */
 }
 

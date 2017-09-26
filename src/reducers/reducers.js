@@ -54,7 +54,7 @@ const user = (state = {}, action) => {
   }
 }
 
-const activeLeague = (state = {}, action) => {
+const activeLeagueId = (state = "59c13bed3cf1c1cddfd34fe4", action) => {
   switch(action.type) {
     case 'SET_ACTIVE_LEAGUE':
       return action.payload;
@@ -190,7 +190,7 @@ const api = {
     enteredLeagueName,
     enteredLeagueId,
     user,
-    activeLeague,
+    activeLeagueId,
     messages,
     monthList,
     standingsData,

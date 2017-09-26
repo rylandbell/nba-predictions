@@ -7,16 +7,19 @@ import ActionCreator from '../../actions/action-creators.js';
 import LeagueMonthPicker from '../league-month-picker/league-month-picker.jsx';
 
 const mapStateToProps = state => ({
+  user: state.user,
+  activeLeagueId: state.activeLeagueId,
   activeMonth: state.activeMonth,
-  currentMonth: state.currentMonth
+  currentMonth: state.currentMonth,
+  isFetchingUserData: state.fetchStatus.isFetchingUserData
 });
 
 const mapDispatchToProps = dispatch => ({
   getStandingsData: (month) => {
     dispatch(requestStandingsData(month))
   },
-  getUserMonthData: (month) => {
-    dispatch(requestUserMonthData(month));
+  getUserMonthData: (month, leagueId) => {
+    dispatch(requestUserMonthData(month, leagueId));
   },
   getGameData: (month) => {
     dispatch(requestGameData(month));

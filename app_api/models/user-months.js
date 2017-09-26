@@ -45,7 +45,7 @@ const predictedWinnersSchema = new mongoose.Schema({
   31: { type: predictionSchema, default: {} }
 });
 
-//By 'userMonth', I mean one month of one user's prediction and outcome data
+//By 'userMonth', I mean one month of one user's prediction and outcome data (for a single league)
 const userMonthSchema = new mongoose.Schema({
 
   //e.g. 2016-09
