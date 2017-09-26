@@ -9,9 +9,6 @@ import StandingsTableRow from './standings-table-row.jsx';
 import StatusMessage from '../status-message.jsx';
 
 const StandingsTable = React.createClass({
-  componentDidMount: function() {
-    this.props.getStandingsData(this.props.activeMonth);
-  },
   handleClick: function () {
     const path = '/standings';
     browserHistory.push(path);

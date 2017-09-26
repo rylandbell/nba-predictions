@@ -15,8 +15,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  getStandingsData: (month) => {
-    dispatch(requestStandingsData(month))
+  getStandingsData: (month, leagueId) => {
+    dispatch(requestStandingsData(month, leagueId))
   },
   getUserMonthData: (month, leagueId) => {
     dispatch(requestUserMonthData(month, leagueId));

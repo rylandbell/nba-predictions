@@ -14,10 +14,10 @@ export const addUserData = (data) => ({
   payload: data
 });
 
-export const requestStandingsData = (month) => ({
+export const requestStandingsData = (month, leagueId) => ({
   type: 'API',
   payload: {
-    url: `/api/userMonth/all-public/${month}`,
+    url: `/api/userMonth/all-public/${month}?leagueId=${leagueId}`,
     method: 'GET',
     success: 'REQUEST_STANDINGS_DATA_SUCCESS',
     failure: 'REQUEST_STANDINGS_DATA_FAILURE',

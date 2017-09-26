@@ -8,9 +8,6 @@ import FullStandingsRow from './full-standings-row.jsx';
 import StatusMessage from '../status-message.jsx';
 
 const FullStandingsPage = React.createClass({
-  componentDidMount: function() {
-    this.props.getStandingsData(this.props.activeMonth);
-  },
   render: function() {
     return (
       <div className="panel panel-default panel-black ">

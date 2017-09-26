@@ -1,10 +1,8 @@
 'use strict';
 
 import { connect } from 'react-redux';
-// import Alert from 'react-s-alert';
 
 import StandingsTable from '../standings/standings-table.jsx';
-import {requestStandingsData} from '../../actions/api-get.js';
 
 const mapStateToProps = state => ({
   activeMonth: state.activeMonth,
@@ -13,10 +11,7 @@ const mapStateToProps = state => ({
   isFetchingStandingsData: state.fetchStatus.isFetchingStandingsData
 });
 
-const mapDispatchToProps = dispatch => ({
-  getStandingsData: (month) => {
-    dispatch(requestStandingsData(month))
-  }
+const mapDispatchToProps = () => ({
 });
 
 const StandingsContainer = connect(

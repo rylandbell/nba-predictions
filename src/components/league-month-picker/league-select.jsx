@@ -8,7 +8,7 @@ const LeagueSelect = React.createClass({
     this.props.setActiveLeague(e.target.value);
     this.props.getUserMonthData(this.props.activeMonth, e.target.value);
     this.props.getGameData(this.props.activeMonth);
-    this.props.getStandingsData(this.props.activeMonth);
+    this.props.getStandingsData(this.props.activeMonth, e.target.value);
   },
   render: function() {
     return (

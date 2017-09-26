@@ -8,7 +8,7 @@ const MonthSelect = React.createClass({
     this.props.setActiveMonth(event.target.value);
     this.props.getUserMonthData(event.target.value, this.props.activeLeagueId);
     this.props.getGameData(event.target.value);
-    this.props.getStandingsData(event.target.value);
+    this.props.getStandingsData(event.target.value, this.props.activeLeagueId);
   },
   render: function() {
     return (
