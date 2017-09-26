@@ -10,10 +10,10 @@ export const sendMessage = (enteredChatText) => ({
   }
 });
 
-export const sendPrediction = (activeMonth, body) => ({
+export const sendPrediction = (userMonthId, body) => ({
   type: 'API',
   payload: {
-    url: `/api/userMonth/${activeMonth}/predictedWinners`,
+    url: `/api/userMonth/predictedWinners/${userMonthId}`,
     method: 'PUT',
     body: body,
     success: 'SEND_PREDICTION_SUCCESS',

@@ -12,7 +12,7 @@ const DailyPicks = ({activeDate, gamesByDay, eligibleTeams, isSendingPrediction,
       <p className="text-center day-picker-message">
         (Home teams are displayed on the right.)
       </p>
-      <SingleDayGameList gamesByDay={gamesByDay} eligibleTeams={eligibleTeams} isSendingPrediction={isSendingPrediction} predictedWinners={predictedWinners} activeDate={activeDate} userMonth={userMonth} activeMonth={activeMonth} addPrediction={addPrediction} removePrediction={removePrediction} />
+      <SingleDayGameList gamesByDay={gamesByDay} eligibleTeams={eligibleTeams} isSendingPrediction={isSendingPrediction} predictedWinners={predictedWinners} activeDate={activeDate} userMonth={userMonth} addPrediction={addPrediction} removePrediction={removePrediction} />
     </div>
   </div>
 );

@@ -19,7 +19,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  addPrediction: (gameId, teamName, gameDate, gameTime, userMonth, activeMonth) => {
+  addPrediction: (gameId, teamName, gameDate, gameTime, userMonth) => {
     Alert.closeAll();
 
     //mark previous selection for that day eligible (locally):
@@ -37,9 +37,9 @@ const mapDispatchToProps = (dispatch) => ({
     body.teamName = teamName;
     body.gameTime = gameTime;
 
-    dispatch(sendPrediction(activeMonth, body));
+    dispatch(sendPrediction(userMonth.userMonthId, body));
   },
-  removePrediction: (gameId, teamName, gameDate, gameTime, activeMonth) => {
+  removePrediction: (gameId, teamName, gameDate, gameTime, userMonth) => {
     Alert.closeAll();
 
     dispatch(ActionCreator.removePrediction(gameId, gameDate));
@@ -52,7 +52,7 @@ const mapDispatchToProps = (dispatch) => ({
     body.teamName = null;
     body.gameTime = gameTime;
 
-    dispatch(sendPrediction(activeMonth, body));
+    dispatch(sendPrediction(userMonth.userMonthId, body));
   },
   updateActiveDate: (newDate) => {
     dispatch(ActionCreator.setActiveDate (newDate));

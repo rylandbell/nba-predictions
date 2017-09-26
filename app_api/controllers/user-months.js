@@ -235,16 +235,15 @@ module.exports.predictedWinnersUpdate = function(req, res) {
   }
 
   getUserData(req, res, function(req, res, user) {
-    if (!req.params.month) {
+    if (!req.params.userMonthId) {
       sendJsonResponse(res, 404, {
-        message: "Not found, month name is required"
+        message: "Not found, userMonthId is required"
       });
       return;
     }
 
     const filter = {
-      ownerId: user._id,
-      month: req.params.month
+      _id: req.params.userMonthId
     };
 
     UserMonthModel.find(filter)

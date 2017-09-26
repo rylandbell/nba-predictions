@@ -69,7 +69,6 @@ export const userFlowMiddleware = ({
       break;
 
     case 'CREATE_USER_MONTH_SUCCESS':
-      console.log(action);
       browserHistory.push(`/picks/${action.payload.month}`);
       dispatch(addUserMonthData(action.payload));
       break;

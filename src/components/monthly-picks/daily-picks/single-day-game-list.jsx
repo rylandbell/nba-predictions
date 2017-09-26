@@ -5,7 +5,7 @@ import moment from 'moment';
 
 import SingleGame from './single-game.jsx';
 
-const SingleDayGameList = ({activeDate, gamesByDay, predictedWinners, isSendingPrediction, eligibleTeams, userMonth, activeMonth, addPrediction, removePrediction}) => {
+const SingleDayGameList = ({activeDate, gamesByDay, predictedWinners, isSendingPrediction, eligibleTeams, userMonth, addPrediction, removePrediction}) => {
 
   //subtract 1 to go from day-of-month to zero-indexed array position:
   const dayKey = moment(activeDate).format('D')-1;
@@ -15,7 +15,7 @@ const SingleDayGameList = ({activeDate, gamesByDay, predictedWinners, isSendingP
         (gamesByDay && gamesByDay[dayKey] && gamesByDay[dayKey].gameSummaries.length>0) ?
           gamesByDay[dayKey].gameSummaries.map(
           (gameData, index) =>
-            <SingleGame gameData={gameData} isSendingPrediction={isSendingPrediction} predictedWinner={predictedWinners[dayKey+1]} eligibleTeams = {eligibleTeams} userMonth={userMonth} activeMonth={activeMonth} addPrediction={addPrediction} removePrediction={removePrediction} key={index} />
+            <SingleGame gameData={gameData} isSendingPrediction={isSendingPrediction} predictedWinner={predictedWinners[dayKey+1]} eligibleTeams = {eligibleTeams} userMonth={userMonth} addPrediction={addPrediction} removePrediction={removePrediction} key={index} />
           )
         : <div> Sorry, no games scheduled for today. </div>
       }

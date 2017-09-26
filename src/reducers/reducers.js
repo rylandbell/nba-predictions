@@ -116,7 +116,7 @@ const currentMonth = (state = '2017-04') => {
 const userMonthId = (state = '', action) => {
   switch(action.type){
     case 'ADD_USER_MONTH_DATA':
-      return Object.assign({},action.payload._id);
+      return action.payload._id;
     default:
       return state;
   }
