@@ -146,10 +146,8 @@ module.exports.userMonthReadAllForUser = function(req, res) {
 /* GET all users' userMonths for given month & league */
 module.exports.userMonthReadAllByMonth = function(req, res) {
   const filter = {
-    month: req.params.month,
-    leagueId: req.query.leagueId
+    month: req.params.month
   };
-
   UserMonthModel.find(filter).exec(function(err, userMonthArray) {
     let responseBody = {};
 

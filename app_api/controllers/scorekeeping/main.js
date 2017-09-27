@@ -11,27 +11,25 @@ const getUserMonths = require('./getUserMonths');
 const scoreUserMonths = require('./scoreUserMonths');
 
 // update a single day's game and user data, as scores become available
-// module.exports = () => {
-const main = () => {  
-  // const today = moment().tz('America/Los_Angeles').format('YYYY-MM-DD');
-  const today =  moment('2017-04-12').tz('America/Los_Angeles').format('YYYY-MM-DD');
+const main = (date) => {  
+  const targetDate =  moment(date).tz('America/Los_Angeles').format('YYYY-MM-DD');
 
   console.log('scorekeeping function ran at ', moment().format('kk:mm:ss'));
-  console.log('with date = ', today);
+  console.log('with date = ', targetDate);
   
-  const gameDataPromise = getNbaData(today)
+  const gameDataPromise = getNbaData(targetDate)
     .then(res => res.json())
-    .then(data => saveGameData(today, data))
+    .then(data => saveGameData(targetDate, data))
     .then(res => res.json())
     .catch(console.log);
 
-  const userMonthPromise = getUserMonths(today)
+  const userMonthPromise = getUserMonths(targetDate)
     .then(res => res.json())
     .catch(console.log);
 
   Promise.all([gameDataPromise, userMonthPromise])
-    .then(responseArray => scoreUserMonths(today, ...responseArray))
+    .then(responseArray => scoreUserMonths(targetDate, ...responseArray))
     .catch(console.log);
 };
 
-main();
+main('2017-09-30');
