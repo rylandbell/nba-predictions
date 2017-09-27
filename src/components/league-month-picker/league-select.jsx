@@ -13,8 +13,8 @@ const LeagueSelect = React.createClass({
   render: function() {
     return (
       <div className="form-group">
-        <label htmlFor="league-select">Active league:&nbsp;</label>
-        <select id="league-select" className="form-control" onChange={this.handleChange} value={this.props.activeLeagueId}>
+        <label htmlFor="league-select" className="league-month-picker__label">Active league:&nbsp;</label>
+        <select id="league-select" className="form-control league-month-picker__select" onChange={this.handleChange} value={this.props.activeLeagueId}>
           {this.props.user.leagues.map(
             (league,key) => <LeagueOption league={league} key={key} />                    
           )}

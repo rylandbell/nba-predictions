@@ -17,12 +17,10 @@ const LayoutComponent = React.createClass({
       <div>
         <Navbar />
         <div className="main">
+          <div className="league-month-picker__wrapper">
+            <LeagueMonthPickerContainer />
+          </div>
           <div className="container container-body">
-            <div className="row">
-              <div className="col-xs-12">
-                <LeagueMonthPickerContainer />
-              </div>
-            </div>
             <div className="row">
               <div className="col-xs-12">
                 {this.props.children}

@@ -1,0 +1,17 @@
+.league-month-picker {
+  padding: 12px 0;
+}
+
+.league-month-picker__wrapper {
+  width: 100vw;
+  background-color: #222222;
+  margin-bottom: 10px;
+}
+
+.league-month-picker__label {
+  margin-right: 15px;
+}
+
+.league-month-picker__select {
+  margin-right: 30px;
+}

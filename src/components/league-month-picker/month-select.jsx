@@ -13,8 +13,8 @@ const MonthSelect = React.createClass({
   render: function() {
     return (
       <div className="form-group">
-        <label htmlFor="month-select">Select a month:&nbsp;</label>
-        <select id="month-select" className="form-control" onChange={this.handleChange} value={this.props.activeMonth}>
+        <label htmlFor="month-select" className="league-month-picker__label">Select a month:&nbsp;</label>
+        <select id="month-select" className="form-control league-month-picker__select" onChange={this.handleChange} value={this.props.activeMonth}>
           <option value={this.props.currentMonth}>
             {moment(this.props.currentMonth).format('MMMM YYYY')}
           </option>
