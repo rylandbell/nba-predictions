@@ -7,12 +7,12 @@ const MyLeaguesTable = ({user}) => {
   return (
     <div>
       <h4 className="text-center">My Leagues</h4>
-      <p>You have successfully joined each of the leagues listed below. To invite a friend to join a league, send them the given link.</p>
+      <p>You have successfully joined each of the leagues listed below. To invite a friend to join a league, send them the code below.</p>
       <table className="table table-bordered">
         <thead>
           <tr>
             <th>League Name</th>
-            <th>Link to Join</th>
+            <th>Code to Join</th>
           </tr>
         </thead>
         <tbody>

@@ -7,6 +7,7 @@ import ActionCreator from '../../actions/action-creators.js';
 import {createLeague, joinLeague} from '../../actions/api-post.js';
 
 const mapStateToProps = (state) => ({
+  noLeaguesJoined: state.noLeaguesJoined,
   enteredLeagueName: state.enteredLeagueName,
   enteredLeagueId: state.enteredLeagueId,
   isSendingCreateLeague: state.fetchStatus.isSendingCreateLeague,

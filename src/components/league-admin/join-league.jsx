@@ -17,7 +17,7 @@ const JoinLeague = React.createClass({
     return (
       <div>
         <h4 className="text-center">Join an existing league</h4>
-        <p>To join a league, enter the league's ID below. If you don't have the ID, ask somebody in the league.</p>
+        <p>To join a league, enter the league's code below (league codes like "59c13a68488f1c1cddfd34fe4"). If you don't have the code, ask somebody in the league.</p>
         <br />
         <form className="form-horizontal">
           <div className="form-group">

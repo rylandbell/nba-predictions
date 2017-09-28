@@ -6,7 +6,7 @@ const MyLeaguesTableRow = ({league}) => {
   return (
     <tr>
       <td>{league.name}</td>
-      <td>{`http://nba.ryland-bell.com/league/${league.id}`}</td>
+      <td>{league.id}</td>
     </tr>
   );
 };

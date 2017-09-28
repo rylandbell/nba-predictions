@@ -35,6 +35,13 @@ export const userFlowMiddleware = ({
       dispatch(actions.setActiveDate(newActiveDate));
       break;
 
+    //send user to league management page if they haven't signed up for any leagues
+    case 'ADD_USER_DATA':
+      if(action.payload.leagues && action.payload.leagues.length < 1) {
+        browserHistory.push('/leagues');
+      }
+      break;
+
     //Handle content received after successful API calls:
     case 'REQUEST_USER_DATA_SUCCESS':
       dispatch(addUserData(action.payload));
