@@ -54,7 +54,20 @@ const user = (state = {}, action) => {
   }
 }
 
-const activeLeagueId = (state = '', action) => {
+const noLeaguesJoined = (state = false, action) => {
+  switch(action.type) {
+    case 'ADD_USER_DATA':
+      if(action.payload.leagues && action.payload.leagues.length < 1) {
+        return true;
+      } else {
+        return false;
+      }
+    default:
+      return state;
+  }
+}
+
+const activeLeagueId = (state = '=', action) => {
   switch(action.type) {
     case 'SET_ACTIVE_LEAGUE':
       return action.payload;
@@ -190,6 +203,7 @@ const api = {
     enteredLeagueName,
     enteredLeagueId,
     user,
+    noLeaguesJoined,
     activeLeagueId,
     messages,
     monthList,
