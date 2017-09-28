@@ -1,7 +1,7 @@
 import Alert from 'react-s-alert';
 import {browserHistory} from 'react-router';
 
-import {addUserData, addStandingsData, addUserMonthData, addGameData, addMessageLog} from '../actions/api-get.js';
+import {addUserData, addStandingsData, addUserMonthData, addGameData, addMessageLog, requestStandingsData, requestUserMonthData} from '../actions/api-get.js';
 import actions from '../actions/action-creators.js';
 
 export const userFlowMiddleware = ({
@@ -39,6 +39,10 @@ export const userFlowMiddleware = ({
     case 'ADD_USER_DATA':
       if(action.payload.leagues && action.payload.leagues.length < 1) {
         browserHistory.push('/leagues');
+      } else if (action.payload.leagues && action.payload.leagues.length > 0) {
+        dispatch(actions.setActiveLeague(action.payload.leagues[0].id))
+        dispatch(requestStandingsData(state.activeMonth, action.payload.leagues[0].id));
+        dispatch(requestUserMonthData(state.activeMonth, action.payload.leagues[0].id));
       }
       break;
 
