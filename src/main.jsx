@@ -24,7 +24,7 @@ const store = createStore(
   Reducers.app,
   composeEnhancers(
     applyMiddleware(userFlowMiddleware, apiMiddleware),
-    persistState()
+    persistState(['activeLeagueId'])
   )
 );
 
