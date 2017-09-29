@@ -11,7 +11,7 @@ block content
             strong &nbsp; #{message}
       .col-xs-12.col-md-10.col-md-offset-1.col-lg-8.col-lg-offset-2
       .col-xs-12.col-md-10.col-md-offset-1.col-lg-8.col-lg-offset-2
-        .row
+        .row.row-main
           .col-xs-12
             .jumbotron
               h2.text-center 
@@ -49,26 +49,25 @@ block content
         .modal-body
           form#register-form.form(action='/register', method='post', role='form')
             .row
-              .col-xs-12.col-md-6
+              .col-xs-12
                 .form-group
-                  label Login ID: &nbsp;
+                  label Username (used for logging in): &nbsp;
                   input.form-control(type='text' name='username' autocomplete='off' required)
                 .form-group
-                  label Display Name (visible to others): &nbsp;
+                  label Public Display Name (this is the name that other players will see): &nbsp;
                   input.form-control(type='text' name='displayName' autocomplete='off' maxlength='20' required)
-                .form-group
-                  label Email (optional, but requested for testers): &nbsp;
-                  input.form-control(type='email' name='email' autocomplete='off')
-              .col-xs-12.col-md-6
-                .form-group
-                  label Password: &nbsp;
-                  input#password.form-control(type='password' name='password' required)
-                .form-group
-                  label Confirm Password: &nbsp;
-                  input#confirm-password.form-control(type='password' name='cofirm-password' required)
-                .alert.alert-info(role='alert')
-                  .glyphicon.glyphicon-info-sign
-                  |&nbsp; Don't lose your password. I don't have an account recovery system in place yet.
+                .row
+                  .col-xs-12.col-sm-6
+                    .form-group
+                      label Password: &nbsp;
+                      input#password.form-control(type='password' name='password' required)
+                  .col-xs-12.col-sm-6  
+                    .form-group
+                      label Confirm Password: &nbsp;
+                      input#confirm-password.form-control(type='password' name='cofirm-password' required)
+                p
+                  span.glyphicon.glyphicon-exclamation-sign.text-info
+                  |&nbsp; Don't lose your username or password. I don't have a password recovery system in place yet.
                                     
         .modal-footer
           button.btn.btn-default.btn-primary(type='submit' form='register-form') Submit
