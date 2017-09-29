@@ -117,6 +117,10 @@ export const userFlowMiddleware = ({
       showAlert('Whoops:');
       break;
 
+    case 'CREATE_USER_MONTH_FAILURE':
+      showAlert('Failed to join this month\'s competition.');
+      break;
+
     default:
       break;
   }

@@ -13,7 +13,7 @@ const LayoutComponent = React.createClass({
   render: function () {
     return (
       <div>
-        <Navbar />
+        <Navbar reduxState={this.props.reduxState} />
         <div className="main">
           <div className="league-month-picker__wrapper">
             <LeagueMonthPickerContainer />

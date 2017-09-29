@@ -3,7 +3,11 @@
 import React from 'react';
 import Link from 'react-router/lib/Link';
 
-const Navbar = () => {
+const Navbar = ({reduxState}) => {
+
+  //Hide most of site nav from users who haven't joined a league.
+  const newPlayer = !(reduxState.user && reduxState.user.leagues && reduxState.user.leagues.length > 0);
+  
   return (
     <div className="container-fluid">
       <nav className="navbar navbar-default navbar-fixed-top">
@@ -15,24 +19,28 @@ const Navbar = () => {
               <span className="icon-bar"></span>
               <span className="icon-bar"></span>
             </button>
-            <Link to="/" className="navbar-brand text-primary">Pigeon Hoops</Link>
-            <ul className="nav nav-pills navbar-nav">
-              <li className="hidden-xs">
-                <Link to={"/picks"}>
-                  <span className="nav-strong">My Picks</span>
-                </Link>
-              </li>
-              <li className="hidden-xs">
-                <Link to={"/standings"}>
-                  <span className="nav-strong">Standings</span>
-                </Link>
-              </li>
-              <li className="hidden-xs">
-                <Link to={"/leagues"}>
-                  <span className="nav-strong">Join/Create League</span>
-                </Link>
-              </li>
-            </ul>
+            {newPlayer ? null :
+              <div>
+                <Link to="/" className="navbar-brand text-primary">Pigeon Hoops</Link>
+                <ul className="nav nav-pills navbar-nav">
+                  <li className="hidden-xs">
+                    <Link to={"/picks"}>
+                      <span className="nav-strong">My Picks</span>
+                    </Link>
+                  </li>
+                  <li className="hidden-xs">
+                    <Link to={"/standings"}>
+                      <span className="nav-strong">Standings</span>
+                    </Link>
+                  </li>
+                  <li className="hidden-xs">
+                    <Link to={"/leagues"}>
+                      <span className="nav-strong">Join/Create League</span>
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+            }
           </div>
           <div id="navbar-collapse-1" className="collapse navbar-collapse">
             <ul className="nav navbar-nav navbar-right">
