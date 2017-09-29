@@ -67,7 +67,7 @@ const noLeaguesJoined = (state = false, action) => {
   }
 }
 
-const activeLeagueId = (state = '=', action) => {
+const activeLeagueId = (state = '', action) => {
   switch(action.type) {
     case 'SET_ACTIVE_LEAGUE':
       return action.payload;

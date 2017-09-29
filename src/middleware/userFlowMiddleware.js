@@ -40,9 +40,17 @@ export const userFlowMiddleware = ({
       if(action.payload.leagues && action.payload.leagues.length < 1) {
         browserHistory.push('/leagues');
       } else if (action.payload.leagues && action.payload.leagues.length > 0) {
-        dispatch(actions.setActiveLeague(action.payload.leagues[0].id))
-        dispatch(requestStandingsData(state.activeMonth, action.payload.leagues[0].id));
-        dispatch(requestUserMonthData(state.activeMonth, action.payload.leagues[0].id));
+
+        //if a league choice hasn't been found in localStorage, just choose the first league
+        //then get standings and userMonth data for the active league
+        if (state.activeLeagueId === "") {
+          dispatch(actions.setActiveLeague(action.payload.leagues[0].id));
+          dispatch(requestStandingsData(state.activeMonth, action.payload.leagues[0].id));
+          dispatch(requestUserMonthData(state.activeMonth, action.payload.leagues[0].id));
+        } else {
+          dispatch(requestStandingsData(state.activeMonth, state.activeLeagueId));
+          dispatch(requestUserMonthData(state.activeMonth, state.activeLeagueId));
+        }        
       }
       break;
 

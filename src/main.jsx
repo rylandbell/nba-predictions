@@ -9,6 +9,7 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose } from 'redux';
 import browserHistory from 'react-router/lib/browserHistory';
 import Router from 'react-router/lib/Router';
+import persistState from 'redux-localstorage';
 import Alert from 'react-s-alert';
 
 import Reducers from './reducers/reducers.js';
@@ -22,7 +23,8 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(
   Reducers.app,
   composeEnhancers(
-    applyMiddleware(userFlowMiddleware, apiMiddleware)
+    applyMiddleware(userFlowMiddleware, apiMiddleware),
+    persistState()
   )
 );
 
