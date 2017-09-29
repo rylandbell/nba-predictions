@@ -21,8 +21,8 @@ const JoinLeague = React.createClass({
         <br />
         <form className="form-horizontal">
           <div className="form-group">
-            <div className="col-sm-9">
-              <input type="text" className="form-control" id="leagueId" value={this.props.enteredLeagueId} onChange={this.handleTextEntry} maxLength="24" />
+            <div className="col-xs-9">
+              <input type="text" className="form-control" id="leagueId" value={this.props.enteredLeagueId} maxLength="24" placeholder="Enter league code..." onChange={this.handleTextEntry} />
             </div>
             <button type="submit" className="btn btn-primary" onClick={this.handleClick}>Join</button>
           </div>

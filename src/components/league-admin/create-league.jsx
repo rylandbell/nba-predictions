@@ -21,8 +21,8 @@ const CreateLeague = React.createClass({
         <br />
         <form className="form-horizontal">
           <div className="form-group">
-            <div className="col-sm-9">
-              <input type="text" className="form-control" id="leagueName" value={this.props.enteredLeagueName} maxLength="20" onChange={this.handleTextEntry} />
+            <div className="col-xs-9">
+              <input type="text" className="form-control" id="leagueName" value={this.props.enteredLeagueName} maxLength="20" placeholder="Enter league name..." onChange={this.handleTextEntry} />
             </div>
             <button type="submit" className="btn btn-primary" onClick={this.handleClick}>Create</button>
           </div>
