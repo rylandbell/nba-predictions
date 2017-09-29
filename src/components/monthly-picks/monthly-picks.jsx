@@ -12,7 +12,7 @@ const MonthlyPicksPage = React.createClass({
     document.title = document.title.split(' | ')[0] + ' | My Picks';
   },
   render: function() {
-    const isLoading = this.props.reduxState.fetchStatus.isFetchingUserMonthData || this.props.reduxState.fetchStatus.isFetchingGameData;
+    const isLoading = this.props.reduxState.fetchStatus.isFetchingUserMonthData || this.props.reduxState.fetchStatus.isFetchingGameData || this.props.reduxState.fetchStatus.isFetchingUserData;
 
     if (isLoading) {
       return <StatusMessage messageBold={'Loading game data...'} messageBody={'Just hang tight.'} messageClass={'info'}/>
@@ -37,7 +37,6 @@ const MonthlyPicksPage = React.createClass({
             <DailyPicksContainer />
           </div>
           <div className="col-xs-12 col-sm-4 col-md-3">
-            {/*<MonthlyPicksMonthSelector activeMonth = {this.props.reduxState.activeMonth} currentMonth = {this.props.reduxState.currentMonth} setActiveMonth = {this.props.setActiveMonth} getUserMonthData={this.props.getUserMonthData} getGameData={this.props.getGameData} />*/}
             <MonthlyPicksSidebarContainer reduxState={this.props.reduxState} />
           </div>
         </div>)

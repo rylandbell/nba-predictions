@@ -4,7 +4,6 @@ import React from "react";
 
 import MonthSelect from "./month-select.jsx";
 import LeagueSelect from "./league-select.jsx";
-import StatusMessage from "../status-message.jsx";
 
 const LeagueMonthPicker = React.createClass({
   render: function() {
@@ -47,13 +46,7 @@ const LeagueMonthPicker = React.createClass({
         );
       }
     } else {
-      panelContent = (
-        <StatusMessage
-          messageBold={"Loading user data..."}
-          messageBody={"Just hang tight."}
-          messageClass={"info"}
-        />
-      );
+      panelContent = <p className="text-center">Loading user data...</p>;
     }
 
     return panelContent;
