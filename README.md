@@ -11,7 +11,7 @@ Implementing this simple game as a web application involved several challenges:
 
 ### Tracking NBA schedule data and user picks
 
-<img src="./media/daily-picks.png">
+<img src="./media/daily-picks.gif">
 
 The central requirement for the app is a way to display games in a way that allows users to track their picks and strategize about how to spread them throughout the month.
 
