@@ -6,7 +6,7 @@ const Redux = require('redux');
 import _values from 'lodash/values';
 import _difference from 'lodash/difference';
 import _sortBy from 'lodash/sortBy';
-// import moment from 'moment';
+import moment from 'moment';
 
 import fetchStatus from './fetch-status.js';
 
@@ -90,10 +90,7 @@ const messages = (state=[], action) => {
 }
 
 //format: 'YYYY-MM-DD'
-
-//summer mode:
-// const activeDate = (state = moment().format('YYYY-MM-DD'), action) => {
-const activeDate = (state = '2017-04-11', action) => {
+const activeDate = (state = moment().format('YYYY-MM-DD'), action) => {
   switch(action.type){
     case 'SET_ACTIVE_DATE':
       return action.date;
@@ -103,9 +100,7 @@ const activeDate = (state = '2017-04-11', action) => {
 };
 
 //format: 'YYYY-MM'
-//summer mode:
-// const activeMonth = (state = moment().format('YYYY-MM'), action) => {
-const activeMonth = (state = '2017-04', action) => {
+const activeMonth = (state = moment().format('YYYY-MM'), action) => {
   switch(action.type){
     case 'SET_ACTIVE_DATE':
       return action.date.substring(0,7);
@@ -116,13 +111,11 @@ const activeMonth = (state = '2017-04', action) => {
   }
 };
 
-//summer mode
-const currentDate = (state = '2017-04-11') => {
+const currentDate = (state = moment().format('YYYY-MM-DD')) => {
   return state;
 }
 
-//summer mode
-const currentMonth = (state = '2017-04') => {
+const currentMonth = (state = moment().format('YYYY-MM')) => {
   return state;
 }
 
