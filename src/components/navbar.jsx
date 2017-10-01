@@ -35,7 +35,7 @@ const Navbar = ({reduxState}) => {
                   </li>
                   <li className="hidden-xs">
                     <Link to={"/leagues"}>
-                      <span className="nav-strong">Join/Create League</span>
+                      <span className="nav-strong">Leagues</span>
                     </Link>
                   </li>
                 </ul>

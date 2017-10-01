@@ -136,7 +136,7 @@ module.exports.registerNew = function (req, res, next) {
     cookieOptions.maxAge = 1000 * 3600 * 24;
     if (apiResponse.statusCode === 200) {
       res.cookie('token', apiResponse.body.token, cookieOptions);
-      res.redirect('/');
+      res.redirect('/leagues');
     } else if (apiResponse.statusCode === 400 || apiResponse.statusCode === 401) {
       console.log('failed registration: ', body.message);
       renderLoginView(req, res, apiResponse.body);
