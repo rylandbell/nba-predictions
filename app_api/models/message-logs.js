@@ -8,9 +8,9 @@ const messageSchema = new mongoose.Schema({
 });
 
 const messageLogSchema = new mongoose.Schema({
-  league: {type: String, default: "alpha", unique: true},
+  leagueId: {type: String, required: true},
   messages: [messageSchema]
 });
 
-//connect this schema to the database. automatically creates a MongoDB collection 'months' based on the supplied parameter 'Month'
+//connect this schema to the database. automatically creates a MongoDB collection 'messagelogs' based on the supplied parameter 'MessageLog'
 mongoose.model('MessageLog', messageLogSchema);

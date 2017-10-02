@@ -9,19 +9,20 @@ import ActionCreator from '../../actions/action-creators.js';
 
 const mapStateToProps = (state) => ({
   messages: state.messages,
+  activeLeagueId: state.activeLeagueId,
   enteredChatText: state.enteredChatText,
   isFetchingMessageLog: state.fetchStatus.isFetchingMessageLog
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  getMessageLog: () => {
-    dispatch(requestMessageLog());
+  getMessageLog: (leagueId) => {
+    dispatch(requestMessageLog(leagueId));
   },
-  sendMessage: (enteredChatText) => {
+  sendMessage: (enteredChatText, leagueId) => {
     if(enteredChatText === ''){
       return;
     } else {
-      dispatch(sendMessage(enteredChatText));
+      dispatch(sendMessage(enteredChatText, leagueId));
     }
   },
   handleTextChange: (e) => {

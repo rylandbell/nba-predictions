@@ -1,7 +1,7 @@
-export const sendMessage = (enteredChatText) => ({
+export const sendMessage = (enteredChatText, leagueId) => ({
   type: 'API',
   payload: {
-    url: '/api/messages',
+    url: `/api/messages/${leagueId}`,
     method: 'PUT',
     body: {content: enteredChatText},
     success: 'SEND_MESSAGE_SUCCESS',

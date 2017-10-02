@@ -6,9 +6,6 @@ import moment from 'moment';
 const MonthSelect = React.createClass({
   handleChange: function(event) {
     this.props.setActiveMonth(event.target.value);
-    this.props.getUserMonthData(event.target.value, this.props.activeLeagueId);
-    this.props.getGameData(event.target.value);
-    this.props.getStandingsData(event.target.value, this.props.activeLeagueId);
   },
   render: function() {
     return (

@@ -5,6 +5,7 @@ const _ = require('lodash');
 
 const UserModel = mongoose.model("User");
 const LeagueModel = mongoose.model("League");
+const MessageLogModel = mongoose.model('MessageLog');
 
 //helper function for composing responses as status codes (e.g. 404) with JSON files
 const sendJsonResponse = function(res, status, content) {
@@ -80,7 +81,7 @@ module.exports.leagueCreate = function(req, res) {
               return;
             }
 
-            //add the new league ID
+            //add the new league ID to the user object
             user.leagues.push({id: league._id, name: league.name});
 
             //save
@@ -92,11 +93,18 @@ module.exports.leagueCreate = function(req, res) {
               }
             });
           }
-        )})
+        );
+        
+        console.log(league._id);
+        //create a message log for the new league:
+        MessageLogModel.create({leagueId: league._id})
+          .catch(console.log);
+
+      })
       .catch(err => {
         console.log("error in controller");
         sendJsonResponse(res, 400, err);
-      })
+    })
   })
 
 };

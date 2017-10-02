@@ -1,7 +1,7 @@
 import Alert from 'react-s-alert';
 import {browserHistory} from 'react-router';
 
-import {addUserData, addStandingsData, addUserMonthData, addGameData, addMessageLog, requestStandingsData, requestUserMonthData} from '../actions/api-get.js';
+import {addUserData, addStandingsData, addUserMonthData, addGameData, addMessageLog, requestStandingsData, requestUserMonthData, requestMessageLog, requestGameData} from '../actions/api-get.js';
 import actions from '../actions/action-creators.js';
 
 export const userFlowMiddleware = ({
@@ -25,14 +25,27 @@ export const userFlowMiddleware = ({
 
   switch (action.type) {
 
-    //when the active month changes, the active date should be the current date OR the first of that month
+    
     case 'SET_ACTIVE_MONTH':
+
+      //when the active month changes, the active date should be the current date OR the first of that month
       if(action.month === state.currentMonth) {
         newActiveDate = state.currentDate;
       } else {
         newActiveDate = action.month + '-01';
       }
       dispatch(actions.setActiveDate(newActiveDate));
+
+      //re-fetch all data that depends on choice of month:
+      dispatch(requestUserMonthData(action.month, state.activeLeagueId));
+      dispatch(requestStandingsData(action.month, state.activeLeagueId));
+      dispatch(requestGameData(action.month));
+      break;
+
+    case 'SET_ACTIVE_LEAGUE':
+      dispatch(requestUserMonthData(state.activeMonth, action.payload));
+      dispatch(requestStandingsData(state.activeMonth, action.payload));
+      dispatch(requestMessageLog(action.payload));
       break;
 
     //send user to league management page if they haven't signed up for any leagues
@@ -81,6 +94,7 @@ export const userFlowMiddleware = ({
 
     case 'CREATE_LEAGUE_SUCCESS':
       dispatch(addUserData(action.payload));
+      dispatch(actions.setActiveLeague(action.payload.leagues[action.payload.leagues.length - 1].id));
       break;
 
     case 'JOIN_LEAGUE_SUCCESS':

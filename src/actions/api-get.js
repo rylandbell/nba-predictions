@@ -62,10 +62,10 @@ export const addGameData = (data) => ({
   payload: data
 });
 
-export const requestMessageLog = () => ({
+export const requestMessageLog = (leagueId) => ({
   type: 'API',
   payload: {
-    url: '/api/messages',
+    url: `/api/messages/${leagueId}`,
     method: 'GET',
     success: 'REQUEST_MESSAGE_LOG_SUCCESS',
     failure: 'REQUEST_MESSAGE_LOG_FAILURE',

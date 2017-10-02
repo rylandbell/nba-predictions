@@ -51,7 +51,7 @@ router.post('/register', ctrlAuth.register);
 router.post('/login', ctrlAuth.login);
 
 //routes for messaging:
-router.get('/messages', auth, ctrlMessages.getMessageLog);
-router.put('/messages', auth, ctrlMessages.sendMessage);
+router.get('/messages/:leagueId', auth, ctrlMessages.getMessageLog);
+router.put('/messages/:leagueId', auth, ctrlMessages.sendMessage);
 
 module.exports = router;

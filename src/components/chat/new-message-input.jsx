@@ -5,7 +5,7 @@ import React from 'react';
 const NewMessageInput = React.createClass({
   handleSubmit: function(e) {
     e.preventDefault();
-    this.props.sendMessage(this.props.enteredChatText);
+    this.props.sendMessage(this.props.enteredChatText, this.props.activeLeagueId);
   },
   render: function() {
     return (

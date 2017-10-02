@@ -39,8 +39,14 @@ const getUserData = function (req, res, callback) {
 
 /* GET full message log for given league */
 module.exports.getMessageLog = function (req, res) {
+  if (!req.params.leagueId) {
+    sendJsonResponse(res, 404, {
+      message: 'no message log found'
+    });
+    return;
+  }
   MessageLogModel
-    .find({ league: 'alpha' })
+    .find({ leagueId: req.params.leagueId })
     .exec(function (err, messageLogs) {
       let responseBody = {};
       if (!messageLogs) {
@@ -69,7 +75,7 @@ module.exports.sendMessage = function (req, res) {
   getUserData(req, res, function (req, res, user) {
     if (req.body && req.body.content) {
       MessageLogModel.find({
-        league: 'alpha',
+        leagueId: req.params.leagueId,
       }, function (err, messageLogs) {
         if (err) {
           console.log('error in controller');

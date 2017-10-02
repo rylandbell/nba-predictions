@@ -9,7 +9,7 @@ import StatusMessage from '../status-message.jsx';
 //owns message array state, assembles subcomponents: 
 const ChatWall = React.createClass({
   componentDidMount: function() {
-    this.props.getMessageLog()
+    this.props.getMessageLog(this.props.activeLeagueId)
   },
   render: function() {
     return (
@@ -20,6 +20,7 @@ const ChatWall = React.createClass({
         <div className="panel-body chat__body">
           <NewMessageInput 
             enteredChatText={this.props.enteredChatText} 
+            activeLeagueId={this.props.activeLeagueId}
             sendMessage={this.props.sendMessage} 
             handleTextChange = {this.props.handleTextChange}
             listenForEnter = {this.props.listenForEnter}
