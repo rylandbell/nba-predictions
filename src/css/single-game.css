@@ -1,6 +1,6 @@
 /*game flexbox */
 .game-container {
-  min-height: 66px;
+  /*height: 66px;*/
   display: flex;
   flex-direction: row;
   align-items: baseline;
