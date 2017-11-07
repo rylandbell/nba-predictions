@@ -1,6 +1,6 @@
 'use strict';
 
-require('dotenv').config({path:'../../../.env'});
+require('dotenv').config({path:'./.env'});
 
 const moment = require('moment-timezone');
 const fetch = require('node-fetch');
@@ -11,7 +11,7 @@ const getUserMonths = require('./getUserMonths');
 const scoreUserMonths = require('./scoreUserMonths');
 
 // update a single day's game and user data, as scores become available
-const main = (date) => {  
+module.exports = (date) => {  
   const targetDate =  moment(date).tz('America/Los_Angeles').format('YYYY-MM-DD');
 
   console.log('scorekeeping function ran at ', moment().format('kk:mm:ss'));
@@ -31,5 +31,3 @@ const main = (date) => {
     .then(responseArray => scoreUserMonths(targetDate, ...responseArray))
     .catch(console.log);
 };
-
-main('2017-09-30');

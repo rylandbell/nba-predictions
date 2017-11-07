@@ -6,10 +6,10 @@ const _ = require("lodash");
 
 const UserMonthModel = mongoose.model("UserMonth");
 const UserModel = mongoose.model("User");
-// const updateData = require('./scorekeeping/main.js');
+const updateData = require('./scorekeeping/main.js');
 
 //don't run updateData more than once per minute:
-// const throttledUpdateData = _.throttle(updateData, 30*1000, { leading: true });
+const throttledUpdateData = _.throttle(updateData, 60*1000, { leading: true });
 
 //return true if gameTime is after now
 const gameTimeInFuture = function(gameTime) {
@@ -170,7 +170,7 @@ module.exports.userMonthReadAllByMonth = function(req, res) {
 
 //GET all userMonths by month, and hide future predictions
 module.exports.userMonthReadAllPublic = function(req, res) {
-  // throttledUpdateData();
+  throttledUpdateData();
   const filter = {
     month: req.params.month,
     leagueId: req.query.leagueId
