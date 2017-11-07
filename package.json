@@ -68,8 +68,8 @@
     "webpack-uglify-js-plugin": "^1.1.9"
   },
   "engines": {
-    "node": "~4.2.6",
-    "npm": "~2.14.12"
+    "node": "~6.9.5",
+    "npm": "~3.10.10"
   },
   "devDependencies": {
     "chai": "^3.5.0",
