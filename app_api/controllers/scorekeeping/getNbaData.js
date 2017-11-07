@@ -11,7 +11,7 @@ module.exports = date => {
   options.headers = HEADERS;
 
   const formattedDate = moment(date).format('YYYYMMDD');
-  const url = `https://www.mysportsfeeds.com/api/feed/pull/nba/2016-2017-regular/scoreboard.json?fordate=${formattedDate}`;
+  const url = `https://api.mysportsfeeds.com/v1.1/pull/nba/2017-2018-regular/scoreboard.json?fordate=${formattedDate}`
 
   return fetch(url, options);
 }
