@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node ./bin/www",
     "heroku-postbuild": "webpack --config webpack.config.prod.js --progress",
-    "updateData": "node ./app_api/controllers/scorekeeping/updateByDate.js",
+    "updateData": "node ./app_api/controllers/scorekeeping/main.js",
     "sass-watch": "sass --watch scss:css"
   },
   "dependencies": {
