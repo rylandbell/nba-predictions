@@ -9,9 +9,10 @@ const getUserMonths = require('./getUserMonths');
 const scoreUserMonths = require('./scoreUserMonths');
 
 // update a single day's game and user data, as scores become available
-module.exports = (date = moment()) => {
+const main = (date) => {
 
-  const targetDate =  moment(date).tz('America/Los_Angeles').format('YYYY-MM-DD');
+  // For now, default to scorekeeping for yesterday only:
+  const targetDate = moment(date).tz('America/Los_Angeles').format('YYYY-MM-DD');
 
   console.log('scorekeeping function ran at ', moment().format('kk:mm:ss'));
   console.log('with date = ', targetDate);
@@ -30,3 +31,10 @@ module.exports = (date = moment()) => {
     .then(responseArray => scoreUserMonths(targetDate, ...responseArray))
     .catch(console.log);
 };
+
+// Update scores for yesterday's games, and the day before for redundancy's sake
+const day1 = moment().subtract(1, 'days').format('YYYY-MM-DD');
+const day2 = moment().subtract(2, 'days').format('YYYY-MM-DD');
+
+main(day1);
+main(day2);
