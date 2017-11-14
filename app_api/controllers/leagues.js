@@ -151,7 +151,7 @@ module.exports.leagueJoin = function(req, res) {
         }
 
         //check that the league actually exists, and get its name:
-        const joinPhrase = req.params.joinPhrase;
+        const joinPhrase = req.params.joinPhrase.trim();
         LeagueModel.findOne({
           joinPhrase: joinPhrase
         }).exec(function(err, league) {
