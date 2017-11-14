@@ -28,7 +28,7 @@ const auth = jwt({
 
 //routes for creating/joining leagues:
 router.post('/league', auth, ctrlLeagues.leagueCreate);
-router.post('/league/:leagueId', auth, ctrlLeagues.leagueJoin);
+router.post('/league/:joinPhrase', auth, ctrlLeagues.leagueJoin);
 router.get('/league', auth, ctrlLeagues.leagueReadAllForUser);
 
 // routes for calls to userMonths folder:

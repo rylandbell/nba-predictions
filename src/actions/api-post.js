@@ -10,10 +10,10 @@ export const createLeague = (leagueName) => ({
   }
 });
 
-export const joinLeague = (leagueId) => ({
+export const joinLeague = (joinPhrase) => ({
   type: 'API',
   payload: {
-    url: `/api/league/${leagueId}`,
+    url: `/api/league/${joinPhrase}`,
     method: 'POST',
     body: {},
     success: 'JOIN_LEAGUE_SUCCESS',

@@ -34,7 +34,7 @@ const enteredLeagueName = (state = '', action) => {
   }
 }
 
-const enteredLeagueId = (state = '', action) => {
+const enteredJoinPhrase = (state = '', action) => {
   switch(action.type){
     case 'LEAGUE_ID_ENTRY':
       return action.payload;
@@ -195,7 +195,7 @@ const api = {
     userMonth,
     enteredChatText,
     enteredLeagueName,
-    enteredLeagueId,
+    enteredJoinPhrase,
     user,
     noLeaguesJoined,
     activeLeagueId,

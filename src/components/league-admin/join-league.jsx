@@ -8,7 +8,7 @@ const JoinLeague = React.createClass({
     if(this.props.isSendingJoinLeague) {
       return;
     }
-    this.props.sendJoinLeague(this.props.enteredLeagueId);
+    this.props.sendJoinLeague(this.props.enteredJoinPhrase);
   },
   handleTextEntry: function (e) {
     this.props.handleLeagueIdTextChange(e.target.value);
@@ -24,7 +24,7 @@ const JoinLeague = React.createClass({
           <form className="form-horizontal">
             <div className="form-group">
               <div className="col-xs-9">
-                <input type="text" className="form-control" id="leagueId" value={this.props.enteredLeagueId} maxLength="24" placeholder="Enter league pass phrase..." onChange={this.handleTextEntry} />
+                <input type="text" className="form-control" id="leagueId" value={this.props.enteredJoinPhrase} maxLength="24" placeholder="Enter league pass phrase..." onChange={this.handleTextEntry} />
               </div>
               <button type="submit" className="btn btn-primary" onClick={this.handleClick}>Join</button>
             </div>

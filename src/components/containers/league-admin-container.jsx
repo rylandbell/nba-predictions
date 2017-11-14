@@ -9,7 +9,7 @@ import {createLeague, joinLeague} from '../../actions/api-post.js';
 const mapStateToProps = (state) => ({
   noLeaguesJoined: state.noLeaguesJoined,
   enteredLeagueName: state.enteredLeagueName,
-  enteredLeagueId: state.enteredLeagueId,
+  enteredJoinPhrase: state.enteredJoinPhrase,
   isSendingCreateLeague: state.fetchStatus.isSendingCreateLeague,
   isSendingJoinLeague: state.fetchStatus.isSendingJoinLeague,
   user: state.user
@@ -35,11 +35,11 @@ const mapDispatchToProps = (dispatch) => ({
       dispatch(createLeague(name));
     }
   },
-  sendJoinLeague: (leagueId) => {
-    if(leagueId === ''){
+  sendJoinLeague: (joinPhrase) => {
+    if(joinPhrase === ''){
       return;
     } else {
-      dispatch(joinLeague(leagueId));
+      dispatch(joinLeague(joinPhrase));
     }
   }
 });
