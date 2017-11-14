@@ -93,11 +93,17 @@ export const userFlowMiddleware = ({
       break;
 
     case 'CREATE_LEAGUE_SUCCESS':
+      if (state.noLeaguesJoined) {
+        browserHistory.push('/');
+      }
       dispatch(addUserData(action.payload));
       dispatch(actions.setActiveLeague(action.payload.leagues[action.payload.leagues.length - 1].id));
       break;
 
     case 'JOIN_LEAGUE_SUCCESS':
+      if (state.noLeaguesJoined) {
+        browserHistory.push('/');
+      }
       dispatch(addUserData(action.payload));
       break;
 

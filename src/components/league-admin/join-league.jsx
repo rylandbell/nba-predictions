@@ -15,18 +15,21 @@ const JoinLeague = React.createClass({
   },
   render: function() {
     return (
-      <div>
-        <h4 className="text-center">Join an existing league</h4>
-        <p>To join a league, enter the league's code below (league codes look like "59c13a68488f1c1cddfd34fe4"). If you don't have the code, ask somebody in the league.</p>
-        <br />
-        <form className="form-horizontal">
-          <div className="form-group">
-            <div className="col-xs-9">
-              <input type="text" className="form-control" id="leagueId" value={this.props.enteredLeagueId} maxLength="24" placeholder="Enter league code..." onChange={this.handleTextEntry} />
+      <div className="panel panel-default">
+        <div className="panel-body">
+          <h4 className="text-center">Join a Friend's League</h4>
+          <hr />
+          <p>To join a league, enter the league's code below (league codes look like "59c13a68488f1c1cddfd34fe4"). If you don't have the code, ask somebody in the league.</p>
+          <br />
+          <form className="form-horizontal">
+            <div className="form-group">
+              <div className="col-xs-9">
+                <input type="text" className="form-control" id="leagueId" value={this.props.enteredLeagueId} maxLength="24" placeholder="Enter league code..." onChange={this.handleTextEntry} />
+              </div>
+              <button type="submit" className="btn btn-primary" onClick={this.handleClick}>Join</button>
             </div>
-            <button type="submit" className="btn btn-primary" onClick={this.handleClick}>Join</button>
-          </div>
-        </form>
+          </form>
+        </div>
       </div>
 
     );
