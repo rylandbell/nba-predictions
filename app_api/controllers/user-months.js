@@ -19,9 +19,6 @@ const gameTimeInFuture = function(gameTime) {
   //create moment from local time, then translate to ETC moment:
   let nowMoment = moment().tz("America/New_York");
 
-  //summer mode:
-  nowMoment = moment("2017-04-11T06:00:00-07:00").tz("America/New_York");
-
   return gameMoment.isAfter(nowMoment);
 };
 
@@ -191,7 +188,6 @@ module.exports.userMonthReadAllPublic = function(req, res) {
     }
 
     userMonthArray.forEach(userMonth => hideFuturePredictions(userMonth));
-
     responseBody = userMonthArray;
 
     sendJsonResponse(res, 200, responseBody);
