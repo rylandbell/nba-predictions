@@ -33,7 +33,7 @@ const Navbar = ({reduxState}) => {
                       <span className="nav-strong">Standings</span>
                     </Link>
                   </li>
-                  <li className="hidden-xs">
+                  <li className="hidden-xs" id="leagues-nav">
                     <Link to={"/leagues"}>
                       <span className="nav-strong">Leagues</span>
                     </Link>

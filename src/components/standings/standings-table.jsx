@@ -15,7 +15,7 @@ const StandingsTable = React.createClass({
   },
   render: function() {
     return (
-      <div className="panel panel-default panel-black">
+      <div className="panel panel-default panel-black" id="standings">
         <div className="panel-heading">
           <div className="panel-title">{moment(this.props.activeMonth).format('MMMM YYYY')} Standings</div>
         </div>
