@@ -7,7 +7,7 @@ if (process.env.NODE_ENV === 'production') {
 
 //takes a day of dailyGamesData, and a single day of a single userMonth
 const determinePredictionOutcome = function (dailyGamesData, userDay, userMonthId) {
-  
+
   // did the user make a prediction for today?
   if (userDay.teamName) {
     const userTeam = userDay.teamName;

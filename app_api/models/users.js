@@ -52,8 +52,7 @@ userSchema.methods.generateJwt = function () {
     username: this.username,
     name: this.name,
     leagueIds: this.leagueIds,
-    role: this.role,
-    exp: parseInt(expiry.getTime() / 1000, 10),
+    role: this.role
   }, process.env.JWT_SECRET);
 };
 
