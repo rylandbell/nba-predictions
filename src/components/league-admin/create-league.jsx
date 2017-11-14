@@ -19,7 +19,7 @@ const CreateLeague = React.createClass({
         <div className="panel-body">
           <h4 className="text-center">Create a New League</h4>
           <hr />
-          <p>Choose a name for your new league, and hit submit. You'll automatically be added to the league, and will be given a code to invite others to join your league.</p>
+          <p>When you press Create, you'll be added to a new league and given a pass phrase to invite others to join.</p>
           <br />
           <form className="form-horizontal">
             <div className="form-group">

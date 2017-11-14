@@ -6,7 +6,8 @@ const jwt = require('jsonwebtoken');
 //stores reference to a league object, but is not itself the league object (see ./leagues for league schema)
 const leagueRefSchema = new mongoose.Schema({
   id: {type: String, required: true},
-  name: {type: String, required: true}
+  name: {type: String, required: true},
+  joinPhrase: {type: String, required: true}
 });
 
 const userSchema = new mongoose.Schema({

@@ -60,10 +60,11 @@ module.exports.leagueReadAllForUser = function(req, res) {
 
 /* POST create a new league */
 module.exports.leagueCreate = function(req, res) {
+  const randomPhrase = randomWords({ exactly: 2, join: " " });
   getUserData(req, res, function(req, res, user) {
     LeagueModel.create({
       name: req.body.name,
-      joinPhrase: randomWords({ exactly: 2, join: "-" })
+      joinPhrase: randomPhrase
     })
       .then(league => {
         //find the user object for current user
@@ -84,7 +85,7 @@ module.exports.leagueCreate = function(req, res) {
             }
 
             //add the new league ID to the user object
-            user.leagues.push({ id: league._id, name: league.name });
+            user.leagues.push({ id: league._id, name: league.name, joinPhrase: randomPhrase });
 
             //save
             user.save(function(err, user) {
