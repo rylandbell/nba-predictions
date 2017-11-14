@@ -2,7 +2,7 @@
 const mongoose = require("mongoose");
 const ObjectId = mongoose.Schema.Types.ObjectId;
 const _ = require("lodash");
-const randomWords = require("random-words");
+const Moniker = require("moniker");
 
 const UserModel = mongoose.model("User");
 const LeagueModel = mongoose.model("League");
@@ -60,7 +60,9 @@ module.exports.leagueReadAllForUser = function(req, res) {
 
 /* POST create a new league */
 module.exports.leagueCreate = function(req, res) {
-  const randomPhrase = randomWords({ exactly: 2, join: " " });
+  const randomPhrase = Moniker.generator([Moniker.adjective, Moniker.noun], {
+    glue: " "
+  }).choose();
   getUserData(req, res, function(req, res, user) {
     LeagueModel.create({
       name: req.body.name,
