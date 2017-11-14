@@ -11,27 +11,36 @@ function startIntro(){
   var intro = introJs();
   
   intro.setOptions({
+    // mention league just joined
+    // show link to leagues page
+    // show link to how to play
+    // show "Sign Up for November" panel
     steps: [
       { 
         intro: "Welcome to Pigeon Hoops!"
       },
       {
-        element: document.querySelector('#leagues-nav'),
-        intro: "Leagues.",
-        // position: 'top'
+        element: document.querySelector('.leagues-nav'),
+        intro: "Leagues."
       },
       {
-        element: document.querySelector('#standings'),
-        intro: "Standings",
-        // tooltipPosition: 'right'
+        element: document.querySelector('.instructions-nav'),
+        intro: "How to Play"
+      },
+      {
+        element: document.querySelector('.picks-summary'),
+        intro: "Picks"
       }
     ],
     showProgress: true,
     showStepNumbers: false,
-    hidePrev: true,
-    hideNext: true
+    nextLabel: " > ",
+    prevLabel: " < ",
+    skipLabel: "Skip Tour",
+    doneLabel: "Finish Tour",
+    exitOnOverlayClick: true
   });
-  
+
   intro.start();
 }
 

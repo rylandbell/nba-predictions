@@ -21,7 +21,7 @@ const PicksSummary = React.createClass({
       panelTitle = "Loading";
     }
     return (
-      <div className="panel panel-default panel-black">
+      <div className="panel panel-default panel-black picks-summary">
         <div className="panel-heading">
           <div className="panel-title">{panelTitle}</div>
         </div>

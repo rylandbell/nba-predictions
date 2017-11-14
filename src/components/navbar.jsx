@@ -33,7 +33,7 @@ const Navbar = ({reduxState}) => {
                       <span className="nav-strong">Standings</span>
                     </Link>
                   </li>
-                  <li className="hidden-xs" id="leagues-nav">
+                  <li className="hidden-xs leagues-nav">
                     <Link to={"/leagues"}>
                       <span className="nav-strong">Leagues</span>
                     </Link>
@@ -53,10 +53,10 @@ const Navbar = ({reduxState}) => {
               <li className="visible-xs">
                 <Link to="/chat">Chat</Link>
               </li>
-              <li className="visible-xs">
+              <li className="visible-xs leagues-nav">
                 <Link to="/leagues">Join/Create League</Link>
               </li>
-              <li>
+              <li className="instructions-nav">
                 <Link to="/how-to-play">How to Play </Link>
               </li>
               <li>

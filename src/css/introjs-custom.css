@@ -1,9 +1,13 @@
 .introjs-helperLayer {
-  background-color: rgba(255,255,255,0.3);
+  background-color: rgba(210, 210, 30, 0.4);
 }
 
 .introjs-tooltiptext {
   color: black;
+}
+
+.introjs-overlay {
+  opacity: 0.25 !important;
 }
 
 @media (min-width: 769px) {
