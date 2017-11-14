@@ -1,11 +1,12 @@
 "use strict";
 const mongoose = require("mongoose");
 const ObjectId = mongoose.Schema.Types.ObjectId;
-const _ = require('lodash');
+const _ = require("lodash");
+const randomWords = require("random-words");
 
 const UserModel = mongoose.model("User");
 const LeagueModel = mongoose.model("League");
-const MessageLogModel = mongoose.model('MessageLog');
+const MessageLogModel = mongoose.model("MessageLog");
 
 //helper function for composing responses as status codes (e.g. 404) with JSON files
 const sendJsonResponse = function(res, status, content) {
@@ -38,11 +39,11 @@ const getUserData = function(req, res, callback) {
 };
 
 /* GET a user's data, including a list of leagues */
-module.exports.leagueReadAllForUser = function (req, res) {
-  getUserData(req, res, function (req, res, user) {
+module.exports.leagueReadAllForUser = function(req, res) {
+  getUserData(req, res, function(req, res, user) {
     if (!user) {
       sendJsonResponse(res, 404, {
-        message: 'No user found'
+        message: "No user found"
       });
       return;
     }
@@ -60,16 +61,17 @@ module.exports.leagueReadAllForUser = function (req, res) {
 /* POST create a new league */
 module.exports.leagueCreate = function(req, res) {
   getUserData(req, res, function(req, res, user) {
-    LeagueModel.create({name: req.body.name})
+    LeagueModel.create({
+      name: req.body.name,
+      joinPhrase: randomWords({ exactly: 2, join: "-" })
+    })
       .then(league => {
-
         //find the user object for current user
         UserModel.findOne(
           {
             _id: user._id
           },
           function(err, user) {
-
             //check for basic errors
             if (!user) {
               sendJsonResponse(res, 404, {
@@ -82,7 +84,7 @@ module.exports.leagueCreate = function(req, res) {
             }
 
             //add the new league ID to the user object
-            user.leagues.push({id: league._id, name: league.name});
+            user.leagues.push({ id: league._id, name: league.name });
 
             //save
             user.save(function(err, user) {
@@ -94,19 +96,16 @@ module.exports.leagueCreate = function(req, res) {
             });
           }
         );
-        
+
         console.log(league._id);
         //create a message log for the new league:
-        MessageLogModel.create({leagueId: league._id})
-          .catch(console.log);
-
+        MessageLogModel.create({ leagueId: league._id }).catch(console.log);
       })
       .catch(err => {
         console.log("error in controller");
         sendJsonResponse(res, 400, err);
-    })
-  })
-
+      });
+  });
 };
 
 /* POST join a league by ID */
@@ -118,14 +117,12 @@ module.exports.leagueJoin = function(req, res) {
     return;
   }
   getUserData(req, res, function(req, res, user) {
-
     //find the user object for current user
     UserModel.findOne(
       {
         _id: user._id
       },
       function(err, user) {
-
         //check for basic errors
         if (!user) {
           sendJsonResponse(res, 404, {
@@ -138,7 +135,9 @@ module.exports.leagueJoin = function(req, res) {
         }
 
         //don't add multiple entries for same league:
-        const leagueIndex = _.findIndex(user.leagues, { 'id': req.params.leagueId})
+        const leagueIndex = _.findIndex(user.leagues, {
+          id: req.params.leagueId
+        });
         if (leagueIndex > -1) {
           sendJsonResponse(res, 400, {
             message: "User already belongs to this league."
@@ -156,32 +155,31 @@ module.exports.leagueJoin = function(req, res) {
           return;
         }
 
-        LeagueModel.findById(leagueId)
-          .exec(function(err, league){
-            if(err){
-              sendJsonResponse(res, 400, err);
-              return;
-            }
+        LeagueModel.findById(leagueId).exec(function(err, league) {
+          if (err) {
+            sendJsonResponse(res, 400, err);
+            return;
+          }
 
-            if(!league) {
-              sendJsonResponse(res, 400, {
-                message: "No league found for that ID."
-              });
-              return;
-            }
-
-            //add the new league ID
-            user.leagues.push({id: req.params.leagueId, name: league.name});
-
-            //save
-            user.save(function(err, user) {
-              if (err) {
-                sendJsonResponse(res, 400, err);
-              } else {
-                sendJsonResponse(res, 200, user);
-              }
+          if (!league) {
+            sendJsonResponse(res, 400, {
+              message: "No league found for that ID."
             });
+            return;
+          }
+
+          //add the new league ID
+          user.leagues.push({ id: req.params.leagueId, name: league.name });
+
+          //save
+          user.save(function(err, user) {
+            if (err) {
+              sendJsonResponse(res, 400, err);
+            } else {
+              sendJsonResponse(res, 200, user);
+            }
           });
+        });
       }
     );
   });
