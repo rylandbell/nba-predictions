@@ -6,7 +6,8 @@ const jwt = require('jsonwebtoken');
 //stores reference to a league object, but is not itself the league object (see ./leagues for league schema)
 const leagueRefSchema = new mongoose.Schema({
   id: {type: String, required: true},
-  name: {type: String, required: true}
+  name: {type: String, required: true},
+  joinPhrase: {type: String, required: true}
 });
 
 const userSchema = new mongoose.Schema({
@@ -25,7 +26,7 @@ const userSchema = new mongoose.Schema({
   },
   role: {
     type: String,
-    default: 'user',
+    default: 'admin',
     required: true
   },
   hash: String,
@@ -45,15 +46,14 @@ userSchema.methods.validPassword = function (password) {
 
 userSchema.methods.generateJwt = function () {
   const expiry = new Date();
-  expiry.setDate(expiry.getDate() + 7);
+  expiry.setDate(expiry.getDate() + 300);
 
   return jwt.sign({
     _id: this._id,
     username: this.username,
     name: this.name,
     leagueIds: this.leagueIds,
-    role: this.role,
-    exp: parseInt(expiry.getTime() / 1000, 10),
+    role: this.role
   }, process.env.JWT_SECRET);
 };
 

@@ -46,6 +46,7 @@
     "moment": "^2.15.0",
     "moment-timezone": "^0.5.7",
     "mongoose": "^4.6.0",
+    "moniker": "^0.1.2",
     "morgan": "~1.6.1",
     "nba": "^3.2.6",
     "nba-client-template": "^3.3.0",

@@ -16,7 +16,7 @@ const main = (date) => {
 
   console.log('scorekeeping function ran at ', moment().format('kk:mm:ss'));
   console.log('with date = ', targetDate);
-  
+
   const gameDataPromise = getNbaData(targetDate)
     .then(res => res.json())
     .then(data => saveGameData(targetDate, data))
@@ -33,8 +33,10 @@ const main = (date) => {
 };
 
 // Update scores for yesterday's games, and the day before for redundancy's sake
+const day0 = moment().format('YYYY-MM-DD');
 const day1 = moment().subtract(1, 'days').format('YYYY-MM-DD');
 const day2 = moment().subtract(2, 'days').format('YYYY-MM-DD');
 
+main(day0);
 main(day1);
 main(day2);

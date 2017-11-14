@@ -6,7 +6,7 @@ import moment from 'moment';
 import StandingsTableGame from './standings-table-game.jsx';
 
 const StandingsTableRow = ({player, activeMonth, currentMonth}) => {
-  const todayNumber = moment('2017-04-10').format('D');
+  const todayNumber = moment().format('D');
   return (
     activeMonth === currentMonth ?
       <tr>

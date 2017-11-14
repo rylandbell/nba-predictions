@@ -6,7 +6,7 @@ const MyLeaguesTableRow = ({league}) => {
   return (
     <tr>
       <td>{league.name}</td>
-      <td>{league.id}</td>
+      <td>{league.joinPhrase}</td>
     </tr>
   );
 };
