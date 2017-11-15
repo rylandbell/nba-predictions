@@ -52,13 +52,13 @@ const Navbar = ({reduxState}) => {
                 <Link to="/chat">Chat</Link>
               </li>
               <li className="dropdown">
-                <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Account <span className="caret"></span></a>
+                <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{reduxState.user.displayName} <span className="caret"></span></a>
                 <ul className="dropdown-menu">
                   <li>
                     <Link to="/how-to-play">How to Play </Link>
                   </li>
                   <li>
-                    <Link to="/leagues">My Leagues</Link>
+                    <Link to="/leagues">Leagues</Link>
                   </li>
                   <li>
                     <a href="https://goo.gl/forms/iWjt8lWwQ815G77Y2" target="_blank">Feedback</a>
