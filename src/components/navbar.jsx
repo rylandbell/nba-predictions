@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Link from 'react-router/lib/Link';
+import LeagueMonthPickerContainer from './containers/league-month-picker-container.jsx';
 
 const Navbar = ({reduxState}) => {
 
@@ -40,7 +41,7 @@ const Navbar = ({reduxState}) => {
           </div>
           <div id="navbar-collapse-1" className="collapse navbar-collapse">
             <ul className="nav navbar-nav navbar-right">
-              
+              <LeagueMonthPickerContainer />
               <li className="visible-xs">
                 <Link to={"/picks"}>My Picks </Link>
               </li>

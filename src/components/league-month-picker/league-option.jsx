@@ -6,7 +6,7 @@ const LeagueOption = React.createClass({
   render: function() {
     return (
       <option value={this.props.league.id}>
-        {this.props.league.name}
+        &nbsp;{this.props.league.name}&nbsp;
       </option>
     )
   }

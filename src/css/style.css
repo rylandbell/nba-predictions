@@ -9,7 +9,6 @@
 @import './status-message.css';
 @import './standings.css';
 @import './login-page.css';
-@import './league-month-picker.css';
 
 /*tweaking the Bootstrap theme:*/
 
@@ -64,7 +63,7 @@ body {
 }
 
 .body-container {
-  padding-top: 80px;
+  padding-top: 90px;
   padding-bottom: 120px;   /* Height of the footer */
 }
 
