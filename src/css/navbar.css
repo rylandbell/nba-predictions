@@ -21,7 +21,7 @@
 }
 
 .navbar select {
-  margin-right: 15px;
+  margin-right: 20px;
 }
 
 @media (min-width: 769px) {
@@ -36,6 +36,10 @@
 }
 
 @media (max-width: 768px) {
+  .navbar-fixed-top .navbar-collapse {
+    max-height: 540px;
+  }
+  
   .league-month-picker {
     margin: 0;
     border-top: 0;
@@ -47,5 +51,21 @@
 
   .navbar-collapse {
     border-top: 0;
+  }
+
+  .divider {
+    height: 1px;
+    margin: 9px 0;
+    overflow: hidden;
+    background-color: #282828;
+  }
+
+  .navbar-nav>li>a {
+    padding-top: 7px;
+    padding-bottom: 5px;
+  }
+
+  .sign-out {
+    padding-bottom: 14px;
   }
 }
