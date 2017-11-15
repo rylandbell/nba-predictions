@@ -33,17 +33,14 @@ const Navbar = ({reduxState}) => {
                       <span className="nav-strong">Standings</span>
                     </Link>
                   </li>
-                  <li className="hidden-xs">
-                    <Link to={"/leagues"}>
-                      <span className="nav-strong">Leagues</span>
-                    </Link>
-                  </li>
+                  
                 </ul>
               </div>
             }
           </div>
           <div id="navbar-collapse-1" className="collapse navbar-collapse">
             <ul className="nav navbar-nav navbar-right">
+              
               <li className="visible-xs">
                 <Link to={"/picks"}>My Picks </Link>
               </li>
@@ -53,18 +50,25 @@ const Navbar = ({reduxState}) => {
               <li className="visible-xs">
                 <Link to="/chat">Chat</Link>
               </li>
-              <li className="visible-xs">
-                <Link to="/leagues">Join/Create League</Link>
+              <li className="dropdown">
+                <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Account <span className="caret"></span></a>
+                <ul className="dropdown-menu">
+                  <li>
+                    <Link to="/how-to-play">How to Play </Link>
+                  </li>
+                  <li>
+                    <Link to="/leagues">My Leagues</Link>
+                  </li>
+                  <li>
+                    <a href="https://goo.gl/forms/iWjt8lWwQ815G77Y2" target="_blank">Feedback</a>
+                  </li>
+                  <li role="separator" className="divider"></li>
+                  <li>
+                    <a href="/login">Sign Out</a>
+                  </li>
+                </ul>
               </li>
-              <li>
-                <Link to="/how-to-play">How to Play </Link>
-              </li>
-              <li>
-                <a href="https://goo.gl/forms/iWjt8lWwQ815G77Y2" target="_blank">Feedback</a>
-              </li>
-              <li>
-                <a href="/login">Sign Out</a>
-              </li>
+              
             </ul>
           </div>
         </div>

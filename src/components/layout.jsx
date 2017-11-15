@@ -15,9 +15,7 @@ const LayoutComponent = React.createClass({
       <div>
         <Navbar reduxState={this.props.reduxState} />
         <div className="main">
-          <div className="league-month-picker__wrapper">
-            <LeagueMonthPickerContainer />
-          </div>
+          
           <div className="container container-body">
             <div className="row">
               <div className="col-xs-12">

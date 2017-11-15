@@ -16,8 +16,6 @@
 @media (min-width: 769px) {
   body {
     background: url('../images/black_mamba.png');
-    /*background-size: cover;*/
-    /*background-attachment: fixed;*/
   }
 }
 
@@ -66,7 +64,7 @@ body {
 }
 
 .body-container {
-  padding-top: 60px;
+  padding-top: 80px;
   padding-bottom: 120px;   /* Height of the footer */
 }
 
