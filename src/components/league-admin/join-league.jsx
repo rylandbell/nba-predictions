@@ -19,7 +19,7 @@ const JoinLeague = React.createClass({
         <div className="panel-body">
           <h4 className="text-center">Join a Friend's League</h4>
           <hr />
-          <p>To join a league, enter the league's pass phrase below. If you don't know the phrase, ask somebody in the league.</p>
+          <p>To join a league, enter the league's pass phrase below. (A pass phrase is a randomly generated pair of words, like "frightening sneeze".) If you don't know the phrase, ask somebody in the league.</p>
           <br />
           <form className="form-horizontal">
             <div className="form-group">

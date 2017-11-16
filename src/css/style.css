@@ -9,7 +9,6 @@
 @import './status-message.css';
 @import './standings.css';
 @import './login-page.css';
-@import './league-month-picker.css';
 @import './introjs-custom.css';
 
 /*tweaking the Bootstrap theme:*/
@@ -17,8 +16,6 @@
 @media (min-width: 769px) {
   body {
     background: url('../images/black_mamba.png');
-    /*background-size: cover;*/
-    /*background-attachment: fixed;*/
   }
 }
 
@@ -67,13 +64,13 @@ body {
 }
 
 .body-container {
-  padding-top: 60px;
+  padding-top: 90px;
   padding-bottom: 120px;   /* Height of the footer */
 }
 
 @media (max-width: 768px) {
   .body-container {
-    padding-top: 80px;
+    padding-top: 60px;
     padding-bottom: 85px;
   }
 }

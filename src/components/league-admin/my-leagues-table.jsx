@@ -9,7 +9,7 @@ const MyLeaguesTable = ({user}) => {
       <div className="panel-body">
         <h4 className="text-center">My Leagues</h4>
         <hr />
-        <p>You have successfully joined the leagues listed below. To invite a friend to join a league, send them the randomly generated pass phrase below.</p>
+        <p>You have successfully joined the following leagues. To invite a friend to join a league, send them the pass phrase shown below.</p>
         <br />
         <table className="table table-bordered">
           <thead>

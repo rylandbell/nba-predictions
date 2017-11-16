@@ -1,9 +1,6 @@
-.navbar {
-  padding-top: 5px;
-  padding-bottom: 5px;
-}
 
-#navbar-collapse-1 form {
+
+#login-form #navbar-collapse-1 form {
   width: 100%;
 }
 
@@ -15,4 +12,60 @@
   font-family: 'Life Savers', serif;
   font-weight: bold;
   font-size: 20px;
+}
+
+.navbar label {
+  margin-bottom: 0;
+  margin-right: 8px;
+  font-weight: normal;
+}
+
+.navbar select {
+  margin-right: 20px;
+}
+
+@media (min-width: 769px) {
+  .navbar {
+    padding-top: 8px;
+    padding-bottom: 8px;
+  }
+
+  .league-month-picker__select.form-control {
+    padding: 30px !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar-fixed-top .navbar-collapse {
+    max-height: 540px;
+  }
+  
+  .league-month-picker {
+    margin: 0;
+    border-top: 0;
+  }
+
+  .navbar-nav {
+    margin: 0;
+  }
+
+  .navbar-collapse {
+    border-top: 0;
+  }
+
+  .divider {
+    height: 1px;
+    margin: 9px 0;
+    overflow: hidden;
+    background-color: #282828;
+  }
+
+  .navbar-nav>li>a {
+    padding-top: 7px;
+    padding-bottom: 5px;
+  }
+
+  .sign-out {
+    padding-bottom: 14px;
+  }
 }

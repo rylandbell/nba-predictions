@@ -15,28 +15,24 @@ const LeagueMonthPicker = React.createClass({
         panelContent = null;
       } else {
         panelContent = (
-          <div className="container">
-            <div className="row">
-              <div className="col-xs-12">
-                <div className="league-month-picker">
-                  <form role="form" className="form-inline">
-                    <LeagueSelect
-                      user={this.props.user}
-                      activeLeagueId={this.props.activeLeagueId}
-                      activeMonth={this.props.activeMonth}
-                      setActiveLeague={this.props.setActiveLeague}
-                    />
-                    <MonthSelect
-                      activeMonth={this.props.activeMonth}
-                      currentMonth={this.props.currentMonth}
-                      activeLeagueId={this.props.activeLeagueId}
-                      setActiveMonth={this.props.setActiveMonth}
-                    />
-                  </form>
-                </div>
-              </div>
+          <form className="navbar-form navbar-left league-month-picker">
+            <div className="form-group">
+              <LeagueSelect
+                user={this.props.user}
+                activeLeagueId={this.props.activeLeagueId}
+                activeMonth={this.props.activeMonth}
+                setActiveLeague={this.props.setActiveLeague}
+              />
             </div>
-          </div>
+            <div className="form-group">
+              <MonthSelect
+                activeMonth={this.props.activeMonth}
+                currentMonth={this.props.currentMonth}
+                activeLeagueId={this.props.activeLeagueId}
+                setActiveMonth={this.props.setActiveMonth}
+              />
+            </div>
+          </form>            
         );
       }
     } else {

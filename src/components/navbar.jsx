@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Link from 'react-router/lib/Link';
+import LeagueMonthPickerContainer from './containers/league-month-picker-container.jsx';
 
 const Navbar = ({reduxState}) => {
 
@@ -33,17 +34,13 @@ const Navbar = ({reduxState}) => {
                       <span className="nav-strong">Standings</span>
                     </Link>
                   </li>
-                  <li className="hidden-xs leagues-nav">
-                    <Link to={"/leagues"}>
-                      <span className="nav-strong">Leagues</span>
-                    </Link>
-                  </li>
                 </ul>
               </div>
             }
           </div>
           <div id="navbar-collapse-1" className="collapse navbar-collapse">
             <ul className="nav navbar-nav navbar-right">
+              
               <li className="visible-xs">
                 <Link to={"/picks"}>My Picks </Link>
               </li>
@@ -53,18 +50,42 @@ const Navbar = ({reduxState}) => {
               <li className="visible-xs">
                 <Link to="/chat">Chat</Link>
               </li>
-              <li className="visible-xs leagues-nav">
-                <Link to="/leagues">Join/Create League</Link>
-              </li>
-              <li className="instructions-nav">
+
+              <LeagueMonthPickerContainer />
+              
+              <li className="visible-xs">
                 <Link to="/how-to-play">How to Play </Link>
               </li>
-              <li>
+              <li className="visible-xs">
+                <Link to="/leagues">Leagues</Link>
+              </li>
+              <li className="visible-xs">
                 <a href="https://goo.gl/forms/iWjt8lWwQ815G77Y2" target="_blank">Feedback</a>
               </li>
-              <li>
+              <li role="separator" className="divider"></li>
+              <li className="visible-xs sign-out">
                 <a href="/login">Sign Out</a>
               </li>
+
+              <li className="dropdown hidden-xs">
+                <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> More <span className="caret"></span></a>
+                <ul className="dropdown-menu">
+                  <li>
+                    <Link to="/how-to-play">How to Play </Link>
+                  </li>
+                  <li>
+                    <Link to="/leagues">Leagues</Link>
+                  </li>
+                  <li>
+                    <a href="https://goo.gl/forms/iWjt8lWwQ815G77Y2" target="_blank">Feedback</a>
+                  </li>
+                  <li role="separator" className="divider"></li>
+                  <li>
+                    <a href="/login">Sign Out</a>
+                  </li>
+                </ul>
+              </li>
+              
             </ul>
           </div>
         </div>

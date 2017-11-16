@@ -17,16 +17,19 @@ const main = (date) => {
   console.log('scorekeeping function ran at ', moment().format('kk:mm:ss'));
   console.log('with date = ', targetDate);
 
+  // Fetch NBA data, then save it to DB
   const gameDataPromise = getNbaData(targetDate)
     .then(res => res.json())
     .then(data => saveGameData(targetDate, data))
     .then(res => res.json())
     .catch(console.log);
 
+  // Fetch relevant userMonths to score predictions
   const userMonthPromise = getUserMonths(targetDate)
     .then(res => res.json())
     .catch(console.log);
 
+  // Score fetched userMonths using fetched game-result data
   Promise.all([gameDataPromise, userMonthPromise])
     .then(responseArray => scoreUserMonths(targetDate, ...responseArray))
     .catch(console.log);
@@ -37,6 +40,6 @@ const day0 = moment().format('YYYY-MM-DD');
 const day1 = moment().subtract(1, 'days').format('YYYY-MM-DD');
 const day2 = moment().subtract(2, 'days').format('YYYY-MM-DD');
 
-main(day0);
-main(day1);
 main(day2);
+setTimeout(() => {main(day1)}, 5000);
+setTimeout(() => {main(day0)}, 10000);

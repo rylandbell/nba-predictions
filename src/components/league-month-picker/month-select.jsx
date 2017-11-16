@@ -10,13 +10,13 @@ const MonthSelect = React.createClass({
   render: function() {
     return (
       <div className="form-group">
-        <label htmlFor="month-select" className="league-month-picker__label">Select a month:&nbsp;</label>
+        <label htmlFor="month-select" className="league-month-picker__label hidden-sm">Active month:&nbsp;</label>
         <select id="month-select" className="form-control league-month-picker__select" onChange={this.handleChange} value={this.props.activeMonth}>
           <option value={this.props.currentMonth}>
-            {moment(this.props.currentMonth).format('MMMM YYYY')}
+            &nbsp;{moment(this.props.currentMonth).format('MMM YYYY')}&nbsp;
           </option>
           <option value={moment(this.props.currentMonth).add(1,'months').format('YYYY-MM')}>
-            {moment(this.props.currentMonth).add(1,'months').format('MMMM YYYY')}
+            &nbsp;{moment(this.props.currentMonth).add(1,'months').format('MMM YYYY')}&nbsp;
           </option>
         </select>
       </div>
