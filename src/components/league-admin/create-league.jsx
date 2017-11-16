@@ -19,7 +19,7 @@ const CreateLeague = React.createClass({
         <div className="panel-body">
           <h4 className="text-center">Create a New League</h4>
           <hr />
-          <p>When you press Create, you'll be added to a new league and given a pass phrase to invite others to join.</p>
+          <p>When you press Create, you'll be added to a new league and given a randomly generated pass phrase you can send to others to invite them to join.</p>
           <br />
           <form className="form-horizontal">
             <div className="form-group">
