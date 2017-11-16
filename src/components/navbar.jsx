@@ -68,7 +68,7 @@ const Navbar = ({reduxState}) => {
               </li>
 
               <li className="dropdown hidden-xs">
-                <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> More <span className="caret"></span></a>
+                <a href="#" className="dropdown-toggle more-dropdown" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> More <span className="caret"></span></a>
                 <ul className="dropdown-menu">
                   <li>
                     <Link to="/how-to-play">How to Play </Link>

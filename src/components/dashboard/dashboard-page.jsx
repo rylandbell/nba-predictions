@@ -20,16 +20,16 @@ function startIntro(){
         intro: "Welcome to Pigeon Hoops!"
       },
       {
-        element: document.querySelector('.leagues-nav'),
-        intro: "Leagues."
-      },
-      {
-        element: document.querySelector('.instructions-nav'),
-        intro: "How to Play"
+        element: document.querySelector('.more-dropdown'),
+        intro: "In the \"More\" menu, you'll find links to league management and game rules."
       },
       {
         element: document.querySelector('.picks-summary'),
         intro: "Picks"
+      },
+      {
+        element: document.querySelector('.navbar-brand'),
+        intro: "Click the Pigeon Hoops logo to return to this page."
       }
     ],
     showProgress: true,
