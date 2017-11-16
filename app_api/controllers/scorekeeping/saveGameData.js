@@ -2,7 +2,7 @@
 const fetch = require('isomorphic-fetch');
 
 //transform MySportsFeeds data into format expected by my db:
-const translateSingleGame = (rawData, index) => {
+const translateSingleGame = (rawData) => {
 
   const gameSummary = {
     gameId: rawData.game.ID,
@@ -31,9 +31,12 @@ const translateSingleGame = (rawData, index) => {
 
   // mark winner and loser only if game is completed:
   if (rawData.isCompleted) {
-    const homeTeamWon = rawData.homeScore > rawData.awayScore;
-    const homeTeam = rawData.game.homeTeam.Abbreviation;
-    const roadTeam = rawData.game.awayTeam.Abbreviation;
+    const homeScore = parseInt(rawData.homeScore,10);
+    const roadScore = parseInt(rawData.awayScore,10);
+    const homeTeam = gameSummary.homeTeam;
+    const roadTeam = gameSummary.roadTeam;
+
+    const homeTeamWon = homeScore > roadScore;
 
     gameSummary.winner = homeTeamWon ? homeTeam : roadTeam;
     gameSummary.loser = homeTeamWon ? roadTeam : homeTeam;
