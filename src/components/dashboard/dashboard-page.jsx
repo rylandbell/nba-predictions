@@ -12,7 +12,8 @@ const DashboardPage = React.createClass({
     document.title = document.title.split(' | ')[0] + ' | Dashboard';
     setTimeout(function () {
       runDashboardIntro();
-    }, 500)
+    }, 500);
+    console.log(this.props);
   },
   render: function() {
     return (

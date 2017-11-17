@@ -188,6 +188,17 @@ const monthList = (state=[], action) => {
   }
 };
 
+const showingTours = (state = false, action) => {
+  switch(action.type) {
+    case 'ENABLE_TOURS':
+      return true;
+    case 'DISABLE_TOURS':
+      return false;
+    default:
+      return state;
+  }
+}
+
 const api = {
   app: Redux.combineReducers({
     fetchStatus,
@@ -205,7 +216,8 @@ const api = {
     activeDate,
     currentMonth,
     currentDate,
-    gamesByDay
+    gamesByDay,
+    showingTours
   })
 };
 
