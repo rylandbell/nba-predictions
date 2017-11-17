@@ -50,7 +50,6 @@ const Navbar = ({reduxState}) => {
               <li className="visible-xs">
                 <Link to="/chat">Chat</Link>
               </li>
-
               <LeagueMonthPickerContainer />
               
               <li className="visible-xs">

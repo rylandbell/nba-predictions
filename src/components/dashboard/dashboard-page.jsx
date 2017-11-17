@@ -11,26 +11,27 @@ function startIntro(){
   var intro = introJs();
   
   intro.setOptions({
-    // mention league just joined
-    // show link to leagues page
-    // show link to how to play
-    // show "Sign Up for November" panel
     steps: [
       { 
-        intro: "Welcome to Pigeon Hoops!"
-      },
-      {
-        element: document.querySelector('.more-dropdown'),
-        intro: "In the \"More\" menu, you'll find links to league management and game rules."
-      },
-      {
-        element: document.querySelector('.picks-summary'),
-        intro: "Picks"
+        intro: "You're just about ready to start playing, but let's start with a quick tour."
       },
       {
         element: document.querySelector('.navbar-brand'),
-        intro: "Click the Pigeon Hoops logo to return to this page."
+        intro: "Wherever you are on the site, you can always click the Pigeon Hoops logo to return to this page."
+      },
+      {
+        element: document.querySelector('.more-dropdown'),
+        intro: "The \"More\" menu contains links to two important pages. The Leagues page lets you look up the pass phrase you can use to invite others to join your league, create a new league, or join a friend's league. And the How-to-Play page explains the rules of the game, including some fine print."
+      },
+      {
+        element: document.querySelector('.league-month-picker'),
+        intro: "Here you can change the league and month for which you\'re making picks and viewing results."
+      },
+      {
+        element: document.querySelector('.picks-summary'),
+        intro: "Let's get started by making some actual picks. Click the Sign Up button to join the selected month's competition."
       }
+      
     ],
     showProgress: true,
     showStepNumbers: false,
