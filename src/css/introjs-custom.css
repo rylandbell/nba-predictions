@@ -7,7 +7,7 @@
 }
 
 .introjs-overlay {
-  opacity: 0.25 !important;
+  opacity: 0.4 !important;
 }
 
 @media (min-width: 769px) {

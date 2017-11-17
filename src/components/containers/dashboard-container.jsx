@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import Dashboard from '../dashboard/dashboard-page.jsx';
 
 const mapStateToProps = state => ({
-  showingTours: state.showingTours
+  showDashboardTour: state.showDashboardTour
 });
 
 const mapDispatchToProps = () => ({

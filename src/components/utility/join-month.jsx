@@ -7,7 +7,7 @@ const JoinMonth = React.createClass({
   handleClick: function () {
 
     // Join button should also serve to exit dashboard page's intro:
-    if (this.props.showingTours) {
+    if (this.props.showDashboardTour) {
       window.dashboardIntro.exit(true);
     }
     

@@ -188,11 +188,22 @@ const monthList = (state=[], action) => {
   }
 };
 
-const showingTours = (state = false, action) => {
+const showDashboardTour = (state = false, action) => {
   switch(action.type) {
-    case 'ENABLE_TOURS':
+    case 'ENABLE_DASHBOARD_TOUR':
       return true;
-    case 'DISABLE_TOURS':
+    case 'DISABLE_DASHBOARD_TOUR':
+      return false;
+    default:
+      return state;
+  }
+}
+
+const showPicksTour = (state = false, action) => {
+  switch(action.type) {
+    case 'ENABLE_PICKS_TOUR':
+      return true;
+    case 'DISABLE_PICKS_TOUR':
       return false;
     default:
       return state;
@@ -217,7 +228,8 @@ const api = {
     currentMonth,
     currentDate,
     gamesByDay,
-    showingTours
+    showDashboardTour,
+    showPicksTour
   })
 };
 

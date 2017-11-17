@@ -1,6 +1,7 @@
 import {introJs} from 'intro.js';
+import actions from './actions/action-creators.js';
 
-export function runDashboardIntro(){
+export function runDashboardIntro(dispatch){
   window.dashboardIntro = introJs();
   
   window.dashboardIntro.setOptions({
@@ -34,10 +35,14 @@ export function runDashboardIntro(){
     exitOnOverlayClick: true
   });
 
+  window.dashboardIntro.onexit(() => {
+    dispatch(actions.disableDashboardTour());
+  });
+
   window.dashboardIntro.start();
 }
 
-export function runMonthlyPicksIntro(){
+export function runPicksIntro(){
   const intro = introJs();
   
   intro.setOptions({

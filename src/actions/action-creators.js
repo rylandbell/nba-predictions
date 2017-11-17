@@ -86,14 +86,24 @@ const api = {
     }    
   ),
   // Intro.js Tours
-  enableTours: () => (
+  enableDashboardTour: () => (
     {
-      type: 'ENABLE_TOURS'
+      type: 'ENABLE_DASHBOARD_TOUR'
     }
   ),
-  disableTours: () => (
+  disableDashboardTour: () => (
     {
-      type: 'DISABLE_TOURS'
+      type: 'DISABLE_DASHBOARD_TOUR'
+    }
+  ),
+  enablePicksTour: () => (
+    {
+      type: 'ENABLE_PICKS_TOUR'
+    }
+  ),
+  disablePicksTour: () => (
+    {
+      type: 'DISABLE_PICKS_TOUR'
     }
   )
 };

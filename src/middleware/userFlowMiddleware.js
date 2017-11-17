@@ -10,7 +10,7 @@ export const userFlowMiddleware = ({
   getState
 }) => next => action => {
   const state = getState();
-  let newActiveDate;
+  let newActiveDate, oneLeague, noUserMonths;
 
   const showAlert = (errorDescription) => {
     Alert.warning(`Error: ${errorDescription} ${action.payload.message}`,
@@ -70,16 +70,17 @@ export const userFlowMiddleware = ({
 
     //if a user has signed up for their first league, but doesn't have a userMonth yet, enable tours
     case 'REQUEST_USER_MONTH_DATA_FAILURE':
-      const oneLeague = getState().user.leagues.length === 1;
-      const noUserMonths = action.payload && action.payload.message === "No userMonth found";
+      oneLeague = getState().user.leagues.length === 1;
+      noUserMonths = action.payload && action.payload.message === "No userMonth found";
       if (oneLeague && noUserMonths) {
-        dispatch(actions.enableTours());
+        dispatch(actions.enableDashboardTour());
+        dispatch(actions.enablePicksTour());
       }
       break;
 
-    case 'ENABLE_TOURS':
+    case 'ENABLE_DASHBOARD_TOUR':
       setTimeout(function () {
-        runDashboardIntro();
+        runDashboardIntro(dispatch);
       }, 500);
       break;
 
