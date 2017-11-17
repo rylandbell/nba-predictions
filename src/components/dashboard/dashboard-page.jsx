@@ -5,15 +5,10 @@ import React from 'react';
 import StandingsContainer from '../containers/standings-container.jsx';
 import PicksSummaryContainer from '../containers/picks-summary-container.jsx';
 import ChatContainer from '../containers/chat-container.jsx';
-import {runDashboardIntro} from '../../intro-tours.js';
 
 const DashboardPage = React.createClass({
   componentDidMount: function() {
     document.title = document.title.split(' | ')[0] + ' | Dashboard';
-    setTimeout(function () {
-      runDashboardIntro();
-    }, 500);
-    console.log(this.props);
   },
   render: function() {
     return (

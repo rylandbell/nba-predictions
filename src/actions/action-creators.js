@@ -84,6 +84,17 @@ const api = {
       type: 'CHAT_TEXT_ENTRY',
       enteredChatText: text
     }    
+  ),
+  // Intro.js Tours
+  enableTours: () => (
+    {
+      type: 'ENABLE_TOURS'
+    }
+  ),
+  disableTours: () => (
+    {
+      type: 'DISABLE_TOURS'
+    }
   )
 };
 

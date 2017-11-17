@@ -3,6 +3,7 @@ import {browserHistory} from 'react-router';
 
 import {addUserData, addStandingsData, addUserMonthData, addGameData, addMessageLog, requestStandingsData, requestUserMonthData, requestMessageLog, requestGameData} from '../actions/api-get.js';
 import actions from '../actions/action-creators.js';
+import {runDashboardIntro} from '../intro-tours.js';
 
 export const userFlowMiddleware = ({
   dispatch,
@@ -67,6 +68,21 @@ export const userFlowMiddleware = ({
       }
       break;
 
+    //if a user has signed up for their first league, but doesn't have a userMonth yet, enable tours
+    case 'REQUEST_USER_MONTH_DATA_FAILURE':
+      const oneLeague = getState().user.leagues.length === 1;
+      const noUserMonths = action.payload && action.payload.message === "No userMonth found";
+      if (oneLeague && noUserMonths) {
+        dispatch(actions.enableTours());
+      }
+      break;
+
+    case 'ENABLE_TOURS':
+      setTimeout(function () {
+        runDashboardIntro();
+      }, 500);
+      break;
+
     //Handle content received after successful API calls:
     case 'REQUEST_USER_DATA_SUCCESS':
       dispatch(addUserData(action.payload));
@@ -75,6 +91,7 @@ export const userFlowMiddleware = ({
     case 'REQUEST_STANDINGS_DATA_SUCCESS':
       dispatch(addStandingsData(action.payload));
       break;
+
 
     case 'REQUEST_USER_MONTH_DATA_SUCCESS':
       dispatch(addUserMonthData(action.payload.userMonth));

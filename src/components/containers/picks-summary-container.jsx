@@ -13,7 +13,8 @@ const mapStateToProps = state => ({
   activeMonth: state.activeMonth,
   activeLeagueId: state.activeLeagueId,
   currentMonth: state.currentMonth,
-  currentDate: state.currentDate
+  currentDate: state.currentDate,
+  showingTours: state.showingTours
 });
 
 const mapDispatchToProps = dispatch => ({

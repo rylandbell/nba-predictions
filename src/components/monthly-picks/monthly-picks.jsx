@@ -11,9 +11,12 @@ import {runMonthlyPicksIntro} from '../../intro-tours.js';
 const MonthlyPicksPage = React.createClass({
   componentDidMount: function() {
     document.title = document.title.split(' | ')[0] + ' | My Picks';
-    setTimeout(function () {
-      runMonthlyPicksIntro();
-    }, 500)
+
+    if (this.props.reduxState.showingTours) {
+      setTimeout(function () {
+        runMonthlyPicksIntro();
+      }, 500);
+    }
   },
   render: function() {
     const isLoading = this.props.reduxState.fetchStatus.isFetchingUserMonthData || this.props.reduxState.fetchStatus.isFetchingGameData || this.props.reduxState.fetchStatus.isFetchingUserData;

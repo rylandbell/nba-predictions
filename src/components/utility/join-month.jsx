@@ -6,8 +6,10 @@ import moment from 'moment';
 const JoinMonth = React.createClass({
   handleClick: function () {
 
-    // Join button should also serve to exit dashboar page's intro:
-    window.dashboardIntro.exit(true);
+    // Join button should also serve to exit dashboard page's intro:
+    if (this.props.showingTours) {
+      window.dashboardIntro.exit(true);
+    }
     
     this.props.createNewUserMonth(this.props.activeMonth, this.props.activeLeagueId);
   },
