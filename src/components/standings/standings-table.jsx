@@ -40,7 +40,11 @@ const StandingsTable = React.createClass({
                   </tbody>
                 </table>
               </div>
+              <p className="small text-center"> 
+                Game results are posted daily at midnight Pacific time.
+              </p>
             </div>
+
           }
         </div>
       </div>

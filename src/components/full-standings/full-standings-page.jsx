@@ -15,6 +15,9 @@ const FullStandingsPage = React.createClass({
           <div className="panel-title">{moment(this.props.activeMonth).format('MMMM YYYY')} - Full Results</div>
         </div>
         <div className="panel-body">
+          <p className="small text-center"> 
+            Game results are posted daily at midnight Pacific time.
+          </p>
           {this.props.isFetchingStandingsData ? 
             <StatusMessage messageBold={'Loading standings data...'} messageBody={'Just hang tight.'} messageClass={'info'}/>
           :
