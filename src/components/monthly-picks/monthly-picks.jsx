@@ -6,10 +6,14 @@ import MonthlyPicksSidebarContainer from '../containers/monthly-picks-sidebar-co
 import DailyPicksContainer from '../containers/daily-picks-container.jsx';
 import StatusMessage from '../status-message.jsx';
 import JoinMonth from '../utility/join-month.jsx';
+import {runMonthlyPicksIntro} from '../../intro-tours.js';
 
 const MonthlyPicksPage = React.createClass({
   componentDidMount: function() {
     document.title = document.title.split(' | ')[0] + ' | My Picks';
+    setTimeout(function () {
+      runMonthlyPicksIntro();
+    }, 500)
   },
   render: function() {
     const isLoading = this.props.reduxState.fetchStatus.isFetchingUserMonthData || this.props.reduxState.fetchStatus.isFetchingGameData || this.props.reduxState.fetchStatus.isFetchingUserData;

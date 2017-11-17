@@ -12,11 +12,11 @@
 
 @media (min-width: 769px) {
   .introjs-tooltiptext {
-    font-size: 18px;
+    /*font-size: 18px;*/
   }
 
-  .introjs-tooltip {
+  /*.introjs-tooltip {
     width: 600px;
     max-width: 600px;
-  }
+  }*/
 }
