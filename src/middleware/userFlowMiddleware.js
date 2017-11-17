@@ -79,9 +79,7 @@ export const userFlowMiddleware = ({
       break;
 
     case 'ENABLE_DASHBOARD_TOUR':
-      setTimeout(function () {
-        runDashboardIntro(dispatch);
-      }, 500);
+      runDashboardIntro(dispatch);
       break;
 
     //Handle content received after successful API calls:
