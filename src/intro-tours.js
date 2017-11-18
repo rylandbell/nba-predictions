@@ -1,7 +1,7 @@
 import {introJs} from 'intro.js';
 import actions from './actions/action-creators.js';
 
-export function runDashboardIntro(dispatch){
+export function runDashboardIntro(dispatch, joinPhrase){
 
   // test window size at moment intro initialized:
   const xsWindow = window.innerWidth < 768;
@@ -9,7 +9,7 @@ export function runDashboardIntro(dispatch){
   // tour steps for XS windows:
   const xsSteps = [
     { 
-      intro: "You're almost ready to start playing, but let's start with a quick tour."
+      intro: `Success! You can invite other players to join this league by sharing the randomly generated pass phrase "${joinPhrase}". You're almost ready to start playing, but let's start with a quick tour.`
     },
     {
       element: document.querySelector('.navbar-brand'),
@@ -28,7 +28,7 @@ export function runDashboardIntro(dispatch){
   // tour steps for SM-LG windows:
   const regSteps = [
     { 
-      intro: "You're almost ready to start playing, but let's start with a quick tour."
+      intro: `Success! You can invite other players to join this league by sharing the randomly generated pass phrase "${joinPhrase}". You're almost ready to start playing, but let's start with a quick tour.`
     },
     {
       element: document.querySelector('.navbar-brand'),

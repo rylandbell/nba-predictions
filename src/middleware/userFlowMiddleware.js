@@ -79,7 +79,7 @@ export const userFlowMiddleware = ({
       break;
 
     case 'ENABLE_DASHBOARD_TOUR':
-      runDashboardIntro(dispatch);
+      runDashboardIntro(dispatch, getState().user.leagues[0].joinPhrase);
       break;
 
     //Handle content received after successful API calls:
