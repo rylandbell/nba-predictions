@@ -84,7 +84,6 @@ var renderLoginView = function (req, res, body) {
     message = body.message;
   }
 
-  console.log('rendering with message: ', message);
   res
     .clearCookie('token')
     .render('login', {
