@@ -16,7 +16,6 @@ const sendJsonResponse = function(res, status, content) {
 
 //helper function for getting user data from JWT
 const getUserData = function(req, res, callback) {
-  console.log('\n\n', req.payload);
   if (req.payload._id) {
     UserModel.findOne({ _id: req.payload._id }).exec(function(err, user) {
       if (!user) {
