@@ -19,7 +19,13 @@ const main = (date) => {
 
   // Fetch NBA data, then save it to DB
   const gameDataPromise = getNbaData(targetDate)
-    .then(res => res.json())
+    .then(res => {
+      if (res.status == 200) {
+        return res.json();
+      } else {
+        throw new Error(`No data in response. (${res.status} status.)`);
+      }
+    })
     .then(data => saveGameData(targetDate, data))
     .then(res => res.json())
     .catch(console.log);
@@ -40,6 +46,8 @@ const day0 = moment().format('YYYY-MM-DD');
 const day1 = moment().subtract(1, 'days').format('YYYY-MM-DD');
 const day2 = moment().subtract(2, 'days').format('YYYY-MM-DD');
 
-main(day2);
-setTimeout(() => {main(day1)}, 5000);
-setTimeout(() => {main(day0)}, 10000);
+// main(day2);
+// setTimeout(() => {main(day1)}, 5000);
+// setTimeout(() => {main(day0)}, 10000);
+
+main(day1);

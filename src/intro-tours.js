@@ -9,7 +9,7 @@ export function runDashboardIntro(dispatch, joinPhrase){
   // tour steps for XS windows:
   const xsSteps = [
     { 
-      intro: `Success! You can invite other players to join this league by sharing the randomly generated pass phrase "${joinPhrase}". You're almost ready to start playing, but let's start with a quick tour.`
+      intro: `Success! You can invite other players to join this league by sharing the randomly generated pass phrase <strong>"${joinPhrase}"</strong>. You're almost ready to start playing, but let's start with a quick tour.`
     },
     {
       element: document.querySelector('.navbar-brand'),
@@ -28,7 +28,7 @@ export function runDashboardIntro(dispatch, joinPhrase){
   // tour steps for SM-LG windows:
   const regSteps = [
     { 
-      intro: `Success! You can invite other players to join this league by sharing the randomly generated pass phrase "${joinPhrase}". You're almost ready to start playing, but let's start with a quick tour.`
+      intro: `Success! You can invite other players to join this league by sharing the randomly generated pass phrase <strong>"${joinPhrase}"</strong>. You're almost ready to start playing, but let's start with a quick tour.`
     },
     {
       element: document.querySelector('.navbar-brand'),
