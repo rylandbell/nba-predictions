@@ -13,7 +13,7 @@
 
 /*tweaking the Bootstrap theme:*/
 
-@media (min-width: 769px) {
+@media (min-width: 768px) {
   body {
     background: url('../images/black_mamba.png');
   }
@@ -68,7 +68,7 @@ body {
   padding-bottom: 120px;   /* Height of the footer */
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .body-container {
     padding-top: 60px;
     padding-bottom: 85px;

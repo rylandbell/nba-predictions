@@ -58,7 +58,7 @@
 }
 
 /*MD only*/
-@media (min-width: 769px) {
+@media (min-width: 768px) {
   .chat__body {
     height: 620px;
     width: 100%;
@@ -86,7 +86,7 @@
 }
 
 /*XS only*/
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .chat {
     padding: 0;
     top: -15px;

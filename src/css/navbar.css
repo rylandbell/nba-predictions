@@ -24,7 +24,7 @@
   margin-right: 20px;
 }
 
-@media (min-width: 769px) {
+@media (min-width: 768px) {
   .navbar {
     padding-top: 8px;
     padding-bottom: 8px;
@@ -35,7 +35,7 @@
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .navbar-fixed-top .navbar-collapse {
     max-height: 540px;
   }
