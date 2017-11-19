@@ -119,10 +119,22 @@ const currentMonth = (state = moment().format('YYYY-MM')) => {
   return state;
 }
 
+// User months:
+
+// store all userMonths for active league
+const userMonthsData = (state = [], action) => {
+  switch (action.type) {
+    case 'ADD_USER_MONTH_DATA':
+      return action.payload;
+    default:
+      return state;
+  }
+}
+
 const userMonthId = (state = '', action) => {
   switch(action.type){
     case 'ADD_USER_MONTH_DATA':
-      return action.payload._id;
+      return action.payload[0]._id;
     default:
       return state;
   }
@@ -132,7 +144,7 @@ const eligibleTeams = (state = [], action) => {
   var chosenTeams;
   switch(action.type){
     case 'ADD_USER_MONTH_DATA':
-      chosenTeams = _values(action.payload.predictedWinners).map(obj=>obj.teamName);
+      chosenTeams = _values(action.payload[0].predictedWinners).map(obj=>obj.teamName);
       return _difference(teams, chosenTeams).sort();
     case 'SEND_PREDICTION_SUCCESS':
       chosenTeams = _values(action.payload.predictedWinners).map(obj=>obj.teamName);
@@ -145,7 +157,7 @@ const eligibleTeams = (state = [], action) => {
 const predictedWinners = (state = {}, action) => {
   switch(action.type){
     case 'ADD_USER_MONTH_DATA':
-      return Object.assign({},action.payload.predictedWinners);
+      return Object.assign({},action.payload[0].predictedWinners);
     case 'SEND_PREDICTION_SUCCESS':
       return Object.assign({}, action.payload.predictedWinners);
     default:
@@ -213,6 +225,7 @@ const showPicksTour = (state = false, action) => {
 const api = {
   app: Redux.combineReducers({
     fetchStatus,
+    userMonthsData,
     activeUserMonth,
     enteredChatText,
     enteredLeagueName,

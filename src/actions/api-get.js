@@ -33,7 +33,7 @@ export const addStandingsData = (data) => ({
 export const requestUserMonthData = (month, leagueId) => ({
   type: 'API',
   payload: {
-    url: `/api/userMonth/${month}?leagueId=${leagueId}`,
+    url: `/api/userMonth/?leagueId=${leagueId}`,
     method: 'GET',
     success: 'REQUEST_USER_MONTH_DATA_SUCCESS',
     failure: 'REQUEST_USER_MONTH_DATA_FAILURE',

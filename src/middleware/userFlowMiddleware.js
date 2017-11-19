@@ -93,7 +93,7 @@ export const userFlowMiddleware = ({
 
 
     case 'REQUEST_USER_MONTH_DATA_SUCCESS':
-      dispatch(addUserMonthData(action.payload.userMonth));
+      dispatch(addUserMonthData(action.payload.userMonthArray));
       break;
 
     case 'REQUEST_GAME_DATA_SUCCESS':
