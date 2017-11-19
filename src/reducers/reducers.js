@@ -3,14 +3,14 @@
 'use strict';
 
 const Redux = require('redux');
-import _values from 'lodash/values';
-import _difference from 'lodash/difference';
+// import _values from 'lodash/values';
+// import _difference from 'lodash/difference';
 import _sortBy from 'lodash/sortBy';
 import moment from 'moment';
 
 import fetchStatus from './fetch-status.js';
 
-const teams = ['ATL', 'BKN', 'BOS', 'CHA', 'CHI', 'CLE', 'DAL', 'DEN', 'DET', 'GSW', 'HOU', 'IND', 'LAC', 'LAL', 'MEM', 'MIA', 'MIL', 'MIN', 'NOP', 'NYK', 'OKC', 'ORL', 'PHI', 'PHX', 'POR', 'SAC', 'SAS', 'TOR', 'UTA', 'WAS'];
+// const teams = ['ATL', 'BKN', 'BOS', 'CHA', 'CHI', 'CLE', 'DAL', 'DEN', 'DET', 'GSW', 'HOU', 'IND', 'LAC', 'LAL', 'MEM', 'MIA', 'MIL', 'MIN', 'NOP', 'NYK', 'OKC', 'ORL', 'PHI', 'PHX', 'POR', 'SAC', 'SAS', 'TOR', 'UTA', 'WAS'];
 
 const enteredChatText = (state = '', action) => {
   switch(action.type){
@@ -131,45 +131,45 @@ const userMonthsData = (state = [], action) => {
   }
 }
 
-const userMonthId = (state = '', action) => {
-  switch(action.type){
-    case 'ADD_USER_MONTH_DATA':
-      return action.payload[0]._id;
-    default:
-      return state;
-  }
-};
+// const userMonthId = (state = '', action) => {
+//   switch(action.type){
+//     case 'ADD_USER_MONTH_DATA':
+//       return action.payload[0]._id;
+//     default:
+//       return state;
+//   }
+// };
 
-const eligibleTeams = (state = [], action) => {
-  var chosenTeams;
-  switch(action.type){
-    case 'ADD_USER_MONTH_DATA':
-      chosenTeams = _values(action.payload[0].predictedWinners).map(obj=>obj.teamName);
-      return _difference(teams, chosenTeams).sort();
-    case 'SEND_PREDICTION_SUCCESS':
-      chosenTeams = _values(action.payload.predictedWinners).map(obj=>obj.teamName);
-      return _difference(teams, chosenTeams).sort();
-    default:
-      return state;
-  }
-}
+// const eligibleTeams = (state = [], action) => {
+//   var chosenTeams;
+//   switch(action.type){
+//     case 'ADD_USER_MONTH_DATA':
+//       chosenTeams = _values(action.payload[0].predictedWinners).map(obj=>obj.teamName);
+//       return _difference(teams, chosenTeams).sort();
+//     case 'SEND_PREDICTION_SUCCESS':
+//       chosenTeams = _values(action.payload.predictedWinners).map(obj=>obj.teamName);
+//       return _difference(teams, chosenTeams).sort();
+//     default:
+//       return state;
+//   }
+// }
 
-const predictedWinners = (state = {}, action) => {
-  switch(action.type){
-    case 'ADD_USER_MONTH_DATA':
-      return Object.assign({},action.payload[0].predictedWinners);
-    case 'SEND_PREDICTION_SUCCESS':
-      return Object.assign({}, action.payload.predictedWinners);
-    default:
-      return state;
-  }
-};
+// const predictedWinners = (state = {}, action) => {
+//   switch(action.type){
+//     case 'ADD_USER_MONTH_DATA':
+//       return Object.assign({},action.payload[0].predictedWinners);
+//     case 'SEND_PREDICTION_SUCCESS':
+//       return Object.assign({}, action.payload.predictedWinners);
+//     default:
+//       return state;
+//   }
+// };
 
-const activeUserMonth = Redux.combineReducers({
-  userMonthId,
-  eligibleTeams,
-  predictedWinners
-});
+// const activeUserMonth = Redux.combineReducers({
+//   userMonthId,
+//   eligibleTeams,
+//   predictedWinners
+// });
 
 const gamesByDay = (state = [], action) => {
   switch(action.type) {
@@ -226,7 +226,7 @@ const api = {
   app: Redux.combineReducers({
     fetchStatus,
     userMonthsData,
-    activeUserMonth,
+    // activeUserMonth,
     enteredChatText,
     enteredLeagueName,
     enteredJoinPhrase,
