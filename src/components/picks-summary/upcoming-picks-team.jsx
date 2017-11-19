@@ -17,7 +17,7 @@ const UpcomingPicksTeam = React.createClass({
   render: function() {
     return (
       <td className="upcoming-picks-team" onClick={this.handleClick}>
-        <div className={"center-block text-center "+getPick(this.props.userMonth,this.props.day)}></div>
+        <div className={"center-block text-center "+getPick(this.props.activeUserMonth,this.props.day)}></div>
       </td>
     );
   }

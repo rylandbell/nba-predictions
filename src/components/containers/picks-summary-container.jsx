@@ -9,7 +9,7 @@ import PicksSummary from '../picks-summary/picks-summary.jsx';
 
 const mapStateToProps = state => ({
   missingUserMonth: state.fetchStatus.missingUserMonth,
-  userMonth: state.userMonth,
+  activeUserMonth: state.activeUserMonth,
   activeMonth: state.activeMonth,
   activeLeagueId: state.activeLeagueId,
   currentMonth: state.currentMonth,

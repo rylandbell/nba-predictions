@@ -153,7 +153,7 @@ const predictedWinners = (state = {}, action) => {
   }
 };
 
-const userMonth = Redux.combineReducers({
+const activeUserMonth = Redux.combineReducers({
   userMonthId,
   eligibleTeams,
   predictedWinners
@@ -213,7 +213,7 @@ const showPicksTour = (state = false, action) => {
 const api = {
   app: Redux.combineReducers({
     fetchStatus,
-    userMonth,
+    activeUserMonth,
     enteredChatText,
     enteredLeagueName,
     enteredJoinPhrase,

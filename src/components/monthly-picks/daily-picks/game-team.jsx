@@ -15,9 +15,9 @@ const GameTeam = React.createClass({
       if((isEligible || isChosen) && !this.props.gameData.gameStatus.hasStarted){
         let gameTime = Helper.getDateTime(this.props.gameData.gameDate, this.props.gameData.gameStatus.startTime);
         if(isChosen) {
-          this.props.removePrediction(this.props.gameData.gameId, this.props.teamName, this.props.gameData.gameDate, gameTime, this.props.userMonth);
+          this.props.removePrediction(this.props.gameData.gameId, this.props.teamName, this.props.gameData.gameDate, gameTime, this.props.activeUserMonth);
         } else {
-          this.props.addPrediction(this.props.gameData.gameId, this.props.teamName, this.props.gameData.gameDate, gameTime, this.props.userMonth);
+          this.props.addPrediction(this.props.gameData.gameId, this.props.teamName, this.props.gameData.gameDate, gameTime, this.props.activeUserMonth);
         }
       }
     }

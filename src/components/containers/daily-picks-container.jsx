@@ -10,21 +10,21 @@ import DailyPicks from '../monthly-picks/daily-picks/daily-picks.jsx';
 
 const mapStateToProps = (state) => ({
   activeDate: state.activeDate,
-  predictedWinners: state.userMonth.predictedWinners,
-  eligibleTeams: state.userMonth.eligibleTeams,
+  predictedWinners: state.activeUserMonth.predictedWinners,
+  eligibleTeams: state.activeUserMonth.eligibleTeams,
   gamesByDay: state.gamesByDay,
   isSendingPrediction: state.fetchStatus.isSendingPrediction,
-  userMonth: state.userMonth,
+  activeUserMonth: state.activeUserMonth,
   activeMonth: state.activeMonth
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  addPrediction: (gameId, teamName, gameDate, gameTime, userMonth) => {
+  addPrediction: (gameId, teamName, gameDate, gameTime, activeUserMonth) => {
     Alert.closeAll();
 
     //mark previous selection for that day eligible (locally):
     const gameDay = moment(gameDate).format('D');
-    const oldPrediction = userMonth.predictedWinners[gameDay].teamName;
+    const oldPrediction = activeUserMonth.predictedWinners[gameDay].teamName;
     dispatch(ActionCreator.markEligible(oldPrediction));
 
     //add new prediction locally, then mark that team ineligible for rest of month:
@@ -37,9 +37,9 @@ const mapDispatchToProps = (dispatch) => ({
     body.teamName = teamName;
     body.gameTime = gameTime;
 
-    dispatch(sendPrediction(userMonth.userMonthId, body));
+    dispatch(sendPrediction(activeUserMonth.userMonthId, body));
   },
-  removePrediction: (gameId, teamName, gameDate, gameTime, userMonth) => {
+  removePrediction: (gameId, teamName, gameDate, gameTime, activeUserMonth) => {
     Alert.closeAll();
 
     dispatch(ActionCreator.removePrediction(gameId, gameDate));
@@ -52,7 +52,7 @@ const mapDispatchToProps = (dispatch) => ({
     body.teamName = null;
     body.gameTime = gameTime;
 
-    dispatch(sendPrediction(userMonth.userMonthId, body));
+    dispatch(sendPrediction(activeUserMonth.userMonthId, body));
   },
   updateActiveDate: (newDate) => {
     dispatch(ActionCreator.setActiveDate (newDate));

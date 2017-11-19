@@ -32,9 +32,9 @@ const UpcomingPicks = React.createClass({
           </thead>
           <tbody>
             <tr>
-              <UpcomingPicksTeam day={parseInt(firstDay, 10)} date={firstDate.format('YYYY-MM-DD')} activeMonth={this.props.activeMonth} userMonth={this.props.userMonth} goToDate={this.props.goToDate} />
-              <UpcomingPicksTeam day={parseInt(firstDay, 10)+1} date={secondDate.format('YYYY-MM-DD')} activeMonth={this.props.activeMonth} userMonth={this.props.userMonth} goToDate={this.props.goToDate} />
-              <UpcomingPicksTeam day={parseInt(firstDay, 10)+2} date={thirdDate.format('YYYY-MM-DD')} activeMonth={this.props.activeMonth} userMonth={this.props.userMonth} goToDate={this.props.goToDate} />
+              <UpcomingPicksTeam day={parseInt(firstDay, 10)} date={firstDate.format('YYYY-MM-DD')} activeMonth={this.props.activeMonth} activeUserMonth={this.props.activeUserMonth} goToDate={this.props.goToDate} />
+              <UpcomingPicksTeam day={parseInt(firstDay, 10)+1} date={secondDate.format('YYYY-MM-DD')} activeMonth={this.props.activeMonth} activeUserMonth={this.props.activeUserMonth} goToDate={this.props.goToDate} />
+              <UpcomingPicksTeam day={parseInt(firstDay, 10)+2} date={thirdDate.format('YYYY-MM-DD')} activeMonth={this.props.activeMonth} activeUserMonth={this.props.activeUserMonth} goToDate={this.props.goToDate} />
             </tr>
           </tbody>
         </table>
