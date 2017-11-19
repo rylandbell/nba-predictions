@@ -284,7 +284,6 @@ module.exports.predictedWinnersUpdate = function(req, res) {
           if (err) {
             sendJsonResponse(res, 400, err);
           } else {
-            console.log('userMonth: ', userMonth);
             sendJsonResponse(res, 200, userMonth);
           }
         });

@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 
 import ActionCreator from '../../actions/action-creators.js';
 import LeagueMonthPicker from '../league-month-picker/league-month-picker.jsx';
+import { getAvailableMonths } from '../../selectors/availableMonths.js';
 
 const mapStateToProps = state => ({
   user: state.user,
@@ -11,7 +12,8 @@ const mapStateToProps = state => ({
   activeLeagueId: state.activeLeagueId,
   activeMonth: state.activeMonth,
   currentMonth: state.currentMonth,
-  isFetchingUserData: state.fetchStatus.isFetchingUserData
+  isFetchingUserData: state.fetchStatus.isFetchingUserData,
+  availableMonths: getAvailableMonths(state)
 });
 
 const mapDispatchToProps = dispatch => ({

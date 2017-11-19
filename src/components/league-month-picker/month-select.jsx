@@ -1,7 +1,8 @@
 'use strict';
 
 import React from 'react';
-import moment from 'moment';
+
+import MonthOption from './month-option.jsx';
 
 const MonthSelect = React.createClass({
   handleChange: function(event) {
@@ -12,12 +13,9 @@ const MonthSelect = React.createClass({
       <div className="form-group">
         <label htmlFor="month-select" className="league-month-picker__label hidden-sm">Active month:&nbsp;</label>
         <select id="month-select" className="form-control league-month-picker__select" onChange={this.handleChange} value={this.props.activeMonth}>
-          <option value={this.props.currentMonth}>
-            &nbsp;{moment(this.props.currentMonth).format('MMM YYYY')}&nbsp;
-          </option>
-          <option value={moment(this.props.currentMonth).add(1,'months').format('YYYY-MM')}>
-            &nbsp;{moment(this.props.currentMonth).add(1,'months').format('MMM YYYY')}&nbsp;
-          </option>
+          {this.props.availableMonths.map(
+            (month,key) => <MonthOption month={month} key={key}/>                    
+          )}
         </select>
       </div>
     )

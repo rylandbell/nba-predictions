@@ -3,7 +3,7 @@ import _values from "lodash/values";
 import _difference from "lodash/difference";
 
 const getActiveMonth = state => state.activeMonth;
-const getUserMonths = state => state.userMonthsData;
+const getUserMonthsData = state => state.userMonthsData;
 
 const teamsList = [
   "ATL",
@@ -40,7 +40,7 @@ const teamsList = [
 
 // combine userMonthsData and activeMonth from state to get activeUserMonthId, eligibleTeams, and predictedWinners
 export const getActiveUserMonth = createSelector(
-  [getActiveMonth, getUserMonths],
+  [getActiveMonth, getUserMonthsData],
   (activeMonth, userMonthsData) => {
     if (userMonthsData.length > 0) {
 

@@ -30,6 +30,7 @@ const LeagueMonthPicker = React.createClass({
                 currentMonth={this.props.currentMonth}
                 activeLeagueId={this.props.activeLeagueId}
                 setActiveMonth={this.props.setActiveMonth}
+                availableMonths={this.props.availableMonths}
               />
             </div>
           </form>            
