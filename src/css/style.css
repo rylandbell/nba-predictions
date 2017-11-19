@@ -15,7 +15,8 @@
 
 @media (min-width: 768px) {
   body {
-    background: url('../images/black_mamba.png');
+    /*background: url('../images/black_mamba.png');*/
+    /*background-color: #060606;*/
   }
 }
 
@@ -106,9 +107,12 @@ body {
   font-size: 1.2em;
 }
 
-.daily-picks-panel {
-  border-radius: 5px;
-  padding: 10px;
-  background-color: rgba(0,0,0,0);
+.daily-picks {
+  padding: 0 30px;
 }
 
+@media (max-width: 767px) {
+  .daily-picks {
+    padding: 5px;
+  }
+}

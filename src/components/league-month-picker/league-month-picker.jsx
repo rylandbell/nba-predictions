@@ -37,7 +37,7 @@ const LeagueMonthPicker = React.createClass({
         );
       }
     } else {
-      panelContent = <p className="text-center">Loading user data...</p>;
+      panelContent = null;
     }
 
     return panelContent;
