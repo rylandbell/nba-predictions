@@ -137,9 +137,11 @@ module.exports.registerNew = function (req, res, next) {
       res.cookie('token', apiResponse.body.token, cookieOptions);
       res.redirect('/leagues');
     } else if (apiResponse.statusCode === 400 || apiResponse.statusCode === 401) {
-      console.log('failed registration: ', body.message);
-      renderLoginView(req, res, apiResponse.body);
-      return;
+      var flashMessage = body.message || 'An error occurred in the registration process. Please try again.';
+      req.session.flash = {
+        message: flashMessage
+      };
+      return res.redirect('/login');
     } else {
       _showError(req, res, apiResponse);
     }

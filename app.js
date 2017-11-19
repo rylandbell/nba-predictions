@@ -6,6 +6,7 @@ var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
+var expressSession = require('express-session');
 var bodyParser = require('body-parser');
 var passport = require('passport');
 
@@ -21,21 +22,26 @@ var app = express();
 app.set('views', path.join(__dirname, 'app_server', 'views'));
 app.set('view engine', 'jade');
 
-// uncomment after placing your favicon in /public
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(cookieParser());
+app.use(expressSession({
+  resave: false,
+  saveUninitialized: false,
+  secret: process.env.JWT_SECRET
+}));
 // app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(process.env.PWD + '/public'));
 
 app.use(passport.initialize());
 
-//detect querystring for testing environment
-app.use(function(req, res, next){
-  res.locals.showTests = app.get('env') !== 'production' && req.query.test ==='1';
+// catch flash messages, then delete them (so they only appear on next view render)
+app.use(function(req, res, next) {
+  res.locals.flash = req.session.flash;
+  delete req.session.flash;
   next();
 });
 
