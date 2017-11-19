@@ -7,14 +7,15 @@ import moment from 'moment';
 import ActionCreator from '../../actions/action-creators.js';
 import {sendPrediction} from '../../actions/api-put.js';
 import DailyPicks from '../monthly-picks/daily-picks/daily-picks.jsx';
+import { getActiveUserMonth } from '../../selectors/userMonth.js';
 
 const mapStateToProps = (state) => ({
   activeDate: state.activeDate,
-  predictedWinners: state.activeUserMonth.predictedWinners,
-  eligibleTeams: state.activeUserMonth.eligibleTeams,
+  predictedWinners: getActiveUserMonth(state).predictedWinners,
+  eligibleTeams: getActiveUserMonth(state).eligibleTeams,
   gamesByDay: state.gamesByDay,
   isSendingPrediction: state.fetchStatus.isSendingPrediction,
-  activeUserMonth: state.activeUserMonth,
+  activeUserMonth: getActiveUserMonth(state),
   activeMonth: state.activeMonth
 });
 

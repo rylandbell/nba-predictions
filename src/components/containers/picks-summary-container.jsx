@@ -6,10 +6,11 @@ import browserHistory from 'react-router/lib/browserHistory';
 import {createUserMonth} from '../../actions/api-post.js';
 import ActionCreator from '../../actions/action-creators.js';
 import PicksSummary from '../picks-summary/picks-summary.jsx';
+import { getActiveUserMonth } from '../../selectors/userMonth.js';
 
 const mapStateToProps = state => ({
   missingUserMonth: state.fetchStatus.missingUserMonth,
-  activeUserMonth: state.activeUserMonth,
+  activeUserMonth: getActiveUserMonth(state),
   activeMonth: state.activeMonth,
   activeLeagueId: state.activeLeagueId,
   currentMonth: state.currentMonth,

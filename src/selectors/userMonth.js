@@ -1,9 +1,6 @@
-//combine unchanging data about features with their current state
-
 import { createSelector } from "reselect";
 import _values from "lodash/values";
 import _difference from "lodash/difference";
-import _sortBy from "lodash/sortBy";
 
 const getActiveMonth = state => state.activeMonth;
 const getUserMonths = state => state.userMonthsData;
@@ -41,24 +38,33 @@ const teamsList = [
   "WAS"
 ];
 
+// combine userMonthsData and activeMonth from state to get activeUserMonthId, eligibleTeams, and predictedWinners
 export const getActiveUserMonth = createSelector(
   [getActiveMonth, getUserMonths],
   (activeMonth, userMonthsData) => {
-    const activeUserMonth = userMonthsData.find(
-      userMonth => userMonth.month === activeMonth
-    );
-    const userMonthId = activeUserMonth._id;
+    if (userMonthsData.length > 0) {
 
-    const chosenTeams = _values(activeUserMonth.predictedWinners).map(
-      obj => obj.teamName
-    );
-    const eligibleTeams = _difference(teamsList, chosenTeams).sort();
+      //Find the userMonth for the active month:
+      const activeUserMonth = userMonthsData.find(
+        userMonth => userMonth.month === activeMonth
+      );
 
-    const predictedWinners = Object.assign(
-      {},
-      activeUserMonth.predictedWinners
-    );
+      const userMonthId = activeUserMonth._id;
 
-    return { userMonthId, eligibleTeams, predictedWinners };
+      //Use a list of all teams chosen so far to compute a list of remaining teams
+      const chosenTeams = _values(activeUserMonth.predictedWinners).map(
+        obj => obj.teamName
+      );
+      const eligibleTeams = _difference(teamsList, chosenTeams).sort();
+
+      const predictedWinners = Object.assign(
+        {},
+        activeUserMonth.predictedWinners
+      );
+
+      return { userMonthId, eligibleTeams, predictedWinners };
+    } else {
+      return { userMonthId: "", eligibleTeams: [], predictedWinners: {} };
+    }
   }
 );

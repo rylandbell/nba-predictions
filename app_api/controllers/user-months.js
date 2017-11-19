@@ -241,7 +241,6 @@ module.exports.predictedWinnersUpdate = function(req, res) {
     };
 
     UserMonthModel.find(filter)
-      .select("predictedWinners")
       .exec(function(err, userMonth) {
         //check for basic errors:
         if (!userMonth) {
@@ -285,6 +284,7 @@ module.exports.predictedWinnersUpdate = function(req, res) {
           if (err) {
             sendJsonResponse(res, 400, err);
           } else {
+            console.log('userMonth: ', userMonth);
             sendJsonResponse(res, 200, userMonth);
           }
         });
