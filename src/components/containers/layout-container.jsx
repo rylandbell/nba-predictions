@@ -6,7 +6,8 @@ import {requestUserData, requestGameData} from '../../actions/api-get.js';
 import Layout from '../layout.jsx';
 
 const mapStateToProps = state => ({
-  reduxState: state
+  dates: state.dates,
+  apiData: state.apiData
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -11,7 +11,7 @@ const Navbar = React.createClass({
   },
   render: function() {
     //Hide most of site nav from users who haven't joined a league.
-    const newPlayer = !(this.props.reduxState.apiData.user && this.props.reduxState.apiData.user.leagues && this.props.reduxState.apiData.user.leagues.length > 0);
+    const newPlayer = !(this.props.apiData.user && this.props.apiData.user.leagues && this.props.apiData.user.leagues.length > 0);
     
     return (
       <div className="container-fluid">

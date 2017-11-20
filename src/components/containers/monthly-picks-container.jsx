@@ -10,7 +10,10 @@ import { checkMissingUserMonth } from '../../selectors/missingUserMonth.js';
 import {runPicksIntro} from '../../intro-tours.js';
 
 const mapStateToProps = state => ({
-  reduxState: state,
+  ui: state.ui,
+  fetchStatus: state.fetchStatus,
+  dates: state.dates,
+  activeLeagueId: state.activeLeagueId,
   missingUserMonth: checkMissingUserMonth(state)
 });
 
