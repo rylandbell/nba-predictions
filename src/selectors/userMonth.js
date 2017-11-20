@@ -43,13 +43,12 @@ export const getActiveUserMonth = createSelector(
   [getActiveMonth, getUserMonthsData],
   (activeMonth, userMonthsData) => {
     if (userMonthsData.length > 0) {
-
       //Find the userMonth for the active month:
       const activeUserMonth = userMonthsData.find(
         userMonth => userMonth.month === activeMonth
       );
 
-      if(!activeUserMonth) {
+      if (!activeUserMonth) {
         return { userMonthId: "", eligibleTeams: [], predictedWinners: {} };
       }
 

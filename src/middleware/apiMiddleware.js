@@ -1,5 +1,5 @@
 export const apiMiddleware = ({ dispatch }) => next => action => {
-  if (action.type !== 'API') {
+  if (action.type !== "API") {
     return next(action);
   }
 
@@ -9,16 +9,16 @@ export const apiMiddleware = ({ dispatch }) => next => action => {
   const requestOptions = {
     method: action.payload.method,
     // mode: 'cors',
-    credentials: 'same-origin',
-    cache: 'default'
+    credentials: "same-origin",
+    cache: "default"
     // headers: {
     //   Authorization: 'Bearer ' + getState().auth.accessToken
     // }
   };
 
-  if(action.payload.method !== 'GET'){
-    requestOptions.headers = new Headers;
-    requestOptions.headers.append('Content-Type', 'application/json');
+  if (action.payload.method !== "GET") {
+    requestOptions.headers = new Headers();
+    requestOptions.headers.append("Content-Type", "application/json");
   }
 
   if (action.payload.body) {
@@ -26,16 +26,18 @@ export const apiMiddleware = ({ dispatch }) => next => action => {
   }
 
   const handleError = error => {
-    error.json()
+    error
+      .json()
       .then(errorData => {
         dispatch({
           type: action.payload.failure,
           payload: errorData
         });
       })
-      .catch(err => {console.log('middleware handleError function failed.', err)})
-  }
-    
+      .catch(err => {
+        console.log("middleware handleError function failed.", err);
+      });
+  };
 
   fetch(action.payload.url, requestOptions)
     .then(response => {

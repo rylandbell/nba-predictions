@@ -1,10 +1,10 @@
 export const isSendingMessage = (state = false, action) => {
-  switch(action.type){
-    case 'SEND_MESSAGE_PENDING':
+  switch (action.type) {
+    case "SEND_MESSAGE_PENDING":
       return true;
-    case 'SEND_MESSAGE_SUCCESS':
+    case "SEND_MESSAGE_SUCCESS":
       return false;
-    case 'SEND_MESSAGE_FAILURE':
+    case "SEND_MESSAGE_FAILURE":
       return false;
     default:
       return state;
@@ -12,12 +12,12 @@ export const isSendingMessage = (state = false, action) => {
 };
 
 export const isFetchingMessageLog = (state = false, action) => {
-  switch(action.type){
-    case 'REQUEST_MESSAGE_LOG_PENDING':
+  switch (action.type) {
+    case "REQUEST_MESSAGE_LOG_PENDING":
       return true;
-    case 'REQUEST_MESSAGE_LOG_SUCCESS':
+    case "REQUEST_MESSAGE_LOG_SUCCESS":
       return false;
-    case 'REQUEST_MESSAGE_LOG_FAILURE':
+    case "REQUEST_MESSAGE_LOG_FAILURE":
       return false;
     default:
       return state;
@@ -25,12 +25,12 @@ export const isFetchingMessageLog = (state = false, action) => {
 };
 
 export const isFetchingUserData = (state = false, action) => {
-  switch(action.type){
-    case 'REQUEST_USER_DATA_PENDING':
+  switch (action.type) {
+    case "REQUEST_USER_DATA_PENDING":
       return true;
-    case 'REQUEST_USER_DATA_SUCCESS':
+    case "REQUEST_USER_DATA_SUCCESS":
       return false;
-    case 'REQUEST_USER_DATA_FAILURE':
+    case "REQUEST_USER_DATA_FAILURE":
       return false;
     default:
       return state;
@@ -38,12 +38,12 @@ export const isFetchingUserData = (state = false, action) => {
 };
 
 export const isFetchingUserMonthData = (state = false, action) => {
-  switch(action.type){
-    case 'REQUEST_USER_MONTH_DATA_PENDING':
+  switch (action.type) {
+    case "REQUEST_USER_MONTH_DATA_PENDING":
       return true;
-    case 'REQUEST_USER_MONTH_DATA_SUCCESS':
+    case "REQUEST_USER_MONTH_DATA_SUCCESS":
       return false;
-    case 'REQUEST_USER_MONTH_DATA_FAILURE':
+    case "REQUEST_USER_MONTH_DATA_FAILURE":
       return false;
     default:
       return state;
@@ -51,12 +51,12 @@ export const isFetchingUserMonthData = (state = false, action) => {
 };
 
 export const isFetchingGameData = (state = false, action) => {
-  switch(action.type){
-    case 'REQUEST_GAME_DATA_PENDING':
+  switch (action.type) {
+    case "REQUEST_GAME_DATA_PENDING":
       return true;
-    case 'REQUEST_GAME_DATA_SUCCESS':
+    case "REQUEST_GAME_DATA_SUCCESS":
       return false;
-    case 'REQUEST_GAME_DATA_FAILURE':
+    case "REQUEST_GAME_DATA_FAILURE":
       return false;
     default:
       return state;
@@ -64,12 +64,12 @@ export const isFetchingGameData = (state = false, action) => {
 };
 
 export const isFetchingStandingsData = (state = false, action) => {
-  switch(action.type){
-    case 'REQUEST_STANDINGS_DATA_PENDING':
+  switch (action.type) {
+    case "REQUEST_STANDINGS_DATA_PENDING":
       return true;
-    case 'REQUEST_STANDINGS_DATA_SUCCESS':
+    case "REQUEST_STANDINGS_DATA_SUCCESS":
       return false;
-    case 'REQUEST_STANDINGS_DATA_FAILURE':
+    case "REQUEST_STANDINGS_DATA_FAILURE":
       return false;
     default:
       return state;
@@ -77,12 +77,12 @@ export const isFetchingStandingsData = (state = false, action) => {
 };
 
 export const isSendingPrediction = (state = false, action) => {
-  switch(action.type){
-    case 'SEND_PREDICTION_PENDING':
+  switch (action.type) {
+    case "SEND_PREDICTION_PENDING":
       return true;
-    case 'SEND_PREDICTION_SUCCESS':
+    case "SEND_PREDICTION_SUCCESS":
       return false;
-    case 'SEND_PREDICTION_FAILURE':
+    case "SEND_PREDICTION_FAILURE":
       return false;
     default:
       return state;
@@ -90,12 +90,12 @@ export const isSendingPrediction = (state = false, action) => {
 };
 
 export const isSendingCreateLeague = (state = false, action) => {
-  switch(action.type){
-    case 'CREATE_LEAGUE_PENDING':
+  switch (action.type) {
+    case "CREATE_LEAGUE_PENDING":
       return true;
-    case 'CREATE_LEAGUE_SUCCESS':
+    case "CREATE_LEAGUE_SUCCESS":
       return false;
-    case 'CREATE_LEAGUE_FAILURE':
+    case "CREATE_LEAGUE_FAILURE":
       return false;
     default:
       return state;
@@ -103,12 +103,12 @@ export const isSendingCreateLeague = (state = false, action) => {
 };
 
 export const isSendingJoinLeague = (state = false, action) => {
-  switch(action.type){
-    case 'JOIN_LEAGUE_PENDING':
+  switch (action.type) {
+    case "JOIN_LEAGUE_PENDING":
       return true;
-    case 'JOIN_LEAGUE_SUCCESS':
+    case "JOIN_LEAGUE_SUCCESS":
       return false;
-    case 'JOIN_LEAGUE_FAILURE':
+    case "JOIN_LEAGUE_FAILURE":
       return false;
     default:
       return state;
