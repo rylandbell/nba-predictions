@@ -1,7 +1,6 @@
 'use strict';
 
 import React from 'react';
-import moment from 'moment';
 
 import FullStandingsHeader from './full-standings-header.jsx';
 import FullStandingsRow from './full-standings-row.jsx';

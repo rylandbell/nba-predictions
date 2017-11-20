@@ -1,7 +1,6 @@
 'use strict';
 
 import React from 'react';
-import moment from 'moment';
 import browserHistory from 'react-router/lib/browserHistory'; 
 
 import StandingsTableHeader from './standings-table-header.jsx';

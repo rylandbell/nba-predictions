@@ -1,7 +1,6 @@
 'use strict';
 
 import React from 'react';
-import moment from 'moment';
 
 import MessageContentBox from './message-content-box.jsx';
 

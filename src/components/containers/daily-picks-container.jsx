@@ -2,7 +2,6 @@
 
 import { connect } from 'react-redux';
 import Alert from 'react-s-alert';
-import moment from 'moment';
 
 import ActionCreator from '../../actions/action-creators.js';
 import {sendPrediction} from '../../actions/api-put.js';

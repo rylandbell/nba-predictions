@@ -2,7 +2,6 @@
 
 const Redux = require("redux");
 import _sortBy from "lodash/sortBy";
-import moment from "moment";
 
 import fetchStatus from "./fetch-status.js";
 

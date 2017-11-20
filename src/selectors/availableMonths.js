@@ -1,5 +1,4 @@
 import { createSelector } from "reselect";
-import moment from "moment";
 import _uniq from "lodash/uniq";
 
 const getUserMonthsData = state => state.userMonthsData;

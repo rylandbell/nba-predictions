@@ -1,7 +1,6 @@
 'use strict';
 
 import React from 'react';
-import moment from 'moment';
 
 import MonthlyPicksSidebarRow from './monthly-picks-sidebar-row.jsx';
 

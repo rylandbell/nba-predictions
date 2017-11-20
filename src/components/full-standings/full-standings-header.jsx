@@ -1,7 +1,6 @@
 'use strict';
 
 import React from 'react';
-import moment from 'moment';
 
 const FullStandingsHeader = ({activeMonth}) => {
   const daysArray = [];

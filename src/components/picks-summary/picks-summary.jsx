@@ -1,7 +1,6 @@
 'use strict';
 
 import React from 'react';
-import moment from 'moment';
 
 import StatusMessage from '../status-message.jsx';
 import JoinMonth from '../utility/join-month.jsx';

@@ -2,7 +2,6 @@
 
 import React from 'react';
 import browserHistory from 'react-router/lib/browserHistory';
-import moment from 'moment';
 
 import UpcomingPicksTeam from './upcoming-picks-team.jsx';
 
