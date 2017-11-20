@@ -10,8 +10,8 @@ const mapStateToProps = state => ({
   user: state.user,
   noLeaguesJoined: state.noLeaguesJoined,
   activeLeagueId: state.activeLeagueId,
-  activeMonth: state.activeMonth,
-  currentMonth: state.currentMonth,
+  activeMonth: state.dates.activeMonth,
+  currentMonth: state.dates.currentMonth,
   isFetchingUserData: state.fetchStatus.isFetchingUserData,
   availableMonths: getAvailableMonths(state)
 });

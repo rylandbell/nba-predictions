@@ -2,7 +2,7 @@ import { createSelector } from "reselect";
 import _values from "lodash/values";
 import _difference from "lodash/difference";
 
-const getActiveMonth = state => state.activeMonth;
+const getActiveMonth = state => state.dates.activeMonth;
 const getUserMonthsData = state => state.userMonthsData;
 
 const teamsList = [

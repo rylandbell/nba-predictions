@@ -3,10 +3,13 @@
 import { combineReducers } from 'redux';
 import _sortBy from "lodash/sortBy";
 
-import fetchStatus from "./fetch-status.js";
+import * as fetchStatusReducers from "./fetch-status.js";
 import * as uiReducers from './ui';
+import * as dateReducers from './dates';
 
 const ui = combineReducers(uiReducers);
+const dates = combineReducers(dateReducers);
+const fetchStatus = combineReducers(fetchStatusReducers);
 
 const user = (state = {}, action) => {
   switch (action.type) {
@@ -52,37 +55,7 @@ const messages = (state = [], action) => {
   }
 };
 
-//format: 'YYYY-MM-DD'
-const activeDate = (state = moment().format("YYYY-MM-DD"), action) => {
-  switch (action.type) {
-    case "SET_ACTIVE_DATE":
-      return action.date;
-    default:
-      return state;
-  }
-};
 
-//format: 'YYYY-MM'
-const activeMonth = (state = moment().format("YYYY-MM"), action) => {
-  switch (action.type) {
-    case "SET_ACTIVE_DATE":
-      return action.date.substring(0, 7);
-    case "SET_ACTIVE_MONTH":
-      return action.month;
-    default:
-      return state;
-  }
-};
-
-const currentDate = (state = moment().format("YYYY-MM-DD")) => {
-  return state;
-};
-
-const currentMonth = (state = moment().format("YYYY-MM")) => {
-  return state;
-};
-
-// User months:
 
 // store all userMonths for active league
 const userMonthsData = (state = [], action) => {
@@ -135,31 +108,10 @@ const monthList = (state = [], action) => {
   }
 };
 
-const showDashboardTour = (state = false, action) => {
-  switch (action.type) {
-    case "ENABLE_DASHBOARD_TOUR":
-      return true;
-    case "DISABLE_DASHBOARD_TOUR":
-      return false;
-    default:
-      return state;
-  }
-};
-
-const showPicksTour = (state = false, action) => {
-  switch (action.type) {
-    case "ENABLE_PICKS_TOUR":
-      return true;
-    case "DISABLE_PICKS_TOUR":
-      return false;
-    default:
-      return state;
-  }
-};
-
 const api = {
   app: combineReducers({
     ui,
+    dates,
     fetchStatus,
     userMonthsData,
     user,
@@ -168,13 +120,7 @@ const api = {
     messages,
     monthList,
     standingsData,
-    activeMonth,
-    activeDate,
-    currentMonth,
-    currentDate,
-    gamesByDay,
-    showDashboardTour,
-    showPicksTour
+    gamesByDay
   })
 };
 

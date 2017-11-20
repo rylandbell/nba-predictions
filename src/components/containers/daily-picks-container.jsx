@@ -9,13 +9,13 @@ import DailyPicks from '../monthly-picks/daily-picks/daily-picks.jsx';
 import { getActiveUserMonth } from '../../selectors/userMonth.js';
 
 const mapStateToProps = (state) => ({
-  activeDate: state.activeDate,
+  activeDate: state.dates.activeDate,
   predictedWinners: getActiveUserMonth(state).predictedWinners,
   eligibleTeams: getActiveUserMonth(state).eligibleTeams,
   gamesByDay: state.gamesByDay,
   isSendingPrediction: state.fetchStatus.isSendingPrediction,
   activeUserMonth: getActiveUserMonth(state),
-  activeMonth: state.activeMonth
+  activeMonth: state.dates.activeMonth
 });
 
 const mapDispatchToProps = (dispatch) => ({

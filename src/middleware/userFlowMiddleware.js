@@ -29,8 +29,8 @@ export const userFlowMiddleware = ({
     case 'SET_ACTIVE_MONTH':
 
       //when the active month changes, the active date should be the current date OR the first of that month
-      if(action.month === state.currentMonth) {
-        newActiveDate = state.currentDate;
+      if(action.month === state.dates.currentMonth) {
+        newActiveDate = state.dates.currentDate;
       } else {
         newActiveDate = action.month + '-01';
       }
@@ -43,8 +43,8 @@ export const userFlowMiddleware = ({
       break;
 
     case 'SET_ACTIVE_LEAGUE':
-      dispatch(requestUserMonthData(state.activeMonth, action.payload));
-      dispatch(requestStandingsData(state.activeMonth, action.payload));
+      dispatch(requestUserMonthData(state.dates.activeMonth, action.payload));
+      dispatch(requestStandingsData(state.dates.activeMonth, action.payload));
       dispatch(requestMessageLog(action.payload));
       break;
 
@@ -58,11 +58,11 @@ export const userFlowMiddleware = ({
         //then get standings and userMonth data for the active league
         if (state.activeLeagueId === "") {
           dispatch(actions.setActiveLeague(action.payload.leagues[0].id));
-          dispatch(requestStandingsData(state.activeMonth, action.payload.leagues[0].id));
-          dispatch(requestUserMonthData(state.activeMonth, action.payload.leagues[0].id));
+          dispatch(requestStandingsData(state.dates.activeMonth, action.payload.leagues[0].id));
+          dispatch(requestUserMonthData(state.dates.activeMonth, action.payload.leagues[0].id));
         } else {
-          dispatch(requestStandingsData(state.activeMonth, state.activeLeagueId));
-          dispatch(requestUserMonthData(state.activeMonth, state.activeLeagueId));
+          dispatch(requestStandingsData(state.dates.activeMonth, state.activeLeagueId));
+          dispatch(requestUserMonthData(state.dates.activeMonth, state.activeLeagueId));
         }        
       }
       break;
@@ -125,7 +125,7 @@ export const userFlowMiddleware = ({
     case 'CREATE_USER_MONTH_SUCCESS':
       browserHistory.push(`/picks/${action.payload.month}`);
       dispatch(addUserMonthData(action.payload));
-      dispatch(requestStandingsData(state.activeMonth, state.activeLeagueId));
+      dispatch(requestStandingsData(state.dates.activeMonth, state.activeLeagueId));
       break;
 
     //Display appropriate alerts in browser on API errors:

@@ -7,7 +7,7 @@ import Navbar from './navbar.jsx';
 const LayoutComponent = React.createClass({
   componentDidMount: function() {
     this.props.getUserData();
-    this.props.getGameData(this.props.reduxState.activeMonth)
+    this.props.getGameData(this.props.reduxState.dates.activeMonth)
   },
   render: function () {
     return (

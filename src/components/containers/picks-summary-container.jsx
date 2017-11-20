@@ -12,10 +12,10 @@ import { checkMissingUserMonth } from '../../selectors/missingUserMonth.js';
 const mapStateToProps = state => ({
   missingUserMonth: checkMissingUserMonth(state),
   activeUserMonth: getActiveUserMonth(state),
-  activeMonth: state.activeMonth,
+  activeMonth: state.dates.activeMonth,
   activeLeagueId: state.activeLeagueId,
-  currentMonth: state.currentMonth,
-  currentDate: state.currentDate,
+  currentMonth: state.dates.currentMonth,
+  currentDate: state.dates.currentDate,
   showDashboardTour: state.ui.showDashboardTour
 });
 

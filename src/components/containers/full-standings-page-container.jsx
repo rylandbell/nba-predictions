@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import FullStandingsPage from '../full-standings/full-standings-page.jsx';
 
 const mapStateToProps = state => ({
-  activeMonth: state.activeMonth,
+  activeMonth: state.dates.activeMonth,
   standingsData: state.standingsData,
   isFetchingStandingsData: state.fetchStatus.isFetchingStandingsData
 });

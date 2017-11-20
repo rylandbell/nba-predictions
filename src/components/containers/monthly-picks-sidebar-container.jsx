@@ -8,8 +8,8 @@ import { getActiveUserMonth } from '../../selectors/userMonth.js';
 
 const mapStateToProps = (state) => ({
   predictedWinners: getActiveUserMonth(state).predictedWinners,
-  activeDate: state.activeDate,
-  activeMonth: state.activeMonth
+  activeDate: state.dates.activeDate,
+  activeMonth: state.dates.activeMonth
 });
 
 const mapDispatchToProps = (dispatch) => ({

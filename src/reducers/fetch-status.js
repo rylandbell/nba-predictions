@@ -1,8 +1,4 @@
-'use strict';
-
-const Redux = require('redux');
-
-const isSendingMessage = (state = false, action) => {
+export const isSendingMessage = (state = false, action) => {
   switch(action.type){
     case 'SEND_MESSAGE_PENDING':
       return true;
@@ -15,7 +11,7 @@ const isSendingMessage = (state = false, action) => {
   }
 };
 
-const isFetchingMessageLog = (state = false, action) => {
+export const isFetchingMessageLog = (state = false, action) => {
   switch(action.type){
     case 'REQUEST_MESSAGE_LOG_PENDING':
       return true;
@@ -28,7 +24,7 @@ const isFetchingMessageLog = (state = false, action) => {
   }
 };
 
-const isFetchingUserData = (state = false, action) => {
+export const isFetchingUserData = (state = false, action) => {
   switch(action.type){
     case 'REQUEST_USER_DATA_PENDING':
       return true;
@@ -41,7 +37,7 @@ const isFetchingUserData = (state = false, action) => {
   }
 };
 
-const isFetchingUserMonthData = (state = false, action) => {
+export const isFetchingUserMonthData = (state = false, action) => {
   switch(action.type){
     case 'REQUEST_USER_MONTH_DATA_PENDING':
       return true;
@@ -54,7 +50,7 @@ const isFetchingUserMonthData = (state = false, action) => {
   }
 };
 
-const isFetchingGameData = (state = false, action) => {
+export const isFetchingGameData = (state = false, action) => {
   switch(action.type){
     case 'REQUEST_GAME_DATA_PENDING':
       return true;
@@ -67,28 +63,7 @@ const isFetchingGameData = (state = false, action) => {
   }
 };
 
-// const missingUserMonth = (state = false, action) => {
-//   switch(action.type){
-//     case 'CREATE_USER_MONTH_SUCCESS':
-//       return false;
-//     case 'REQUEST_USER_MONTH_DATA_SUCCESS':
-//       if (action.payload && action.payload.userMonthArray) {
-//         return action.payload.userMonthArray.length === 0;
-//       } else {
-//         return true;
-//       }
-//     case 'REQUEST_USER_MONTH_DATA_FAILURE':
-//       if (action.payload && action.payload.message === "No userMonth found") {
-//         return true;
-//       } else {
-//         return false;
-//       }
-//     default:
-//       return state;
-//   }
-// };
-
-const isFetchingStandingsData = (state = false, action) => {
+export const isFetchingStandingsData = (state = false, action) => {
   switch(action.type){
     case 'REQUEST_STANDINGS_DATA_PENDING':
       return true;
@@ -101,7 +76,7 @@ const isFetchingStandingsData = (state = false, action) => {
   }
 };
 
-const isFetchingMonthList = (state = false, action) => {
+export const isFetchingMonthList = (state = false, action) => {
   switch(action.type){
     case 'REQUEST_MONTH_LIST_PENDING':
       return true;
@@ -114,7 +89,7 @@ const isFetchingMonthList = (state = false, action) => {
   }
 };
 
-const isSendingPrediction = (state = false, action) => {
+export const isSendingPrediction = (state = false, action) => {
   switch(action.type){
     case 'SEND_PREDICTION_PENDING':
       return true;
@@ -127,7 +102,7 @@ const isSendingPrediction = (state = false, action) => {
   }
 };
 
-const isSendingCreateLeague = (state = false, action) => {
+export const isSendingCreateLeague = (state = false, action) => {
   switch(action.type){
     case 'CREATE_LEAGUE_PENDING':
       return true;
@@ -140,7 +115,7 @@ const isSendingCreateLeague = (state = false, action) => {
   }
 };
 
-const isSendingJoinLeague = (state = false, action) => {
+export const isSendingJoinLeague = (state = false, action) => {
   switch(action.type){
     case 'JOIN_LEAGUE_PENDING':
       return true;
@@ -152,20 +127,3 @@ const isSendingJoinLeague = (state = false, action) => {
       return state;
   }
 };
-
-const fetchStatus = Redux.combineReducers({
-  isFetchingUserData,
-  isFetchingUserMonthData,
-  isSendingPrediction,
-  isSendingMessage,
-  isFetchingGameData,
-  isFetchingStandingsData,
-  isFetchingMonthList,
-  isFetchingMessageLog,
-  isSendingCreateLeague,
-  isSendingJoinLeague,
-  // missingUserMonth
-});
-
-
-export default fetchStatus;
