@@ -23,7 +23,7 @@ const MonthlyPicksPage = React.createClass({
 
     if (isLoading) {
       return <StatusMessage messageBold={'Loading game data...'} messageBody={'Just hang tight.'} messageClass={'info'}/>
-    } else if (this.props.reduxState.fetchStatus.missingUserMonth) {
+    } else if (this.props.missingUserMonth) {
       return (
         <div className={'row '+(this.props.reduxState.fetchStatus.isSendingPrediction ? 'send-waiting' : '')}>
           <div className="col-xs-12 col-sm-6 col-sm-offset-1 col-md-5 col-md-offset-2">

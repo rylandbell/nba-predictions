@@ -210,7 +210,7 @@ module.exports.userMonthCreate = function(req, res) {
           console.log(err);
           sendJsonResponse(res, 400, err);
         } else {
-          sendJsonResponse(res, 201, userMonth);
+          sendJsonResponse(res, 201, [userMonth]);
         }
       }
     );

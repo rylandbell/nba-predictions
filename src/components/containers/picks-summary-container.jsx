@@ -7,9 +7,10 @@ import {createUserMonth} from '../../actions/api-post.js';
 import ActionCreator from '../../actions/action-creators.js';
 import PicksSummary from '../picks-summary/picks-summary.jsx';
 import { getActiveUserMonth } from '../../selectors/userMonth.js';
+import { checkMissingUserMonth } from '../../selectors/missingUserMonth.js';
 
 const mapStateToProps = state => ({
-  missingUserMonth: state.fetchStatus.missingUserMonth,
+  missingUserMonth: checkMissingUserMonth(state),
   activeUserMonth: getActiveUserMonth(state),
   activeMonth: state.activeMonth,
   activeLeagueId: state.activeLeagueId,

@@ -6,9 +6,11 @@ import Alert from 'react-s-alert';
 import ActionCreator from '../../actions/action-creators.js';
 import {createUserMonth} from '../../actions/api-post.js';
 import MonthlyPicks from '../monthly-picks/monthly-picks.jsx';
+import { checkMissingUserMonth } from '../../selectors/missingUserMonth.js';
 
 const mapStateToProps = state => ({
-  reduxState: state
+  reduxState: state,
+  missingUserMonth: checkMissingUserMonth(state)
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -10,7 +10,7 @@ export const userFlowMiddleware = ({
   getState
 }) => next => action => {
   const state = getState();
-  let newActiveDate, oneLeague, noUserMonths;
+  let newActiveDate, oneLeague;
 
   const showAlert = (errorDescription) => {
     Alert.warning(`Error: ${errorDescription} ${action.payload.message}`,
@@ -26,7 +26,6 @@ export const userFlowMiddleware = ({
 
   switch (action.type) {
 
-    
     case 'SET_ACTIVE_MONTH':
 
       //when the active month changes, the active date should be the current date OR the first of that month
@@ -68,16 +67,6 @@ export const userFlowMiddleware = ({
       }
       break;
 
-    //if a user has signed up for their first league, but doesn't have a userMonth yet, enable tours
-    case 'REQUEST_USER_MONTH_DATA_FAILURE':
-      oneLeague = getState().user.leagues.length === 1;
-      noUserMonths = action.payload && action.payload.message === "No userMonth found";
-      if (oneLeague && noUserMonths) {
-        dispatch(actions.enableDashboardTour());
-        dispatch(actions.enablePicksTour());
-      }
-      break;
-
     case 'ENABLE_DASHBOARD_TOUR':
       runDashboardIntro(dispatch, getState().user.leagues[0].joinPhrase);
       break;
@@ -93,7 +82,17 @@ export const userFlowMiddleware = ({
 
 
     case 'REQUEST_USER_MONTH_DATA_SUCCESS':
+      //
       dispatch(addUserMonthData(action.payload.userMonthArray));
+
+      // initiate tours if this is user's only league AND no userMonths found
+      if (action.payload.userMonthArray.length === 0) {
+        oneLeague = getState().user.leagues.length === 1;
+        if (oneLeague) {
+          dispatch(actions.enableDashboardTour());
+          dispatch(actions.enablePicksTour());
+        }
+      }
       break;
 
     case 'REQUEST_GAME_DATA_SUCCESS':
@@ -126,11 +125,16 @@ export const userFlowMiddleware = ({
     case 'CREATE_USER_MONTH_SUCCESS':
       browserHistory.push(`/picks/${action.payload.month}`);
       dispatch(addUserMonthData(action.payload));
+      dispatch(requestStandingsData(state.activeMonth, state.activeLeagueId));
       break;
 
     //Display appropriate alerts in browser on API errors:
     case 'REQUEST_USER_DATA_FAILURE':
       showAlert('Failed to load user data.');
+      break;
+
+    case 'REQUEST_USER_MONTH_DATA_FAILURE':
+      showAlert('Failed to load user picks data.');
       break;
 
     case 'REQUEST_STANDINGS_DATA_FAILURE':

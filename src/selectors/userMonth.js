@@ -49,6 +49,10 @@ export const getActiveUserMonth = createSelector(
         userMonth => userMonth.month === activeMonth
       );
 
+      if(!activeUserMonth) {
+        return { userMonthId: "", eligibleTeams: [], predictedWinners: {} };
+      }
+
       const userMonthId = activeUserMonth._id;
 
       //Use a list of all teams chosen so far to compute a list of remaining teams

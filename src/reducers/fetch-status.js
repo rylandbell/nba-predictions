@@ -67,22 +67,26 @@ const isFetchingGameData = (state = false, action) => {
   }
 };
 
-const missingUserMonth = (state = false, action) => {
-  switch(action.type){
-    case 'CREATE_USER_MONTH_SUCCESS':
-      return false;
-    case 'REQUEST_USER_MONTH_DATA_SUCCESS':
-      return false;
-    case 'REQUEST_USER_MONTH_DATA_FAILURE':
-      if (action.payload && action.payload.message === "No userMonth found") {
-        return true;
-      } else {
-        return false;
-      }
-    default:
-      return state;
-  }
-};
+// const missingUserMonth = (state = false, action) => {
+//   switch(action.type){
+//     case 'CREATE_USER_MONTH_SUCCESS':
+//       return false;
+//     case 'REQUEST_USER_MONTH_DATA_SUCCESS':
+//       if (action.payload && action.payload.userMonthArray) {
+//         return action.payload.userMonthArray.length === 0;
+//       } else {
+//         return true;
+//       }
+//     case 'REQUEST_USER_MONTH_DATA_FAILURE':
+//       if (action.payload && action.payload.message === "No userMonth found") {
+//         return true;
+//       } else {
+//         return false;
+//       }
+//     default:
+//       return state;
+//   }
+// };
 
 const isFetchingStandingsData = (state = false, action) => {
   switch(action.type){
@@ -160,7 +164,7 @@ const fetchStatus = Redux.combineReducers({
   isFetchingMessageLog,
   isSendingCreateLeague,
   isSendingJoinLeague,
-  missingUserMonth
+  // missingUserMonth
 });
 
 
