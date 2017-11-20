@@ -2,26 +2,6 @@
 
 const api = {
 
-  //GET list of months for standings month-selector
-  requestMonthListWaiting: () => (
-    {
-      type: 'REQUEST_MONTH_LIST_PENDING'
-    }
-  ),
-
-  receiveMonthList: (list) => (
-    { 
-      type: 'RECEIVE_MONTH_LIST',
-      list: list
-    }
-  ),
-
-  requestMonthList: () => (
-    {
-      type: 'REQUEST_MONTH_LIST_FAILURE'
-    }
-  ),
-
   //User actions:
   addPrediction: (gameId, teamName, gameDate) => (
     {

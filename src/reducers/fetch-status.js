@@ -76,19 +76,6 @@ export const isFetchingStandingsData = (state = false, action) => {
   }
 };
 
-export const isFetchingMonthList = (state = false, action) => {
-  switch(action.type){
-    case 'REQUEST_MONTH_LIST_PENDING':
-      return true;
-    case 'RECEIVE_MONTH_LIST':
-      return false;
-    case 'REQUEST_MONTH_LIST_FAILURE':
-      return false;
-    default:
-      return state;
-  }
-};
-
 export const isSendingPrediction = (state = false, action) => {
   switch(action.type){
     case 'SEND_PREDICTION_PENDING':

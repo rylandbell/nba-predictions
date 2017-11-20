@@ -13,7 +13,7 @@ import ChatContainer from './components/containers/chat-container.jsx';
 import LeagueAdminContainer from './components/containers/league-admin-container.jsx';
 import GenericNotFound from './components/generic-not-found.jsx';
 
-const Routes = (
+const routes = (
   <Route path ="/" component={LayoutContainer}>
     <IndexRoute component={DashboardContainer}/>
     <Route path="/picks" component={MonthlyPicksContainer}>
@@ -27,4 +27,4 @@ const Routes = (
   </Route>
 );
 
-export default Routes;
+export default routes;

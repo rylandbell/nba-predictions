@@ -3,14 +3,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { createStore, applyMiddleware, compose } from 'redux';
+import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 import browserHistory from 'react-router/lib/browserHistory';
 import Router from 'react-router/lib/Router';
 import persistState from 'redux-localstorage';
 import Alert from 'react-s-alert';
 
-import Reducers from './reducers/reducers.js';
-import Routes from './routes.jsx';
+import * as reducers from './reducers/root';
+import routes from './routes.jsx';
 import { apiMiddleware } from './middleware/apiMiddleware';
 import { userFlowMiddleware } from './middleware/userFlowMiddleware';
 
@@ -18,7 +18,7 @@ import { userFlowMiddleware } from './middleware/userFlowMiddleware';
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const store = createStore(
-  Reducers.app,
+  combineReducers(reducers),
   composeEnhancers(
     applyMiddleware(userFlowMiddleware, apiMiddleware),
     persistState(['activeLeagueId'])
@@ -30,7 +30,7 @@ function render() {
     <Provider store={store}>
       <div>
         <Router history={browserHistory}>
-          {Routes}
+          {routes}
         </Router>
         <Alert />
       </div>
