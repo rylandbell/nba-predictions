@@ -11,12 +11,11 @@ html(lang="en")
         {window.location.href = '/login';}
     title= title
     meta(name='viewport', content='width=device-width, initial-scale=1.0')
-    link(rel='stylesheet', href='/vendor/bootstrap/css/cyborg.bootstrap.min.css')
+    link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/cyborg/bootstrap.min.css')
     link(href='https://fonts.googleapis.com/css?family=Life+Savers:400,700', rel='stylesheet')
     link(rel='stylesheet', href='/vendor/s-alert/s-alert-default.css')
     link(rel='stylesheet', href='/vendor/s-alert/stackslide.css')
     link(rel='stylesheet', href='/vendor/introjs.min.css')
-    //- link(rel='stylesheet', href='/vendor/introjs-modern.css')
     link(rel='stylesheet', href='/build/bundle.css')
     block stylesheets
 
@@ -26,8 +25,8 @@ html(lang="en")
         block content
       .footer-container
         include ../includes/footer
-    script(src='/vendor/js/jquery-1.11.1.min.js')
-    script(src='/vendor/bootstrap/js/bootstrap.min.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js')
     script.
       var activeMonth = '#{month}';
     block scripts
