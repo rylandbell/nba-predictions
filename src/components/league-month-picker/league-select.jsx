@@ -4,7 +4,7 @@ import LeagueOption from "./league-option.jsx";
 class LeagueSelect extends Component {
   constructor(props) {
     super(props);
-    this.handleChange.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
   handleChange(e) {
     this.props.setActiveLeague(e.target.value);

@@ -1,37 +1,38 @@
-'use strict';
+import React from "react";
 
-import React from 'react';
-
-const GameStatus = ({statusData, roadTeam, homeTeam, predictedWinner}) => {
+const GameStatus = ({ statusData, roadTeam, homeTeam, predictedWinner }) => {
   var scoreString;
   var progressString;
-  var outcomeString = '';
-  var outcomeClass = '';
+  var outcomeString = "";
+  var outcomeClass = "";
 
   //set scoreString to game score or start time
-  if(statusData.hasStarted){
-    scoreString = statusData.roadScore + ' - ' + statusData.homeScore;
+  if (statusData.hasStarted) {
+    scoreString = statusData.roadScore + " - " + statusData.homeScore;
   } else {
     scoreString = statusData.startTime;
   }
 
   // set progressString to Final or In Progress (maybe eventually better precision than In Progress)
-  if(statusData.hasStarted){
-    if(statusData.isFinal) {
-      progressString = 'Final';
+  if (statusData.hasStarted) {
+    if (statusData.isFinal) {
+      progressString = "Final";
     } else {
-      progressString = 'In Progress';
+      progressString = "In Progress";
     }
   }
 
   // set outcomeString to display "success" or "failure" appropriately
-  if(predictedWinner.teamName === homeTeam || predictedWinner.teamName === roadTeam){
-    if(predictedWinner.outcome === 'success'){
-      outcomeString = 'W';
-      outcomeClass = 'text-success';
-    } else if (predictedWinner.outcome === 'failure'){
-      outcomeString = 'L';
-      outcomeClass = 'text-danger';
+  if (
+    predictedWinner.teamName === homeTeam ||
+    predictedWinner.teamName === roadTeam
+  ) {
+    if (predictedWinner.outcome === "success") {
+      outcomeString = "W";
+      outcomeClass = "text-success";
+    } else if (predictedWinner.outcome === "failure") {
+      outcomeString = "L";
+      outcomeClass = "text-danger";
     }
   }
 
