@@ -1,7 +1,7 @@
 import { createSelector } from "reselect";
 import _uniq from "lodash/uniq";
 
-const getUserMonthsData = state => state.userMonthsData;
+const getUserMonthsData = state => state.apiData.userMonthsData;
 
 // create list of months available to current user for current league
 // should include all past months with userMonth data, plus current and subsequent month

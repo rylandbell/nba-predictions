@@ -7,7 +7,7 @@ import LeagueMonthPicker from '../league-month-picker/league-month-picker.jsx';
 import { getAvailableMonths } from '../../selectors/availableMonths.js';
 
 const mapStateToProps = state => ({
-  user: state.user,
+  user: state.apiData.user,
   noLeaguesJoined: state.noLeaguesJoined,
   activeLeagueId: state.activeLeagueId,
   activeMonth: state.dates.activeMonth,

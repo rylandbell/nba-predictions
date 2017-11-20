@@ -3,7 +3,7 @@ import _values from "lodash/values";
 import _difference from "lodash/difference";
 
 const getActiveMonth = state => state.dates.activeMonth;
-const getUserMonthsData = state => state.userMonthsData;
+const getUserMonthsData = state => state.apiData.userMonthsData;
 
 const teamsList = [
   "ATL",

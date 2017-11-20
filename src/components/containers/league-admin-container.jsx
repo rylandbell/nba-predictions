@@ -12,7 +12,7 @@ const mapStateToProps = (state) => ({
   enteredJoinPhrase: state.ui.enteredJoinPhrase,
   isSendingCreateLeague: state.fetchStatus.isSendingCreateLeague,
   isSendingJoinLeague: state.fetchStatus.isSendingJoinLeague,
-  user: state.user
+  user: state.apiData.user
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -7,7 +7,7 @@ import StandingsTable from '../standings/standings-table.jsx';
 const mapStateToProps = state => ({
   activeMonth: state.dates.activeMonth,
   currentMonth: state.dates.currentMonth,
-  standingsData: state.standingsData,
+  standingsData: state.apiData.standingsData,
   isFetchingStandingsData: state.fetchStatus.isFetchingStandingsData
 });
 

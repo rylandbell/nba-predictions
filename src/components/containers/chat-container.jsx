@@ -8,7 +8,7 @@ import {sendMessage} from '../../actions/api-put.js';
 import ActionCreator from '../../actions/action-creators.js';
 
 const mapStateToProps = (state) => ({
-  messages: state.messages,
+  messages: state.apiData.messages,
   activeLeagueId: state.activeLeagueId,
   enteredChatText: state.ui.enteredChatText,
   isFetchingMessageLog: state.fetchStatus.isFetchingMessageLog
