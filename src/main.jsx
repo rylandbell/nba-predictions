@@ -1,8 +1,5 @@
 'use strict';
 
-//babel-polyfill will polyfill ES6 features, specifically Promises for fetch
-// import 'babel-polyfill';
-
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
@@ -42,12 +39,6 @@ function render() {
   );
 }
 
-//don't actually run anything on login page:
-if (window.location.pathname !== "/login") {  
-  store.subscribe(render);
-  render();
-}
-
 //~~~~~~Bootstrap/jQuery~~~~~~~~
 
 //Hide nav menu once an item is selected
@@ -56,4 +47,3 @@ $(document).on('click','.navbar-collapse.in',function(e) {
     $(this).collapse('hide');
   }
 });
-
