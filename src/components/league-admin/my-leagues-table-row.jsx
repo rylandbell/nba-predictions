@@ -1,8 +1,6 @@
-'use strict';
+import React from "react";
 
-import React from 'react';
-
-const MyLeaguesTableRow = ({league}) => {
+const MyLeaguesTableRow = ({ league }) => {
   return (
     <tr>
       <td>{league.name}</td>
