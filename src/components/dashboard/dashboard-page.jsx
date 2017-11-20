@@ -1,16 +1,14 @@
-'use strict';
+import React, { Component } from "react";
 
-import React from 'react';
+import StandingsContainer from "../containers/standings-container.jsx";
+import PicksSummaryContainer from "../containers/picks-summary-container.jsx";
+import ChatContainer from "../containers/chat-container.jsx";
 
-import StandingsContainer from '../containers/standings-container.jsx';
-import PicksSummaryContainer from '../containers/picks-summary-container.jsx';
-import ChatContainer from '../containers/chat-container.jsx';
-
-const DashboardPage = React.createClass({
-  componentDidMount: function() {
-    document.title = document.title.split(' | ')[0] + ' | Dashboard';
-  },
-  render: function() {
+class DashboardPage extends Component {
+  componentDidMount() {
+    document.title = document.title.split(" | ")[0] + " | Dashboard";
+  }
+  render() {
     return (
       <div>
         <div className="row full-height-parent">
@@ -25,8 +23,8 @@ const DashboardPage = React.createClass({
           </div>
         </div>
       </div>
-    )
+    );
   }
-});
+}
 
 export default DashboardPage;
