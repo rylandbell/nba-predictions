@@ -5,9 +5,10 @@ import { connect } from 'react-redux';
 import LeagueAdmin from '../league-admin/league-admin.jsx';
 import ActionCreator from '../../actions/action-creators.js';
 import {createLeague, joinLeague} from '../../actions/api-post.js';
+import { checkNoLeaguesJoined } from '../../selectors/noLeaguesJoined.js';
 
 const mapStateToProps = (state) => ({
-  noLeaguesJoined: state.noLeaguesJoined,
+  noLeaguesJoined: checkNoLeaguesJoined(state),
   enteredLeagueName: state.ui.enteredLeagueName,
   enteredJoinPhrase: state.ui.enteredJoinPhrase,
   isSendingCreateLeague: state.fetchStatus.isSendingCreateLeague,

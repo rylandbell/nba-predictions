@@ -4,6 +4,7 @@ import {browserHistory} from 'react-router';
 import {addUserData, addStandingsData, addUserMonthData, addGameData, addMessageLog, requestStandingsData, requestUserMonthData, requestMessageLog, requestGameData} from '../actions/api-get.js';
 import actions from '../actions/action-creators.js';
 import {runDashboardIntro} from '../intro-tours.js';
+import { checkNoLeaguesJoined } from '../selectors/noLeaguesJoined.js';
 
 export const userFlowMiddleware = ({
   dispatch,
@@ -11,6 +12,7 @@ export const userFlowMiddleware = ({
 }) => next => action => {
   const state = getState();
   let newActiveDate, oneLeague;
+  const noLeaguesJoined = checkNoLeaguesJoined(state);
 
   const showAlert = (errorDescription) => {
     Alert.warning(`Error: ${errorDescription} ${action.payload.message}`,
@@ -68,7 +70,7 @@ export const userFlowMiddleware = ({
       break;
 
     case 'ENABLE_DASHBOARD_TOUR':
-      runDashboardIntro(dispatch, getState().user.leagues[0].joinPhrase);
+      runDashboardIntro(dispatch, getState().apiData.user.leagues[0].joinPhrase);
       break;
 
     //Handle content received after successful API calls:
@@ -87,7 +89,7 @@ export const userFlowMiddleware = ({
 
       // initiate tours if this is user's only league AND no userMonths found
       if (action.payload.userMonthArray.length === 0) {
-        oneLeague = getState().user.leagues.length === 1;
+        oneLeague = getState().apiData.user.leagues.length === 1;
         if (oneLeague) {
           dispatch(actions.enableDashboardTour());
           dispatch(actions.enablePicksTour());
@@ -108,7 +110,7 @@ export const userFlowMiddleware = ({
       break;
 
     case 'CREATE_LEAGUE_SUCCESS':
-      if (state.noLeaguesJoined) {
+      if (noLeaguesJoined) {
         browserHistory.push('/');
       }
       dispatch(addUserData(action.payload));
@@ -116,7 +118,7 @@ export const userFlowMiddleware = ({
       break;
 
     case 'JOIN_LEAGUE_SUCCESS':
-      if (state.noLeaguesJoined) {
+      if (noLeaguesJoined) {
         browserHistory.push('/');
       }
       dispatch(addUserData(action.payload));
