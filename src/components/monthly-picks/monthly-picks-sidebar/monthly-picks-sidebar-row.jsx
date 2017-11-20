@@ -1,44 +1,55 @@
-'use strict';
+import React, { Component } from "react";
 
-import React from 'react';
-
-const MonthlyPicksSummaryRow = React.createClass({
-  handleClick: function() {
+class MonthlyPicksSummaryRow extends Component {
+  constructor(props) {
+    super(props);
+    this.handleClick = this.handleClick.bind(this);
+  }
+  handleClick() {
     const singleDigitDate = this.props.dayOfMonth < 10;
-    const newDate = singleDigitDate ? 
-      `${this.props.activeMonth}-0${this.props.dayOfMonth}` : 
-      `${this.props.activeMonth}-${this.props.dayOfMonth}`;
+    const newDate = singleDigitDate
+      ? `${this.props.activeMonth}-0${this.props.dayOfMonth}`
+      : `${this.props.activeMonth}-${this.props.dayOfMonth}`;
     this.props.updateActiveDate(newDate);
-  },
-  render: function () {
-    const isActive = ((this.props.dayOfMonth == moment(this.props.activeDate).format('D')) ? 'active' : '');
-    let outcomeString = '';
-    let outcomeClass = '';
-    
-    if(this.props.userPrediction){
-      if (this.props.userPrediction.outcome === 'success'){
-        outcomeString = 'W';
-        outcomeClass = 'text-success';
-      } else if (this.props.userPrediction.outcome === 'failure'){
-        outcomeString = 'L';
-        outcomeClass = 'text-danger';
+  }
+  render() {
+    const isActive = this.props.dayOfMonth ==
+      moment(this.props.activeDate).format("D")
+      ? "active"
+      : "";
+    let outcomeString = "";
+    let outcomeClass = "";
+
+    if (this.props.userPrediction) {
+      if (this.props.userPrediction.outcome === "success") {
+        outcomeString = "W";
+        outcomeClass = "text-success";
+      } else if (this.props.userPrediction.outcome === "failure") {
+        outcomeString = "L";
+        outcomeClass = "text-danger";
       }
     }
 
-    if(this.props.userPrediction){
+    if (this.props.userPrediction) {
       return (
         <tr onClick={this.handleClick} className={isActive}>
-          <td className="date-col">{this.props.activeMonth.substring(5,7)+'/'+this.props.dayOfMonth}</td>
-          <td className="team-col">{this.props.userPrediction.teamName?this.props.userPrediction.teamName:'-'}</td>
-          <td className={"outcome-col "+outcomeClass}>{outcomeString}</td>
+          <td className="date-col">
+            {this.props.activeMonth.substring(5, 7) +
+              "/" +
+              this.props.dayOfMonth}
+          </td>
+          <td className="team-col">
+            {this.props.userPrediction.teamName
+              ? this.props.userPrediction.teamName
+              : "-"}
+          </td>
+          <td className={"outcome-col " + outcomeClass}>{outcomeString}</td>
         </tr>
       );
     } else {
       return null;
     }
   }
-
-});
-
+}
 
 export default MonthlyPicksSummaryRow;
