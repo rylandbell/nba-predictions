@@ -68,7 +68,7 @@ export function runDashboardIntro(dispatch, joinPhrase){
   window.dashboardIntro.start();
 }
 
-export function runPicksIntro(){
+export function runPicksIntro(dispatch){
   const intro = introJs();
   
   intro.setOptions({

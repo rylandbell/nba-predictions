@@ -6,16 +6,14 @@ import MonthlyPicksSidebarContainer from '../containers/monthly-picks-sidebar-co
 import DailyPicksContainer from '../containers/daily-picks-container.jsx';
 import StatusMessage from '../status-message.jsx';
 import JoinMonth from '../utility/join-month.jsx';
-import {runPicksIntro} from '../../intro-tours.js';
+
 
 const MonthlyPicksPage = React.createClass({
   componentDidMount: function() {
     document.title = document.title.split(' | ')[0] + ' | My Picks';
 
     if (this.props.reduxState.showPicksTour) {
-      setTimeout(function () {
-        runPicksIntro();
-      }, 500);
+      this.props.runPicksTour();
     }
   },
   render: function() {
