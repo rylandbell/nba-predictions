@@ -12,7 +12,7 @@ const MonthlyPicksPage = React.createClass({
   componentDidMount: function() {
     document.title = document.title.split(' | ')[0] + ' | My Picks';
 
-    if (this.props.reduxState.showPicksTour) {
+    if (this.props.reduxState.ui.showPicksTour) {
       this.props.runPicksTour();
     }
   },

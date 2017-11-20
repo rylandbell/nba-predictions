@@ -10,7 +10,7 @@ import ActionCreator from '../../actions/action-creators.js';
 const mapStateToProps = (state) => ({
   messages: state.messages,
   activeLeagueId: state.activeLeagueId,
-  enteredChatText: state.enteredChatText,
+  enteredChatText: state.ui.enteredChatText,
   isFetchingMessageLog: state.fetchStatus.isFetchingMessageLog
 });
 

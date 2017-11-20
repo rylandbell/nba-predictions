@@ -8,8 +8,8 @@ import {createLeague, joinLeague} from '../../actions/api-post.js';
 
 const mapStateToProps = (state) => ({
   noLeaguesJoined: state.noLeaguesJoined,
-  enteredLeagueName: state.enteredLeagueName,
-  enteredJoinPhrase: state.enteredJoinPhrase,
+  enteredLeagueName: state.ui.enteredLeagueName,
+  enteredJoinPhrase: state.ui.enteredJoinPhrase,
   isSendingCreateLeague: state.fetchStatus.isSendingCreateLeague,
   isSendingJoinLeague: state.fetchStatus.isSendingJoinLeague,
   user: state.user

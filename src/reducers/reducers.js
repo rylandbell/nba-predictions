@@ -1,42 +1,12 @@
 "use strict";
 
-const Redux = require("redux");
+import { combineReducers } from 'redux';
 import _sortBy from "lodash/sortBy";
 
 import fetchStatus from "./fetch-status.js";
+import * as uiReducers from './ui';
 
-const enteredChatText = (state = "", action) => {
-  switch (action.type) {
-    case "CHAT_TEXT_ENTRY":
-      return action.enteredChatText;
-    case "SEND_MESSAGE_PENDING":
-      return "";
-    default:
-      return state;
-  }
-};
-
-const enteredLeagueName = (state = "", action) => {
-  switch (action.type) {
-    case "LEAGE_NAME_ENTRY":
-      return action.payload;
-    case "CREATE_LEAGUE_PENDING":
-      return "";
-    default:
-      return state;
-  }
-};
-
-const enteredJoinPhrase = (state = "", action) => {
-  switch (action.type) {
-    case "LEAGUE_ID_ENTRY":
-      return action.payload;
-    case "JOIN_LEAGUE_PENDING":
-      return "";
-    default:
-      return state;
-  }
-};
+const ui = combineReducers(uiReducers);
 
 const user = (state = {}, action) => {
   switch (action.type) {
@@ -188,12 +158,10 @@ const showPicksTour = (state = false, action) => {
 };
 
 const api = {
-  app: Redux.combineReducers({
+  app: combineReducers({
+    ui,
     fetchStatus,
     userMonthsData,
-    enteredChatText,
-    enteredLeagueName,
-    enteredJoinPhrase,
     user,
     noLeaguesJoined,
     activeLeagueId,
