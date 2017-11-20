@@ -9,23 +9,8 @@
   border-radius: 10px;
   border-collapse: initial;
   padding: 0;
+  margin-bottom: 0;
 }
-
-/*.monthly-picks-sidebar tr:last-child td:first-child {
-  border-bottom-left-radius: 5px;
-}
-
-.monthly-picks-sidebar tr:last-child td:last-child {
-  border-bottom-right-radius: 5px;
-}
-
-.monthly-picks-sidebar tr:first-child td:first-child {
-  border-top-left-radius: 5px;
-}
-
-.monthly-picks-sidebar tr:first-child td:last-child {
-  border-top-right-radius: 5px;
-}*/
 
 .monthly-picks-sidebar tr {
   background-color: #121212;

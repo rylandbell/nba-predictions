@@ -87,5 +87,10 @@ export function runPicksIntro(){
     exitOnOverlayClick: true
   });
 
+  intro.onexit(() => {
+    dispatch(actions.disablePicksTour());
+    dispatch(actions.disableDashboardTour());
+  });
+
   intro.start();
 }
