@@ -17,11 +17,6 @@ const api = {
   },
 
   // ~~~~~~Chat component helpers:~~~~~~
-  //always scroll chat window to bottom when new message sent
-  scrollToBottom: function(){
-    const node = this.log;
-    node.parentNode.scrollTop = node.scrollHeight;
-  },
 
   //Convert user-entered string to a message object:
   addMessageProps: function (enteredChatText){

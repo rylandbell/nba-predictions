@@ -1,15 +1,13 @@
-'use strict';
+import React, { Component } from "react";
 
-import React from 'react';
+import Navbar from "./navbar.jsx";
 
-import Navbar from './navbar.jsx';
-
-const LayoutComponent = React.createClass({
-  componentDidMount: function() {
+class LayoutComponent extends Component {
+  componentDidMount() {
     this.props.getUserData();
-    this.props.getGameData(this.props.dates.activeMonth)
-  },
-  render: function () {
+    this.props.getGameData(this.props.dates.activeMonth);
+  }
+  render() {
     return (
       <div>
         <Navbar apiData={this.props.apiData} />
@@ -25,6 +23,6 @@ const LayoutComponent = React.createClass({
       </div>
     );
   }
-});
+}
 
 export default LayoutComponent;
