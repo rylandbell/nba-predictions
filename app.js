@@ -9,6 +9,7 @@ var cookieParser = require('cookie-parser');
 var expressSession = require('express-session');
 var bodyParser = require('body-parser');
 var passport = require('passport');
+var compression = require('compression')
 
 require('./app_api/models/db');
 require('./app_api/config/passport');
@@ -33,7 +34,8 @@ app.use(expressSession({
   saveUninitialized: false,
   secret: process.env.JWT_SECRET
 }));
-// app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(compression());
 app.use(express.static(process.env.PWD + '/public'));
 
 app.use(passport.initialize());
@@ -44,6 +46,8 @@ app.use(function(req, res, next) {
   delete req.session.flash;
   next();
 });
+
+
 
 app.use('/api', routesApi);
 app.use('/', routes);
