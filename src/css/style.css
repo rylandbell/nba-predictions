@@ -1,3 +1,7 @@
+@import './vendor/s-alert-default.css';
+@import './vendor/stackslide.css';
+@import './vendor/introjs.min.css';
+
 @import './mobile.css';
 @import './dashboard.css';
 @import './day-picker.css';
