@@ -39,6 +39,9 @@ function render() {
   );
 }
 
+store.subscribe(render);
+render();
+
 //~~~~~~Bootstrap/jQuery~~~~~~~~
 
 //Hide nav menu once an item is selected
