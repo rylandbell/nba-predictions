@@ -1,6 +1,5 @@
 /*game flexbox */
 .game-container {
-  /*height: 66px;*/
   display: flex;
   flex-direction: row;
   align-items: baseline;
@@ -96,12 +95,3 @@
 .game-status-outcome {
   margin: 5px 0 0 0;
 }
-
-/*.team-name h4 {
-  font-size: 24px;
-  font-family: 'Roboto Slab', serif;
-}
-
-h3 {
-  font-family: 'Slabo 27px', serif;
-}*/

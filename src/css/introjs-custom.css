@@ -9,14 +9,3 @@
 .introjs-overlay {
   opacity: 0.4 !important;
 }
-
-@media (min-width: 768px) {
-  .introjs-tooltiptext {
-    /*font-size: 18px;*/
-  }
-
-  /*.introjs-tooltip {
-    width: 600px;
-    max-width: 600px;
-  }*/
-}

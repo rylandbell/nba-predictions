@@ -1,11 +1,5 @@
 /*tweaking the Bootstrap theme:*/
 
-@media (min-width: 768px) {
-  body {
-    /*background: url('../images/black_mamba.png');*/
-    /*background-color: #060606;*/
-  }
-}
 
 @media (min-width: 768px) {
   .container {
@@ -22,15 +16,6 @@
 
 .panel-default {
   color: #fff;
-}
-
-.panel-default > .panel-heading {
-  /*background-color: #282828;*/
-}
-
-.panel-black {
-  /*background-color: #060606;*/
-  /*background-color: rgba(0,0,0,.6);*/
 }
 
 .panel-title {
