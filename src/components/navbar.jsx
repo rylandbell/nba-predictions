@@ -76,6 +76,7 @@ class Navbar extends Component {
                   <a
                     href="https://goo.gl/forms/iWjt8lWwQ815G77Y2"
                     target="_blank"
+                    rel="noopener noreferrer"
                   >
                     Feedback
                   </a>
@@ -107,6 +108,7 @@ class Navbar extends Component {
                       <a
                         href="https://goo.gl/forms/iWjt8lWwQ815G77Y2"
                         target="_blank"
+                        rel="noopener noreferrer"
                       >
                         Feedback
                       </a>

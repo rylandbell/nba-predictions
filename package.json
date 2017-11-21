@@ -6,7 +6,7 @@
     "start": "node ./bin/www",
     "heroku-postbuild": "webpack --config webpack.config.prod.js --progress",
     "updateData": "node ./app_api/controllers/scorekeeping/main.js",
-    "sass-watch": "sass --watch scss:css"
+    "build": "webpack --watch --progress --hide-modules true"
   },
   "dependencies": {
     "autoprefixer": "^7.1.6",
@@ -104,9 +104,7 @@
     },
     "env": {
       "browser": true,
-      "commonjs": true,
       "es6": true,
-      "mocha": true,
       "jquery": true
     },
     "globals": {
@@ -116,17 +114,15 @@
     "plugins": [
       "react"
     ],
-    "react": {
-      "pragma": "React",
-      "version": "15.0"
-    },
     "extends": [
       "eslint:recommended",
-      "plugin:react/recommended"
+      "plugin:react/recommended",
+      "prettier"
     ],
     "rules": {
       "react/prop-types": 0,
       "react/display-name": 0,
+      "react/no-unescaped-entities": 0,
       "no-console": 0
     }
   }

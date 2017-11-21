@@ -15,7 +15,7 @@ const GenericNotFound = () =>
           <p>
             {" "}If you think you've received this message in error, please
             let me know via my
-            <a href="https://goo.gl/forms/iWjt8lWwQ815G77Y2" target="_blank">
+            <a href="https://goo.gl/forms/iWjt8lWwQ815G77Y2" target="_blank" rel="noopener noreferrer">
               &nbsp;feedback form
             </a>
             .

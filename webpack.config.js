@@ -11,8 +11,9 @@ const PATHS = {
 };
 
 module.exports = {
+  devtool: 'source-map',
   entry: {
-    bundle: PATHS.app
+    bundle: ['whatwg-fetch', PATHS.app]
   },
   output: {
     path: PATHS.dist,
@@ -20,15 +21,15 @@ module.exports = {
   },
   module: {
     rules: [
-      // {
-      //   test: /\.jsx?$/,
-      //   exclude: /node_modules/,
-      //   enforce: "pre",
-      //   loader: "eslint-loader",
-      //   options: {
-      //     fix: false
-      //   }
-      // },
+      {
+        test: /\.jsx?$/,
+        exclude: /node_modules/,
+        enforce: "pre",
+        loader: "eslint-loader",
+        options: {
+          fix: false
+        }
+      },
       {
         test: /\.jsx?$/,
         loader: "babel-loader"
