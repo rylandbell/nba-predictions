@@ -1,6 +1,7 @@
 import { createSelector } from "reselect";
 import _values from "lodash/values";
 import _difference from "lodash/difference";
+import _find from "lodash/find";
 
 const getActiveMonth = state => state.dates.activeMonth;
 const getUserMonthsData = state => state.apiData.userMonthsData;
@@ -44,7 +45,8 @@ export const getActiveUserMonth = createSelector(
   (activeMonth, userMonthsData) => {
     if (userMonthsData.length > 0) {
       //Find the userMonth for the active month:
-      const activeUserMonth = userMonthsData.find(
+      const activeUserMonth = _find(
+        userMonthsData,
         userMonth => userMonth.month === activeMonth
       );
 

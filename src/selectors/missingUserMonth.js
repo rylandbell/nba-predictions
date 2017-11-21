@@ -1,4 +1,5 @@
 import { createSelector } from "reselect";
+import _find from "lodash/find";
 
 const getUserMonthsData = state => state.apiData.userMonthsData;
 const getActiveMonth = state => state.dates.activeMonth;
@@ -12,8 +13,8 @@ export const checkMissingUserMonth = createSelector(
       return true;
     }
 
-    // check for userMonth for activeMonth
-    const activeUserMonth = userMonthsData.find(
+    const activeUserMonth = _find(
+      userMonthsData,
       userMonth => userMonth.month === activeMonth
     );
 
