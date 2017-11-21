@@ -1,7 +1,30 @@
+import { connect } from 'react-redux';
 import React from "react";
 
 import MonthSelect from "./month-select.jsx";
 import LeagueSelect from "./league-select.jsx";
+import ActionCreator from '../../actions/action-creators.js';
+import { getAvailableMonths } from '../../selectors/availableMonths.js';
+import { checkNoLeaguesJoined } from '../../selectors/noLeaguesJoined.js';
+
+const mapStateToProps = state => ({
+  user: state.apiData.user,
+  noLeaguesJoined: checkNoLeaguesJoined(state),
+  activeLeagueId: state.activeLeagueId,
+  activeMonth: state.dates.activeMonth,
+  currentMonth: state.dates.currentMonth,
+  isFetchingUserData: state.fetchStatus.isFetchingUserData,
+  availableMonths: getAvailableMonths(state)
+});
+
+const mapDispatchToProps = dispatch => ({
+  setActiveLeague: (league) => {
+    dispatch(ActionCreator.setActiveLeague(league));
+  },
+  setActiveMonth: (month) => {
+    dispatch(ActionCreator.setActiveMonth(month));
+  }
+});
 
 const LeagueMonthPicker = ({
   user,
@@ -48,4 +71,9 @@ const LeagueMonthPicker = ({
   return panelContent;
 };
 
-export default LeagueMonthPicker;
+const LeagueMonthPickerContainer = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(LeagueMonthPicker);
+
+export default LeagueMonthPickerContainer;

@@ -1,8 +1,18 @@
+import { connect } from 'react-redux';
 import React, { Component } from "react";
 
 import FullStandingsHeader from "./full-standings-header.jsx";
 import FullStandingsRow from "./full-standings-row.jsx";
 import StatusMessage from "../status-message.jsx";
+
+const mapStateToProps = state => ({
+  activeMonth: state.dates.activeMonth,
+  standingsData: state.apiData.standingsData,
+  isFetchingStandingsData: state.fetchStatus.isFetchingStandingsData
+});
+
+const mapDispatchToProps = () => ({
+});
 
 class FullStandingsPage extends Component {
   componentDidMount() {
@@ -47,4 +57,9 @@ class FullStandingsPage extends Component {
   }
 }
 
-export default FullStandingsPage;
+const FullStandingsPageContainer = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(FullStandingsPage);
+
+export default FullStandingsPageContainer;

@@ -1,8 +1,37 @@
+import { connect } from 'react-redux';
+import browserHistory from 'react-router/lib/browserHistory';
 import React from "react";
 
 import StatusMessage from "../status-message.jsx";
 import JoinMonth from "../utility/join-month.jsx";
 import UpcomingPicks from "./upcoming-picks.jsx";
+import {createUserMonth} from '../../actions/api-post.js';
+import ActionCreator from '../../actions/action-creators.js';
+import { getActiveUserMonth } from '../../selectors/userMonth.js';
+import { checkMissingUserMonth } from '../../selectors/missingUserMonth.js';
+
+const mapStateToProps = state => ({
+  missingUserMonth: checkMissingUserMonth(state),
+  activeUserMonth: getActiveUserMonth(state),
+  activeMonth: state.dates.activeMonth,
+  activeLeagueId: state.activeLeagueId,
+  currentMonth: state.dates.currentMonth,
+  currentDate: state.dates.currentDate,
+  showDashboardTour: state.ui.showDashboardTour
+});
+
+const mapDispatchToProps = dispatch => ({
+  createNewUserMonth: (activeMonth, leagueId) => {
+    dispatch(createUserMonth(activeMonth, leagueId));
+  },
+  goToDate: (date) => {
+    dispatch(ActionCreator.setActiveDate(date));
+    
+    const month = date.substring(0,7);
+    const path = `/picks/${month}`;
+    browserHistory.push(path);
+  }
+});
 
 const PicksSummary = ({
   activeMonth,
@@ -59,4 +88,11 @@ const PicksSummary = ({
   );
 };
 
-export default PicksSummary;
+const PicksSummaryContainer = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(PicksSummary);
+
+export default PicksSummaryContainer;
+
+

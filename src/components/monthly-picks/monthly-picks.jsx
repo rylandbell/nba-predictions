@@ -1,11 +1,50 @@
+import { connect } from 'react-redux';
+import Alert from 'react-s-alert';
 import React, { Component } from "react";
 
-import MonthlyPicksSidebarContainer from "../containers/monthly-picks-sidebar-container.jsx";
-import DailyPicksContainer from "../containers/daily-picks-container.jsx";
+import MonthlyPicksSidebarContainer from "./monthly-picks-sidebar/monthly-picks-sidebar.jsx";
+import DailyPicksContainer from "./daily-picks/daily-picks.jsx";
 import StatusMessage from "../status-message.jsx";
 import JoinMonth from "../utility/join-month.jsx";
+import ActionCreator from '../../actions/action-creators.js';
+import {createUserMonth} from '../../actions/api-post.js';
+import { checkMissingUserMonth } from '../../selectors/missingUserMonth.js';
+import {runPicksIntro} from '../../intro-tours.js';
 
-class MonthlyPicksPage extends Component {
+const mapStateToProps = state => ({
+  ui: state.ui,
+  fetchStatus: state.fetchStatus,
+  dates: state.dates,
+  activeLeagueId: state.activeLeagueId,
+  missingUserMonth: checkMissingUserMonth(state)
+});
+
+const mapDispatchToProps = dispatch => ({
+  createNewUserMonth: (activeMonth, leagueId) => {
+    dispatch(createUserMonth(activeMonth, leagueId));
+  },
+  showAlert: (type, msg, options) => {
+    const defaultOptions = {
+      position: 'top',
+      effect: 'stackslide',
+      beep: false,
+      timeout: 8000,
+      offset: 0
+    };
+    options = Object.assign({}, defaultOptions, options);
+    Alert[type](msg, options);
+  },
+  setActiveMonth: (month) => {
+    dispatch(ActionCreator.setActiveMonth(month));
+  },
+  runPicksTour: () => {
+    setTimeout(function () {
+      runPicksIntro(dispatch);
+    }, 500);
+  }
+});
+
+class MonthlyPicks extends Component {
   constructor(props) {
     super(props);
     this.componentDidMount = this.componentDidMount.bind(this);
@@ -76,4 +115,9 @@ class MonthlyPicksPage extends Component {
   }
 }
 
-export default MonthlyPicksPage;
+const MonthlyPicksContainer = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(MonthlyPicks);
+
+export default MonthlyPicksContainer;

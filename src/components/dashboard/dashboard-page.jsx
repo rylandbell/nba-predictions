@@ -1,8 +1,17 @@
+import { connect } from 'react-redux';
 import React, { Component } from "react";
 
-import StandingsContainer from "../containers/standings-container.jsx";
-import PicksSummaryContainer from "../containers/picks-summary-container.jsx";
-import ChatContainer from "../containers/chat-container.jsx";
+import StandingsContainer from "../standings/standings-table.jsx";
+import PicksSummaryContainer from "../picks-summary/picks-summary.jsx";
+import ChatContainer from "../chat/chat-wall.jsx";
+
+const mapStateToProps = state => ({
+  showDashboardTour: state.ui.showDashboardTour,
+  user: state.apiData.user
+});
+
+const mapDispatchToProps = () => ({
+});
 
 class DashboardPage extends Component {
   componentDidMount() {
@@ -27,4 +36,9 @@ class DashboardPage extends Component {
   }
 }
 
-export default DashboardPage;
+const DashboardContainer = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(DashboardPage);
+
+export default DashboardContainer;

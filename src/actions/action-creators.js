@@ -1,5 +1,3 @@
-"use strict";
-
 const api = {
   //User actions:
   addPrediction: (gameId, teamName, gameDate) => ({

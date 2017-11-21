@@ -1,9 +1,21 @@
+import { connect } from 'react-redux';
+
 import React, { Component } from "react";
 import browserHistory from "react-router/lib/browserHistory";
 
 import StandingsTableHeader from "./standings-table-header.jsx";
 import StandingsTableRow from "./standings-table-row.jsx";
 import StatusMessage from "../status-message.jsx";
+
+const mapStateToProps = state => ({
+  activeMonth: state.dates.activeMonth,
+  currentMonth: state.dates.currentMonth,
+  standingsData: state.apiData.standingsData,
+  isFetchingStandingsData: state.fetchStatus.isFetchingStandingsData
+});
+
+const mapDispatchToProps = () => ({
+});
 
 class StandingsTable extends Component {
   constructor(props) {
@@ -67,4 +79,9 @@ class StandingsTable extends Component {
   }
 }
 
-export default StandingsTable;
+const StandingsContainer = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(StandingsTable);
+
+export default StandingsContainer;

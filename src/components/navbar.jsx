@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Link from "react-router/lib/Link";
-import LeagueMonthPickerContainer from "./containers/league-month-picker-container.jsx";
+import LeagueMonthPickerContainer from "./league-month-picker/league-month-picker.jsx";
 
 class Navbar extends Component {
   handleClick() {

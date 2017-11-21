@@ -1,8 +1,23 @@
+import { connect } from 'react-redux';
 import React from "react";
 
 import MonthlyPicksSidebarRow from "./monthly-picks-sidebar-row.jsx";
+import ActionCreator from '../../../actions/action-creators.js';
+import { getActiveUserMonth } from '../../../selectors/userMonth.js';
 
-const MonthlyPicksSummary = ({
+const mapStateToProps = (state) => ({
+  predictedWinners: getActiveUserMonth(state).predictedWinners,
+  activeDate: state.dates.activeDate,
+  activeMonth: state.dates.activeMonth
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  updateActiveDate: (newDate) => {
+    dispatch(ActionCreator.setActiveDate (newDate));
+  }
+});
+
+const MonthlyPicksSidebar = ({
   predictedWinners,
   activeDate,
   activeMonth,
@@ -42,4 +57,9 @@ const MonthlyPicksSummary = ({
   );
 };
 
-export default MonthlyPicksSummary;
+const MonthlyPicksSidebarContainer = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(MonthlyPicksSidebar);
+
+export default MonthlyPicksSidebarContainer;

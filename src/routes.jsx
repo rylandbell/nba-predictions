@@ -1,16 +1,14 @@
-'use strict';
-
 import React from 'react';
 import Route from 'react-router/lib/Route';
 import IndexRoute from 'react-router/lib/IndexRoute';
 
-import LayoutContainer from './components/containers/layout-container.jsx';
-import MonthlyPicksContainer from './components/containers/monthly-picks-container.jsx';
-import DashboardContainer from './components/containers/dashboard-container.jsx';
-import FullStandingsPageContainer from './components/containers/full-standings-page-container.jsx';
+import LayoutContainer from './components/layout.jsx';
+import MonthlyPicksContainer from './components/monthly-picks/monthly-picks.jsx';
+import DashboardContainer from './components/dashboard/dashboard-page.jsx';
+import FullStandingsPageContainer from './components/full-standings/full-standings-page.jsx';
 import RulesPanel from './components/dashboard/rules-panel.jsx';
-import ChatContainer from './components/containers/chat-container.jsx';
-import LeagueAdminContainer from './components/containers/league-admin-container.jsx';
+import ChatContainer from './components/chat/chat-wall.jsx';
+import LeagueAdminContainer from './components/league-admin/league-admin.jsx';
 import GenericNotFound from './components/generic-not-found.jsx';
 
 const routes = (

@@ -1,8 +1,50 @@
+import { connect } from 'react-redux';
 import React from "react";
 
 import CreateLeague from "./create-league.jsx";
 import JoinLeague from "./join-league.jsx";
 import MyLeaguesTable from "./my-leagues-table.jsx";
+import ActionCreator from '../../actions/action-creators.js';
+import {createLeague, joinLeague} from '../../actions/api-post.js';
+import { checkNoLeaguesJoined } from '../../selectors/noLeaguesJoined.js';
+
+const mapStateToProps = (state) => ({
+  noLeaguesJoined: checkNoLeaguesJoined(state),
+  enteredLeagueName: state.ui.enteredLeagueName,
+  enteredJoinPhrase: state.ui.enteredJoinPhrase,
+  isSendingCreateLeague: state.fetchStatus.isSendingCreateLeague,
+  isSendingJoinLeague: state.fetchStatus.isSendingJoinLeague,
+  user: state.apiData.user
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  handleLeagueNameTextChange: (text) => {
+    dispatch(ActionCreator.leagueNameEntry(text));
+  },
+  handleLeagueIdTextChange: (text) => {
+    dispatch(ActionCreator.leagueIdEntry(text));
+  },
+  listenForEnter: (e) => {
+    if(e.charCode === 13){
+      e.preventDefault();
+      $('.chat__form input[type="submit"]').click();
+    }
+  },
+  sendCreateLeague: (name) => {
+    if(name === ''){
+      return;
+    } else {
+      dispatch(createLeague(name));
+    }
+  },
+  sendJoinLeague: (joinPhrase) => {
+    if(joinPhrase === ''){
+      return;
+    } else {
+      dispatch(joinLeague(joinPhrase));
+    }
+  }
+});
 
 const LeagueAdmin = ({
   noLeaguesJoined,
@@ -63,4 +105,9 @@ const LeagueAdmin = ({
   );
 };
 
-export default LeagueAdmin;
+const LeagueAdminContainer = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(LeagueAdmin);
+
+export default LeagueAdminContainer;
