@@ -13,6 +13,9 @@ import routes from './routes.jsx';
 import { apiMiddleware } from './middleware/apiMiddleware';
 import { userFlowMiddleware } from './middleware/userFlowMiddleware';
 
+// Webpack uses this file as entry point for bundling CSS assets
+import "./css/index.js";
+
 // Add promise polyfill to window
 if (!window.Promise) {
   window.Promise = Promise;

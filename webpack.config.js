@@ -1,5 +1,7 @@
-const webpack = require('webpack');
-const path = require('path');
+// Should only run in a development environment (e.g., locally)
+
+const path = require("path");
+const webpack = require("webpack");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 const PATHS = {
@@ -7,57 +9,60 @@ const PATHS = {
   css: './src/css/style.css',
   dist: path.join(__dirname, './public/build')
 };
- 
+
 module.exports = {
-  devtool: 'source-map',
-  plugins: [
-    new webpack.DefinePlugin({
-      'process.env': {
-        'NODE_ENV': JSON.stringify('development')
-      }
-    }),
-    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
-    new ExtractTextPlugin("bundle.css")
-  ],
   entry: {
-    javascript: ['whatwg-fetch', PATHS.app],
-    css: PATHS.css
+    bundle: PATHS.app
   },
   output: {
     path: PATHS.dist,
-    publicPath: '/build/',
-    filename: 'bundle.js'
-  },
-  eslint: {
-    emitWarning: true
+    filename: "[name].js"
   },
   module: {
-    preLoaders: [
+    rules: [
+      // {
+      //   test: /\.jsx?$/,
+      //   exclude: /node_modules/,
+      //   enforce: "pre",
+      //   loader: "eslint-loader",
+      //   options: {
+      //     fix: false
+      //   }
+      // },
       {
         test: /\.jsx?$/,
-        loaders: ["eslint-loader"],
-        exclude: /node_modules/
-      }
-    ],
-    loaders: [
-      {
-        test: /\.jsx?$/,
-        exclude: /node_modules/,
-        loaders: ["babel-loader"],
+        loader: "babel-loader"
       },
-      // Extract css files
+      {
+        test: /\.(png|jpg|svg|eot|ttf|woff|woff2)$/,
+        loader: "file-loader"
+      },
+      // Don't use PostCSS on vendor code
       {
         test: /\.css$/,
-        loader: ExtractTextPlugin.extract("style-loader", "css-loader")
+        exclude: /node_modules/,
+        use: ExtractTextPlugin.extract({
+          fallback: "style-loader",
+          use: [
+            "css-loader",
+            "postcss-loader"
+          ]
+        })
       },
-      { 
-        test: /\.jpg$/,
-        loader: "url-loader?limit=10000&mimetype=image/jpg"
-      },
-      { 
-        test: /\.png$/,
-        loader: "url-loader?limit=10000&mimetype=image/png"
+      {
+        test: /\.css$/,
+        include: /node_modules/,
+        use: ExtractTextPlugin.extract({
+          fallback: "style-loader",
+          use: ["css-loader"]
+        })
       }
     ]
-  }
+  },
+  plugins: [
+    new ExtractTextPlugin("bundle.css")
+
+    // Minify JS Code (reduces file size by ~60-70%, but makes it unreadable)
+    // new webpack.optimize.UglifyJsPlugin()
+  ]
 };
