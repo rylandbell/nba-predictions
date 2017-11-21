@@ -1,5 +1,7 @@
-const webpack = require('webpack');
-const path = require('path');
+// Should only run in a development environment (e.g., locally)
+
+const path = require("path");
+const webpack = require("webpack");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 const PATHS = {
@@ -7,85 +9,67 @@ const PATHS = {
   css: './src/css/style.css',
   dist: path.join(__dirname, './public/build')
 };
- 
+
 module.exports = {
   devtool: 'source-map',
+  entry: {
+    bundle: ['whatwg-fetch', PATHS.app]
+  },
+  output: {
+    path: PATHS.dist,
+    filename: "[name].js"
+  },
+  module: {
+    rules: [
+      // {
+      //   test: /\.jsx?$/,
+      //   exclude: /node_modules/,
+      //   enforce: "pre",
+      //   loader: "eslint-loader",
+      //   options: {
+      //     fix: false,
+      //     emitWarning: true
+      //   }
+      // },
+      {
+        test: /\.jsx?$/,
+        loader: "babel-loader"
+      },
+      {
+        test: /\.(png|jpg|svg|eot|ttf|woff|woff2)$/,
+        loader: "file-loader"
+      },
+      // Don't use PostCSS on vendor code
+      {
+        test: /\.css$/,
+        exclude: /node_modules/,
+        use: ExtractTextPlugin.extract({
+          fallback: "style-loader",
+          use: [
+            "css-loader",
+            "postcss-loader"
+          ]
+        })
+      },
+      {
+        test: /\.css$/,
+        include: /node_modules/,
+        use: ExtractTextPlugin.extract({
+          fallback: "style-loader",
+          use: ["css-loader"]
+        })
+      }
+    ]
+  },
   plugins: [
     new webpack.DefinePlugin({
       'process.env': {
         'NODE_ENV': JSON.stringify('production')
       }
     }),
-    new webpack.optimize.UglifyJsPlugin({
+    new ExtractTextPlugin("bundle.css"),
 
-      // Don't beautify output (enable for neater output)
-      beautify: false,
-
-      // Eliminate comments
-      comments: false,
-
-      // Compression specific options
-      compress: {
-        warnings: false,
-
-        // Drop `console` statements
-        drop_console: false
-      },
-
-      // Mangling specific options
-      mangle: {
-        // Don't mangle ['....']
-        except: ['webpackJsonp'],
-
-        // Don't care about IE8
-        screw_ie8 : true,
-
-        // Don't mangle function names
-        keep_fnames: false
-      }
-    }),
-    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
-    new ExtractTextPlugin("bundle.css")
-  ],
-  entry: {
-    javascript: ['whatwg-fetch', PATHS.app],
-    css: PATHS.css
-  },
-  output: {
-    path: PATHS.dist,
-    publicPath: '/build/',
-    filename: 'bundle.js'
-  },
-  eslint: {
-    emitWarning: true
-  },
-  module: {
-    preLoaders: [
-      {
-        test: /\.jsx?$/,
-        loaders: ["eslint-loader"],
-        exclude: /node_modules/
-      }
-    ],
-    loaders: [
-      {
-        test: /\.jsx?$/,
-        exclude: /node_modules/,
-        loaders: ["babel-loader"],
-      },
-      // Extract css files
-      {
-        test: /\.css$/,
-        loader: ExtractTextPlugin.extract("style-loader", "css-loader")
-      },
-      { 
-        test: /\.jpg$/,
-        loader: "url-loader?limit=10000&mimetype=image/jpg"
-      },
-      { 
-        test: /\.png$/,
-        loader: "url-loader?limit=10000&mimetype=image/png"
-      }
-    ]
-  }
+    // Minify JS Code (reduces file size by ~60-70%, but makes it unreadable)
+    new webpack.optimize.UglifyJsPlugin()
+  ]
 };

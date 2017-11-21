@@ -27,7 +27,8 @@ module.exports = {
         enforce: "pre",
         loader: "eslint-loader",
         options: {
-          fix: false
+          fix: false,
+          emitWarning: true
         }
       },
       {
@@ -61,6 +62,11 @@ module.exports = {
     ]
   },
   plugins: [
+    new webpack.DefinePlugin({
+      'process.env': {
+        'NODE_ENV': JSON.stringify('development')
+      }
+    }),
     new ExtractTextPlugin("bundle.css")
 
     // Minify JS Code (reduces file size by ~60-70%, but makes it unreadable)
