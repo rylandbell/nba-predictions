@@ -29,10 +29,6 @@
     padding-top: 8px;
     padding-bottom: 8px;
   }
-
-  .league-month-picker__select.form-control {
-    padding: 30px !important;
-  }
 }
 
 @media (max-width: 767px) {
