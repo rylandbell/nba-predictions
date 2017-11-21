@@ -150,7 +150,7 @@ export const userFlowMiddleware = ({
       break;
 
     case "CREATE_USER_MONTH_SUCCESS":
-      browserHistory.push(`/picks/${action.payload.month}`);
+      browserHistory.push(`/picks`);
       dispatch(addUserMonthData(action.payload));
       dispatch(
         requestStandingsData(state.dates.activeMonth, state.activeLeagueId)
