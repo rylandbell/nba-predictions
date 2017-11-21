@@ -143,7 +143,7 @@ module.exports.leagueJoin = function(req, res) {
 
         //don't add multiple entries for same league:
         const leagueIndex = _.findIndex(user.leagues, {
-          id: req.params.joinPhrase
+          joinPhrase: req.params.joinPhrase
         });
         if (leagueIndex > -1) {
           sendJsonResponse(res, 400, {
