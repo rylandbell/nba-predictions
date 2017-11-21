@@ -6,11 +6,17 @@ import browserHistory from 'react-router/lib/browserHistory';
 import Router from 'react-router/lib/Router';
 import persistState from 'redux-localstorage';
 import Alert from 'react-s-alert';
+import Promise from 'promise-polyfill'; 
 
 import * as reducers from './reducers/root';
 import routes from './routes.jsx';
 import { apiMiddleware } from './middleware/apiMiddleware';
 import { userFlowMiddleware } from './middleware/userFlowMiddleware';
+
+// Add promise polyfill to window
+if (!window.Promise) {
+  window.Promise = Promise;
+}
 
 // (Enables Redux dev tools in browser)
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
