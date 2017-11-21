@@ -70,7 +70,8 @@
     "uglify-js": "^2.7.3",
     "url-loader": "^0.5.7",
     "webpack": "^1.15.0",
-    "webpack-uglify-js-plugin": "^1.1.9"
+    "webpack-uglify-js-plugin": "^1.1.9",
+    "whatwg-fetch": "^2.0.3"
   },
   "engines": {
     "node": "~6.9.5",

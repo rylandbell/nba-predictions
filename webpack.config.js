@@ -20,7 +20,7 @@ module.exports = {
     new ExtractTextPlugin("bundle.css")
   ],
   entry: {
-    javascript: PATHS.app,
+    javascript: ['whatwg-fetch', PATHS.app],
     css: PATHS.css
   },
   output: {
