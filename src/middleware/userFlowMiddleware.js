@@ -1,5 +1,5 @@
 import Alert from "react-s-alert";
-import { browserHistory } from "react-router";
+import browserHistory from 'react-router/lib/browserHistory';
 
 import {
   addUserData,
