@@ -1,45 +1,53 @@
-require('dotenv').config({silent:true});
-process.env.PWD = process.cwd()
+require("dotenv").config({ silent: true });
+process.env.PWD = process.cwd();
 
-var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var expressSession = require('express-session');
-var bodyParser = require('body-parser');
-var passport = require('passport');
-var compression = require('compression');
-var helmet = require('helmet');
+var express = require("express");
+var path = require("path");
+var favicon = require("serve-favicon");
+var logger = require("morgan");
+var cookieParser = require("cookie-parser");
+var expressSession = require("express-session");
+var bodyParser = require("body-parser");
+var passport = require("passport");
+var compression = require("compression");
+var helmet = require("helmet");
 
-require('./app_api/models/db');
-require('./app_api/config/passport');
+require("./app_api/models/db");
+require("./app_api/config/passport");
 
-var routes = require('./app_server/routes/index');
-var routesApi = require('./app_api/routes/index');
+var routes = require("./app_server/routes/index");
+var routesApi = require("./app_api/routes/index");
 
 var app = express();
 
 // view engine setup
-app.set('views', path.join(__dirname, 'app_server', 'views'));
-app.set('view engine', 'jade');
+app.set("views", path.join(__dirname, "app_server", "views"));
+app.set("view engine", "jade");
 
-app.use(helmet());
+app.use(
+  helmet(
+    (frameguard: {
+      action: "deny"
+    })
+  )
+);
 
-app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-app.use(logger('dev'));
+app.use(favicon(path.join(__dirname, "public", "favicon.ico")));
+app.use(logger("dev"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(cookieParser());
-app.use(expressSession({
-  resave: false,
-  saveUninitialized: false,
-  secret: process.env.JWT_SECRET
-}));
+app.use(
+  expressSession({
+    resave: false,
+    saveUninitialized: false,
+    secret: process.env.JWT_SECRET
+  })
+);
 
 app.use(compression());
-app.use(express.static(process.env.PWD + '/public'));
+app.use(express.static(process.env.PWD + "/public"));
 
 app.use(passport.initialize());
 
@@ -50,10 +58,8 @@ app.use(function(req, res, next) {
   next();
 });
 
-
-
-app.use('/api', routesApi);
-app.use('/', routes);
+app.use("/api", routesApi);
+app.use("/", routes);
 
 //Not working in latest version of node; commenting out for the time beingz
 //Report on envirnoment to console:
@@ -61,20 +67,22 @@ app.use('/', routes);
 //   console.log('Express started in '+app.get('env')+' mode on port '+app.get('port'));
 // });
 
-switch(app.get('env')){
-  case 'development':
-    app.use(require('morgan')('dev'));
+switch (app.get("env")) {
+  case "development":
+    app.use(require("morgan")("dev"));
     break;
-  case 'production':
-    app.use(require('express-logger')({
-      path: __dirname + '/log/requests.log'
-    }));
+  case "production":
+    app.use(
+      require("express-logger")({
+        path: __dirname + "/log/requests.log"
+      })
+    );
     break;
 }
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  var err = new Error('Not Found');
+  var err = new Error("Not Found");
   err.status = 404;
   next(err);
 });
@@ -83,10 +91,10 @@ app.use(function(req, res, next) {
 
 // development error handler
 // will print stacktrace
-if (app.get('env') === 'development') {
+if (app.get("env") === "development") {
   app.use(function(err, req, res, next) {
     res.status(err.status || 500);
-    res.render('error', {
+    res.render("error", {
       message: err.message,
       error: err
     });
@@ -97,7 +105,7 @@ if (app.get('env') === 'development') {
 // no stacktraces leaked to user
 app.use(function(err, req, res, next) {
   res.status(err.status || 500);
-  res.render('error', {
+  res.render("error", {
     message: err.message,
     error: {}
   });
@@ -105,7 +113,7 @@ app.use(function(err, req, res, next) {
 
 //output pretty HTML:
 // if (app.get('env') === 'development') {
-if(true){
+if (true) {
   app.locals.pretty = true;
 }
 
