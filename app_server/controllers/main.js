@@ -62,7 +62,8 @@ var _showError = function (req, res, apiResponse, err, body) {
     message: message,
     title: title,
     content: content,
-    pageId: 'generic-text'
+    pageId: 'generic-text',
+    nonce: req.nonce
   });
 };
 
@@ -73,7 +74,8 @@ module.exports.reactApp = function (req, res, next) {
     month: req.params.month,
     loggedIn: true,
     error: req.query.err,
-    pageId: 'react-app'
+    pageId: 'react-app',
+    nonce: req.nonce
   });
 };
 
@@ -90,7 +92,8 @@ var renderLoginView = function (req, res, body) {
       title: 'Pigeon Hoops | Login Page',
       loggedIn: false,
       message: message,
-      pageId: 'login-page'
+      pageId: 'login-page',
+      nonce: req.nonce
     });
 };
 

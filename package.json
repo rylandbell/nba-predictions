@@ -30,6 +30,7 @@
     "dotenv": "^2.0.0",
     "es6-promise": "^4.0.5",
     "express": "~4.13.1",
+    "express-csp-header": "^2.1.0",
     "express-jwt": "^5.0.0",
     "express-logger": "0.0.3",
     "express-session": "^1.15.6",

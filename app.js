@@ -11,6 +11,7 @@ var bodyParser = require("body-parser");
 var passport = require("passport");
 var compression = require("compression");
 var helmet = require("helmet");
+var csp = require("express-csp-header");
 
 require("./app_api/models/db");
 require("./app_api/config/passport");
@@ -19,18 +20,32 @@ var routes = require("./app_server/routes/index");
 var routesApi = require("./app_api/routes/index");
 
 var app = express();
+var cspMiddleware = csp({
+  policies: {
+    "default-src": [csp.SELF],
+    "script-src": [csp.NONCE, "cdnjs.cloudflare.com"],
+    "style-src": [csp.SELF, csp.INLINE, "fonts.googleapis.com", "cdnjs.cloudflare.com"],
+    "img-src": [csp.SELF],
+    "font-src": [csp.NONCE, "fonts.gstatic.com", "cdnjs.cloudflare.com"],
+    "object-src": [csp.NONE],
+    "block-all-mixed-content": true,
+    "frame-ancestors": [csp.NONE]
+  }
+});
 
 // view engine setup
 app.set("views", path.join(__dirname, "app_server", "views"));
 app.set("view engine", "jade");
 
 app.use(
-  helmet(
-    (frameguard: {
+  helmet({
+    frameguard: {
       action: "deny"
-    })
-  )
+    }
+  })
 );
+
+app.use(cspMiddleware);
 
 app.use(favicon(path.join(__dirname, "public", "favicon.ico")));
 app.use(logger("dev"));

@@ -1,7 +1,7 @@
 doctype html
 html(lang="en")
   head
-    script.
+    script(nonce='#{nonce}').
       function getCookie(name) {
         var value = "; " + document.cookie;
         var parts = value.split("; " + name + "=");
@@ -13,7 +13,7 @@ html(lang="en")
     meta(name='viewport', content='width=device-width, initial-scale=1.0')
     link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/cyborg/bootstrap.min.css')
     link(href='https://fonts.googleapis.com/css?family=Life+Savers:400,700', rel='stylesheet')
-    link(rel='stylesheet', href='/build/bundle.css')
+    link(rel='stylesheet', href='/build/bundle.css', nonce='#{nonce}')
     block stylesheets
 
   body(id="#{pageId}")
@@ -24,7 +24,7 @@ html(lang="en")
         include ../includes/footer
     script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js')
     script(src='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js')
-    script.
+    script(nonce='#{nonce}').
       var activeMonth = '#{month}';
     block scripts
     
