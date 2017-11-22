@@ -12,6 +12,7 @@ var passport = require("passport");
 var compression = require("compression");
 var helmet = require("helmet");
 var csp = require("express-csp-header");
+var referrerPolicy = require('referrer-policy');
 
 require("./app_api/models/db");
 require("./app_api/config/passport");
@@ -46,6 +47,8 @@ app.use(
 );
 
 app.use(cspMiddleware);
+
+app.use(referrerPolicy({ policy: 'same-origin' }));
 
 app.use(favicon(path.join(__dirname, "public", "favicon.ico")));
 app.use(logger("dev"));

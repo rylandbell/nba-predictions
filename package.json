@@ -63,6 +63,7 @@
     "redux": "^3.5.2",
     "redux-localstorage": "^0.4.1",
     "redux-thunk": "^2.1.0",
+    "referrer-policy": "^1.1.0",
     "request": "^2.71.0",
     "reselect": "^3.0.1",
     "serve-favicon": "~2.3.0",
