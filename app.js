@@ -12,7 +12,7 @@ var passport = require("passport");
 var compression = require("compression");
 var helmet = require("helmet");
 var csp = require("express-csp-header");
-var referrerPolicy = require('referrer-policy');
+var referrerPolicy = require("referrer-policy");
 
 require("./app_api/models/db");
 require("./app_api/config/passport");
@@ -21,23 +21,26 @@ var routes = require("./app_server/routes/index");
 var routesApi = require("./app_api/routes/index");
 
 var app = express();
-var cspMiddleware = csp({
-  policies: {
-    "default-src": [csp.SELF],
-    "script-src": [csp.NONCE, "cdnjs.cloudflare.com"],
-    "style-src": [csp.SELF, csp.INLINE, "fonts.googleapis.com", "cdnjs.cloudflare.com"],
-    "img-src": [csp.SELF],
-    "font-src": [csp.NONCE, "fonts.gstatic.com", "cdnjs.cloudflare.com"],
-    "object-src": [csp.NONE],
-    "block-all-mixed-content": true,
-    "frame-ancestors": [csp.NONE]
-  }
-});
 
 // view engine setup
 app.set("views", path.join(__dirname, "app_server", "views"));
 app.set("view engine", "jade");
 
+// logging
+switch (app.get("env")) {
+  case "development":
+    app.use(logger("dev"));
+    break;
+  case "production":
+    app.use(
+      require("express-logger")({
+        path: __dirname + "/log/requests.log"
+      })
+    );
+    break;
+}
+
+// security middleware
 app.use(
   helmet({
     frameguard: {
@@ -46,12 +49,31 @@ app.use(
   })
 );
 
-app.use(cspMiddleware);
+app.use(
+  csp({
+    policies: {
+      "default-src": [csp.SELF],
+      "script-src": [csp.NONCE, "cdnjs.cloudflare.com"],
+      "style-src": [
+        csp.SELF,
+        csp.INLINE,
+        "fonts.googleapis.com",
+        "cdnjs.cloudflare.com"
+      ],
+      "img-src": [csp.SELF],
+      "font-src": [csp.NONCE, "fonts.gstatic.com", "cdnjs.cloudflare.com"],
+      "object-src": [csp.NONE],
+      "block-all-mixed-content": true,
+      "frame-ancestors": [csp.NONE]
+    }
+  })
+);
 
-app.use(referrerPolicy({ policy: 'same-origin' }));
+// misc. middleware
+app.use(referrerPolicy({ policy: "same-origin" }));
 
 app.use(favicon(path.join(__dirname, "public", "favicon.ico")));
-app.use(logger("dev"));
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -76,27 +98,11 @@ app.use(function(req, res, next) {
   next();
 });
 
+//routes
 app.use("/api", routesApi);
 app.use("/", routes);
 
-//Not working in latest version of node; commenting out for the time beingz
-//Report on envirnoment to console:
-// app.listen(app.get('port'),function(){
-//   console.log('Express started in '+app.get('env')+' mode on port '+app.get('port'));
-// });
 
-switch (app.get("env")) {
-  case "development":
-    app.use(require("morgan")("dev"));
-    break;
-  case "production":
-    app.use(
-      require("express-logger")({
-        path: __dirname + "/log/requests.log"
-      })
-    );
-    break;
-}
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -130,9 +136,6 @@ app.use(function(err, req, res, next) {
 });
 
 //output pretty HTML:
-// if (app.get('env') === 'development') {
-if (true) {
-  app.locals.pretty = true;
-}
+app.locals.pretty = true;
 
 module.exports = app;
