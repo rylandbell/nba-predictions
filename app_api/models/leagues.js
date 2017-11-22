@@ -2,7 +2,7 @@
 const mongoose = require('mongoose');
 
 const leagueSchema = new mongoose.Schema({
-  name: { type: String, required: true, unique: true },
+  name: { type: String, required: true},
   public: { type: Boolean, default: false},
   joinPhrase: {type: String, required: true, unique: true}
 });
