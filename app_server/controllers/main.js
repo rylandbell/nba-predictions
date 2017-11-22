@@ -122,7 +122,6 @@ module.exports.submitCredentials = function (req, res, next) {
 };
 
 module.exports.registerNew = function (req, res, next) {
-  console.log('registerNew called');
   var path = '/api/register';
   var requestOptions = {
     url: apiOptions.server + path,

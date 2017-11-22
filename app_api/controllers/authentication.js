@@ -27,10 +27,18 @@ module.exports.register = function (req, res) {
   user.save(function (err, user) {
     let token;
     if (err) {
+      // uniqueness violation errors:
       if (err.code === 11000) {
-        console.log('11000 error: ', err);
+        var duplicateFieldName = err.message.split(' ')[7];
+
+        if (duplicateFieldName === "displayName_1") {
+          duplicateFieldName = "display name";
+        } else if (duplicateFieldName = "username_1") {
+          duplicateFieldName = "username";
+        }
+
         sendJsonResponse(res, 400, {
-          message: 'That username is already taken. Try something else.'
+          message: `That ${duplicateFieldName} is already taken. Try something else.`
         });
       } else {
         sendJsonResponse(res, 404, err);
