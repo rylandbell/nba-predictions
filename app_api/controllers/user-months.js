@@ -196,6 +196,11 @@ module.exports.userMonthReadAllPublic = function(req, res) {
 
 /* POST a new userMonth */
 module.exports.userMonthCreate = function(req, res) {
+  
+  // Human userMonths are created with empty predictedWinners, but computer players submit
+  // picks upon creation
+  const predictedWinners = req.body.predictedWinners || {};
+  
   getUserData(req, res, function(req, res, user) {
     UserMonthModel.create(
       {
@@ -203,7 +208,7 @@ module.exports.userMonthCreate = function(req, res) {
         leagueId: req.body.leagueId,
         ownerId: user._id,
         ownerDisplayName: user.displayName,
-        predictedWinners: {}
+        predictedWinners: predictedWinners
       },
       function(err, userMonth) {
         if (err) {
