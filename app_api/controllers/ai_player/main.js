@@ -1,24 +1,26 @@
 const fs = require("fs");
-const request = require('request');
+const request = require("request");
 const parse = require("csv-parse");
 const moment = require("moment");
-const munkres = require('munkres-js');
+const munkres = require("munkres-js");
+const fetch = require('isomorphic-fetch');
 
-const Helper = require('./helper');
-const colNames = require('./constants').colNames;
-const teamList = require('./constants').teamList;
+const Helper = require("./helper");
+const colNames = require("./constants").colNames;
+const teamList = require("./constants").teamList;
 
-const targetUrl = require('./constants').url;
+const targetUrl = require("./constants").url;
 
 // get date range from command line input:
 if (process.argv.length < 3) {
-  console.log('Please enter a month, in YYYY-MM form.');
+  console.log("Please enter a month, in YYYY-MM form.");
   process.exit();
 }
 const targetMonth = process.argv[2];
-const startDate = moment(targetMonth).startOf('month').format('YYYY-MM-DD');;
-const endDate = moment(targetMonth).endOf('month').format('YYYY-MM-DD');;
+const startDate = moment(targetMonth).startOf("month").format("YYYY-MM-DD");
+const endDate = moment(targetMonth).endOf("month").format("YYYY-MM-DD");
 
+// convert CSV data with winner probabilities from 538 into a predictedWinners object
 const getPicks = rawData => {
   // remove the first row, which contains headers data
   rawData.splice(0, 1);
@@ -29,17 +31,48 @@ const getPicks = rawData => {
   );
 
   // create matrix modeling loss probabilities for the month (dates are row, teams are columns);
-  const probabilityMatrix = Helper.createProbabilityMatrix(dateFilteredData, teamList);
+  const probabilityMatrix = Helper.createProbabilityMatrix(
+    dateFilteredData,
+    teamList
+  );
 
   // get predictions via Munkres algorithm
-  const rawPredictions = munkres(probabilityMatrix).map (pair => {
-    return [pair[0], teamList[pair[1]]]
+  const rawPredictions = munkres(probabilityMatrix).map(pair => {
+    return [pair[0], teamList[pair[1]]];
   });
 
   // convert predictions to match Pigeon Hoops userMonth format:
-  const predictionUserMonth = Helper.convertToUserMonth(rawPredictions, targetMonth);
+  const predictionUserMonth = Helper.convertToUserMonth(
+    rawPredictions,
+    targetMonth
+  );
 
-  console.log(predictionUserMonth);
+  submitUserMonth(predictionUserMonth)
+    .then(console.log)
+    .catch(console.log)
+};
+
+const submitUserMonth = predictionBody => {
+  const isProduction = process.env.NODE_ENV === "production";
+  const server = isProduction
+    ? "https://frozen-retreat-57000.herokuapp.com"
+    : "http://localhost:3000";
+
+  const url = `${server}/api/userMonth`;
+
+  const headers = new Headers();
+  headers.append("Content-Type", "application/json");
+  headers.append("token", process.env.AI_PLAYER_TOKEN);
+
+  const newRequest = {
+    method: "POST",
+    mode: "cors",
+    cache: "default",
+    headers: headers,
+    body: JSON.stringify(predictionBody)
+  };
+
+  return fetch(url, newRequest);
 };
 
 // Get up-to-date data from FiveThirtyEight:
@@ -73,7 +106,6 @@ fs.readFile(`${__dirname}/nba_elo.csv`, (err, data) => {
     });
   }
 });
-
 
 // TODO: Use promises instead of callbacks?
 // What's the cleanest way to:
