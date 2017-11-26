@@ -3,7 +3,7 @@ const request = require("request");
 const parse = require("csv-parse");
 const moment = require("moment");
 const munkres = require("munkres-js");
-const fetch = require('isomorphic-fetch');
+const fetch = require("isomorphic-fetch");
 
 const Helper = require("./helper");
 const colNames = require("./constants").colNames;
@@ -48,8 +48,11 @@ const getPicks = rawData => {
   );
 
   submitUserMonth(predictionUserMonth)
+    .then(res => res.json())
     .then(console.log)
-    .catch(console.log)
+    .catch(err => {
+      console.log("Error submitting AI Picks: ", err);
+    });
 };
 
 const submitUserMonth = predictionBody => {
