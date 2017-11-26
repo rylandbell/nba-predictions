@@ -110,19 +110,17 @@ fs.readFile(`${__dirname}/nba_elo.csv`, (err, data) => {
   }
 });
 
+// TODO: Fetch/display Hungarian data appropriately for users:
+// re-write userMonthReadAllPublic to filter by given league + robot league
+// add gameTime to each game in userMonth (to redact future picks correctly)
+// add feature in React app to show/hide Hungarian predictions
+
+// TODO: Set up task to create Hungarian userMonth monthly
+// can it send me an email/notification upon completion?
+
 // TODO: Use promises instead of callbacks?
 // What's the cleanest way to:
 //   1: get data
 //   2: convert data -> predictions
 //   3: submit data to Pigeon Hoops
 //   handle errors along the way
-
-// TODO: Send userMonth to pigeon hoops API
-// write function to send create-userMonth request on behalf of Hungarian
-
-// TODO: Fetch/display Hungarian data appropriately for users:
-// re-write userMonthReadAllPublic to filter by given league + robot league
-// add feature in React app to show/hide Hungarian predictions
-
-// TODO: Set up task to create Hungarian userMonth monthly
-// can it send me an email/notification upon completion?

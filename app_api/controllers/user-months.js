@@ -24,6 +24,7 @@ const gameTimeInFuture = function(gameTime) {
 
 //redacts all users' predictions for games that haven't yet started
 const hideFuturePredictions = function(userMonth) {
+  console.log(userMonth.ownerDisplayName);
   const redactedWinners = userMonth.predictedWinners.toObject();
 
   _.forEach(redactedWinners, (day, key) => {
@@ -173,7 +174,13 @@ module.exports.userMonthReadAllPublic = function(req, res) {
     leagueId: req.query.leagueId
   };
 
-  UserMonthModel.find(filter).exec(function(err, userMonthArray) {
+  // get the AI player's userMonth for the given month
+  const filterAI = {
+    month: req.params.month,
+    leagueId: process.env.AI_LEAGUE_ID
+  };
+
+  UserMonthModel.find({$or: [filter, filterAI]}).exec(function(err, userMonthArray) {
     let responseBody = {};
 
     if (!userMonthArray) {
