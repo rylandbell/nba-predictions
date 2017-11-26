@@ -60,7 +60,7 @@ const getPicks = rawData => {
 // });
 
 // Use locally stored sample data
-fs.readFile("./nba_elo.csv", (err, data) => {
+fs.readFile(`${__dirname}/nba_elo.csv`, (err, data) => {
   if (err) {
     console.log("error reading file: ", err);
   } else {
