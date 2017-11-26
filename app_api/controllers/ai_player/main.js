@@ -111,8 +111,6 @@ fs.readFile(`${__dirname}/nba_elo.csv`, (err, data) => {
 });
 
 // TODO: Fetch/display Hungarian data appropriately for users:
-// re-write userMonthReadAllPublic to filter by given league + robot league
-// add gameTime to each game in userMonth (to redact future picks correctly)
 // add feature in React app to show/hide Hungarian predictions
 
 // TODO: Set up task to create Hungarian userMonth monthly

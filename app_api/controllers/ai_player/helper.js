@@ -68,11 +68,12 @@ module.exports.createProbabilityMatrix = function(rawData, teams) {
 // Converts a simple array of daily picks to an object matching the userMonth model
 module.exports.convertToUserMonth = function(rawPredictions, month) {
   const predictedWinners = {};
-  rawPredictions.forEach(pick => {
+
+  rawPredictions.forEach((pick, index) => {
     const pickObject = {
       teamName: teamMap[pick[1]],
       outcome: null,
-      gameTime: null
+      gameTime: `${moment(month).startOf('month').add(index, 'days').format('YYYY-MM-DD')}T19:00:00-08:00`
     };
 
     predictedWinners[pick[0]] = pickObject;
