@@ -79,28 +79,13 @@ const submitUserMonth = predictionBody => {
 };
 
 // Get up-to-date data from FiveThirtyEight:
-// request(targetUrl, function (error, response, body) {
-//   if (error) {
-//     console.log(error);
-//   } else if (response.statusCode !== 200) {
-//     console.log('Bad status code: ', response);
-//   } else {
-//     parse(body, { columns: colNames }, function(err, output) {
-//       if (err) {
-//         console.log("error parsing CSV data: ", err);
-//       } else {
-//         getPicks(output);
-//       }
-//     });
-//   }
-// });
-
-// Use locally stored sample data
-fs.readFile(`${__dirname}/nba_elo.csv`, (err, data) => {
-  if (err) {
-    console.log("error reading file: ", err);
+request(targetUrl, function (error, response, body) {
+  if (error) {
+    console.log(error);
+  } else if (response.statusCode !== 200) {
+    console.log('Bad status code: ', response);
   } else {
-    parse(data, { columns: colNames }, function(err, output) {
+    parse(body, { columns: colNames }, function(err, output) {
       if (err) {
         console.log("error parsing CSV data: ", err);
       } else {
@@ -109,6 +94,21 @@ fs.readFile(`${__dirname}/nba_elo.csv`, (err, data) => {
     });
   }
 });
+
+// // Use locally stored sample data
+// fs.readFile(`${__dirname}/nba_elo.csv`, (err, data) => {
+//   if (err) {
+//     console.log("error reading file: ", err);
+//   } else {
+//     parse(data, { columns: colNames }, function(err, output) {
+//       if (err) {
+//         console.log("error parsing CSV data: ", err);
+//       } else {
+//         getPicks(output);
+//       }
+//     });
+//   }
+// });
 
 // TODO: Fetch/display Hungarian data appropriately for users:
 // add feature in React app to show/hide Hungarian predictions
