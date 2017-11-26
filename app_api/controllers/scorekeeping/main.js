@@ -41,12 +41,16 @@ const main = (date) => {
     .catch(console.log);
 };
 
-// Update scores for yesterday's games, and the day before for redundancy's sake
-const day0 = moment().format('YYYY-MM-DD');
-const day1 = moment().subtract(1, 'days').format('YYYY-MM-DD');
-const day2 = moment().subtract(2, 'days').format('YYYY-MM-DD');
+if (process.argv.length > 2) {
+  const day = process.argv[2];
+  main(day);
+} else {
+  // Update scores for yesterday's games, and the day before for redundancy's sake
+  const day0 = moment().format('YYYY-MM-DD');
+  const day1 = moment().subtract(1, 'days').format('YYYY-MM-DD');
+  const day2 = moment().subtract(2, 'days').format('YYYY-MM-DD');
 
-main(day2);
-setTimeout(() => {main(day1)}, 5000);
-setTimeout(() => {main(day0)}, 10000);
-
+  main(day2);
+  setTimeout(() => {main(day1)}, 5000);
+  setTimeout(() => {main(day0)}, 10000);
+}
