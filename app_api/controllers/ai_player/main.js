@@ -11,12 +11,16 @@ const teamList = require("./constants").teamList;
 
 const targetUrl = require("./constants").url;
 
-// get date range from command line input:
-if (process.argv.length < 3) {
-  console.log("Please enter a month, in YYYY-MM form.");
+// Only run script on the 28th of a month, or if an extra parameter has been passed from the command line.
+const currentDayOfMonth = moment().format('D');
+if (!process.argv[3] && currentDayOfMonth !== "28") {
+  console.log('Not adding AI Picks today.');
   process.exit();
 }
-const targetMonth = process.argv[2];
+
+// use command line input for month input if available; otherwise use next month:
+const targetMonth = process.argv[2] || moment().add(1,'months').format('YYYY-MM');;
+
 const startDate = moment(targetMonth).startOf("month").format("YYYY-MM-DD");
 const endDate = moment(targetMonth).endOf("month").format("YYYY-MM-DD");
 
