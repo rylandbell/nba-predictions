@@ -1,26 +1,26 @@
 require("dotenv").config({ silent: true });
 process.env.PWD = process.cwd();
 
-var express = require("express");
-var path = require("path");
-var favicon = require("serve-favicon");
-var logger = require("morgan");
-var cookieParser = require("cookie-parser");
-var expressSession = require("express-session");
-var bodyParser = require("body-parser");
-var passport = require("passport");
-var compression = require("compression");
-var helmet = require("helmet");
-var csp = require("express-csp-header");
-var referrerPolicy = require("referrer-policy");
+const express = require("express");
+const path = require("path");
+const favicon = require("serve-favicon");
+const logger = require("morgan");
+const cookieParser = require("cookie-parser");
+const expressSession = require("express-session");
+const bodyParser = require("body-parser");
+const passport = require("passport");
+const compression = require("compression");
+const helmet = require("helmet");
+const csp = require("express-csp-header");
+const referrerPolicy = require("referrer-policy");
 
 require("./app_api/models/db");
 require("./app_api/config/passport");
 
-var routes = require("./app_server/routes/index");
-var routesApi = require("./app_api/routes/index");
+const routes = require("./app_server/routes/index");
+const routesApi = require("./app_api/routes/index");
 
-var app = express();
+const app = express();
 
 // view engine setup
 app.set("views", path.join(__dirname, "app_server", "views"));
@@ -69,10 +69,9 @@ app.use(
   })
 );
 
-// misc. middleware
 app.use(referrerPolicy({ policy: "same-origin" }));
 
-app.use(favicon(path.join(__dirname, "public", "favicon.ico")));
+// misc. middleware
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -87,12 +86,14 @@ app.use(
 );
 
 app.use(compression());
+
+app.use(favicon(path.join(__dirname, "public", "favicon.ico")));
 app.use(express.static(process.env.PWD + "/public"));
 
 app.use(passport.initialize());
 
 // catch flash messages, then delete them (so they only appear on next view render)
-app.use(function(req, res, next) {
+app.use((req, res, next) => {
   res.locals.flash = req.session.flash;
   delete req.session.flash;
   next();
@@ -103,8 +104,8 @@ app.use("/api", routesApi);
 app.use("/", routes);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  var err = new Error("Not Found");
+app.use((req, res, next) => {
+  const err = new Error("Not Found");
   err.status = 404;
   next(err);
 });
@@ -114,7 +115,7 @@ app.use(function(req, res, next) {
 // development error handler
 // will print stacktrace
 if (app.get("env") === "development") {
-  app.use(function(err, req, res, next) {
+  app.use((err, req, res) => {
     res.status(err.status || 500);
     res.render("error", {
       message: err.message,
@@ -125,7 +126,7 @@ if (app.get("env") === "development") {
 
 // production error handler
 // no stacktraces leaked to user
-app.use(function(err, req, res, next) {
+app.use((err, req, res) => {
   res.status(err.status || 500);
   res.render("error", {
     message: err.message,

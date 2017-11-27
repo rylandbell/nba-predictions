@@ -1,18 +1,17 @@
-'use strict';
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const jwt = require('express-jwt');
+const jwt = require("express-jwt");
 
-const ctrlLeagues = require('../controllers/leagues');
-const ctrlUserMonths = require('../controllers/user-months');
-const ctrlDailyGamesData = require('../controllers/daily-games-data');
-const ctrlMessages = require('../controllers/messages');
-const ctrlAuth = require('../controllers/authentication');
+const ctrlLeagues = require("../controllers/leagues");
+const ctrlUserMonths = require("../controllers/user-months");
+const ctrlDailyGamesData = require("../controllers/daily-games-data");
+const ctrlMessages = require("../controllers/messages");
+const ctrlAuth = require("../controllers/authentication");
 
 const auth = jwt({
   secret: process.env.JWT_SECRET,
-  userProperty: 'payload',
-  getToken: function (req) {
+  userProperty: "payload",
+  getToken(req) {
     if (req.headers.token) {
       return req.headers.token;
     } else if (req.body.token) {
@@ -20,38 +19,54 @@ const auth = jwt({
     } else if (req.cookies.token) {
       return req.cookies.token;
     } else {
-      console.log('Couldn\'t find an authorization token');
+      console.log("Couldn't find an authorization token");
       return null;
     }
   }
 });
 
+// routes for authentication requests:
+router.post("/register", ctrlAuth.register);
+router.post("/login", ctrlAuth.login);
+
 //routes for creating/joining leagues:
-router.post('/league', auth, ctrlLeagues.leagueCreate);
-router.post('/league/:joinPhrase', auth, ctrlLeagues.leagueJoin);
-router.get('/league', auth, ctrlLeagues.leagueReadAllForUser);
+router.post("/league", auth, ctrlLeagues.leagueCreate);
+router.post("/league/:joinPhrase", auth, ctrlLeagues.leagueJoin);
+router.get("/league", auth, ctrlLeagues.leagueReadAllForUser);
 
 // routes for calls to userMonths folder:
-router.get('/userMonth/:month', auth, ctrlUserMonths.userMonthReadOne);
-router.get('/userMonth', auth, ctrlUserMonths.userMonthReadAllForUser);
-router.get('/userMonth/all/:month', auth, ctrlUserMonths.userMonthReadAllByMonth);
-router.get('/userMonth/all-public/:month', auth, ctrlUserMonths.userMonthReadAllPublic);
-router.post('/userMonth', auth, ctrlUserMonths.userMonthCreate);
-router.delete('/userMonth/:userMonthId', auth, ctrlUserMonths.userMonthDelete);
-router.put('/userMonth/predictedWinners/:userMonthId', auth, ctrlUserMonths.predictedWinnersUpdate);
-router.put('/userMonth/:userMonthId', auth, ctrlUserMonths.outcomeUpdate);
+router.get("/userMonth/:month", auth, ctrlUserMonths.userMonthReadOne);
+router.get("/userMonth", auth, ctrlUserMonths.userMonthReadAllForUser);
+router.get(
+  "/userMonth/all/:month",
+  auth,
+  ctrlUserMonths.userMonthReadAllByMonth
+);
+router.get(
+  "/userMonth/all-public/:month",
+  auth,
+  ctrlUserMonths.userMonthReadAllPublic
+);
+router.post("/userMonth", auth, ctrlUserMonths.userMonthCreate);
+router.delete("/userMonth/:userMonthId", auth, ctrlUserMonths.userMonthDelete);
+router.put(
+  "/userMonth/predictedWinners/:userMonthId",
+  auth,
+  ctrlUserMonths.predictedWinnersUpdate
+);
+router.put("/userMonth/:userMonthId", auth, ctrlUserMonths.outcomeUpdate);
 
 // routes for dailyGamesData:
-router.get('/dailyGamesData/:month', ctrlDailyGamesData.dailyGamesDataGetMonth);
-router.post('/dailyGamesData', auth, ctrlDailyGamesData.dailyGamesDataCreate);
-router.put('/dailyGamesData/:date', auth, ctrlDailyGamesData.dailyGamesDataUpdate);
-
-// routes for authentication requests:
-router.post('/register', ctrlAuth.register);
-router.post('/login', ctrlAuth.login);
+router.get("/dailyGamesData/:month", ctrlDailyGamesData.dailyGamesDataGetMonth);
+router.post("/dailyGamesData", auth, ctrlDailyGamesData.dailyGamesDataCreate);
+router.put(
+  "/dailyGamesData/:date",
+  auth,
+  ctrlDailyGamesData.dailyGamesDataUpdate
+);
 
 //routes for messaging:
-router.get('/messages/:leagueId', auth, ctrlMessages.getMessageLog);
-router.put('/messages/:leagueId', auth, ctrlMessages.sendMessage);
+router.get("/messages/:leagueId", auth, ctrlMessages.getMessageLog);
+router.put("/messages/:leagueId", auth, ctrlMessages.sendMessage);
 
 module.exports = router;

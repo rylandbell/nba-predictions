@@ -1,4 +1,3 @@
-"use strict";
 const mongoose = require("mongoose");
 const ObjectId = mongoose.Schema.Types.ObjectId;
 const _ = require("lodash");
@@ -17,7 +16,7 @@ const sendJsonResponse = function(res, status, content) {
 //helper function for getting user data from JWT
 const getUserData = function(req, res, callback) {
   if (req.payload._id) {
-    UserModel.findOne({ _id: req.payload._id }).exec(function(err, user) {
+    UserModel.findOne({ _id: req.payload._id }).exec((err, user) => {
       if (!user) {
         sendJsonResponse(res, 404, {
           message: "User not found"
@@ -40,7 +39,7 @@ const getUserData = function(req, res, callback) {
 
 /* GET a user's data, including a list of leagues */
 module.exports.leagueReadAllForUser = function(req, res) {
-  getUserData(req, res, function(req, res, user) {
+  getUserData(req, res, (req, res, user) => {
     if (!user) {
       sendJsonResponse(res, 404, {
         message: "No user found"
@@ -63,7 +62,7 @@ module.exports.leagueCreate = function(req, res) {
   const randomPhrase = Moniker.generator([Moniker.adjective, Moniker.noun], {
     glue: " "
   }).choose();
-  getUserData(req, res, function(req, res, user) {
+  getUserData(req, res, (req, res, user) => {
     LeagueModel.create({
       name: req.body.name,
       joinPhrase: randomPhrase
@@ -74,7 +73,7 @@ module.exports.leagueCreate = function(req, res) {
           {
             _id: user._id
           },
-          function(err, user) {
+          (err, user) => {
             //check for basic errors
             if (!user) {
               sendJsonResponse(res, 404, {
@@ -94,7 +93,7 @@ module.exports.leagueCreate = function(req, res) {
             });
 
             //save
-            user.save(function(err, user) {
+            user.save((err, user) => {
               if (err) {
                 sendJsonResponse(res, 400, err);
               } else {
@@ -123,13 +122,13 @@ module.exports.leagueJoin = function(req, res) {
     });
     return;
   }
-  getUserData(req, res, function(req, res, user) {
+  getUserData(req, res, (req, res, user) => {
     //find the user object for current user
     UserModel.findOne(
       {
         _id: user._id
       },
-      function(err, user) {
+      (err, user) => {
         //check for basic errors
         if (!user) {
           sendJsonResponse(res, 404, {
@@ -156,7 +155,7 @@ module.exports.leagueJoin = function(req, res) {
         const joinPhrase = req.params.joinPhrase.trim();
         LeagueModel.findOne({
           joinPhrase: joinPhrase
-        }).exec(function(err, league) {
+        }).exec((err, league) => {
           if (err) {
             sendJsonResponse(res, 400, err);
             return;
@@ -177,7 +176,7 @@ module.exports.leagueJoin = function(req, res) {
           });
 
           //save
-          user.save(function(err, user) {
+          user.save((err, user) => {
             if (err) {
               sendJsonResponse(res, 400, err);
             } else {

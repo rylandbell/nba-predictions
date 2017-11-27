@@ -1,5 +1,4 @@
-'use strict';
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 //data for single day's prediction (outcome="success", "failure", or null):
 const predictionSchema = new mongoose.Schema({
@@ -47,13 +46,15 @@ const predictedWinnersSchema = new mongoose.Schema({
 
 //By 'userMonth', I mean one month of one user's prediction and outcome data (for a single league)
 const userMonthSchema = new mongoose.Schema({
-
   //e.g. 2016-09
   month: { type: String, required: true },
   ownerId: { type: String, required: true },
-  leagueId: {type: String, required: true},
-  ownerDisplayName: { type: String, required: true, default: 'Anon' },
-  predictedWinners: { type: predictedWinnersSchema, default: predictedWinnersSchema },
+  leagueId: { type: String, required: true },
+  ownerDisplayName: { type: String, required: true },
+  predictedWinners: {
+    type: predictedWinnersSchema,
+    default: predictedWinnersSchema
+  },
   standingsData: {
     winCount: { type: Number, default: 0 },
     lossCount: { type: Number, default: 0 }
@@ -61,4 +62,4 @@ const userMonthSchema = new mongoose.Schema({
 });
 
 //connect this schema to the database. automatically creates a MongoDB collection 'usermonths' based on the supplied parameter 'month'
-mongoose.model('UserMonth', userMonthSchema);
+mongoose.model("UserMonth", userMonthSchema);

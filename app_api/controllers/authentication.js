@@ -1,17 +1,16 @@
-'use strict';
-const passport = require('passport');
-const mongoose = require('mongoose');
-const User = mongoose.model('User');
+const passport = require("passport");
+const mongoose = require("mongoose");
+const User = mongoose.model("User");
 
-const sendJsonResponse = function (res, status, content) {
+const sendJsonResponse = function(res, status, content) {
   res.status(status);
   res.json(content);
 };
 
-module.exports.register = function (req, res) {
+module.exports.register = function(req, res) {
   if (!req.body.username || !req.body.displayName || !req.body.password) {
     sendJsonResponse(res, 400, {
-      message: 'All fields required'
+      message: "All fields required"
     });
     return;
   }
@@ -24,16 +23,16 @@ module.exports.register = function (req, res) {
     user.email = req.body.email;
   }
 
-  user.save(function (err, user) {
+  user.save((err, user) => {
     let token;
     if (err) {
       // uniqueness violation errors:
       if (err.code === 11000) {
-        var duplicateFieldName = err.message.split(' ')[7];
+        let duplicateFieldName = err.message.split(" ")[7];
 
         if (duplicateFieldName === "displayName_1") {
           duplicateFieldName = "display name";
-        } else if (duplicateFieldName = "username_1") {
+        } else if ((duplicateFieldName = "username_1")) {
           duplicateFieldName = "username";
         }
 
@@ -52,15 +51,15 @@ module.exports.register = function (req, res) {
   });
 };
 
-module.exports.login = function (req, res) {
+module.exports.login = function(req, res) {
   if (!req.body.username || !req.body.password) {
     sendJsonResponse(res, 400, {
-      message: 'All fields required'
+      message: "All fields required"
     });
     return;
   }
 
-  passport.authenticate('local', function (err, user, info) {
+  passport.authenticate("local", (err, user, info) => {
     let token;
 
     if (err) {
@@ -77,5 +76,4 @@ module.exports.login = function (req, res) {
       sendJsonResponse(res, 401, info);
     }
   })(req, res);
-
 };

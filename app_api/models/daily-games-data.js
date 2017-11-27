@@ -1,5 +1,4 @@
-'use strict';
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const gameStatusSchema = new mongoose.Schema({
   startTime: { type: String },
@@ -16,12 +15,10 @@ const gameSummarySchema = new mongoose.Schema({
   loser: { type: String, default: null },
   roadTeam: { type: String, required: true },
   homeTeam: { type: String, required: true },
-  gameStatus: gameStatusSchema,
+  gameStatus: gameStatusSchema
 });
 
-//By 'userMonth', I mean one month of one user's prediction data
 const dailyGamesDataSchema = new mongoose.Schema({
-
   //e.g. 2016-09
   month: { type: String, required: true },
 
@@ -32,4 +29,4 @@ const dailyGamesDataSchema = new mongoose.Schema({
 });
 
 //connect this schema to the database. automatically creates a MongoDB collection 'months' based on the supplied parameter 'Month'
-mongoose.model('DailyGamesData', dailyGamesDataSchema);
+mongoose.model("DailyGamesData", dailyGamesDataSchema);
