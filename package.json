@@ -4,8 +4,9 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "heroku-postbuild": "rm node_modules/redux-localstorage/.babelrc; webpack --config webpack.config.prod.js --progress",
+    "heroku-postbuild": "rm node_modules/redux-localstorage/.babelrc; webpack --config webpack.config.prod.js",
     "updateData": "node ./app_api/controllers/scorekeeping/main.js",
+    "aiPicks": "node ./app_api/controllers/ai_player/main.js",
     "build": "webpack --watch --progress --hide-modules true"
   },
   "dependencies": {
@@ -26,6 +27,7 @@
     "crypto": "0.0.3",
     "css-loader": "^0.28.7",
     "cssnano": "^3.10.0",
+    "csv-parse": "^2.0.0",
     "debug": "~2.2.0",
     "dotenv": "^2.0.0",
     "es6-promise": "^4.0.5",
@@ -48,6 +50,7 @@
     "mongoose": "^4.6.0",
     "moniker": "^0.1.2",
     "morgan": "~1.6.1",
+    "munkres-js": "^1.2.2",
     "nba": "^3.2.6",
     "nba-client-template": "^3.3.0",
     "node-fetch": "^1.6.3",

@@ -24,6 +24,7 @@ const gameTimeInFuture = function(gameTime) {
 
 //redacts all users' predictions for games that haven't yet started
 const hideFuturePredictions = function(userMonth) {
+  console.log(userMonth.ownerDisplayName);
   const redactedWinners = userMonth.predictedWinners.toObject();
 
   _.forEach(redactedWinners, (day, key) => {
@@ -173,7 +174,13 @@ module.exports.userMonthReadAllPublic = function(req, res) {
     leagueId: req.query.leagueId
   };
 
-  UserMonthModel.find(filter).exec(function(err, userMonthArray) {
+  // get the AI player's userMonth for the given month
+  const filterAI = {
+    month: req.params.month,
+    leagueId: process.env.AI_LEAGUE_ID
+  };
+
+  UserMonthModel.find({$or: [filter, filterAI]}).exec(function(err, userMonthArray) {
     let responseBody = {};
 
     if (!userMonthArray) {
@@ -196,6 +203,11 @@ module.exports.userMonthReadAllPublic = function(req, res) {
 
 /* POST a new userMonth */
 module.exports.userMonthCreate = function(req, res) {
+  
+  // Human userMonths are created with empty predictedWinners, but computer players submit
+  // picks upon creation
+  const predictedWinners = req.body.predictedWinners || {};
+  
   getUserData(req, res, function(req, res, user) {
     UserMonthModel.create(
       {
@@ -203,7 +215,7 @@ module.exports.userMonthCreate = function(req, res) {
         leagueId: req.body.leagueId,
         ownerId: user._id,
         ownerDisplayName: user.displayName,
-        predictedWinners: {}
+        predictedWinners: predictedWinners
       },
       function(err, userMonth) {
         if (err) {
