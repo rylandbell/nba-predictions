@@ -12,19 +12,21 @@ const submitPicks = require("./submitPicks");
 const colNames = require("./constants").colNames;
 const targetUrl = require("./constants").url;
 
+const [execPath, filePath, targetDate, forceRun] = process.argv;
+
 // Only run script on the 28th of a month, or if an extra parameter has been passed from the command line.
 const currentDayOfMonth = moment().format("D");
-if (!process.argv[3] && currentDayOfMonth !== "28") {
+if (!forceRun && currentDayOfMonth !== "28") {
   console.log("Not adding AI Picks today.");
   process.exit();
 }
 
 // Get game probability data from 538, convert it to an optimized array of predictions,
 // then submit it as a userMonth
-const main = async () => {
+async function main() {
   try {
     // Use locally stored sample data (for development only)
-    // const csvData = await readFile(`${__dirname}/nba_elo.csv`, "utf8");
+    // const csvData = await readFile(`${__dirname}/sample_data.csv`, "utf8");
 
     //Get up-to-date data from FiveThirtyEight:
     const rawResponse = await fetch(targetUrl);
@@ -40,6 +42,6 @@ const main = async () => {
   } catch (err) {
     console.log("caught an error: ", err);
   }
-};
+}
 
 main();
