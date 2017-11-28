@@ -1,11 +1,12 @@
 const moment = require("moment");
+const munkres = require("munkres-js");
 
-const teamMap = require("./constants").teamMap;
+const { teamList, teamMap } = require("./constants");
 
 //transpose a matrix (array of arrays)
 const transpose = matrix => {
-  const newMatrix = matrix[0].map(function(col, i) {
-    return matrix.map(function(row) {
+  const newMatrix = matrix[0].map((col, i) => {
+    return matrix.map(row => {
       return row[i];
     });
   });
@@ -13,7 +14,7 @@ const transpose = matrix => {
 };
 
 //convert data object into an object of the form {'ATL': [31 loss probabilities], 'BKN':...}
-module.exports.createProbabilityMatrix = function(rawData, teams) {
+const createProbabilityMatrix = function(rawData, teams) {
   // convert a probability object into an array of arrays
   const convertToMatrix = probabilityObject => {
     const matrix = [];
@@ -65,18 +66,19 @@ module.exports.createProbabilityMatrix = function(rawData, teams) {
   return probabilityMatrix;
 };
 
-// Converts a simple array of daily picks to an object matching the userMonth model
-module.exports.convertToUserMonth = function(rawPredictions, month) {
+// Converts a simple array of daily picks to an object fitting the userMonth model
+const convertToUserMonth = function(rawPredictions, month) {
   const predictedWinners = {};
 
   rawPredictions.forEach((pick, index) => {
-    const pickObject = {
+    predictedWinners[pick[0]] = {
       teamName: teamMap[pick[1]],
       outcome: null,
-      gameTime: `${moment(month).startOf('month').add(index, 'days').format('YYYY-MM-DD')}T19:00:00-08:00`
+      gameTime: `${moment(month)
+        .startOf("month")
+        .add(index, "days")
+        .format("YYYY-MM-DD")}T19:00:00-08:00`
     };
-
-    predictedWinners[pick[0]] = pickObject;
   });
 
   const userMonth = {
@@ -86,4 +88,35 @@ module.exports.convertToUserMonth = function(rawPredictions, month) {
   };
 
   return userMonth;
+};
+
+// convert CSV data with winner probabilities from 538 into a predictedWinners object
+module.exports = rawData => {
+  // use command line input for month input if available; otherwise use next month:
+  const targetMonth =
+    process.argv[2] || moment().add(1, "months").format("YYYY-MM");
+
+  const startDate = moment(targetMonth).startOf("month").format("YYYY-MM-DD");
+  const endDate = moment(targetMonth).endOf("month").format("YYYY-MM-DD");
+
+  // remove the first row, which contains column names
+  rawData.splice(0, 1);
+
+  // filter for games in the desired month:
+  const dateFilteredData = rawData.filter(
+    game => game.date >= startDate && game.date <= endDate
+  );
+
+  // create matrix modeling loss probabilities for the month (dates are row, teams are columns);
+  const probabilityMatrix = createProbabilityMatrix(dateFilteredData, teamList);
+
+  // get predictions via Munkres algorithm
+  const rawPredictions = munkres(probabilityMatrix).map(pair => {
+    return [pair[0], teamList[pair[1]]];
+  });
+
+  // convert predictions to match Pigeon Hoops userMonth format:
+  const predictionUserMonth = convertToUserMonth(rawPredictions, targetMonth);
+
+  return predictionUserMonth;
 };
