@@ -40,8 +40,8 @@ Finally, a simple chat component allows for the exchange of friendly banter with
 ### Keeping score
 The server app regularly runs a script to download new game outcome data from an external API, and uses it to mark user picks as correct or incorrect. This script, found in `~/scorekeeping`, requires a handful of asynchronous calls to the external API and my own database. To manage the timing for these, I wrote a chain of nested promises.
 
-### AI Player ("The Hungarian")
-In addition to its human players, each league also features a set of picks made by a computer player. This gives new players a chance to try the game without necessarily connecting with other players, and gives other players another type of challenge. In past months, the computer player has scored in the range of 17-22 correct picks per month.
+### AI Player
+In addition to its human players, each league also features a set of picks made by a computer player. This gives new players a chance to try the game without necessarily connecting with other players, and gives experienced players a fresh challenge. In past months, the computer player has scored in the range of 17-22 correct picks per month.
 
 I created this AI player after realizing that the each-team-once-per-month rule is an example of the [assignment problem](https://en.wikipedia.org/wiki/Assignment_problem) from combinatorics, with teams in the role of agents and days of the month as tasks. If each team is assigned a loss probability for every day of the month, then I can use established methods to minimize the total loss probability for the month. To assign these probabilities, I use data from FiveThirtyEight's [CARM-Elo](https://projects.fivethirtyeight.com/2018-nba-predictions/games/) game prediction page. After transforming this data into a 31 * 31 matrix of loss probabilities, I apply the Hungarian (whence the player's name) algorithm via the [munkres-js](https://www.npmjs.com/package/munkres-js) package.
 

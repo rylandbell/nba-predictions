@@ -1,4 +1,4 @@
-import { connect } from 'react-redux';
+import { connect } from "react-redux";
 
 import React, { Component } from "react";
 import browserHistory from "react-router/lib/browserHistory";
@@ -14,8 +14,7 @@ const mapStateToProps = state => ({
   isFetchingStandingsData: state.fetchStatus.isFetchingStandingsData
 });
 
-const mapDispatchToProps = () => ({
-});
+const mapDispatchToProps = () => ({});
 
 class StandingsTable extends Component {
   constructor(props) {
@@ -71,6 +70,9 @@ class StandingsTable extends Component {
                 <p className="small text-center">
                   {" "}
                   Game results are posted daily at midnight Pacific time.
+                  {" "}<a href="https://github.com/rylandbell/pigeon-hoops#ai-player" target="_blank" rel="noopener noreferrer">
+                    Who is the Hungarian?
+                  </a>
                 </p>
               </div>}
         </div>
@@ -79,9 +81,8 @@ class StandingsTable extends Component {
   }
 }
 
-const StandingsContainer = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(StandingsTable);
+const StandingsContainer = connect(mapStateToProps, mapDispatchToProps)(
+  StandingsTable
+);
 
 export default StandingsContainer;
