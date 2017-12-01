@@ -1,70 +1,35 @@
 const mongoose = require("mongoose");
 
 const MessageLogModel = mongoose.model("MessageLog");
-const UserModel = mongoose.model("User");
-
-//helper function for composing responses as status codes (e.g. 404) with JSON files
-const sendJsonResponse = function(res, status, content) {
-  res.status(status);
-  res.json(content);
-};
-
-//helper function for getting user data from JWT
-const getUserData = function(req, res, callback) {
-  if (req.payload._id) {
-    UserModel.findOne({ _id: req.payload._id }).exec((err, user) => {
-      if (!user) {
-        sendJsonResponse(res, 404, {
-          message: "User not found"
-        });
-        return;
-      } else if (err) {
-        sendJsonResponse(res, 404, err);
-        return;
-      }
-
-      callback(req, res, user);
-    });
-  } else {
-    sendJsonResponse(res, 404, {
-      message: "User not found"
-    });
-    return;
-  }
-};
+const { sendJsonResponse, getUserData } = require("./helpers");
 
 /* GET full message log for given league */
-module.exports.getMessageLog = function(req, res) {
-  if (!req.params.leagueId) {
-    sendJsonResponse(res, 404, {
-      message: "no message log found"
-    });
-    return;
-  }
-  MessageLogModel.find({ leagueId: req.params.leagueId }).exec((
-    err,
-    messageLogs
-  ) => {
-    let responseBody = {};
-    if (!messageLogs) {
-      sendJsonResponse(res, 404, {
-        message: "no message log found"
+module.exports.getMessageLog = async function(req, res) {
+  try {
+    if (!req.params.leagueId) {
+      sendJsonResponse(res, 400, {
+        message: "No league ID submitted with request."
       });
       return;
-    } else if (err) {
-      console.log(err);
-      sendJsonResponse(res, 404, err);
-      return;
-    } else if (messageLogs.length === 0) {
-      sendJsonResponse(res, 404, {
-        message: "no message log found"
-      });
-      return;
-    } else {
-      responseBody = messageLogs[0];
-      sendJsonResponse(res, 200, responseBody);
     }
-  });
+
+    const messageLog = await MessageLogModel.findOne({
+      leagueId: req.params.leagueId
+    });
+
+    if (!messageLog) {
+      // sendJsonResponse(res, 404, {
+      //   message: "No message log found"
+      // });
+      throw new Error("I threw an error!");
+      return;
+    }
+    sendJsonResponse(res, 200, messageLog);
+  } catch (err) {
+    sendJsonResponse(res, (err.statusCode = 500), {
+      message: `Error: ${err.message}`
+    });
+  }
 };
 
 /* PUT: push a new message to the messages array */

@@ -1,37 +1,7 @@
 const mongoose = require("mongoose");
 
 const DailyGamesDataModel = mongoose.model("DailyGamesData");
-const UserModel = mongoose.model("User");
-
-//helper function for composing responses as status codes (e.g. 404) with JSON files
-const sendJsonResponse = function(res, status, content) {
-  res.status(status);
-  res.json(content);
-};
-
-//helper function for getting user data from JWT
-const getUserData = function(req, res, callback) {
-  if (req.payload._id) {
-    UserModel.findOne({ _id: req.payload._id }).exec((err, user) => {
-      if (!user) {
-        sendJsonResponse(res, 404, {
-          message: "User not found"
-        });
-        return;
-      } else if (err) {
-        sendJsonResponse(res, 404, err);
-        return;
-      }
-
-      callback(req, res, user);
-    });
-  } else {
-    sendJsonResponse(res, 404, {
-      message: "User not found"
-    });
-    return;
-  }
-};
+const { sendJsonResponse, getUserData } = require("./helpers");
 
 /* GET one month of dailyGamesData by month */
 module.exports.dailyGamesDataGetMonth = function(req, res) {

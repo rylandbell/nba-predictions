@@ -1,11 +1,8 @@
 const passport = require("passport");
 const mongoose = require("mongoose");
-const User = mongoose.model("User");
 
-const sendJsonResponse = function(res, status, content) {
-  res.status(status);
-  res.json(content);
-};
+const User = mongoose.model("User");
+const { sendJsonResponse } = require("./helpers");
 
 module.exports.register = function(req, res) {
   if (!req.body.username || !req.body.displayName || !req.body.password) {
