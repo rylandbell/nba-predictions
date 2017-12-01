@@ -1,35 +1,23 @@
 const mongoose = require("mongoose");
 
 const MessageLogModel = mongoose.model("MessageLog");
-const { sendJsonResponse, getUserData } = require("./helpers");
+const { sendJsonResponse, getUserData, APIException } = require("./helpers");
 
 /* GET full message log for given league */
 module.exports.getMessageLog = async function(req, res) {
-  try {
-    if (!req.params.leagueId) {
-      sendJsonResponse(res, 400, {
-        message: "No league ID submitted with request."
-      });
-      return;
-    }
-
-    const messageLog = await MessageLogModel.findOne({
-      leagueId: req.params.leagueId
-    });
-
-    if (!messageLog) {
-      // sendJsonResponse(res, 404, {
-      //   message: "No message log found"
-      // });
-      throw new Error("I threw an error!");
-      return;
-    }
-    sendJsonResponse(res, 200, messageLog);
-  } catch (err) {
-    sendJsonResponse(res, (err.statusCode = 500), {
-      message: `Error: ${err.message}`
-    });
+  if (!req.params.leagueId) {
+    throw new APIException(res, 400, "No league ID submitted with request.");
   }
+
+  const messageLog = await MessageLogModel.findOne({
+    leagueId: req.params.leagueId
+  });
+
+  if (!messageLog) {
+    throw new APIException(res, 404, "No message log found for this league.");
+  }
+
+  sendJsonResponse(res, 200, messageLog);
 };
 
 /* PUT: push a new message to the messages array */

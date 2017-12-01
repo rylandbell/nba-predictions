@@ -7,6 +7,7 @@ const ctrlUserMonths = require("../controllers/user-months");
 const ctrlDailyGamesData = require("../controllers/daily-games-data");
 const ctrlMessages = require("../controllers/messages");
 const ctrlAuth = require("../controllers/authentication");
+const { catchErrors } = require("../controllers/helpers");
 
 const auth = jwt({
   secret: process.env.JWT_SECRET,
@@ -66,7 +67,7 @@ router.put(
 );
 
 //routes for messaging:
-router.get("/messages/:leagueId", auth, ctrlMessages.getMessageLog);
+router.get("/messages/:leagueId", auth, catchErrors(ctrlMessages.getMessageLog));
 router.put("/messages/:leagueId", auth, ctrlMessages.sendMessage);
 
 module.exports = router;

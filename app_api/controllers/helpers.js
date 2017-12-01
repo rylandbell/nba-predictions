@@ -10,6 +10,25 @@ const sendJsonResponse = function(res, status, content) {
   res.json(content);
 };
 
+//constructor for exceptions designed to be translated to JSON responses
+const APIException = function(res, statusCode, message) {
+  this.res = res;
+  this.statusCode = statusCode;
+  this.message = message;
+};
+
+//add catch block to API controllers to create JSON response from caught API Exceptions
+const catchErrors = function(fn) {
+  return function(...args) {
+    return fn(...args).catch(e => {
+      console.log(`${e.statusCode} error: ${e.message}`);
+      sendJsonResponse(e.res, e.statusCode, {
+        message: `Error: ${e.message}`
+      });
+    });
+  }
+};
+
 //helper function for getting user data from JWT
 const getUserData = function(req, res, callback) {
   if (req.payload._id) {
@@ -78,4 +97,4 @@ const countOutcomes = function(predictedWinners, outcomeType) {
   );
 };
 
-module.exports = {sendJsonResponse, getUserData, hideFuturePredictions, gameTimeInFuture, countOutcomes}
+module.exports = {sendJsonResponse, APIException, catchErrors, getUserData, hideFuturePredictions, gameTimeInFuture, countOutcomes}
