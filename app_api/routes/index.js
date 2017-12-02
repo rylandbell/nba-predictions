@@ -68,6 +68,6 @@ router.put(
 
 //routes for messaging:
 router.get("/messages/:leagueId", auth, catchErrors(ctrlMessages.getMessageLog));
-router.put("/messages/:leagueId", auth, ctrlMessages.sendMessage);
+router.put("/messages/:leagueId", auth, catchErrors(ctrlMessages.sendMessage));
 
 module.exports = router;

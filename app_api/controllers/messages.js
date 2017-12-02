@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const MessageLogModel = mongoose.model("MessageLog");
-const { sendJsonResponse, getUserData, APIException } = require("./helpers");
+const { sendJsonResponse, getUserDataNew, APIException } = require("./helpers");
 
 /* GET full message log for given league */
 module.exports.getMessageLog = async function(req, res) {
@@ -18,53 +18,33 @@ module.exports.getMessageLog = async function(req, res) {
   }
 
   sendJsonResponse(res, 200, messageLog);
-};
+}
 
 /* PUT: push a new message to the messages array */
-module.exports.sendMessage = function(req, res) {
-  getUserData(req, res, (req, res, user) => {
-    if (req.body && req.body.content) {
-      MessageLogModel.find(
-        {
-          leagueId: req.params.leagueId
-        },
-        (err, messageLogs) => {
-          if (err) {
-            console.log("error in controller");
-            sendJsonResponse(res, 500, err);
-            return;
-          } else if (!messageLogs) {
-            sendJsonResponse(res, 404, {
-              message: "message log not found"
-            });
-            return;
-          } else if (messageLogs.length === 0) {
-            sendJsonResponse(res, 200, messageLogs);
-            return;
-          } else {
-            const newMessage = {
-              content: req.body.content,
-              sender: user.displayName,
-              timeSent: new Date().toISOString()
-            };
-            messageLogs[0].messages.push(newMessage);
-            messageLogs[0].save((err, messageLog) => {
-              if (err) {
-                sendJsonResponse(res, 400, err);
-                return;
-              } else {
-                sendJsonResponse(res, 200, messageLog);
-                return;
-              }
-            });
-          }
-        }
-      );
-    } else {
-      sendJsonResponse(res, 400, {
-        message: "You should add some text to that message."
-      });
-      return;
-    }
+module.exports.sendMessage = async function(req, res) {
+  if (!req.body || !req.body.content) {
+    throw new APIException(res, 400, "Blank message rejected.");
+  }
+
+  //get the relevant user and messageLog objects from DB:
+  const user = await getUserDataNew(req, res);
+  const messageLog = await MessageLogModel.findOne({
+    leagueId: req.params.leagueId
   });
-};
+
+  if (!messageLog) {
+    throw new APIException(res, 404, "message log not found");
+  }
+
+  //update the retrieved messageLog with new message from req
+  const newMessage = {
+    content: req.body.content,
+    sender: user.displayName,
+    timeSent: new Date().toISOString()
+  };
+  messageLog.messages.push(newMessage);
+
+  //save the messageLog
+  const savedLog = await messageLog.save();
+  sendJsonResponse(res, 200, messageLog);
+}
