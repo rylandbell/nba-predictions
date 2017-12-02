@@ -6,11 +6,11 @@ const moniker = require("moniker");
 const UserModel = mongoose.model("User");
 const LeagueModel = mongoose.model("League");
 const MessageLogModel = mongoose.model("MessageLog");
-const { sendJsonResponse, getUserDataNew, APIException } = require("./helpers");
+const { sendJsonResponse, getUserData, APIException } = require("./helpers");
 
 /* GET a user's data, including a list of leagues */
 module.exports.leagueReadAllForUser = async function(req, res) {
-  const user = await getUserDataNew(req, res);
+  const user = await getUserData(req, res);
 
   const responseBody = {
     username: user.username,
@@ -38,7 +38,7 @@ module.exports.leagueCreate = async function(req, res) {
   await MessageLogModel.create({ leagueId: league._id });
 
   //add the new league ID to the user object
-  const user = await getUserDataNew(req, res);
+  const user = await getUserData(req, res);
   user.leagues.push({
     id: league._id,
     name: league.name,
@@ -55,7 +55,7 @@ module.exports.leagueJoin = async function(req, res) {
     throw new APIException(res, 404, "pass phrase is required to join");
   }
 
-  const user = await getUserDataNew(req, res);
+  const user = await getUserData(req, res);
 
   //don't add multiple entries for same league:
   const leagueIndex = _.findIndex(user.leagues, {

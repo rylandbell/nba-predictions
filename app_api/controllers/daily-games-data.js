@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const DailyGamesDataModel = mongoose.model("DailyGamesData");
-const { sendJsonResponse, getUserDataNew } = require("./helpers");
+const { sendJsonResponse, getUserData } = require("./helpers");
 
 /* GET one month of dailyGamesData by month */
 module.exports.dailyGamesDataGetMonth = async function(req, res) {
@@ -33,7 +33,7 @@ module.exports.dailyGamesDataCreate = async function(req, res) {
 
 /* PUT: update a dailyGamesData (once game scores are available) */
 module.exports.dailyGamesDataUpdate = async function(req, res) {
-  const user = await getUserDataNew(req, res);
+  const user = await getUserData(req, res);
   if (user.role !== "admin") {
     throw new APIException(
       res,

@@ -49,7 +49,6 @@ router.get(
   ctrlUserMonths.userMonthReadAllPublic
 );
 router.post("/userMonth", auth, ctrlUserMonths.userMonthCreate);
-router.delete("/userMonth/:userMonthId", auth, ctrlUserMonths.userMonthDelete);
 router.put(
   "/userMonth/predictedWinners/:userMonthId",
   auth,
