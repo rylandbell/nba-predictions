@@ -19,19 +19,20 @@ const APIException = function(res, statusCode, message) {
 
 //add catch block to API controllers to create JSON response from caught API Exceptions
 const catchErrors = function(fn) {
+  console.log(fn);
   return function(...args) {
     return fn(...args).catch(e => {
       if (e.statusCode && e.message) {
         // catch APIException objects
         console.log(`${e.statusCode} error: ${e.message}`);
         sendJsonResponse(e.res, e.statusCode, {
-          message: `Error: ${e.message}`
+          message: e.message
         });
       } else {
         // catch Error objects
         console.log(`Error: ${e.message}`);
         sendJsonResponse(e.res, 500, {
-          message: `Error: ${e.message}`
+          message: e.message
         });
       }
     });

@@ -187,7 +187,7 @@ export const userFlowMiddleware = ({
       break;
 
     case "JOIN_LEAGUE_FAILURE":
-      showAlert("Failed to create join league.");
+      showAlert("Failed to join league.");
       break;
 
     case "SEND_PREDICTION_FAILURE":

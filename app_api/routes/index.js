@@ -31,9 +31,9 @@ router.post("/register", ctrlAuth.register);
 router.post("/login", ctrlAuth.login);
 
 //routes for creating/joining leagues:
-router.post("/league", auth, ctrlLeagues.leagueCreate);
-router.post("/league/:joinPhrase", auth, ctrlLeagues.leagueJoin);
-router.get("/league", auth, ctrlLeagues.leagueReadAllForUser);
+router.post("/league", auth, catchErrors(ctrlLeagues.leagueCreate));
+router.post("/league/:joinPhrase", auth, catchErrors(ctrlLeagues.leagueJoin));
+router.get("/league", auth, catchErrors(ctrlLeagues.leagueReadAllForUser));
 
 // routes for calls to userMonths folder:
 router.get("/userMonth/:month", auth, ctrlUserMonths.userMonthReadOne);
@@ -58,12 +58,12 @@ router.put(
 router.put("/userMonth/:userMonthId", auth, ctrlUserMonths.outcomeUpdate);
 
 // routes for dailyGamesData:
-router.get("/dailyGamesData/:month", ctrlDailyGamesData.dailyGamesDataGetMonth);
-router.post("/dailyGamesData", auth, ctrlDailyGamesData.dailyGamesDataCreate);
+router.get("/dailyGamesData/:month", catchErrors(ctrlDailyGamesData.dailyGamesDataGetMonth));
+router.post("/dailyGamesData", auth, catchErrors(ctrlDailyGamesData.dailyGamesDataCreate));
 router.put(
   "/dailyGamesData/:date",
   auth,
-  ctrlDailyGamesData.dailyGamesDataUpdate
+  catchErrors(ctrlDailyGamesData.dailyGamesDataUpdate)
 );
 
 //routes for messaging:
