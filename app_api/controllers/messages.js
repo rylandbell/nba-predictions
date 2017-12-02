@@ -18,7 +18,7 @@ module.exports.getMessageLog = async function(req, res) {
   }
 
   sendJsonResponse(res, 200, messageLog);
-}
+};
 
 /* PUT: push a new message to the messages array */
 module.exports.sendMessage = async function(req, res) {
@@ -47,4 +47,4 @@ module.exports.sendMessage = async function(req, res) {
   //save the messageLog
   const savedLog = await messageLog.save();
   sendJsonResponse(res, 200, messageLog);
-}
+};
