@@ -27,8 +27,8 @@ const auth = jwt({
 });
 
 // routes for authentication requests:
-router.post("/register", ctrlAuth.register);
-router.post("/login", ctrlAuth.login);
+router.post("/register", catchErrors(ctrlAuth.register));
+router.post("/login", catchErrors(ctrlAuth.login));
 
 //routes for creating/joining leagues:
 router.post("/league", auth, catchErrors(ctrlLeagues.leagueCreate));
