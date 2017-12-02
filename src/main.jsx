@@ -57,3 +57,13 @@ $(document).on('click','.navbar-collapse.in',function(e) {
     $(this).collapse('hide');
   }
 });
+
+// disable double-touch events, which zoom confusingly in mobile browsers
+let lastTouchEnd = 0;
+document.addEventListener('touchend', function (event) {
+  let now = (new Date()).getTime();
+  if (now - lastTouchEnd <= 300) {
+    event.preventDefault();
+  }
+  lastTouchEnd = now;
+}, false);
