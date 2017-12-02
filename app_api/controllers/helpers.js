@@ -21,35 +21,49 @@ const APIException = function(res, statusCode, message) {
 const catchErrors = function(fn) {
   return function(...args) {
     return fn(...args).catch(e => {
-      console.log(`${e.statusCode} error: ${e.message}`);
-      sendJsonResponse(e.res, e.statusCode, {
-        message: `Error: ${e.message}`
-      });
+      if (e.statusCode && e.message) {
+        // catch APIException objects
+        console.log(`${e.statusCode} error: ${e.message}`);
+        sendJsonResponse(e.res, e.statusCode, {
+          message: `Error: ${e.message}`
+        });
+      } else {
+        // catch Error objects
+        console.log(`Error: ${e.message}`);
+        sendJsonResponse(e.res, 500, {
+          message: `Error: ${e.message}`
+        });
+      }
     });
-  }
+  };
 };
 
 //helper function for getting user data from JWT
-const getUserData = function(req, res, callback) {
-  if (req.payload._id) {
-    UserModel.findOne({ _id: req.payload._id }).exec((err, user) => {
-      if (!user) {
-        sendJsonResponse(res, 404, {
-          message: "User not found"
-        });
-        return;
-      } else if (err) {
-        sendJsonResponse(res, 404, err);
-        return;
-      }
-
-      callback(req, res, user);
-    });
+const getUserData = async function(req, res, callback) {
+  if (!req.payload._id) {
+    throw new APIException(res, 400, "No user ID in request.");
+  }
+  
+  const user = await UserModel.findOne({ _id: req.payload._id });
+  
+  if (!user) {
+    throw new APIException(res, 404, "User not found");
   } else {
-    sendJsonResponse(res, 404, {
-      message: "User not found"
-    });
-    return;
+    callback(req, res, user);
+  }
+};
+
+const getUserDataNew = async function(req, res) {
+  if (!req.payload._id) {
+    throw new APIException(res, 400, "No user ID in request.");
+  }
+  
+  const user = await UserModel.findOne({ _id: req.payload._id });
+  
+  if (!user) {
+    throw new APIException(res, 404, "User not found");
+  } else {
+    return user;
   }
 };
 
@@ -97,4 +111,13 @@ const countOutcomes = function(predictedWinners, outcomeType) {
   );
 };
 
-module.exports = {sendJsonResponse, APIException, catchErrors, getUserData, hideFuturePredictions, gameTimeInFuture, countOutcomes}
+module.exports = {
+  sendJsonResponse,
+  APIException,
+  catchErrors,
+  getUserData,
+  getUserDataNew,
+  hideFuturePredictions,
+  gameTimeInFuture,
+  countOutcomes
+};
