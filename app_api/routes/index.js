@@ -36,29 +36,48 @@ router.post("/league/:joinPhrase", auth, catchErrors(ctrlLeagues.leagueJoin));
 router.get("/league", auth, catchErrors(ctrlLeagues.leagueReadAllForUser));
 
 // routes for calls to userMonths folder:
-router.get("/userMonth/:month", auth, ctrlUserMonths.userMonthReadOne);
-router.get("/userMonth", auth, ctrlUserMonths.userMonthReadAllForUser);
+router.get(
+  "/userMonth/:month",
+  auth,
+  catchErrors(ctrlUserMonths.userMonthReadOne)
+);
+router.get(
+  "/userMonth",
+  auth,
+  catchErrors(ctrlUserMonths.userMonthReadAllForUser)
+);
 router.get(
   "/userMonth/all/:month",
   auth,
-  ctrlUserMonths.userMonthReadAllByMonth
+  catchErrors(ctrlUserMonths.userMonthReadAllByMonth)
 );
 router.get(
   "/userMonth/all-public/:month",
   auth,
-  ctrlUserMonths.userMonthReadAllPublic
+  catchErrors(ctrlUserMonths.userMonthReadAllPublic)
 );
-router.post("/userMonth", auth, ctrlUserMonths.userMonthCreate);
+router.post("/userMonth", auth, catchErrors(ctrlUserMonths.userMonthCreate));
 router.put(
   "/userMonth/predictedWinners/:userMonthId",
   auth,
-  ctrlUserMonths.predictedWinnersUpdate
+  catchErrors(ctrlUserMonths.predictedWinnersUpdate)
 );
-router.put("/userMonth/:userMonthId", auth, ctrlUserMonths.outcomeUpdate);
+router.put(
+  "/userMonth/:userMonthId",
+  auth,
+  catchErrors(ctrlUserMonths.outcomeUpdate)
+);
 
 // routes for dailyGamesData:
-router.get("/dailyGamesData/:month", catchErrors(ctrlDailyGamesData.dailyGamesDataGetMonth));
-router.post("/dailyGamesData", auth, catchErrors(ctrlDailyGamesData.dailyGamesDataCreate));
+router.get(
+  "/dailyGamesData/:month",
+  catchErrors(ctrlDailyGamesData.dailyGamesDataGetMonth)
+);
+router.post(
+  "/dailyGamesData",
+  auth,
+  catchErrors(ctrlDailyGamesData.dailyGamesDataCreate)
+);
 router.put(
   "/dailyGamesData/:date",
   auth,
@@ -66,7 +85,11 @@ router.put(
 );
 
 //routes for messaging:
-router.get("/messages/:leagueId", auth, catchErrors(ctrlMessages.getMessageLog));
+router.get(
+  "/messages/:leagueId",
+  auth,
+  catchErrors(ctrlMessages.getMessageLog)
+);
 router.put("/messages/:leagueId", auth, catchErrors(ctrlMessages.sendMessage));
 
 module.exports = router;

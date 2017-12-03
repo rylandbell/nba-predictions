@@ -85,6 +85,10 @@ module.exports.userMonthCreate = async function(req, res) {
 
 //  PUT make a prediction
 module.exports.predictedWinnersUpdate = async function(req, res) {
+  if (!req.params.userMonthId) {
+    throw new APIException(res, 400, "userMonthId is required");
+  }
+
   //reject the prediction if the new game has already started:
   if (!gameTimeInFuture(req.body.gameTime)) {
     throw new APIException(
@@ -92,8 +96,6 @@ module.exports.predictedWinnersUpdate = async function(req, res) {
       403,
       "It's too late to update your prediction for this game; its start time has passed."
     );
-  } else if (!req.params.userMonthId) {
-    throw new APIException(res, 400, "userMonthId is required");
   }
 
   const filter = {

@@ -21,7 +21,6 @@ const APIException = function(res, statusCode, message) {
 const catchErrors = function(fn) {
   return function(...args) {
     return fn(...args).catch(e => {
-      console.log('CAUGHT SOMETHING')
       if (e.statusCode && e.message) {
         // catch APIException objects
         console.log(`${e.statusCode} error: ${e.message}`);
