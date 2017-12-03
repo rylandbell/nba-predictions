@@ -9,11 +9,7 @@ const getUserMonthsData = state => state.apiData.userMonthsData;
 export const getAvailableMonths = createSelector(
   [getUserMonthsData],
   userMonthsData => {
-    // add current, next months:
-    const currentMonth = moment().format("YYYY-MM");
-    const nextMonth = moment().add(1, "months").format("YYYY-MM");
-
-    const availableMonthsRaw = [currentMonth, nextMonth];
+    const availableMonthsRaw = [];
 
     // add all months with userMonths:
     if (userMonthsData.length > 0) {
@@ -21,6 +17,11 @@ export const getAvailableMonths = createSelector(
         availableMonthsRaw.push(userMonth.month);
       });
     }
+
+    // add current, next months:
+    const currentMonth = moment().format("YYYY-MM");
+    const nextMonth = moment().add(1, "months").format("YYYY-MM");
+    availableMonthsRaw.push(currentMonth, nextMonth);
 
     // remove duplicates and summer months:
     const availableMonths = _uniq(availableMonthsRaw).filter(month => {
