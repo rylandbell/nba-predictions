@@ -11,9 +11,8 @@ export function runDashboardIntro(dispatch, joinPhrase) {
       intro: `Success! You can invite other players to join this league by sharing the randomly generated pass phrase <strong>"${joinPhrase}"</strong>. You're almost ready to start playing, but let's start with a quick tour.`
     },
     {
-      element: document.querySelector(".navbar-brand"),
       intro:
-        "Wherever you are on the site, you can always click the Pigeon Hoops logo to return to this page."
+        "Wherever you are on the site, you can always click the Pigeon Hoops logo in the top left to return to this page."
     },
     {
       element: document.querySelector(".navbar-toggle"),
